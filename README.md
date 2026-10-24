@@ -1,9 +1,9 @@
 # CARTOGRAFFECT — Formalisation et Certification en Lean 4
 
 [![Lean 4](https://img.shields.io/badge/Lean%204-v4.35.0-blue.svg)](https://github.com/leanprover/lean4)
-[![Lake Build](https://img.shields.io/badge/Lake%20Build-PASS%20(8%20jobs)-success.svg)]()
+[![Lean 4 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml)
 [![Certification](https://img.shields.io/badge/Axioms-0%20sorry%20%7C%200%20admit-brightgreen.svg)]()
-[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
 > **Spécification et vérification formelle de la théorie *Cartographie des affects* sous l'assistant de preuve Lean 4.**  
 > Le système formalise rigoureusement le chaînage déductif unissant le moteur inférentiel prédictif, l'espace géométrique des couronnes $(X, Y, Z)$, la matrice des polarités et l'inventaire des 176 états affectifs.
