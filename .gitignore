@@ -1,0 +1,20 @@
+# Lake build artifacts
+.lake/
+build/
+
+# Lean temporary and compiled files
+*.olean
+*.ilean
+*.c
+*.o
+*.trace
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*~

@@ -1,0 +1,39 @@
+name: Lean 4 CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Formally Verify CARTOGRAFFECT
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Elan & Lean 4 toolchain
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Display Lean & Lake versions
+        run: |
+          lean --version
+          lake --version
+
+      - name: Build and verify Lean library
+        run: |
+          lake build
+
+      - name: Audit axioms & ensure zero sorry
+        run: |
+          echo "Checking for forbidden keywords (sorry, admit, axiom)..."
+          if git grep -E "(sorry|admit|axiom )" Cartograffect/; then
+            echo "Error: Uncertified sorry or axiom found in Lean code!"
+            exit 1
+          fi
+          echo "Audit passed: 0 sorry, 0 uncertified axioms."

@@ -1,0 +1,5 @@
+import Cartograffect.PredictiveEngine
+import Cartograffect.CoreAffect
+import Cartograffect.AffectiveMatrix
+import Cartograffect.AffectiveTaxonomy
+import Cartograffect.AuditTests
