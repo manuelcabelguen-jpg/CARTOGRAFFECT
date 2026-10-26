@@ -7,13 +7,16 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build & Formally Verify CARTOGRAFFECT
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install Elan & Lean 4 toolchain
         run: |
@@ -32,7 +35,7 @@ jobs:
       - name: Audit axioms & ensure zero sorry
         run: |
           echo "Checking for forbidden keywords (sorry, admit, axiom)..."
-          if git grep -E "(sorry|admit|axiom )" Cartograffect/; then
+          if git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean; then
             echo "Error: Uncertified sorry or axiom found in Lean code!"
             exit 1
           fi

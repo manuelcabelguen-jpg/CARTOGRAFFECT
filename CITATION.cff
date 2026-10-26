@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "Si vous utilisez cette formalisation Lean 4 ou le référentiel algorithmique dans vos travaux, veuillez citer ce dépôt comme suit :"
+title: "CARTOGRAFFECT: Formal Verification in Lean 4 of a Hierarchical Architecture of Affective Experience Grounded in Predictive Processing"
+authors:
+  - family-names: "Cabelguen"
+    given-names: "Manuel"
+    email: "manuelcabelguen@gmail.com"
+version: 1.0.0
+date-released: 2026-10-24
+license: MIT
+keywords:
+  - affect
+  - emotion
+  - predictive processing
+  - active inference
+  - interoceptive inference
+  - allostasis
+  - formal verification
+  - Lean 4

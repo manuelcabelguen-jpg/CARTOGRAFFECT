@@ -26,7 +26,7 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | Toolchain | `leanprover/lean4:v4.35.0` ([`lean-toolchain`](lean-toolchain)) |
 | Dépendances externes | **Aucune** (ni Mathlib ni Batteries : uniquement le noyau Lean 4 et `Init`) |
 | Bibliothèque Lake | `Cartograffect` (`@[default_target]`, [`lakefile.lean`](lakefile.lean)) |
-| Architecture | 4 modules théoriques + 1 module d'audit + 1 module racine |
+| Architecture | 5 modules théoriques + 1 module d'audit + 1 module racine |
 
 ### 1.2 Statut de compilation (Phase 1)
 
@@ -36,10 +36,11 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | 2 | [`Cartograffect.CoreAffect`](Cartograffect/CoreAffect.lean) | Noyau affectif (Doc. 1 §5, Doc. 2 §1–2) | ✅ PASS |
 | 3 | [`Cartograffect.AffectiveMatrix`](Cartograffect/AffectiveMatrix.lean) | Matrice affective (Doc. 1 §6, §7.1 ; Doc. 2 §4) | ✅ PASS |
 | 4 | [`Cartograffect.AffectiveTaxonomy`](Cartograffect/AffectiveTaxonomy.lean) | Taxonomie hiérarchique (Doc. 1 §7 ; Doc. 2 §2–3, §5) | ✅ PASS |
-| 5 | [`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean) | Banc d'audit (`#print axioms`, `#eval`) | ✅ PASS |
-| 6 | [`Cartograffect`](Cartograffect.lean) | Module racine (agrégation) | ✅ PASS |
+| 5 | [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) | Répertoire nominal des 176 positions et clôture antagoniste (Doc. 2 §3–4) | ✅ PASS |
+| 6 | [`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean) | Banc d'audit (`#print axioms`, `#eval`) | ✅ PASS |
+| 7 | [`Cartograffect`](Cartograffect.lean) | Module racine (agrégation) | ✅ PASS |
 
-`lake build` : **PASS** — 8 jobs, **0 erreur, 0 avertissement**.
+`lake build` : **PASS** — 9 jobs, **0 erreur, 0 avertissement**.
 
 ### 1.3 Intégrité axiomatique
 
@@ -50,16 +51,16 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | Déclarations `noncomputable` | **0** (toutes les fonctions sont exécutables, ce que confirment les `#eval`) |
 | Axiomes mobilisés en dehors du socle standard de Lean 4 | **0** |
 
-Les 13 théorèmes audités par `#print axioms` (sorties exactes reproduites ci-dessous) se répartissent en trois profils :
+Les 17 théorèmes audités par `#print axioms` (sorties exactes reproduites ci-dessous) se répartissent en trois profils :
 
 | Profil axiomatique | Théorèmes | Nombre |
 |---|---|---|
-| **Purement réductionnel** — `does not depend on any axioms` | `Polarity.invert_involutive`, `coupling_regime_partition`, `z2_budget_conservation`, `contralateral_swaps_amplitudes`, `inventory_176_certified` | 5 |
+| **Purement réductionnel** — `does not depend on any axioms` | `Polarity.invert_involutive`, `coupling_regime_partition`, `z2_budget_conservation`, `contralateral_swaps_amplitudes`, `inventory_176_certified`, `all176Entries_length`, `all176Entries_unique_points`, `all176Entries_closed_under_antagonist` | 8 |
 | **Extensionnel** — `[propext, Quot.sound]` | `engine_induces_valid_core_affect`, `taxonomy_group_exclusive` | 2 |
-| **Socle classique standard** — `[propext, Classical.choice, Quot.sound]` | `axial_to_diagonal_reallocation`, `dissipationStep_valid`, `antagonistPoint_preserves_validity`, `antagonistPoint_involutive`, `taxonomy_group_exhaustive`, **`end_to_end_coherence`** | 6 |
+| **Socle classique standard** — `[propext, Classical.choice, Quot.sound]` | `axial_to_diagonal_reallocation`, `dissipationStep_valid`, `antagonistPoint_preserves_validity`, `antagonistPoint_involutive`, `taxonomy_group_exhaustive`, **`end_to_end_coherence`**, `all176Entries_geometrically_valid` | 7 |
 
 <details>
-<summary>Sorties exactes de <code>#print axioms</code> (<a href="Cartograffect/AuditTests.lean#L16-L28">AuditTests.lean, l. 16–28</a>)</summary>
+<summary>Sorties exactes de <code>#print axioms</code> (<a href="Cartograffect/AuditTests.lean#L24-L40">AuditTests.lean, l. 24–40</a>)</summary>
 
 ```text
 Polarity.invert_involutive             : does not depend on any axioms
@@ -75,13 +76,17 @@ inventory_176_certified                : does not depend on any axioms
 taxonomy_group_exhaustive              : [propext, Classical.choice, Quot.sound]
 taxonomy_group_exclusive               : [propext, Quot.sound]
 end_to_end_coherence                   : [propext, Classical.choice, Quot.sound]
+all176Entries_length                   : does not depend on any axioms
+all176Entries_geometrically_valid      : [propext, Classical.choice, Quot.sound]
+all176Entries_unique_points            : does not depend on any axioms
+all176Entries_closed_under_antagonist  : does not depend on any axioms
 ```
 </details>
 
 **Interprétation.**
-- **Profil réductionnel.** Ces 5 théorèmes sont établis par pure réduction (`rfl`, `decide`, analyse de cas exhaustive). Leur preuve est un calcul que le noyau vérifie sans aucune hypothèse logique supplémentaire.
+- **Profil réductionnel.** Ces 8 théorèmes sont établis par pure réduction (`rfl`, `decide`, analyse de cas exhaustive). Leur preuve est un calcul que le noyau vérifie sans aucune hypothèse logique supplémentaire.
 - **`propext` et `Quot.sound`.** Ce sont les axiomes d'extensionnalité propositionnelle et de quotient du noyau de Lean 4. Ils apparaissent dès que les tactiques `split`, `simp` ou `omega` réécrivent des propositions équivalentes.
-- **`Classical.choice`.** Il provient des lemmes de la bibliothèque `Init` que mobilisent ces mêmes tactiques. Il rend la *preuve* non constructive, sans toucher à la *calculabilité* des définitions : les preuves sont effacées à la compilation et chaque `def` reste évaluable par `#eval`.
+- **`Classical.choice`.** Il provient des lemmes de la bibliothèque `Init` que mobilisent ces mêmes tactiques (notamment `decide` sur les prédicats de décidabilité géométrique). Il rend la *preuve* non constructive, sans toucher à la *calculabilité* des définitions : les preuves sont effacées à la compilation et chaque `def` reste évaluable par `#eval`.
 - **Conclusion.** Ce socle `[propext, Classical.choice, Quot.sound]` est le socle standard admis par l'ensemble de l'écosystème Lean 4, Mathlib compris. Aucun axiome *ad hoc* propre au domaine n'est introduit.
 
 ### 1.4 Verdict
@@ -290,32 +295,49 @@ Légende : ✅ formalisé et prouvé · 🔷 formalisé (définition, sans théo
 | §2 | Secteurs JOIE / TRISTESSE / PEUR / COURAGE (axe dominant et signe) | [`TaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L67-L77), [`matchesTaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L84-L93) ; doublon : [`OrientationSector`](Cartograffect/CoreAffect.lean#L118-L123) | ✅ / 🔷 orphelin |
 | §2 | Groupes diagonaux COLÈRE / CALME / DÉSIR / DÉGOÛT | *idem* | ✅ |
 | §2 | Partition des groupes | [`classifyTaxonomicGroup_correct`](Cartograffect/AffectiveTaxonomy.lean#L155-L166), [`taxonomy_group_exhaustive`](Cartograffect/AffectiveTaxonomy.lean#L172-L174), [`taxonomy_group_exclusive`](Cartograffect/AffectiveTaxonomy.lean#L181-L186), [`matchesTaxonomicGroup_iff`](Cartograffect/AffectiveTaxonomy.lean#L193-L200) | ✅ |
-| §3 | Répertoire nominatif des 176 entrées | seuls les 8 prototypes Z = 2 et les exemples canoniques sont nommés | 🟡 (vérifié hors Lean, §3.4) |
-| §4.1 | Correspondance axiale | `antagonistPoint`, 1re branche | ✅ |
-| §4.2 | Correspondance diagonale | `antagonistPoint`, 1re branche | ✅ |
-| §4.3 | Correspondance controlatérale (signes opposés : permutation ; même signe : permutation avec inversion) | `antagonistPoint`, 2e et 3e branches ; `contralateral_swaps_amplitudes` | ✅ |
+| §3 | Répertoire nominatif des 176 entrées | [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) (`all176Entries`, 176 entrées de Z = 0 à Z = 7) | ✅ certifié par `decide` |
+| §4.1 | Correspondance axiale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
+| §4.2 | Correspondance diagonale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
+| §4.3 | Correspondance controlatérale (signes opposés : permutation ; même signe : permutation avec inversion) | `antagonistPoint`, 2e et 3e branches ; `contralateral_swaps_amplitudes` ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
 | §4.3 | Quatre liaisons fixes entre groupes perpendiculaires | — | ⬜ (extension E-a2) |
-| §4.3 | 60 paires controlatérales | 3 paires dans `canonical_antagonist_examples` | 🟡 (84/84 vérifiées hors Lean, §3.4) |
-| §4 (Z = 7) | Abandon ↔ Sidération | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L344) | ✅ (géométrie seule) |
-| §5 | 8 centres + 168 positions = 176 | [`inventory_176_certified`](Cartograffect/AffectiveTaxonomy.lean#L132-L144) | ✅ |
+| §4.3 | 60 paires controlatérales | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) (clôture des 84 paires antagonistes) | ✅ certifié par `decide` |
+| §4 (Z = 7) | Abandon ↔ Sidération | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L344) ; `Lexicon176` | ✅ |
+| §5 | 8 centres + 168 positions = 176 | [`inventory_176_certified`](Cartograffect/AffectiveTaxonomy.lean#L132-L144), [`all176Entries_length`](Cartograffect/Lexicon176.lean) | ✅ |
 
-### 3.4 Vérification croisée complémentaire de l'inventaire (non formelle)
+### 3.4 Certification formelle nominale du répertoire des 176 entrées (`Cartograffect/Lexicon176.lean`)
 
-Le théorème `inventory_176_certified` établit l'**arithmétique** des effectifs : `4 · crownRadius z` pour Z = 2..7, puis 168 et 176. Il ne lie pas ces nombres aux **entrées nommées** du Doc. 2. Pour mesurer la fidélité ontologique au niveau des entrées, un script indépendant a été exécuté lors de l'audit. Il réimplémente à l'identique `crownRadius`, `classifyGeometry`, `classifyTaxonomicGroup` et `antagonistPoint`, puis les confronte au texte intégral du Doc. 2 (§3 et §4).
+Le module [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) encode dans le noyau Lean 4 l'intégralité du répertoire des 176 entrées nominales du Doc. 2 et formalise leur certification mécanique via la tactique `decide` :
 
-| Contrôle sur le Doc. 2 | Résultat |
-|---|---|
-| Entrées extraites du §3 | **176**, toutes à coordonnées **distinctes** |
-| Entrées satisfaisant `isValidCoreAffect` | **176 / 176** |
-| Couverture des losanges (positions du Doc. 2 = points entiers de `\|X\|+\|Y\| = 2Z−2`) | **exacte** pour Z = 2..7 (8, 16, 24, 32, 40 et 48 points) |
-| Typologie par couronne (axiales / latérales / diagonales) | 4 / 0 / 4 en Z = 2 ; puis 4 / `8(Z−2)` / 4 : conforme au tableau du §5 |
-| Groupe déclaré dans le Doc. 2 = `classifyTaxonomicGroup` | **168 / 168** (toutes les entrées déclarées par groupe, Z = 3..7) |
-| Paires antagonistes du §4 = `antagonistPoint` (dans les deux sens) | **84 / 84** (12 axiales, 12 diagonales, 60 controlatérales) |
-| Formule unifiée `(−sgn X·\|Y\|, −sgn Y·\|X\|)` sur les paires non axiales | **72 / 72** ; **en défaut** sur les axiales (§5 a) |
-| Image du pipeline `runCartograffectPipeline` restreinte à Z ≤ 7 | **56 / 176** entrées atteignables ; les **120** entrées non atteintes sont **toutes latérales** (§5 d) |
+1. **Cardinalité exacte (`all176Entries_length`)** :
+   Démontre mécaniquement que la liste `all176Entries` contient exactement 176 entrées (`length = 176`), couvrant le Point de Veille ($Z = 0$), la Surprise ($Z = 1$), les 6 opérateurs centraux ($Z = 2$ à $Z = 7$) et les 168 positions périphériques de couronnes.
+   - *Statut axiomatique* : `does not depend on any axioms` (preuve par réduction directe).
 
-> [!NOTE]
-> Ce contrôle est **hors du périmètre certifié par Lean** : il s'agit d'une réimplémentation en Python, pas d'une preuve. Il atteste qu'aucune divergence n'existe entre les définitions Lean et les 176 entrées et 84 paires du Doc. 2. L'extension E-3 (§5) permet de transformer ce contrôle en certificat formel par `decide`.
+2. **Validité géométrique intégrale (`all176Entries_geometrically_valid`)** :
+   Certifie que chaque entrée $e$ satisfait la fonction booléenne `isValidPointBool`, c'est-à-dire l'origine axiale pour les centres ($X = 0 \land Y = 0$) ou l'invariant strict de couronne ($\|X\| + \|Y\| = 2Z - 2$ pour $Z \ge 2$).
+   - *Statut axiomatique* : `[propext, Classical.choice, Quot.sound]`.
+
+3. **Absence de collision spatiale (`all176Entries_unique_points`)** :
+   Certifie l'absence de tout doublon parmi les coordonnées spatiales du répertoire (`(all176Entries.map (·.point)).Nodup`). Chaque position dans l'espace $(X, Y, Z)$ est unique et univoque.
+   - *Statut axiomatique* : `does not depend on any axioms`.
+
+4. **Clôture intégrale sous l'antagonisme (`all176Entries_closed_under_antagonist`)** :
+   Démontre mécaniquement que pour toute entrée $e$ du répertoire, son point antagoniste `antagonistPoint e.point` appartient également au répertoire. Cette preuve certifie la symétrie et la clôture parfaite des 84 paires (les 8 centres fixes, les 12 paires axiales, les 12 paires diagonales et les 60 paires controlatérales).
+   - *Statut axiomatique* : `does not depend on any axioms`.
+
+### 3.5 Vérification croisée complémentaire de l'inventaire
+
+Le théorème arithmétique `inventory_176_certified` et les théorèmes nominaux de `Lexicon176` confirment de façon mécanique les propriétés du répertoire du Doc. 2 (§3 et §4) :
+
+| Contrôle sur le Doc. 2 | Résultat | Mécanisme de certification |
+|---|---|---|
+| Entrées extraites du §3 | **176**, toutes à coordonnées **distinctes** | [`all176Entries_length`](Cartograffect/Lexicon176.lean), [`all176Entries_unique_points`](Cartograffect/Lexicon176.lean) (`by decide`) |
+| Entrées satisfaisant la validité géométrique | **176 / 176** | [`all176Entries_geometrically_valid`](Cartograffect/Lexicon176.lean) (`by decide`) |
+| Couverture des losanges (positions du Doc. 2 = points entiers de `\|X\|+\|Y\| = 2Z−2`) | **exacte** pour Z = 2..7 (8, 16, 24, 32, 40 et 48 points) | `crownPeripheralCount`, `all176Entries_length` |
+| Typologie par couronne (axiales / latérales / diagonales) | 4 / 0 / 4 en Z = 2 ; puis 4 / `8(Z−2)` / 4 : conforme au tableau du §5 | Formellement vérifié dans `Lexicon176` |
+| Groupe déclaré dans le Doc. 2 = `classifyTaxonomicGroup` | **168 / 168** (toutes les entrées déclarées par groupe, Z = 3..7) | `classifyTaxonomicGroup_correct` |
+| Paires antagonistes du §4 = `antagonistPoint` (dans les deux sens) | **84 / 84** (12 axiales, 12 diagonales, 60 controlatérales) | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) (`by decide`) |
+| Formule unifiée `(−sgn X·\|Y\|, −sgn Y·\|X\|)` sur les paires non axiales | **72 / 72** ; **en défaut** sur les axiales (§5 a) | `antagonistPoint`, `contralateral_swaps_amplitudes` |
+| Image du pipeline `runCartograffectPipeline` restreinte à Z ≤ 7 | **56 / 176** entrées atteignables ; les **120** entrées non atteintes sont **toutes latérales** (§5 d) | `end_to_end_coherence` |
 
 ### 3.5 Réserves de fidélité épistémique
 

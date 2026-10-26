@@ -1,7 +1,14 @@
+/-
+Copyright (c) 2026 Manuel Cabelguen. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+Author: Manuel Cabelguen
+-/
+
 import Cartograffect.PredictiveEngine
 import Cartograffect.CoreAffect
 import Cartograffect.AffectiveMatrix
 import Cartograffect.AffectiveTaxonomy
+import Cartograffect.Lexicon176
 
 namespace Cartograffect.Audit
 
@@ -9,6 +16,7 @@ open PredictiveEngine
 open CoreAffect
 open AffectiveMatrix
 open AffectiveTaxonomy
+open Lexicon176
 
 /-!
 ## PHASE 1 : Audit Axiomatique (#print axioms)
@@ -26,6 +34,10 @@ open AffectiveTaxonomy
 #print axioms taxonomy_group_exhaustive
 #print axioms taxonomy_group_exclusive
 #print axioms end_to_end_coherence
+#print axioms Cartograffect.Lexicon176.all176Entries_length
+#print axioms Cartograffect.Lexicon176.all176Entries_geometrically_valid
+#print axioms Cartograffect.Lexicon176.all176Entries_unique_points
+#print axioms Cartograffect.Lexicon176.all176Entries_closed_under_antagonist
 
 /-!
 ## PHASE 2 : Tests d'Inhabitation et Évaluation Concrète (#eval)

@@ -6,4 +6,4 @@ package «cartograffect» where
 
 @[default_target]
 lean_lib «Cartograffect» where
-  -- add library configuration options here
+  leanOptions := #[⟨`warningAsError, true⟩]
