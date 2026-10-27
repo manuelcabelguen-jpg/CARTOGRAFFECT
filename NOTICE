@@ -1,0 +1,33 @@
+CARTOGRAFFECT — Formal Verification & Hierarchical Affective Architecture
+==========================================================================
+
+Copyright (C) 2025-2026 Manuel Cabelguen. All rights reserved.
+
+Registered with the Canadian Intellectual Property Office (CIPO / OPIC),
+Copyright Registration No. 1233199.
+
+Repository: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
+SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
+
+
+Dual licensing
+--------------
+
+1. Source code and Lean 4 formal proofs
+   (Cartograffect.lean, Cartograffect/*.lean)
+   Licensed under the GNU Affero General Public License v3.0 or later
+   (AGPL-3.0-or-later). See LICENSE.
+
+2. Theoretical architecture, crown geometry and taxonomy of the
+   176 affective states
+   Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike
+   4.0 International License (CC BY-NC-SA 4.0).
+   See LICENSE-CC-BY-NC-SA-4.0.md.
+
+
+Commercial use
+--------------
+
+Any commercial exploitation of the theoretical architecture, affective
+geometry or 176-state taxonomy is strictly reserved. For commercial
+licensing inquiries, contact the author: manuelcabelguen@gmail.com

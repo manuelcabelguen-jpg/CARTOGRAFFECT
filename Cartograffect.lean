@@ -1,6 +1,6 @@
 /-
 Copyright (c) 2026 Manuel Cabelguen. All rights reserved.
-Released under MIT license as described in the file LICENSE.
+SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
 Author: Manuel Cabelguen
 -/
 
