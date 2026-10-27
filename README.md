@@ -3,7 +3,8 @@
 [![Lean 4 Formal Verification](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml)
 ![Lean 4.35.0](https://img.shields.io/badge/Lean-v4.35.0-blue?logo=lean)
 ![Zero Sorry](https://img.shields.io/badge/Proof_Audit-0_sorry_%7C_0_custom_axioms-success)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/Code_License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/Theory_%26_Taxonomy-CC_BY--NC--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 Ce dépôt contient la formalisation mathématique et la preuve assistée par ordinateur sous **Lean 4 (v4.35.0)** de l'architecture fonctionnelle de la **Cartographie des affects**, ainsi que le référentiel algorithmique complet des **176 positions de l'espace affectif ($Z = 0$ à $Z = 7$)**.
 
@@ -30,7 +31,8 @@ L'intégralité du système formel CARTOGRAFFECT est compilée, vérifiée et au
 - **Prover :** Lean 4 (`v4.35.0`, commit `eb6cafb7290e8bd5f2937522d8d804f58f02bafc`, Release `x86_64-linux`)
 - **Build system :** Lake `5.0.0-src+eb6cafb`
 - **Commit de référence vérifié :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b)
-- **Audit statique et axiomatique :** `git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 axiome non certifié**.
+- **Compilation `lake build` :** **9 tâches compilées** avec succès (0 erreur, 0 avertissement).
+- **Audit statique et axiomatique :** `git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 axiome ad hoc**.
 - **Dépendances externes :** **0** (aucune dépendance vis-à-vis de Mathlib ou Batteries ; uniquement le noyau formel de Lean 4 et sa bibliothèque standard `Init`).
 
 ### Architecture des 9 unités de compilation (`lake build`)
@@ -142,7 +144,52 @@ Correspondance : manuelcabelguen@gmail.com
 
 ---
 
-## Licence
+## Licence / Propriété intellectuelle
 
-Ce projet (code source Lean 4 et documentation associée) est distribué sous licence MIT.  
-Copyright (c) 2026 Manuel Cabelguen. Consultez le fichier [LICENSE](./LICENSE) pour le texte intégral.
+Copyright (C) 2025-2026 Manuel Cabelguen — `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`
+
+- **Code source et preuves formelles Lean 4** : distribués sous licence **GNU AGPLv3** ([`LICENSE`](./LICENSE)).
+- **Architecture théorique, géométrie affective et taxonomie des 176 états** : distribuées sous licence **Creative Commons BY-NC-SA 4.0** ([`LICENSE-CC-BY-NC-SA-4.0.md`](./LICENSE-CC-BY-NC-SA-4.0.md)). Toute exploitation commerciale est strictement réservée.
+- **Propriété intellectuelle** : *CARTOGRAFFECT* fait l'objet d'un enregistrement de droit d'auteur auprès de l'Office de la propriété intellectuelle du Canada (OPIC, enregistrement n° 1233199). Pour toute demande de licence commerciale, contacter l'auteur (manuelcabelguen@gmail.com). Voir aussi [`NOTICE`](./NOTICE).
+
+---
+
+## Citation
+
+Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article théorique de référence ainsi que la bibliothèque formelle (voir aussi [`CITATION.cff`](CITATION.cff)) :
+
+- **Modèle théorique :**  
+  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif*.
+- **Formalisation Lean 4 :**  
+  Cabelguen, M. (2026). *CARTOGRAFFECT: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4* (v1.0.0, commit `6fc3a987ab047974d10b679f6d1fb1c11183e10b`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
+- **Assistant de preuve :**  
+  de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
+
+```bibtex
+@article{cabelguen2026cartographie,
+  author = {Cabelguen, Manuel},
+  title  = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
+  year   = {2026}
+}
+
+@software{cabelguen2026cartograffect,
+  author  = {Cabelguen, Manuel},
+  title   = {{CARTOGRAFFECT}: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4},
+  year    = {2026},
+  version = {1.0.0},
+  url     = {https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT},
+  note    = {Commit 6fc3a987ab047974d10b679f6d1fb1c11183e10b, Lean 4.35.0}
+}
+
+@inproceedings{demoura2021lean4,
+  author    = {de Moura, Leonardo and Ullrich, Sebastian},
+  title     = {The {Lean} 4 Theorem Prover and Programming Language},
+  booktitle = {Automated Deduction -- CADE 28},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {12699},
+  pages     = {625--635},
+  publisher = {Springer},
+  year      = {2021},
+  doi       = {10.1007/978-3-030-79876-5_37}
+}
+```
