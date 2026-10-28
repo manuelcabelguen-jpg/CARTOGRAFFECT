@@ -22,7 +22,7 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | Élément | Valeur |
 |---|---|
 | Modèle théorique | *Cartographie des affects* — **CARTOGRAFFECT** |
-| Sources théoriques | [Doc. 1 — Article](docs/docs001-Article_Cartograffect.md.txt) · [Doc. 2 — Inventaire des 176 entrées](docs/docs002-Inventaire_176.md.txt) |
+| Sources théoriques | [Doc. 1 — Article](docs/01-Article_Cartograffect.md) · [Doc. 2 — Inventaire des 176 entrées](docs/02-Inventaire_176.md) |
 | Toolchain | `leanprover/lean4:v4.35.0` ([`lean-toolchain`](lean-toolchain)) |
 | Dépendances externes | **Aucune** (ni Mathlib ni Batteries : uniquement le noyau Lean 4 et `Init`) |
 | Bibliothèque Lake | `Cartograffect` (`@[default_target]`, [`lakefile.lean`](lakefile.lean)) |

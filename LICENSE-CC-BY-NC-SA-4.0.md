@@ -14,7 +14,7 @@ La présente licence s'applique aux éléments **non logiciels** du projet *CART
 1. **L'architecture théorique** de la Cartographie des affects : moteur prédictif, interfaces perceptive, subjective et attentionnelle, gradients d'Attente (Axe X) et de Contrôle (Axe Y), strates de profondeur ($Z = 0$ à $Z = 7$) et opérateurs centraux ;
 2. **La géométrie affective** : loi des couronnes ($R(Z) = 2Z - 2$ pour $Z \ge 2$), hypothèse du budget attentionnel, réallocation axiale/diagonale et règles d'antagonisme (symétrie centrale et réflexion controlatérale) ;
 3. **La taxonomie et le lexique des 176 états affectifs** : dénominations, coordonnées $(X, Y, Z)$, 9 groupes d'orientation et 84 paires antagonistes ;
-4. **La documentation théorique associée**, notamment [`docs/docs001-Article_Cartograffect.md.txt`](docs/docs001-Article_Cartograffect.md.txt) et [`docs/docs002-Inventaire_176.md.txt`](docs/docs002-Inventaire_176.md.txt).
+4. **La documentation théorique associée**, notamment [`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md) et [`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md).
 
 Le code source et les preuves formelles Lean 4 sont distribués séparément sous licence **GNU AGPLv3** (voir [`LICENSE`](LICENSE)).
 

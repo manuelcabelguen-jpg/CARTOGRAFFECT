@@ -8,6 +8,8 @@
 
 Ce dépôt contient la formalisation mathématique et la preuve assistée par ordinateur sous **Lean 4 (v4.35.0)** de l'architecture fonctionnelle de la **Cartographie des affects**, ainsi que le référentiel algorithmique complet des **176 positions de l'espace affectif ($Z = 0$ à $Z = 7$)**.
 
+> **English Overview:** This repository contains the mechanized formal verification in **Lean 4 (v4.35.0)** of **CARTOGRAFFECT** (*Cartographie des affects*), a hierarchical 3D affective geometry and predictive-processing taxonomy mapping **176 affective states** across 8 vertical strata ($Z = 0$ to $Z = 7$). Built exclusively on Lean 4's core `Init` library (**0 external dependencies**, **0 `sorry`**, **0 `admit`**, **0 custom axioms**), it formally certifies $L_1$ attentional budget conservation, involutive antagonist symmetries, exhaustive taxonomic partitioning, and the master theorem `end_to_end_coherence`.
+
 ---
 
 ## Architecture des Modules Certifiés
@@ -15,7 +17,7 @@ Ce dépôt contient la formalisation mathématique et la preuve assistée par or
 1. **[`Cartograffect/PredictiveEngine.lean`](Cartograffect/PredictiveEngine.lean)** : Formalisation de l'écart de prédiction saillant (avec hystérésis de résorption), des trois interfaces (Perceptive, Subjective, Attentionnelle), des régimes de charge/décharge et de la partition des 9 couplages $(A/C)$.
 2. **[`Cartograffect/CoreAffect.lean`](Cartograffect/CoreAffect.lean)** : Projection spatiale tridimensionnelle $(X, Y, Z)$, opérateurs centraux ($Z = 0$ à $Z = 7$), loi géométrique des couronnes ($R(Z) = 2Z - 2$ pour $Z \ge 2$), conservation du budget attentionnel, réallocation axiale $\to$ diagonale et dissipation allostatique graduelle vers le Point de Veille $(0, 0, 0)$.
 3. **[`Cartograffect/AffectiveMatrix.lean`](Cartograffect/AffectiveMatrix.lean)** : Transduction phénoménologique (valence et activation), formalisation des 8 prototypes de la première couronne ($Z = 2$) et preuve d'involutivité de l'opérateur d'antagonisme (symétrie centrale axiale/diagonale et réflexion diagonale controlatérale pour $Z \ge 3$).
-4. **[`Cartograffect/AffectiveTaxonomy.lean`](Cartograffect/AffectiveTaxonomy.lean)** : Partition exhaustive et mutuellement exclusive des 9 groupes d'orientation, certification arithmétique des 176 entrées ($8 \text{ centres} + 168 \text{ positions périphériques}$) et démonstration du théorème maître `end_to_end_coherence`.
+4. **[`Cartograffect/AffectiveTaxonomy.lean`](Cartograffect/AffectiveTaxonomy.lean)** : Partition exhaustive et mutuellement exclusive des 9 groupes d'orientation, certification arithmétique des 176 entrées (8 centres + 168 positions périphériques) et démonstration du théorème maître `end_to_end_coherence`.
 5. **[`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean)** : Répertoire nominal exhaustif des 176 positions affectives ($Z = 0$ à $Z = 7$) et vérification mécanique des 84 paires antagonistes axiales, diagonales et controlatérales.
 6. **[`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) & [`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Audit axiomatique (`#print axioms`), tests d'évaluation constructive (`#eval`) et certificat d'audit formel complet.
 7. **[`Cartograffect.lean`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
@@ -30,7 +32,7 @@ L'intégralité du système formel CARTOGRAFFECT est compilée, vérifiée et au
 
 - **Prover :** Lean 4 (`v4.35.0`, commit `eb6cafb7290e8bd5f2937522d8d804f58f02bafc`, Release `x86_64-linux`)
 - **Build system :** Lake `5.0.0-src+eb6cafb`
-- **Commit de référence vérifié :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b)
+- **Commit d'introduction initiale du noyau formel :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) *(commit de référence du code Lean vérifié ; les commits ultérieurs sont documentaires et ne touchent, dans les fichiers `.lean`, qu'aux en-têtes de licence en commentaire, sans altérer aucune définition ni preuve)*
 - **Compilation `lake build` :** **9 tâches compilées** avec succès (0 erreur, 0 avertissement).
 - **Audit statique et axiomatique :** `git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 axiome ad hoc**.
 - **Dépendances externes :** **0** (aucune dépendance vis-à-vis de Mathlib ou Batteries ; uniquement le noyau formel de Lean 4 et sa bibliothèque standard `Init`).
@@ -41,11 +43,13 @@ Le pipeline CI orchestre la compilation stricte de 9 cibles (`lake build`, `warn
 
 1. **[`Cartograffect.PredictiveEngine`](Cartograffect/PredictiveEngine.lean)** (449 ms) : Polarité prédictive involutive et partition des régimes de couplage.
 2. **[`Cartograffect.CoreAffect`](Cartograffect/CoreAffect.lean)** (548 ms) : Induction valide du Core Affect, conservation budgétaire ($Z = 2$), réallocation axiale/diagonale et dynamique de dissipation.
-3. **[`Cartograffect.AffectiveMatrix`](Cartograffect/AffectiveMatrix.lean)** (678 ms) : Symétrie antagoniste involutive, préservation de la validité géométrique et permutation contralatérale des amplitudes.
+3. **[`Cartograffect.AffectiveMatrix`](Cartograffect/AffectiveMatrix.lean)** (678 ms) : Symétrie antagoniste involutive, préservation de la validité géométrique et permutation controlatérale des amplitudes.
 4. **[`Cartograffect.AffectiveTaxonomy`](Cartograffect/AffectiveTaxonomy.lean)** (853 ms) : Certification combinatoire des 176 états affectifs ($Z = 0$ à $Z = 7$), exhaustivité/exclusivité des groupes taxonomiques et cohérence de bout en bout.
 5. **[`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean)** (6,2 s) : Instanciation explicite des 176 entrées lexicales, validité géométrique $L_1$, unicité des coordonnées et clôture par symétrie antagoniste.
 6. **[`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean)** (209 ms) : Audit des dépendances axiomatiques (`#print axioms`) sur les 17 théorèmes majeurs et tests d'évaluation phénoménologique ($Z = 0, Z = 1, Z = 2$).
 7. **[`Cartograffect`](Cartograffect.lean)** (180 ms) : Module racine agrégeant l'ensemble de la bibliothèque formelle.
+
+> *Note sur les 9 cibles `lake build` :* Le compteur de 9 tâches compilées par Lake 5.0 (`warningAsError := true`) correspond à la compilation individuelle des **7 unités modulaires `.lean`** ci-dessus, complétée par les **2 cibles internes d'assemblage et d'agrégation de la bibliothèque**.
 
 ---
 
@@ -99,7 +103,7 @@ Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul dir
 2. **Suspension $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `operatorSuspension` ([lignes 59–61](Cartograffect/AuditTests.lean#L59-L61)) :**  
    Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = operatorSuspension`).
 
-3. **Dyade contralatérale $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`mixedCompensation`) ([lignes 71–75](Cartograffect/AuditTests.lean#L71-L75)) :**  
+3. **Dyade controlatérale $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`mixedCompensation`) ([lignes 71–75](Cartograffect/AuditTests.lean#L71-L75)) :**  
    Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, et attribution de la valence de compensation mixte (`mixedCompensation`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
 
 ---
@@ -132,8 +136,8 @@ git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean
 ## Documentation associée
 
 - **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Rapport complet d'audit de certification formelle et de fidélité épistémique (Phases 1 à 5).
-- **[`docs/docs001-Article_Cartograffect.md.txt`](docs/docs001-Article_Cartograffect.md.txt)** : Article théorique de référence (fondements conceptuels et dynamiques).
-- **[`docs/docs002-Inventaire_176.md.txt`](docs/docs002-Inventaire_176.md.txt)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
+- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (fondements conceptuels et dynamiques).
+- **[`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
 
 ---
 
@@ -161,15 +165,16 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 - **Modèle théorique :**  
   Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif*.
 - **Formalisation Lean 4 :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4* (v1.0.0, commit `6fc3a987ab047974d10b679f6d1fb1c11183e10b`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
+  Cabelguen, M. (2026). *CARTOGRAFFECT: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4* (version taguée `v1.0.0`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
 ```bibtex
-@article{cabelguen2026cartographie,
+@unpublished{cabelguen2026cartographie,
   author = {Cabelguen, Manuel},
   title  = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
-  year   = {2026}
+  year   = {2026},
+  note   = {Manuscrit théorique de référence (docs/01-Article_Cartograffect.md), enregistrement OPIC n° 1233199}
 }
 
 @software{cabelguen2026cartograffect,
@@ -178,7 +183,7 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
   year    = {2026},
   version = {1.0.0},
   url     = {https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT},
-  note    = {Commit 6fc3a987ab047974d10b679f6d1fb1c11183e10b, Lean 4.35.0}
+  note    = {Version v1.0.0, formal verification in Lean 4.35.0}
 }
 
 @inproceedings{demoura2021lean4,
