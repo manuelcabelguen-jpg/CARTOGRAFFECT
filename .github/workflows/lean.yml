@@ -34,9 +34,9 @@ jobs:
 
       - name: Audit axioms & ensure zero sorry
         run: |
-          echo "Checking for forbidden keywords (sorry, admit, axiom)..."
-          if git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean; then
-            echo "Error: Uncertified sorry or axiom found in Lean code!"
+          echo "Checking for forbidden keywords (sorry, admit, axiom, unsafe, implemented_by, noncomputable)..."
+          if git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable)\b" -- Cartograffect/ Cartograffect.lean; then
+            echo "Error: Uncertified sorry, axiom, or unsafe construct found in Lean code!"
             exit 1
           fi
-          echo "Audit passed: 0 sorry, 0 uncertified axioms."
+          echo "Audit passed: 0 sorry, 0 uncertified axioms, 100% computable."

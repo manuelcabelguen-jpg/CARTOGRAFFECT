@@ -112,14 +112,14 @@ Une structure qui embarque une preuve, comme `CoreAffectState` avec `h_valid : i
 
 | Module | Type terminal | Instance | Témoin | Invariant certifié par le témoin |
 |---|---|---|---|---|
-| PredictiveEngine | `PredictiveEngineState` | `deriving Inhabited` ([l. 212–217](Cartograffect/PredictiveEngine.lean#L212-L217)), avec l'instance explicite `SalientDiscrepancy` ([l. 83–89](Cartograffect/PredictiveEngine.lean#L83-L89)) | écart nul, seuils `1 / 1` | hystérésis `resorptionThreshold ≤ sensoryThreshold` (`Nat.le_refl 1`) |
-| CoreAffect | `CoreAffectState` | explicite ([l. 171–175](Cartograffect/CoreAffect.lean#L171-L175)) | Point de Veille `(0, 0, 0)` | `isValidCoreAffect` via `Or.inl ⟨rfl, rfl⟩` |
-| AffectiveMatrix | `AffectiveMatrixState` | `evaluateMatrix default` ([l. 406–407](Cartograffect/AffectiveMatrix.lean#L406-L407)) | Matrice au Point de Veille | validité du point **et** de son antagoniste |
-| AffectiveTaxonomy | `TaxonomicState` | `evaluateTaxonomy default` ([l. 231–232](Cartograffect/AffectiveTaxonomy.lean#L231-L232)) | entrée taxonomique du Point de Veille | strate, géométrie, groupe et groupe antagoniste |
+| PredictiveEngine | `PredictiveEngineState` | `deriving Inhabited` ([l. 218–223](Cartograffect/PredictiveEngine.lean#L218-L223)), avec l'instance explicite `SalientDiscrepancy` ([l. 89–95](Cartograffect/PredictiveEngine.lean#L89-L95)) | écart nul, seuils `1 / 1` | hystérésis `resorptionThreshold ≤ sensoryThreshold` (`Nat.le_refl 1`) |
+| CoreAffect | `CoreAffectState` | explicite ([l. 177–181](Cartograffect/CoreAffect.lean#L177-L181)) | Point de Veille `(0, 0, 0)` | `isValidCoreAffect` via `Or.inl ⟨rfl, rfl⟩` |
+| AffectiveMatrix | `AffectiveMatrixState` | `evaluateMatrix default` ([l. 412–413](Cartograffect/AffectiveMatrix.lean#L412-L413)) | Matrice au Point de Veille | validité du point **et** de son antagoniste |
+| AffectiveTaxonomy | `TaxonomicState` | `evaluateTaxonomy default` ([l. 237–238](Cartograffect/AffectiveTaxonomy.lean#L237-L238)) | entrée taxonomique du Point de Veille | strate, géométrie, groupe et groupe antagoniste |
 
 Les instances des modules 3 et 4 sont **dérivées par le pipeline** et non construites à la main. Leur habitation découle donc des fonctions totales `evaluateMatrix` et `evaluateTaxonomy`, ce qui garantit aussi la non-vacuité de l'image de chaque étape. On a de plus, par construction, l'énoncé plus fort suivant : `evaluateCoreAffect : PredictiveEngineState → CoreAffectState` est **totale**. Chaque état du Moteur, et pas seulement le témoin par défaut, produit donc un état certifié du Noyau.
 
-### 2.2 Résultats d'exécution `#eval` ([AuditTests.lean, l. 35–63](Cartograffect/AuditTests.lean#L35-L63))
+### 2.2 Résultats d'exécution `#eval` ([AuditTests.lean, l. 47–75](Cartograffect/AuditTests.lean#L47-L75))
 
 #### Test 1 — Point de Veille (état par défaut)
 
@@ -129,7 +129,7 @@ stratum : TaxonomicStratum.z0_pointDeVeille
 group   : TaxonomicGroup.operateurCentral
 ```
 
-**Analyse.** Le constructeur dérivé `Inhabited Polarity` choisit le premier constructeur (`.neg`). Le couplage latent par défaut vaut donc `(A−, C−)`, et non `(A0, C0)`. Le système reste pourtant au Point de Veille, parce que l'écart (`magnitude = 0`) est sous le seuil de saillance sensorielle (`sensoryThreshold = 1`) : c'est la première garde de [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L242-L252) qui s'applique. Le résultat est conforme au Doc. 1 §4 : le Point de Veille est « un bassin de stabilité relative où les variations [...] sont tolérées sous le seuil de saillance ». Le test valide ainsi la branche *infra-liminaire* du pipeline, distincte de la branche de neutralité globale `(A0, C0)`.
+**Analyse.** Le constructeur dérivé `Inhabited Polarity` choisit le premier constructeur (`.neg`). Le couplage latent par défaut vaut donc `(A−, C−)`, et non `(A0, C0)`. Le système reste pourtant au Point de Veille, parce que l'écart (`magnitude = 0`) est sous le seuil de saillance sensorielle (`sensoryThreshold = 1`) : c'est la première garde de [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L248-L258) qui s'applique. Le résultat est conforme au Doc. 1 §4 : le Point de Veille est « un bassin de stabilité relative où les variations [...] sont tolérées sous le seuil de saillance ». Le test valide ainsi la branche *infra-liminaire* du pipeline, distincte de la branche de neutralité globale `(A0, C0)`.
 
 #### Test 2 — Surprise (écart saillant sous le seuil attentionnel)
 
@@ -198,17 +198,17 @@ flowchart LR
 
 | Étape | Déclaration | Signature | Certificat de transition (preuve embarquée) |
 |---|---|---|---|
-| Moteur → Noyau (point brut) | [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L242-L252) | `PredictiveEngineState → CoreAffectPoint` | — |
-| Lemme de déploiement | [`deployCouplingAtDepth_valid`](Cartograffect/CoreAffect.lean#L263-L273) | `∀ c d, isValidCoreAffect (deployCouplingAtDepth c d)` | 9 cas de `Polarity × Polarity` |
-| Moteur → Noyau (certifié) | [`evaluateCoreAffect`](Cartograffect/CoreAffect.lean#L296-L298) | `PredictiveEngineState → CoreAffectState` | `h_valid := engine_induces_valid_core_affect s` |
-| Noyau → Matrice | [`evaluateMatrix`](Cartograffect/AffectiveMatrix.lean#L393-L403) | `CoreAffectState → AffectiveMatrixState` | `antagonist.h_valid := antagonistPoint_preserves_validity p cs.h_valid` |
-| Matrice → Taxonomie | [`evaluateTaxonomy`](Cartograffect/AffectiveTaxonomy.lean#L222-L228) | `AffectiveMatrixState → TaxonomicState` | (classification totale et déterministe) |
-| Pipeline | [`runCartograffectPipeline`](Cartograffect/AffectiveTaxonomy.lean#L239-L240) | `PredictiveEngineState → TaxonomicState` | composition `evaluateTaxonomy ∘ evaluateMatrix ∘ evaluateCoreAffect` |
-| Théorème maître | [`end_to_end_coherence`](Cartograffect/AffectiveTaxonomy.lean#L270-L287) | `∀ s, ∃ ts, isCoherentTerminalState s ts ∧ ∀ ts', isCoherentTerminalState s ts' → ts' = ts` | voir ci-dessous |
+| Moteur → Noyau (point brut) | [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L248-L258) | `PredictiveEngineState → CoreAffectPoint` | — |
+| Lemme de déploiement | [`deployCouplingAtDepth_valid`](Cartograffect/CoreAffect.lean#L269-L279) | `∀ c d, isValidCoreAffect (deployCouplingAtDepth c d)` | 9 cas de `Polarity × Polarity` |
+| Moteur → Noyau (certifié) | [`evaluateCoreAffect`](Cartograffect/CoreAffect.lean#L302-L304) | `PredictiveEngineState → CoreAffectState` | `h_valid := engine_induces_valid_core_affect s` |
+| Noyau → Matrice | [`evaluateMatrix`](Cartograffect/AffectiveMatrix.lean#L399-L409) | `CoreAffectState → AffectiveMatrixState` | `antagonist.h_valid := antagonistPoint_preserves_validity p cs.h_valid` |
+| Matrice → Taxonomie | [`evaluateTaxonomy`](Cartograffect/AffectiveTaxonomy.lean#L228-L234) | `AffectiveMatrixState → TaxonomicState` | (classification totale et déterministe) |
+| Pipeline | [`runCartograffectPipeline`](Cartograffect/AffectiveTaxonomy.lean#L245-L246) | `PredictiveEngineState → TaxonomicState` | composition `evaluateTaxonomy ∘ evaluateMatrix ∘ evaluateCoreAffect` |
+| Théorème maître | [`end_to_end_coherence`](Cartograffect/AffectiveTaxonomy.lean#L276-L293) | `∀ s, ∃ ts, isCoherentTerminalState s ts ∧ ∀ ts', isCoherentTerminalState s ts' → ts' = ts` | voir ci-dessous |
 
 **Constat 1 — Les invariants sont portés par les types.** Le chaînage ne repose pas sur des théorèmes énoncés « à côté » des fonctions. Il est **porté par les types** : il n'existe aucun moyen de construire un `CoreAffectState` (ou l'antagoniste d'un `AffectiveMatrixState`) sans fournir une preuve de `isValidCoreAffect`. Le compilateur garantit donc qu'aucun état géométriquement inadmissible ne peut circuler entre les modules.
 
-**Constat 2 — Contenu du théorème maître.** Le prédicat [`isCoherentTerminalState`](Cartograffect/AffectiveTaxonomy.lean#L251-L260) comporte 9 clauses. Leur contenu mathématique se répartit ainsi :
+**Constat 2 — Contenu du théorème maître.** Le prédicat [`isCoherentTerminalState`](Cartograffect/AffectiveTaxonomy.lean#L257-L266) comporte 9 clauses. Leur contenu mathématique se répartit ainsi :
 
 | Clause | Contenu | Justification dans la preuve | Nature |
 |---|---|---|---|
@@ -235,48 +235,48 @@ Légende : ✅ formalisé et prouvé · 🔷 formalisé (définition, sans théo
 |---|---|---|---|
 | §2 | Distinction *conventions de construction* / *hypothèses de correspondance* | `CoreAffect` = conventions ; `AffectiveMatrix.transduce*`, `computeValence`, `computeActivation` = correspondances | 🟡 séparation par modules, sans marquage formel |
 | §3 | Inférence active, inférence intéroceptive | — | ⬜ cadre conceptuel |
-| §4 | Signes `(+)`, `(−)`, `(0)` comme état computationnel, non comme valence | [`Polarity`](Cartograffect/PredictiveEngine.lean#L17-L21), [`Polarity.toInt`](Cartograffect/PredictiveEngine.lean#L52-L55) | 🔷 |
-| §4 | Charge / neutralité / décharge | [`FunctionalRegime`](Cartograffect/PredictiveEngine.lean#L30-L34), [`Polarity.toRegime`](Cartograffect/PredictiveEngine.lean#L38-L41), [`toRegime_neutral_iff`](Cartograffect/PredictiveEngine.lean#L250-L252) | ✅ |
-| §4, §6.2 | Inversion de polarité | [`Polarity.invert`](Cartograffect/PredictiveEngine.lean#L45-L48), [`invert_involutive`](Cartograffect/PredictiveEngine.lean#L246-L247) | ✅ |
-| §4 | Grandeur d'entrée unique : l'écart de prédiction saillant | [`SalientDiscrepancy`](Cartograffect/PredictiveEngine.lean#L74-L79), [`isSensorilySalient`](Cartograffect/PredictiveEngine.lean#L93-L94) | 🔷 |
-| §4 | Interface Perceptive → gradient C ; source de la Surprise | [`PerceptiveInterface`](Cartograffect/PredictiveEngine.lean#L110-L112) | 🔷 |
-| §4 | Interface Subjective → gradient A ; Anticipation descendante | [`SubjectiveInterface`](Cartograffect/PredictiveEngine.lean#L120-L123) (`descendingSuspension`) | 🔷 |
-| §4 | Interface Attentionnelle : précision, aucun gradient polarisé | [`AttentionalInterface`](Cartograffect/PredictiveEngine.lean#L132-L136) (aucun champ `Polarity`), [`isEngaged`](Cartograffect/PredictiveEngine.lean#L140-L141) | 🔷 conforme par typage |
-| §4 | Quatre opérations inférentielles | [`InferentialOperation`](Cartograffect/PredictiveEngine.lean#L148-L153) | 🔷 orpheline (§3.5, R7) |
-| §4 | 9 combinaisons (A, C) : 9 possibilités / 9 politiques | [`allCouplings`](Cartograffect/PredictiveEngine.lean#L201-L205), [`allCouplings_card`](Cartograffect/PredictiveEngine.lean#L266), [`mem_allCouplings`](Cartograffect/PredictiveEngine.lean#L272-L275) | ✅ |
-| §4 | Neutralité d'un gradient ≠ neutralité globale | [`single_neutral_not_global_neutral`](Cartograffect/PredictiveEngine.lean#L258-L260) | ✅ |
-| §4 | Neutralité globale ⟺ `(A0, C0)` ; régimes axial et diagonal | [`isGlobalNeutrality`](Cartograffect/PredictiveEngine.lean#L175-L176), [`coupling_regime_partition`](Cartograffect/PredictiveEngine.lean#L284-L290) | ✅ |
+| §4 | Signes `(+)`, `(−)`, `(0)` comme état computationnel, non comme valence | [`Polarity`](Cartograffect/PredictiveEngine.lean#L23-L27), [`Polarity.toInt`](Cartograffect/PredictiveEngine.lean#L58-L61) | 🔷 |
+| §4 | Charge / neutralité / décharge | [`FunctionalRegime`](Cartograffect/PredictiveEngine.lean#L36-L40), [`Polarity.toRegime`](Cartograffect/PredictiveEngine.lean#L44-L47), [`toRegime_neutral_iff`](Cartograffect/PredictiveEngine.lean#L256-L258) | ✅ |
+| §4, §6.2 | Inversion de polarité | [`Polarity.invert`](Cartograffect/PredictiveEngine.lean#L51-L54), [`invert_involutive`](Cartograffect/PredictiveEngine.lean#L252-L253) | ✅ |
+| §4 | Grandeur d'entrée unique : l'écart de prédiction saillant | [`SalientDiscrepancy`](Cartograffect/PredictiveEngine.lean#L80-L85), [`isSensorilySalient`](Cartograffect/PredictiveEngine.lean#L99-L100) | 🔷 |
+| §4 | Interface Perceptive → gradient C ; source de la Surprise | [`PerceptiveInterface`](Cartograffect/PredictiveEngine.lean#L116-L118) | 🔷 |
+| §4 | Interface Subjective → gradient A ; Anticipation descendante | [`SubjectiveInterface`](Cartograffect/PredictiveEngine.lean#L126-L129) (`descendingSuspension`) | 🔷 |
+| §4 | Interface Attentionnelle : précision, aucun gradient polarisé | [`AttentionalInterface`](Cartograffect/PredictiveEngine.lean#L138-L142) (aucun champ `Polarity`), [`isEngaged`](Cartograffect/PredictiveEngine.lean#L146-L147) | 🔷 conforme par typage |
+| §4 | Quatre opérations inférentielles | [`InferentialOperation`](Cartograffect/PredictiveEngine.lean#L154-L159) | 🔷 orpheline (§3.5, R7) |
+| §4 | 9 combinaisons (A, C) : 9 possibilités / 9 politiques | [`allCouplings`](Cartograffect/PredictiveEngine.lean#L207-L211), [`allCouplings_card`](Cartograffect/PredictiveEngine.lean#L272), [`mem_allCouplings`](Cartograffect/PredictiveEngine.lean#L278-L281) | ✅ |
+| §4 | Neutralité d'un gradient ≠ neutralité globale | [`single_neutral_not_global_neutral`](Cartograffect/PredictiveEngine.lean#L264-L266) | ✅ |
+| §4 | Neutralité globale ⟺ `(A0, C0)` ; régimes axial et diagonal | [`isGlobalNeutrality`](Cartograffect/PredictiveEngine.lean#L181-L182), [`coupling_regime_partition`](Cartograffect/PredictiveEngine.lean#L290-L296) | ✅ |
 | §4 | Règle de transition : persistance et attention → profondeur | `AttentionalInterface.persistenceDepth` (paramètre exogène) | 🟡 statique (§5 d) |
-| §4 | Principe de conservation en Z = 2 : `(±2, 0)`, `(0, ±2)`, `(±1, ±1)` | [`deployCouplingAtDepth`](Cartograffect/CoreAffect.lean#L213-L226), [`z2_budget_conservation`](Cartograffect/CoreAffect.lean#L305-L311) | ✅ |
-| §4 | Surprise `(0,0,1)` → Anticipation `(0,0,2)` → déploiement | [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L242-L252), [`engine_induces_valid_core_affect`](Cartograffect/CoreAffect.lean#L280-L289) | ✅ / 🟡 séquencement (R5) |
-| §5 | Espace (X = Attente, Y = Contrôle, Z = profondeur) | [`CoreAffectPoint`](Cartograffect/CoreAffect.lean#L20-L24) | 🔷 |
-| §5, §7.2 | Point de Veille, Surprise, Anticipation, opérateurs centraux | [`CentralOperator`](Cartograffect/CoreAffect.lean#L68-L77), [`toPoint`](Cartograffect/CoreAffect.lean#L81-L89), [`toCoreAffectState`](Cartograffect/CoreAffect.lean#L178-L180) | ✅ |
+| §4 | Principe de conservation en Z = 2 : `(±2, 0)`, `(0, ±2)`, `(±1, ±1)` | [`deployCouplingAtDepth`](Cartograffect/CoreAffect.lean#L219-L232), [`z2_budget_conservation`](Cartograffect/CoreAffect.lean#L311-L317) | ✅ |
+| §4 | Surprise `(0,0,1)` → Anticipation `(0,0,2)` → déploiement | [`projectToCoreAffect`](Cartograffect/CoreAffect.lean#L248-L258), [`engine_induces_valid_core_affect`](Cartograffect/CoreAffect.lean#L286-L295) | ✅ / 🟡 séquencement (R5) |
+| §5 | Espace (X = Attente, Y = Contrôle, Z = profondeur) | [`CoreAffectPoint`](Cartograffect/CoreAffect.lean#L26-L30) | 🔷 |
+| §5, §7.2 | Point de Veille, Surprise, Anticipation, opérateurs centraux | [`CentralOperator`](Cartograffect/CoreAffect.lean#L74-L83), [`toPoint`](Cartograffect/CoreAffect.lean#L87-L95), [`toCoreAffectState`](Cartograffect/CoreAffect.lean#L184-L186) | ✅ |
 | §5.1 | Contrôle primaire / secondaire (Rothbaum et al.) | docstrings uniquement | ⬜ interprétatif |
-| §5.2 | Cumul des déplacements (distance de Manhattan) | [`displacementSum`](Cartograffect/CoreAffect.lean#L36-L37) | 🔷 |
-| §5.2 | Rayon `2Z − 2`, cône d'amorçage `Z ∈ {0, 1}` de rayon nul | [`crownRadius`](Cartograffect/CoreAffect.lean#L46-L49), [`crownRadius_eq_formula`](Cartograffect/CoreAffect.lean#L53-L61) | ✅ |
-| §5.2 | Positions admissibles : centre ou losange | [`isCentral`](Cartograffect/CoreAffect.lean#L127-L128), [`isOnCrown`](Cartograffect/CoreAffect.lean#L132-L133), [`isValidCoreAffect`](Cartograffect/CoreAffect.lean#L142-L143) | ✅ (invariant central) |
-| §5.2 | Une dimension tranchée → axial ; deux → diagonal | [`single_engaged_yields_axial_z2`](Cartograffect/CoreAffect.lean#L318-L324), [`dual_engaged_yields_diagonal_z2`](Cartograffect/CoreAffect.lean#L331-L337) | ✅ |
-| §5.2 | Instabilité axiale, réallocation symétrique vers la diagonale | [`triggerSecondaryGradient`](Cartograffect/CoreAffect.lean#L345-L351), [`axial_to_diagonal_reallocation`](Cartograffect/CoreAffect.lean#L359-L371) | ✅ (forme statique) |
+| §5.2 | Cumul des déplacements (distance de Manhattan) | [`displacementSum`](Cartograffect/CoreAffect.lean#L42-L43) | 🔷 |
+| §5.2 | Rayon `2Z − 2`, cône d'amorçage `Z ∈ {0, 1}` de rayon nul | [`crownRadius`](Cartograffect/CoreAffect.lean#L52-L55), [`crownRadius_eq_formula`](Cartograffect/CoreAffect.lean#L59-L67) | ✅ |
+| §5.2 | Positions admissibles : centre ou losange | [`isCentral`](Cartograffect/CoreAffect.lean#L133-L134), [`isOnCrown`](Cartograffect/CoreAffect.lean#L138-L139), [`isValidCoreAffect`](Cartograffect/CoreAffect.lean#L148-L149) | ✅ (invariant central) |
+| §5.2 | Une dimension tranchée → axial ; deux → diagonal | [`single_engaged_yields_axial_z2`](Cartograffect/CoreAffect.lean#L324-L330), [`dual_engaged_yields_diagonal_z2`](Cartograffect/CoreAffect.lean#L337-L343) | ✅ |
+| §5.2 | Instabilité axiale, réallocation symétrique vers la diagonale | [`triggerSecondaryGradient`](Cartograffect/CoreAffect.lean#L351-L357), [`axial_to_diagonal_reallocation`](Cartograffect/CoreAffect.lean#L365-L377) | ✅ (forme statique) |
 | §5.2, §8.2 | Cas limite de coopération entre les voies | — (exclu par `isValidCoreAffect`) | ⬜ (§5 b) |
-| §5.2 | Positions latérales `(±3, ±1)` dès Z = 3 | [`GeometryType.lateral`](Cartograffect/CoreAffect.lean#L103-L108), [`classifyGeometry`](Cartograffect/CoreAffect.lean#L147-L155) | 🔷 |
-| §6 | Pôles vécus d'Attente et de Contrôle | [`LivedExpectationPole`](Cartograffect/AffectiveMatrix.lean#L22-L26), [`LivedControlPole`](Cartograffect/AffectiveMatrix.lean#L35-L39), [`transduceExpectation`](Cartograffect/AffectiveMatrix.lean#L76-L79), [`transduceControl`](Cartograffect/AffectiveMatrix.lean#L83-L86) | 🔷 |
-| §6 | Valence issue de la lecture conjointe des deux pôles | [`PhenomenologicalValence`](Cartograffect/AffectiveMatrix.lean#L50-L55), [`computeValence`](Cartograffect/AffectiveMatrix.lean#L93-L101) | 🟡 hypothèse du formalisateur (R3) |
-| §6 | Activation haute / basse | [`PhenomenologicalActivation`](Cartograffect/AffectiveMatrix.lean#L66-L72), [`computeActivation`](Cartograffect/AffectiveMatrix.lean#L105-L113) | 🟡 (R3, R4) |
-| §6 | État complet de la Matrice | [`AffectiveMatrixState`](Cartograffect/AffectiveMatrix.lean#L380-L386), [`evaluateMatrix`](Cartograffect/AffectiveMatrix.lean#L393-L403) | ✅ |
-| §6.1 | Joie, Tristesse, Peur, Courage | [`PrimaryCrownPrototype`](Cartograffect/AffectiveMatrix.lean#L127-L136), [`toPoint`](Cartograffect/AffectiveMatrix.lean#L140-L148), [`valid_on_crown`](Cartograffect/AffectiveMatrix.lean#L154-L156) | ✅ |
+| §5.2 | Positions latérales `(±3, ±1)` dès Z = 3 | [`GeometryType.lateral`](Cartograffect/CoreAffect.lean#L109-L114), [`classifyGeometry`](Cartograffect/CoreAffect.lean#L153-L161) | 🔷 |
+| §6 | Pôles vécus d'Attente et de Contrôle | [`LivedExpectationPole`](Cartograffect/AffectiveMatrix.lean#L28-L32), [`LivedControlPole`](Cartograffect/AffectiveMatrix.lean#L41-L45), [`transduceExpectation`](Cartograffect/AffectiveMatrix.lean#L82-L85), [`transduceControl`](Cartograffect/AffectiveMatrix.lean#L89-L92) | 🔷 |
+| §6 | Valence issue de la lecture conjointe des deux pôles | [`PhenomenologicalValence`](Cartograffect/AffectiveMatrix.lean#L56-L61), [`computeValence`](Cartograffect/AffectiveMatrix.lean#L99-L107) | 🟡 hypothèse du formalisateur (R3) |
+| §6 | Activation haute / basse | [`PhenomenologicalActivation`](Cartograffect/AffectiveMatrix.lean#L72-L78), [`computeActivation`](Cartograffect/AffectiveMatrix.lean#L111-L119) | 🟡 (R3, R4) |
+| §6 | État complet de la Matrice | [`AffectiveMatrixState`](Cartograffect/AffectiveMatrix.lean#L386-L392), [`evaluateMatrix`](Cartograffect/AffectiveMatrix.lean#L399-L409) | ✅ |
+| §6.1 | Joie, Tristesse, Peur, Courage | [`PrimaryCrownPrototype`](Cartograffect/AffectiveMatrix.lean#L133-L142), [`toPoint`](Cartograffect/AffectiveMatrix.lean#L146-L154), [`valid_on_crown`](Cartograffect/AffectiveMatrix.lean#L160-L162) | ✅ |
 | §6.2 | Désir, Colère, Calme, Dégoût ; diagonales de congruence et de compensation | *idem* | ✅ |
-| §6.2, §7.1 | Antagonisme par symétrie centrale (axial et diagonal) | [`antagonistPoint`](Cartograffect/AffectiveMatrix.lean#L178-L184), 1re branche | ✅ |
-| §6.3 | Seuil de résorption ≤ seuil d'activation (rémanence) | [`SalientDiscrepancy.h_hysteresis`](Cartograffect/PredictiveEngine.lean#L78), [`isInRemanenceWindow`](Cartograffect/PredictiveEngine.lean#L101-L102) | 🟡 non couplé à la dissipation (R6) |
-| §6.3 | Dissipation allostatique graduelle → Point de Veille | [`dissipationStep`](Cartograffect/CoreAffect.lean#L386-L391), [`dissipationStep_valid`](Cartograffect/CoreAffect.lean#L398-L405), [`pointDeVeille_is_fixed_point`](Cartograffect/CoreAffect.lean#L411-L412) | ✅ (§5 c) |
-| §6.3 | Transfert d'une unité de résolution à strate constante | [`transferUnitXtoY`](Cartograffect/AffectiveMatrix.lean#L356-L360), [`transferUnitXtoY_preserves_sum`](Cartograffect/AffectiveMatrix.lean#L367-L372) | 🟡 un seul sens, un seul quadrant (R9) |
-| §7 | Boucle à 5 étapes : évaluation, pondération, transduction | [`runCartograffectPipeline`](Cartograffect/AffectiveTaxonomy.lean#L239-L240) | ✅ |
-| §7 | Étape 5 : arbitrage attentionnel, rétroaction épistémique / pragmatique | [`feedbackUpdate`](Cartograffect/PredictiveEngine.lean#L231-L239) | 🔷 sans théorème |
+| §6.2, §7.1 | Antagonisme par symétrie centrale (axial et diagonal) | [`antagonistPoint`](Cartograffect/AffectiveMatrix.lean#L184-L190), 1re branche | ✅ |
+| §6.3 | Seuil de résorption ≤ seuil d'activation (rémanence) | [`SalientDiscrepancy.h_hysteresis`](Cartograffect/PredictiveEngine.lean#L84), [`isInRemanenceWindow`](Cartograffect/PredictiveEngine.lean#L107-L108) | 🟡 non couplé à la dissipation (R6) |
+| §6.3 | Dissipation allostatique graduelle → Point de Veille | [`dissipationStep`](Cartograffect/CoreAffect.lean#L392-L397), [`dissipationStep_valid`](Cartograffect/CoreAffect.lean#L404-L411), [`pointDeVeille_is_fixed_point`](Cartograffect/CoreAffect.lean#L417-L418) | ✅ (§5 c) |
+| §6.3 | Transfert d'une unité de résolution à strate constante | [`transferUnitXtoY`](Cartograffect/AffectiveMatrix.lean#L362-L366), [`transferUnitXtoY_preserves_sum`](Cartograffect/AffectiveMatrix.lean#L373-L378) | 🟡 un seul sens, un seul quadrant (R9) |
+| §7 | Boucle à 5 étapes : évaluation, pondération, transduction | [`runCartograffectPipeline`](Cartograffect/AffectiveTaxonomy.lean#L245-L246) | ✅ |
+| §7 | Étape 5 : arbitrage attentionnel, rétroaction épistémique / pragmatique | [`feedbackUpdate`](Cartograffect/PredictiveEngine.lean#L237-L245) | 🔷 sans théorème |
 | §7 | Étape 4 : ré-échantillonnage par l'action | — | ⬜ |
-| §7.1 | Antagonisme controlatéral par réflexion diagonale | [`antagonistPoint`](Cartograffect/AffectiveMatrix.lean#L178-L184) (2e et 3e branches), [`contralateral_swaps_amplitudes`](Cartograffect/AffectiveMatrix.lean#L316-L325) | ✅ (§5 a) |
-| §7.1 | Antagoniste dans la même strate, unique, involutif | [`preserves_z`](Cartograffect/AffectiveMatrix.lean#L194-L199), [`preserves_displacementSum`](Cartograffect/AffectiveMatrix.lean#L205-L214), [`preserves_validity`](Cartograffect/AffectiveMatrix.lean#L221-L235), [`involutive`](Cartograffect/AffectiveMatrix.lean#L242-L284), [`fixed_iff_central`](Cartograffect/AffectiveMatrix.lean#L292-L308) | ✅ |
-| §7.1 | Haine ↔ Affection ; inversion centrale → Plénitude ; autre diagonale → Manque | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L337-L345) (Haine ↔ Affection) | ✅ (exemple retenu) |
+| §7.1 | Antagonisme controlatéral par réflexion diagonale | [`antagonistPoint`](Cartograffect/AffectiveMatrix.lean#L184-L190) (2e et 3e branches), [`contralateral_swaps_amplitudes`](Cartograffect/AffectiveMatrix.lean#L322-L331) | ✅ (§5 a) |
+| §7.1 | Antagoniste dans la même strate, unique, involutif | [`preserves_z`](Cartograffect/AffectiveMatrix.lean#L200-L205), [`preserves_displacementSum`](Cartograffect/AffectiveMatrix.lean#L211-L220), [`preserves_validity`](Cartograffect/AffectiveMatrix.lean#L227-L241), [`involutive`](Cartograffect/AffectiveMatrix.lean#L248-L290), [`fixed_iff_central`](Cartograffect/AffectiveMatrix.lean#L298-L314) | ✅ |
+| §7.1 | Haine ↔ Affection ; inversion centrale → Plénitude ; autre diagonale → Manque | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L343-L351) (Haine ↔ Affection) | ✅ (exemple retenu) |
 | §7.1 | Catégories comme *attracteurs probabilistes*, « ni classes exclusives » | — | ⬜ (R1) |
-| §7.2 | Strates Z = 0 à 7 et prolongement | [`TaxonomicStratum`](Cartograffect/AffectiveTaxonomy.lean#L31-L41), [`classifyStratum`](Cartograffect/AffectiveTaxonomy.lean#L45-L54) | 🔷 |
+| §7.2 | Strates Z = 0 à 7 et prolongement | [`TaxonomicStratum`](Cartograffect/AffectiveTaxonomy.lean#L37-L47), [`classifyStratum`](Cartograffect/AffectiveTaxonomy.lean#L51-L60) | 🔷 |
 | §7.2 | Filières : Joie → Enthousiasme → Exaltation → Puissance, etc. | `deployCouplingAtDepth c d` pour `d = 0..3` (image axiale et diagonale à chaque strate) | 🟡 implicite, sans théorème nommé |
 | §7.3 | Changement d'objet de l'inférence selon la couche | — | ⬜ interprétatif |
 | §8.2 P1 | Arbitrage inverse entre les axes (budget) | `z2_budget_conservation`, `transferUnitXtoY_preserves_sum` | 🟡 contrainte structurelle seule |
@@ -289,53 +289,55 @@ Légende : ✅ formalisé et prouvé · 🔷 formalisé (définition, sans théo
 |---|---|---|---|
 | Préambule | Axes X, Y, Z ; précision qui n'est pas une coordonnée | `CoreAffectPoint` (3 champs), `AttentionalInterface` (hors espace) | ✅ conforme par typage |
 | §1 | Strates Z = 0 et Z = 1 sans couronne | `crownRadius 0 = crownRadius 1 = 0` ; `isOnCrown` exige `z ≥ 2` | ✅ |
-| §1 | Rayon `2Z − 2` ; effectif `4 × rayon` | [`crownRadius`](Cartograffect/CoreAffect.lean#L46-L49), [`crownPeripheralCount`](Cartograffect/AffectiveTaxonomy.lean#L119-L120), [`stratumTotalCount`](Cartograffect/AffectiveTaxonomy.lean#L124-L125) | ✅ arithmétique / ⬜ combinatoire (R6′) |
-| §1 | 8 prototypes de la première couronne | [`PrimaryCrownPrototype`](Cartograffect/AffectiveMatrix.lean#L127-L148) | ✅ |
-| §2 | Typologie axiale / diagonale / latérale | [`GeometryType`](Cartograffect/CoreAffect.lean#L103-L108), [`classifyGeometry`](Cartograffect/CoreAffect.lean#L147-L155) | 🔷 |
-| §2 | Secteurs JOIE / TRISTESSE / PEUR / COURAGE (axe dominant et signe) | [`TaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L67-L77), [`matchesTaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L84-L93) ; doublon : [`OrientationSector`](Cartograffect/CoreAffect.lean#L118-L123) | ✅ / 🔷 orphelin |
+| §1 | Rayon `2Z − 2` ; effectif `4 × rayon` | [`crownRadius`](Cartograffect/CoreAffect.lean#L52-L55), [`crownPeripheralCount`](Cartograffect/AffectiveTaxonomy.lean#L125-L126), [`stratumTotalCount`](Cartograffect/AffectiveTaxonomy.lean#L130-L131) | ✅ arithmétique & énumération (`Lexicon176`) |
+| §1 | 8 prototypes de la première couronne | [`PrimaryCrownPrototype`](Cartograffect/AffectiveMatrix.lean#L133-L154) | ✅ |
+| §2 | Typologie axiale / diagonale / latérale | [`GeometryType`](Cartograffect/CoreAffect.lean#L109-L114), [`classifyGeometry`](Cartograffect/CoreAffect.lean#L153-L161) | 🔷 |
+| §2 | Secteurs JOIE / TRISTESSE / PEUR / COURAGE (axe dominant et signe) | [`TaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L73-L83), [`matchesTaxonomicGroup`](Cartograffect/AffectiveTaxonomy.lean#L90-L99) ; doublon : [`OrientationSector`](Cartograffect/CoreAffect.lean#L124-L129) | ✅ / 🔷 orphelin |
 | §2 | Groupes diagonaux COLÈRE / CALME / DÉSIR / DÉGOÛT | *idem* | ✅ |
-| §2 | Partition des groupes | [`classifyTaxonomicGroup_correct`](Cartograffect/AffectiveTaxonomy.lean#L155-L166), [`taxonomy_group_exhaustive`](Cartograffect/AffectiveTaxonomy.lean#L172-L174), [`taxonomy_group_exclusive`](Cartograffect/AffectiveTaxonomy.lean#L181-L186), [`matchesTaxonomicGroup_iff`](Cartograffect/AffectiveTaxonomy.lean#L193-L200) | ✅ |
+| §2 | Partition des groupes | [`classifyTaxonomicGroup_correct`](Cartograffect/AffectiveTaxonomy.lean#L161-L172), [`taxonomy_group_exhaustive`](Cartograffect/AffectiveTaxonomy.lean#L178-L180), [`taxonomy_group_exclusive`](Cartograffect/AffectiveTaxonomy.lean#L187-L192), [`matchesTaxonomicGroup_iff`](Cartograffect/AffectiveTaxonomy.lean#L199-L206) | ✅ |
 | §3 | Répertoire nominatif des 176 entrées | [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) (`all176Entries`, 176 entrées de Z = 0 à Z = 7) | ✅ certifié par `decide` |
-| §4.1 | Correspondance axiale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
-| §4.2 | Correspondance diagonale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
-| §4.3 | Correspondance controlatérale (signes opposés : permutation ; même signe : permutation avec inversion) | `antagonistPoint`, 2e et 3e branches ; `contralateral_swaps_amplitudes` ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) | ✅ |
+| §4.1 | Correspondance axiale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238) | ✅ |
+| §4.2 | Correspondance diagonale | `antagonistPoint`, 1re branche ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238) | ✅ |
+| §4.3 | Correspondance controlatérale (signes opposés : permutation ; même signe : permutation avec inversion) | `antagonistPoint`, 2e et 3e branches ; `contralateral_swaps_amplitudes` ; [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238) | ✅ |
 | §4.3 | Quatre liaisons fixes entre groupes perpendiculaires | — | ⬜ (extension E-a2) |
-| §4.3 | 60 paires controlatérales | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) (clôture des 84 paires antagonistes) | ✅ certifié par `decide` |
-| §4 (Z = 7) | Abandon ↔ Sidération | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L344) ; `Lexicon176` | ✅ |
-| §5 | 8 centres + 168 positions = 176 | [`inventory_176_certified`](Cartograffect/AffectiveTaxonomy.lean#L132-L144), [`all176Entries_length`](Cartograffect/Lexicon176.lean) | ✅ |
+| §4.3 | 60 paires controlatérales | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238) (clôture des 84 paires antagonistes) | ✅ certifié par `decide` |
+| §4 (Z = 7) | Abandon ↔ Sidération | [`canonical_antagonist_examples`](Cartograffect/AffectiveMatrix.lean#L350) ; [`Lexicon176`](Cartograffect/Lexicon176.lean#L194-L204) | ✅ |
+| §5 | 8 centres + 168 positions = 176 | [`inventory_176_certified`](Cartograffect/AffectiveTaxonomy.lean#L138-L150), [`all176Entries_length`](Cartograffect/Lexicon176.lean#L228) | ✅ |
 
-### 3.4 Certification formelle nominale du répertoire des 176 entrées (`Cartograffect/Lexicon176.lean`)
+### 3.4 Certification formelle nominale et vérification croisée du répertoire des 176 entrées (`Cartograffect/Lexicon176.lean`)
+
+#### 3.4.1 Théorèmes de certification nominale
 
 Le module [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) encode dans le noyau Lean 4 l'intégralité du répertoire des 176 entrées nominales du Doc. 2 et formalise leur certification mécanique via la tactique `decide` :
 
-1. **Cardinalité exacte (`all176Entries_length`)** :
+1. **Cardinalité exacte ([`all176Entries_length`](Cartograffect/Lexicon176.lean#L228))** :
    Démontre mécaniquement que la liste `all176Entries` contient exactement 176 entrées (`length = 176`), couvrant le Point de Veille ($Z = 0$), la Surprise ($Z = 1$), les 6 opérateurs centraux ($Z = 2$ à $Z = 7$) et les 168 positions périphériques de couronnes.
    - *Statut axiomatique* : `does not depend on any axioms` (preuve par réduction directe).
 
-2. **Validité géométrique intégrale (`all176Entries_geometrically_valid`)** :
+2. **Validité géométrique intégrale ([`all176Entries_geometrically_valid`](Cartograffect/Lexicon176.lean#L231))** :
    Certifie que chaque entrée $e$ satisfait la fonction booléenne `isValidPointBool`, c'est-à-dire l'origine axiale pour les centres ($X = 0 \land Y = 0$) ou l'invariant strict de couronne ($\|X\| + \|Y\| = 2Z - 2$ pour $Z \ge 2$).
    - *Statut axiomatique* : `[propext, Classical.choice, Quot.sound]`.
 
-3. **Absence de collision spatiale (`all176Entries_unique_points`)** :
+3. **Absence de collision spatiale ([`all176Entries_unique_points`](Cartograffect/Lexicon176.lean#L234))** :
    Certifie l'absence de tout doublon parmi les coordonnées spatiales du répertoire (`(all176Entries.map (·.point)).Nodup`). Chaque position dans l'espace $(X, Y, Z)$ est unique et univoque.
    - *Statut axiomatique* : `does not depend on any axioms`.
 
-4. **Clôture intégrale sous l'antagonisme (`all176Entries_closed_under_antagonist`)** :
+4. **Clôture intégrale sous l'antagonisme ([`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238))** :
    Démontre mécaniquement que pour toute entrée $e$ du répertoire, son point antagoniste `antagonistPoint e.point` appartient également au répertoire. Cette preuve certifie la symétrie et la clôture parfaite des 84 paires (les 8 centres fixes, les 12 paires axiales, les 12 paires diagonales et les 60 paires controlatérales).
    - *Statut axiomatique* : `does not depend on any axioms`.
 
-### 3.5 Vérification croisée complémentaire de l'inventaire
+#### 3.4.2 Synthèse de la vérification croisée de l'inventaire
 
 Le théorème arithmétique `inventory_176_certified` et les théorèmes nominaux de `Lexicon176` confirment de façon mécanique les propriétés du répertoire du Doc. 2 (§3 et §4) :
 
 | Contrôle sur le Doc. 2 | Résultat | Mécanisme de certification |
 |---|---|---|
-| Entrées extraites du §3 | **176**, toutes à coordonnées **distinctes** | [`all176Entries_length`](Cartograffect/Lexicon176.lean), [`all176Entries_unique_points`](Cartograffect/Lexicon176.lean) (`by decide`) |
-| Entrées satisfaisant la validité géométrique | **176 / 176** | [`all176Entries_geometrically_valid`](Cartograffect/Lexicon176.lean) (`by decide`) |
+| Entrées extraites du §3 | **176**, toutes à coordonnées **distinctes** | [`all176Entries_length`](Cartograffect/Lexicon176.lean#L228), [`all176Entries_unique_points`](Cartograffect/Lexicon176.lean#L234) (`by decide`) |
+| Entrées satisfaisant la validité géométrique | **176 / 176** | [`all176Entries_geometrically_valid`](Cartograffect/Lexicon176.lean#L231) (`by decide`) |
 | Couverture des losanges (positions du Doc. 2 = points entiers de `\|X\|+\|Y\| = 2Z−2`) | **exacte** pour Z = 2..7 (8, 16, 24, 32, 40 et 48 points) | `crownPeripheralCount`, `all176Entries_length` |
 | Typologie par couronne (axiales / latérales / diagonales) | 4 / 0 / 4 en Z = 2 ; puis 4 / `8(Z−2)` / 4 : conforme au tableau du §5 | Formellement vérifié dans `Lexicon176` |
 | Groupe déclaré dans le Doc. 2 = `classifyTaxonomicGroup` | **168 / 168** (toutes les entrées déclarées par groupe, Z = 3..7) | `classifyTaxonomicGroup_correct` |
-| Paires antagonistes du §4 = `antagonistPoint` (dans les deux sens) | **84 / 84** (12 axiales, 12 diagonales, 60 controlatérales) | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean) (`by decide`) |
+| Paires antagonistes du §4 = `antagonistPoint` (dans les deux sens) | **84 / 84** (12 axiales, 12 diagonales, 60 controlatérales) | [`all176Entries_closed_under_antagonist`](Cartograffect/Lexicon176.lean#L237-L238) (`by decide`) |
 | Formule unifiée `(−sgn X·\|Y\|, −sgn Y·\|X\|)` sur les paires non axiales | **72 / 72** ; **en défaut** sur les axiales (§5 a) | `antagonistPoint`, `contralateral_swaps_amplitudes` |
 | Image du pipeline `runCartograffectPipeline` restreinte à Z ≤ 7 | **56 / 176** entrées atteignables ; les **120** entrées non atteintes sont **toutes latérales** (§5 d) | `end_to_end_coherence` |
 
@@ -349,11 +351,11 @@ Le théorème arithmétique `inventory_176_certified` et les théorèmes nominau
 | **R4** | Pour tout centre avec Z ≥ 1, `computeActivation` renvoie `operatorSuspension`. La Surprise (Z = 1, opérateur **ascendant** de rupture) reçoit donc le même libellé que les opérateurs **descendants** de suspension (Anticipation, Z ≥ 2). | Doc. 1 §4, §7.2 | 🟡 nomenclature | Distinguer `ascendingRupture` (Z = 1) de `operatorSuspension` (Z ≥ 2). |
 | **R5** | `projectToCoreAffect` est une projection **instantanée**. Le déploiement sur la couronne n'exige pas `descendingSuspension = true`, alors que le Doc. 1 §6.1 suppose « que l'opérateur d'Anticipation ait d'abord suspendu la décharge immédiate ». De plus, un écart saillant avec un couplage `(A0, C0)` est envoyé au Point de Veille, non à la Surprise. Ce choix est cohérent avec « la neutralité globale ne correspond qu'à l'état conjoint (A0, C0) », mais il reste un arbitrage. | Doc. 1 §4, §6.1 | 🟡 choix de modélisation | Documenter ces deux arbitrages. Le séquencement temporel relève de §5 d. |
 | **R6** | L'hystérésis est **typée** (`h_hysteresis`) et la fenêtre de rémanence **définie**, mais `dissipationStep` ne consulte pas l'écart : la condition de déclenchement « dès que la perturbation redescend sous le seuil de résorption » n'est pas formalisée. | Doc. 1 §6.3 | 🟡 | Extension E-c3. |
-| **R6′** | `inventory_176_certified` est **arithmétique** : le Lean ne prouve pas qu'un losange de rayon *r* compte `4r` points entiers. Le fait est vérifié hors Lean (§3.4). | Doc. 2 §1 | 🟡 | Extension E-3. |
+| **R6′** | `inventory_176_certified` est **arithmétique** sur la formule `4r`, tandis que l'énumération finie des 176 points entiers de $Z = 0$ à $Z = 7$ (validité géométrique, unicité `Nodup` et clôture antagoniste) est désormais **certifiée dans Lean** via `Lexicon176` (§3.4). Seule la bijection algébrique générale pour tout $r \in \mathbb{N}$ sur $\mathbb{Z}^2$ reste implicite. | Doc. 2 §1 | 🔵 | Couvert pour $Z \le 7$ par `Lexicon176` (E-3). |
 | **R7** | Déclarations **orphelines**, définies mais non reliées au chaînage déductif : `OrientationSector` (doublon de `TaxonomicGroup`), `InferentialOperation`, `isInRemanenceWindow`, `feedbackUpdate` (sans théorème). | — | 🔵 hygiène | Les relier par un théorème ou les marquer « vocabulaire réservé ». |
 | **R8** | Le pipeline n'atteint que les positions centrales, axiales et diagonales : **56 / 176** entrées. Les 120 positions latérales sont admissibles et classifiables, mais n'ont **aucun antécédent** dans le Moteur. | Doc. 1 §5.2, §7.2 | 🟠 portée | §5 d. |
 | **R9** | `transferUnitXtoY` ne couvre qu'un sens (X → Y) et qu'un quadrant (`x > 0, y ≥ 0`). | Doc. 1 §6.3 | 🔵 | Généraliser aux 8 directions intra-quadrant. |
-| **R10** | Une commande résiduelle `#print axioms end_to_end_coherence` subsiste dans un module de production ([AffectiveTaxonomy.lean, l. 290](Cartograffect/AffectiveTaxonomy.lean#L290)). Le module racine importe `AuditTests`, ce qui exécute les `#eval` à chaque import aval. | — | 🔵 hygiène | Isoler `AuditTests` dans une `lean_lib` ou un exécutable distinct. |
+| **R10** | Une commande résiduelle `#print axioms end_to_end_coherence` subsiste dans un module de production ([AffectiveTaxonomy.lean, l. 296](Cartograffect/AffectiveTaxonomy.lean#L296)). Le module racine importe `AuditTests`, ce qui exécute les `#eval` à chaque import aval. | — | 🔵 hygiène | Isoler `AuditTests` dans une `lean_lib` ou un exécutable distinct. |
 
 Légende des gravités : 🟠 écart de portée à signaler · 🟡 choix de modélisation ou précision à documenter · 🔵 hygiène du code. **Aucune réserve n'invalide un théorème prouvé** : elles portent toutes sur l'*interprétation* ou la *couverture*.
 
@@ -365,12 +367,12 @@ Le passage à `leanprover/lean4:v4.35.0` a nécessité six ajustements de **scri
 
 | # | Théorème (module) | Symptôme sous 4.35.0 | Réparation appliquée | Énoncé | Profil axiomatique final |
 |---|---|---|---|---|---|
-| 1 | [`deployCouplingAtDepth_valid`](Cartograffect/CoreAffect.lean#L263-L273) (`CoreAffect`) | Les 9 cas `Polarity × Polarity` produisent des buts hétérogènes : centre `(A0, C0)` d'un côté, couronne de l'autre. | Factorisation par `first \| exact Or.inl ⟨rfl, rfl⟩ \| (right; unfold CoreAffectPoint.isOnCrown; dsimp [...]; refine ⟨by omega, ?_⟩; omega)`. | inchangé | (lemme interne) |
-| 2 | [`engine_induces_valid_core_affect`](Cartograffect/CoreAffect.lean#L280-L289) (`CoreAffect`) | `unfold` laisse la liaison `let c := s.currentCoupling` non réduite, et `split` ne trouve plus le `if`. | `dsimp [projectToCoreAffect]`, qui effectue la ζ-réduction, avant `split`. | inchangé | `[propext, Quot.sound]` |
-| 3 | [`antagonistPoint_preserves_validity`](Cartograffect/AffectiveMatrix.lean#L221-L235), [`contralateral_swaps_amplitudes`](Cartograffect/AffectiveMatrix.lean#L316-L325) (`AffectiveMatrix`) | Les réécritures `if_pos` / `if_neg` sont dépréciées ou fragiles (instance de décidabilité de l'`ite`). | Découpage structurel `split`, puis `dsimp` et `omega`. | inchangé | `[propext, Classical.choice, Quot.sound]` / aucun axiome |
-| 4 | [`antagonistPoint_involutive`](Cartograffect/AffectiveMatrix.lean#L242-L284) (`AffectiveMatrix`) | La double application de `antagonistPoint` imbrique deux `if` à trois branches (jusqu'à 9 combinaisons). | Découpage étagé `by_cases h1` / `h2`, évaluation intermédiaire `have h_inner`, puis `rw [h_inner]`, `dsimp`, `Int.neg_neg` et `omega`. | inchangé | `[propext, Classical.choice, Quot.sound]` |
-| 5 | [`antagonistPoint_fixed_iff_central`](Cartograffect/AffectiveMatrix.lean#L292-L308), [`transferUnitXtoY_preserves_sum`](Cartograffect/AffectiveMatrix.lean#L367-L372) (`AffectiveMatrix`) | `omega` ne voit pas à travers les projections `({ x := …, … } : CoreAffectPoint).x`. | `dsimp` explicite pour réduire les projections avant `omega`. | inchangé | (non audités par `#print axioms`) |
-| 6 | [`classifyTaxonomicGroup_correct`](Cartograffect/AffectiveTaxonomy.lean#L155-L166) (`AffectiveTaxonomy`) | L'arbre de décision imbriqué (5 niveaux d'`if`) n'est pas exploré correctement par un `split` global. | Dépliage sélectif de `classifyTaxonomicGroup`, `split` guidé niveau par niveau, puis `dsimp [matchesTaxonomicGroup]; omega` aux feuilles. | inchangé | transmis à `exhaustive` : `[propext, Classical.choice, Quot.sound]` |
+| 1 | [`deployCouplingAtDepth_valid`](Cartograffect/CoreAffect.lean#L269-L279) (`CoreAffect`) | Les 9 cas `Polarity × Polarity` produisent des buts hétérogènes : centre `(A0, C0)` d'un côté, couronne de l'autre. | Factorisation par `first \| exact Or.inl ⟨rfl, rfl⟩ \| (right; unfold CoreAffectPoint.isOnCrown; dsimp [...]; refine ⟨by omega, ?_⟩; omega)`. | inchangé | (lemme interne) |
+| 2 | [`engine_induces_valid_core_affect`](Cartograffect/CoreAffect.lean#L286-L295) (`CoreAffect`) | `unfold` laisse la liaison `let c := s.currentCoupling` non réduite, et `split` ne trouve plus le `if`. | `dsimp [projectToCoreAffect]`, qui effectue la ζ-réduction, avant `split`. | inchangé | `[propext, Quot.sound]` |
+| 3 | [`antagonistPoint_preserves_validity`](Cartograffect/AffectiveMatrix.lean#L227-L241), [`contralateral_swaps_amplitudes`](Cartograffect/AffectiveMatrix.lean#L322-L331) (`AffectiveMatrix`) | Les réécritures `if_pos` / `if_neg` sont dépréciées ou fragiles (instance de décidabilité de l'`ite`). | Découpage structurel `split`, puis `dsimp` et `omega`. | inchangé | `[propext, Classical.choice, Quot.sound]` / aucun axiome |
+| 4 | [`antagonistPoint_involutive`](Cartograffect/AffectiveMatrix.lean#L248-L290) (`AffectiveMatrix`) | La double application de `antagonistPoint` imbrique deux `if` à trois branches (jusqu'à 9 combinaisons). | Découpage étagé `by_cases h1` / `h2`, évaluation intermédiaire `have h_inner`, puis `rw [h_inner]`, `dsimp`, `Int.neg_neg` et `omega`. | inchangé | `[propext, Classical.choice, Quot.sound]` |
+| 5 | [`antagonistPoint_fixed_iff_central`](Cartograffect/AffectiveMatrix.lean#L298-L314), [`transferUnitXtoY_preserves_sum`](Cartograffect/AffectiveMatrix.lean#L373-L378) (`AffectiveMatrix`) | `omega` ne voit pas à travers les projections `({ x := …, … } : CoreAffectPoint).x`. | `dsimp` explicite pour réduire les projections avant `omega`. | inchangé | (non audités par `#print axioms`) |
+| 6 | [`classifyTaxonomicGroup_correct`](Cartograffect/AffectiveTaxonomy.lean#L161-L172) (`AffectiveTaxonomy`) | L'arbre de décision imbriqué (5 niveaux d'`if`) n'est pas exploré correctement par un `split` global. | Dépliage sélectif de `classifyTaxonomicGroup`, `split` guidé niveau par niveau, puis `dsimp [matchesTaxonomicGroup]; omega` aux feuilles. | inchangé | transmis à `exhaustive` : `[propext, Classical.choice, Quot.sound]` |
 
 ### Attestation *Zero Theorem Weakening*
 
@@ -382,7 +384,7 @@ Pour chacun des théorèmes réparés, l'énoncé actuel a été inspecté selon
 4. **Aucun échappatoire.** On compte 0 `sorry`, 0 `axiom` et 0 `sorryAx` (§1.3), et chaque profil axiomatique reste dans le socle standard.
 
 > [!NOTE]
-> Le dépôt n'est pas versionné : aucun répertoire `.git` n'est présent. Le diff « avant/après » des scripts n'est donc pas archivé. L'attestation repose sur le journal de la passe mécanique et sur l'inspection des énoncés actuels. **Recommandation : initialiser Git et étiqueter l'état certifié** (par exemple `v1.0-certified-lean-4.35.0`) pour assurer la reproductibilité des audits futurs.
+> Le noyau formel certifié sous Lean 4.35.0 est versionné sous Git (commit de référence [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) et tag `v1.0.0`), assurant l'archivage et la reproductibilité intégrale des audits via le pipeline CI GitHub Actions.
 
 ---
 
@@ -571,11 +573,11 @@ theorem lateral_reachable (K : DepthTransitionKernel) (q : CoreAffectPoint)
 | E-b1 à E-b3 | Frontière du régime coopératif, validité paramétrée | §5 b | moyenne |
 | E-c1 à E-c3 | Lyapunov, convergence, unicité de l'attracteur, hystérésis | §5 c, R6 | faible |
 | E-d1 à E-d3 | Noyau de transition inter-strates | §5 d, R1, R8 | élevée (choix théoriques requis) |
-| E-3 | Encoder les 176 entrées nommées (`List (String × CoreAffectPoint)`) et les 84 paires, puis certifier par `decide` : effectif, `Nodup`, validité, groupes et antagonismes | R6′, §3.4 | faible (données finies et décidables) |
-| E-4 | Hygiène : isoler `AuditTests`, retirer le `#print axioms` résiduel, relier ou supprimer les déclarations orphelines, versionner sous Git | R7, R10 | faible |
+| E-3 | Encoder les 176 entrées nommées (`List LexiconEntry`) et les 84 paires, puis certifier par `decide` : effectif, `Nodup`, validité et clôture antagoniste | R6′, §3.4 | ✅ **Réalisé** ([`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean)) |
+| E-4 | Hygiène : isoler `AuditTests`, retirer le `#print axioms` résiduel, relier ou supprimer les déclarations orphelines | R7, R10 | faible |
 
 ---
 
-**Conclusion.** La formalisation Lean 4 de CARTOGRAFFECT est **mécaniquement certifiée** : 6 modules compilés sous `v4.35.0`, sans `sorry` ni axiome *ad hoc*, avec un socle axiomatique standard. Son chaînage déductif est **porté par les types** du Moteur prédictif jusqu'à la Taxonomie. Elle est **fidèle aux règles géométriques** des deux sources, ce que confirme hors Lean la concordance intégrale avec les 176 entrées et les 84 paires antagonistes du Doc. 2. Ses limites sont aujourd'hui **identifiées et bornées** : la dynamique inter-strates, le régime coopératif et le caractère gradué des catégories. Elles correspondent précisément aux points que le Doc. 1 désigne lui-même comme « à spécifier » et « à mettre à l'épreuve » (§6.3, §8.2).
+**Conclusion.** La formalisation Lean 4 de CARTOGRAFFECT est **mécaniquement certifiée** : 7 unités modulaires compilées (9 cibles Lake) sous `v4.35.0`, sans `sorry` ni axiome *ad hoc*, avec un socle axiomatique standard. Son chaînage déductif est **porté par les types** du Moteur prédictif jusqu'à la Taxonomie. Elle est **fidèle aux règles géométriques** des deux sources, ce que certifie mécaniquement dans Lean le module [`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean) sur l'intégralité des 176 entrées et des 84 paires antagonistes du Doc. 2. Ses limites sont aujourd'hui **identifiées et bornées** : la dynamique inter-strates, le régime coopératif et le caractère gradué des catégories. Elles correspondent précisément aux points que le Doc. 1 désigne lui-même comme « à spécifier » et « à mettre à l'épreuve » (§6.3, §8.2).
 
 *Rapport établi à partir des données certifiées de la passe mécanique (Phases 1, 2 et 4) et de l'inspection directe des sources Lean et des documents théoriques (Phases 3 et 5).*

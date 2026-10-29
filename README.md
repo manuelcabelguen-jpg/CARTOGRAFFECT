@@ -103,7 +103,7 @@ Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul dir
 2. **Suspension $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `operatorSuspension` ([lignes 59–61](Cartograffect/AuditTests.lean#L59-L61)) :**  
    Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = operatorSuspension`).
 
-3. **Dyade controlatérale $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`mixedCompensation`) ([lignes 71–75](Cartograffect/AuditTests.lean#L71-L75)) :**  
+3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`mixedCompensation`) ([lignes 71–75](Cartograffect/AuditTests.lean#L71-L75)) :**  
    Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, et attribution de la valence de compensation mixte (`mixedCompensation`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
 
 ---
