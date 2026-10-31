@@ -1,6 +1,6 @@
-# ALGORITHME DU SYSTÈME ÉMOTIONNEL PAR CATÉGORIES ET GROUPES (Z = 0 À Z = 7)
+# Annexe A : Algorithme du système émotionnel par catégories et groupes (Z = 0 à Z = 7)
 
-Ce document présente l’architecture géométrique et l’inventaire formel des 176 entrées de l’espace affectif : le Point de Veille (0, 0, 0), les sept opérateurs centraux — Surprise (0, 0, 1), Anticipation (0, 0, 2), Émoi (0, 0, 3), Réserve (0, 0, 4), Recul (0, 0, 5), Saisissement (0, 0, 6) et Suspension (0, 0, 7) —, ainsi que les 168 positions affectives réparties sur les couronnes Z = 2 à Z = 7. Les coordonnées horizontales X et Y situent chaque affect selon la révisabilité du modèle interne et la contrôlabilité de la situation ; la coordonnée verticale Z indique la profondeur temporelle et le degré d’abstraction cognitive du traitement, et non une intensité affective. Cette grille décrit des relations structurelles de placement et d’antagonisme régulateur, sans constituer à elle seule un outil diagnostique clinique ni une preuve intrinsèque d’opposition sémantique.
+Ce document présente l’architecture géométrique et l’inventaire formel des **176 entrées** de l’espace affectif : le Point de Veille (0, 0, 0), les sept opérateurs centraux — Surprise (0, 0, 1), Anticipation (0, 0, 2), Émoi (0, 0, 3), Réserve (0, 0, 4), Recul (0, 0, 5), Saisissement (0, 0, 6) et Suspension (0, 0, 7) —, ainsi que les **168 positions affectives** réparties sur les couronnes Z = 2 à Z = 7. Les coordonnées horizontales X et Y situent chaque affect selon la révisabilité du modèle interne et la contrôlabilité de la situation ; la coordonnée verticale Z indique la profondeur temporelle et le degré d’abstraction cognitive du traitement, et non une intensité affective. Cette grille décrit des relations structurelles de placement et d’antagonisme régulateur, sans constituer à elle seule un outil diagnostique clinique ni une preuve intrinsèque d’opposition sémantique. Afin de garantir que cette architecture algorithmique est exempte de toute contradiction déductive, l’intégralité des règles de placement, de conservation géométrique, d’antagonisme et de partition taxonomique des 176 positions a fait l’objet d’une vérification formelle assistée par ordinateur à l’aide du prouveur de théorèmes Lean 4 (version 4.35.0), certifiée sans axiome ad hoc ni preuve incomplète.
 
 - Axe X — Attente (révisabilité du modèle interne) : arbitrage épistémique entre le maintien des croyances acquises et leur mise à jour pour réduire l’ambiguïté.
 - Axe Y — Contrôle (contrôlabilité du monde) : capacité pragmatique d’action visant à transformer la situation et à réduire le risque encouru (Parr et al., 2022).
@@ -86,7 +86,7 @@ Positions diagonales (4) :
 Positions axiales (4) :
 
 - Groupe JOIE (1) : Exaltation (X0/Y+6/Z4).
-- Groupe TRISTESSE (1) : Langueur (X0/Y-6/Z4) (notée Langueur sur la figure 4 de l’article).
+- Groupe TRISTESSE (1) : Langueur (X0/Y-6/Z4).
 - Groupe PEUR (1) : Doute (X-6/Y0/Z4).
 - Groupe COURAGE (1) : Assurance (X+6/Y0/Z4).
 
@@ -179,11 +179,11 @@ Positions diagonales (4) :
 - Groupe DÉSIR (1) : Sublimation (X+6/Y+6/Z7).
 - Groupe DÉGOÛT (1) : Dissolution (X-6/Y-6/Z7).
 
-Bilan des effectifs : Les six couronnes Z = 2 à Z = 7 réunissent 8 + 16 + 24 + 32 + 40 + 48 = 168 positions affectives périphériques. En y ajoutant le Point de Veille (0, 0, 0) et les sept opérateurs centraux (de Z = 1 à Z = 7), l’architecture complète du système émotionnel totalise 176 entrées distinctes.
+**Bilan des effectifs :** Les six couronnes Z = 2 à Z = 7 réunissent 8 + 16 + 24 + 32 + 40 + 48 = 168 positions affectives périphériques. En y ajoutant le Point de Veille (0, 0, 0) et les sept opérateurs centraux (de Z = 1 à Z = 7), l’architecture complète du système émotionnel totalise 176 entrées distinctes. L’exhaustivité, l’unicité des coordonnées et la disjonction stricte des sous-ensembles formant cette partition de 176 états sont formellement démontrées et certifiées sous Lean 4.
 
 ## 4. Logique de placement et règles de correspondance antagoniste
 
-À chaque strate Z, la géométrie associe à toute position périphérique un correspondant antagoniste unique situé sur la même couronne. Cette mise en correspondance repose sur un principe général d’inversion des polarités et d’échange des dominantes : la géométrie fixe la coordonnée opposée, tandis que la tension de sens psychologique et phénoménologique entre les deux états vient valider le placement retenu.
+À chaque strate Z, la géométrie associe à toute position périphérique un correspondant antagoniste unique situé sur la même couronne. Cette mise en correspondance repose sur un principe général d’inversion des polarités et d’échange des dominantes : la géométrie fixe la coordonnée opposée, tandis que la tension de sens psychologique et phénoménologique entre les deux états vient valider le placement retenu. Sur le plan formel, le caractère strictement involutif de ces opérateurs de symétrie (toute transformation appliquée deux fois restituant l’état initial sans perte ni dérive de strate ou de rayon) ainsi que l’appariement bijectif des 24 positions axiales, des 24 positions diagonales et des 120 positions latérales (60 paires controlatérales) ont été mathématiquement vérifiés sous Lean 4, étant entendu que cette consistance déductive interne ne se substitue pas à l’épreuve empirique des faits.
 
 1. Correspondance axiale (positions où X = 0 ou Y = 0) : Elle s’opère le long de l’axe principal concerné par inversion centrale, en changeant le signe de la coordonnée non nulle tout en conservant sa valeur absolue. Exemple : Joie (X0/Y+2/Z2) ↔ Tristesse (X0/Y-2/Z2).
 2. Correspondance diagonale (positions où les valeurs absolues de X et de Y sont égales et non nulles) : Elle s’opère également par inversion centrale le long des diagonales principales, en inversant simultanément le signe de X et le signe de Y. Exemple : Colère (X-1/Y+1/Z2) ↔ Calme (X+1/Y-1/Z2).
@@ -238,3 +238,14 @@ Précision phénoménologique pour la strate Z = 7 : Pour les sentiments transce
 | **Total Centres** | Point de Veille + 7 Opérateurs centraux | Positions (0, 0, Z) de Z = 0 à Z = 7 | **8** | Axe central d’amorçage et de réorientation |
 | **Total Couronnes** | Positions affectives périphériques | Couronnes Z = 2 à Z = 7 | **168** | 8 + 16 + 24 + 32 + 40 + 48 positions |
 | **TOTAL MODÈLE** | Ensemble de l’architecture affective (Z = 0 à 7) | 8 centres + 168 positions | **176** | |
+
+---
+
+## Certification formelle et disponibilité du code source
+
+L’architecture mathématique et lexicale présentée dans cette annexe est intégralement formalisée et vérifiée mécaniquement sous l’assistant de preuve **Lean 4** (version 4.35.0, Lake 5.0.0 ; de Moura & Ullrich, 2021) au sein du dépôt en accès libre sous double licence GNU AGPLv3 (code source et preuves formelles) et CC BY-NC-SA 4.0 (architecture théorique et taxonomie) (https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT, version v1.0.1 ; archivage pérenne Zenodo : https://doi.org/10.5281/zenodo.23833938 ; enregistrement de droit d’auteur OPIC n° 1233199). Le code source se structure en cinq modules formels (`PredictiveEngine`, `CoreAffect`, `AffectiveMatrix`, `AffectiveTaxonomy`, `Lexicon176`) complétés par une suite d’audit automatisée (`AuditTests`).
+
+L’audit axiomatique (`#print axioms`) certifie 17 théorèmes principaux avec zéro déclaration inachevée (`sorry` ou `admit`) et zéro axiome *ad hoc* :
+
+1. **Huit théorèmes purement constructifs** (démontrés par réduction computationnelle directe dans le noyau logique, sans dépendre d’aucun axiome externe) : l’involutivité de la polarité prédictive (`Polarity.invert_involutive`), la partition stricte des régimes de couplage (`coupling_regime_partition`), la conservation budgétaire de la première couronne (`z2_budget_conservation`), la permutation controlatérale des amplitudes (`contralateral_swaps_amplitudes`), le dénombrement combinatoire des 176 positions (`inventory_176_certified`), ainsi que la cardinalité exacte (`all176Entries_length`), l’unicité géométrique stricte des coordonnées (`all176Entries_unique_points`) et la clôture algébrique par symétrie antagoniste (`all176Entries_closed_under_antagonist`) des 176 entrées du lexique affectif.
+2. **Neuf théorèmes structurels** (reposant exclusivement sur les axiomes fondationnels standards de la théorie des types dépendants de Lean : `propext`, `Quot.sound` et `Classical.choice`) : l’induction valide du Noyau par le Moteur (`engine_induces_valid_core_affect`), la réallocation axiale vers diagonale (`axial_to_diagonal_reallocation`), la validité de l’opérateur de dissipation allostatique (`dissipationStep_valid`), la préservation de la validité et l’involutivité de l’opérateur antagoniste (`antagonistPoint_preserves_validity`, `antagonistPoint_involutive`), l’exhaustivité et l’exclusivité mutuelle des groupes taxonomiques (`taxonomy_group_exhaustive`, `taxonomy_group_exclusive`), la validité géométrique L₁ des 176 entrées lexicales (`all176Entries_geometrically_valid`) et la cohérence déductive globale de bout en bout du modèle (`end_to_end_coherence`).

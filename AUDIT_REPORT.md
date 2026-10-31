@@ -384,7 +384,7 @@ Pour chacun des théorèmes réparés, l'énoncé actuel a été inspecté selon
 4. **Aucun échappatoire.** On compte 0 `sorry`, 0 `axiom` et 0 `sorryAx` (§1.3), et chaque profil axiomatique reste dans le socle standard.
 
 > [!NOTE]
-> Le noyau formel certifié sous Lean 4.35.0 est versionné sous Git (commit de référence [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) et tag `v1.0.0`), assurant l'archivage et la reproductibilité intégrale des audits via le pipeline CI GitHub Actions.
+> Le noyau formel certifié sous Lean 4.35.0 est versionné sous Git (commit de référence [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b), tags `v1.0.0` et `v1.0.1`), assurant l'archivage et la reproductibilité intégrale des audits via le pipeline CI GitHub Actions et Zenodo (`https://doi.org/10.5281/zenodo.23833938`).
 
 ---
 
