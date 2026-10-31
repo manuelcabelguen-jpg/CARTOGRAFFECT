@@ -5,6 +5,7 @@ authors:
     given-names: "Manuel"
 title: "CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4"
 version: 1.0.1
+doi: "10.5281/zenodo.23833938"
 date-released: 2026-10-31
 url: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
 abstract: "Version formelle de CARTOGRAFFECT vérifiée sous Lean 4.35.0 (Lake 5.0.0), certifiant 17 théorèmes sans axiome ad hoc."

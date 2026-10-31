@@ -1,6 +1,7 @@
 # CARTOGRAFFECT — Formal Verification in Lean 4.35.0
 
 [![Lean 4 Formal Verification](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23833938.svg)](https://doi.org/10.5281/zenodo.23833938)
 ![Lean 4.35.0](https://img.shields.io/badge/Lean-v4.35.0-blue?logo=lean)
 ![Zero Sorry](https://img.shields.io/badge/Proof_Audit-0_sorry_%7C_0_custom_axioms-success)
 [![License: AGPL v3](https://img.shields.io/badge/Code_License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
@@ -165,7 +166,7 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 - **Modèle théorique :**  
   Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif*.
 - **Formalisation Lean 4 :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4* (version taguée `v1.0.1`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
+  Cabelguen, M. (2026). *CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4* (version taguée `v1.0.1`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
@@ -178,12 +179,14 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 }
 
 @software{cabelguen2026cartograffect,
-  author  = {Cabelguen, Manuel},
-  title   = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
-  year    = {2026},
-  version = {1.0.1},
-  url     = {https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT},
-  note    = {Version v1.0.1, formal verification in Lean 4.35.0}
+  author    = {Cabelguen, Manuel},
+  title     = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {1.0.1},
+  doi       = {10.5281/zenodo.23833938},
+  url       = {https://doi.org/10.5281/zenodo.23833938},
+  note      = {Version v1.0.1, formal verification in Lean 4.35.0 (https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT)}
 }
 
 @inproceedings{demoura2021lean4,
