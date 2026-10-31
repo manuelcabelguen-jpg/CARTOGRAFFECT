@@ -165,7 +165,7 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 - **Modèle théorique :**  
   Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif*.
 - **Formalisation Lean 4 :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4* (version taguée `v1.0.0`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
+  Cabelguen, M. (2026). *CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4* (version taguée `v1.0.1`) [Logiciel]. https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
@@ -179,11 +179,11 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 
 @software{cabelguen2026cartograffect,
   author  = {Cabelguen, Manuel},
-  title   = {{CARTOGRAFFECT}: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4},
+  title   = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
   year    = {2026},
-  version = {1.0.0},
+  version = {1.0.1},
   url     = {https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT},
-  note    = {Version v1.0.0, formal verification in Lean 4.35.0}
+  note    = {Version v1.0.1, formal verification in Lean 4.35.0}
 }
 
 @inproceedings{demoura2021lean4,

@@ -1,27 +1,16 @@
 cff-version: 1.2.0
-message: "If you use this formalization or software, please cite it using the metadata from this file."
-title: "CARTOGRAFFECT: Formal Verification of a 176-State Hierarchical Affective Geometry in Lean 4"
-type: software
+message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Cabelguen"
     given-names: "Manuel"
-repository-code: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
-url: "https://cartograffect.com"
-version: "1.0.0"
-# Dual licensing (SPDX expression: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0):
-#   - Lean 4 source code and formal proofs: AGPL-3.0-or-later (LICENSE)
-#   - Theory, affective geometry and 176-state taxonomy: CC-BY-NC-SA-4.0
-# CFF 1.2.0 only accepts single SPDX identifiers (enum) or a list of them;
-# compound SPDX expressions ("A AND B") are rejected by the schema.
-license:
-  - "AGPL-3.0-or-later"
-  - "CC-BY-NC-SA-4.0"
-date-released: "2026-10-27"
+title: "CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4"
+version: 1.0.1
+date-released: 2026-10-31
+url: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
+abstract: "Version formelle de CARTOGRAFFECT vérifiée sous Lean 4.35.0 (Lake 5.0.0), certifiant 17 théorèmes sans axiome ad hoc."
 keywords:
-  - "lean4"
-  - "formal-verification"
-  - "theorem-proving"
-  - "affective-neuroscience"
-  - "predictive-processing"
-  - "active-inference"
-  - "computational-psychiatry"
+  - "Lean 4"
+  - "formal verification"
+  - "affective neuroscience"
+  - "active inference"
+license: "AGPL-3.0"
