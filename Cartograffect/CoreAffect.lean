@@ -128,6 +128,20 @@ inductive OrientationSector : Type where
   | courage   : OrientationSector
   deriving DecidableEq, Repr, Inhabited
 
+-- Source : Document 2, §2 (Groupes d'orientation géométrique par axe dominant)
+/--
+Détermine le secteur d'orientation dominant d'un point lorsque l'un des deux axes
+domine strictement l'autre en valeur absolue (`|Y| > |X|` ou `|X| > |Y|`).
+Renvoie `none` pour les opérateurs centraux et les positions diagonales.
+-/
+def CoreAffectPoint.dominantSector? (p : CoreAffectPoint) : Option OrientationSector :=
+  if p.y.natAbs > p.x.natAbs then
+    if p.y > 0 then some .joie else some .tristesse
+  else if p.x.natAbs > p.y.natAbs then
+    if p.x < 0 then some .peur else some .courage
+  else
+    none
+
 -- Source : Document 1, §5.2 & Document 2, §1
 /-- Prédicat caractérisant un opérateur central (0, 0, Z). -/
 def CoreAffectPoint.isCentral (p : CoreAffectPoint) : Prop :=
@@ -416,6 +430,138 @@ Le Point de Veille `(0, 0, 0)` est un point fixe de l'opérateur de dissipation 
 -/
 theorem pointDeVeille_is_fixed_point :
     dissipationStep ⟨0, 0, 0⟩ = ⟨0, 0, 0⟩ := rfl
+
+/--
+Lemme 8 (Unicité de l'attracteur basal, Doc. 1, §6.3) :
+Un point de l'espace affectif est un point fixe de `dissipationStep` si et seulement s'il
+s'agit du Point de Veille `(0, 0, 0)`.
+-/
+theorem dissipationStep_fixed_iff (p : CoreAffectPoint) :
+    dissipationStep p = p ↔ p = ⟨0, 0, 0⟩ := by
+  constructor
+  · intro h
+    obtain ⟨x, y, z⟩ := p
+    unfold dissipationStep at h
+    dsimp at h
+    split at h
+    · rename_i h_periph
+      simp only [Bool.or_eq_true, bne_iff_ne, ne_eq] at h_periph
+      simp only [CoreAffectPoint.mk.injEq] at h
+      omega
+    · rename_i h_cent
+      simp only [Bool.or_eq_true, bne_iff_ne, ne_eq] at h_cent
+      have hx : x = 0 := by omega
+      have hy : y = 0 := by omega
+      subst hx hy
+      cases z with
+      | zero => rfl
+      | succ z' =>
+        simp only [CoreAffectPoint.mk.injEq] at h
+        omega
+  · intro h
+    rw [h]
+    rfl
+
+-- Source : Document 1, §6.3 (Cinétique de dissipation allostatique)
+/--
+Potentiel de Lyapunov discret mesurant la distance cinétique au Point de Veille `(0, 0, 0)`
+le long de la trajectoire de dissipation allostatique.
+-/
+def dissipationPotential (p : CoreAffectPoint) : Nat :=
+  2 * p.z + (if p.x != 0 || p.y != 0 then 1 else 0)
+
+/--
+Lemme 9 (Décroissance stricte du potentiel de Lyapunov, Doc. 1, §6.3) :
+Pour tout état distinct du Point de Veille `(0, 0, 0)`, chaque pas de dissipation
+allostatique réduit strictement le potentiel `dissipationPotential`.
+-/
+theorem dissipation_strictly_decreases (p : CoreAffectPoint) (h : p ≠ ⟨0, 0, 0⟩) :
+    dissipationPotential (dissipationStep p) < dissipationPotential p := by
+  obtain ⟨x, y, z⟩ := p
+  unfold dissipationStep dissipationPotential
+  dsimp
+  split
+  · dsimp
+    omega
+  · rename_i h_cent
+    simp only [Bool.or_eq_true, bne_iff_ne, ne_eq] at h_cent
+    have hx : x = 0 := by omega
+    have hy : y = 0 := by omega
+    subst hx hy
+    cases z with
+    | zero => exact False.elim (h rfl)
+    | succ z' =>
+      dsimp
+      omega
+
+-- Source : Document 1, §6.3 (Seuil de résorption homéostatique et rémanence temporaire)
+/--
+Opérateur de transition allostatique couplé au seuil de résorption :
+Dès que l'écart `d.magnitude` redescend strictement sous le seuil de résorption
+homéostatique (`d.resorptionThreshold`), le système exécute un pas de dissipation
+allostatique ; tant que l'écart demeure supérieur ou égal à ce seuil (notamment dans
+la fenêtre de rémanence temporaire), l'état affectif persiste par hystérésis.
+-/
+def allostaticStep (d : SalientDiscrepancy) (p : CoreAffectPoint) : CoreAffectPoint :=
+  if d.magnitude < d.resorptionThreshold then
+    dissipationStep p
+  else
+    p
+
+/--
+Lemme 10 (Rémanence par hystérésis allostatique, Doc. 1, §6.3) :
+Tant que l'écart résiduel demeure dans la fenêtre de rémanence temporaire
+(`d.isInRemanenceWindow = true`), l'état affectif est maintenu sans dissipation.
+-/
+theorem remanence_preserves_state (d : SalientDiscrepancy) (p : CoreAffectPoint)
+    (h_rem : d.isInRemanenceWindow = true) :
+    allostaticStep d p = p := by
+  unfold SalientDiscrepancy.isInRemanenceWindow at h_rem
+  simp only [decide_eq_true_eq] at h_rem
+  unfold allostaticStep
+  split
+  · omega
+  · rfl
+
+/-!
+## 6. Frontière du régime concurrentiel et cas limite de coopération (§5.2 & §8.2)
+-/
+
+-- Source : Document 1, §5.2 & §8.2 (Prédiction réfutable P1 : arbitrage vs coopération)
+/--
+Lemme 11 (Frontière du régime concurrentiel, Doc. 1, §5.2 & §8.2 P1) :
+Pour toute position située sur la couronne dans le premier quadrant (`x ≥ 0`, `y ≥ 0`),
+une co-progression simultanée des deux évaluations à profondeur constante (`(x + 1, y + 1, z)`)
+sort nécessairement du losange concurrentiel (`¬ isOnCrown`).
+-/
+theorem cooperative_step_leaves_crown (p : CoreAffectPoint)
+    (h : p.isOnCrown) (hx : p.x ≥ 0) (hy : p.y ≥ 0) :
+    ¬ CoreAffectPoint.isOnCrown ⟨p.x + 1, p.y + 1, p.z⟩ := by
+  rcases h with ⟨_, hsum⟩
+  unfold CoreAffectPoint.isOnCrown CoreAffectPoint.displacementSum at *
+  dsimp at *
+  intro ⟨_, hsum'⟩
+  omega
+
+-- Source : Document 1, §5.2 & §8.2 (Régime concurrentiel vs cas limite de coopération)
+/--
+Régimes d'allocation des ressources attentionnelles :
+- `competitive` : régime concurrentiel strict (budget de précision constant sur le losange `|X| + |Y| = R(Z)`).
+- `cooperative` : cas limite de coopération où une action informative accroît simultanément
+  les deux évaluations à profondeur constante (`|X| + |Y| ≥ R(Z)`).
+-/
+inductive ResourceRegime : Type where
+  | competitive : ResourceRegime
+  | cooperative : ResourceRegime
+  deriving DecidableEq, Repr, Inhabited
+
+-- Source : Document 1, §5.2 & §8.2
+/--
+Invariant d'admissibilité topologique du Noyau affectif paramétré par le régime de ressources (`ResourceRegime`).
+-/
+def isValidCoreAffectIn : ResourceRegime → CoreAffectPoint → Prop
+  | .competitive, p => isValidCoreAffect p
+  | .cooperative, p => p.isCentral ∨ (p.z ≥ 2 ∧ crownRadius p.z ≤ p.displacementSum)
 
 end CoreAffect
 

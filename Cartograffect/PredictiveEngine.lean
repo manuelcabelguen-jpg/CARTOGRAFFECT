@@ -158,6 +158,22 @@ inductive InferentialOperation : Type where
   | integrativeWeighting : InferentialOperation -- Interface Attentionnelle : inférence intégrative pondérée
   deriving DecidableEq, Repr, Inhabited
 
+-- Source : Document 1, §4 (Le Moteur prédictif - Décomposition fonctionnelle des 3 interfaces)
+/-- Les trois interfaces fonctionnelles composant le Moteur prédictif. -/
+inductive EngineInterface : Type where
+  | perceptive  : EngineInterface
+  | subjective  : EngineInterface
+  | attentional : EngineInterface
+  deriving DecidableEq, Repr, Inhabited
+
+-- Source : Document 1, §4 (Circulation entre les interfaces)
+/-- Associe chacune des quatre opérations inférentielles à l'interface fonctionnelle qui la porte. -/
+def InferentialOperation.carrierInterface : InferentialOperation → EngineInterface
+  | .ascendingSensory     => .perceptive
+  | .actionImplementation => .perceptive
+  | .contextualGenerative => .subjective
+  | .integrativeWeighting => .attentional
+
 /-!
 ## 3. Espace des couplages (A/C) et État global du Moteur prédictif
 -/
@@ -294,6 +310,29 @@ theorem coupling_regime_partition (c : EngineCoupling) :
   cases c with
   | mk a ctrl =>
     cases a <;> cases ctrl <;> decide
+
+/--
+Invariant 7 (Rétroaction de l'arbitrage attentionnel, Doc. 1, §7) :
+L'opérateur `feedbackUpdate` réinjecte exactement le nouveau couplage `(newA, newC)` et la
+nouvelle précision allouée `newPrecision`, tout en conservant l'écart sensoriel d'entrée.
+-/
+theorem feedbackUpdate_couples_gradients
+    (s : PredictiveEngineState) (newA newC : Polarity) (newPrecision : Nat) :
+    (s.feedbackUpdate newA newC newPrecision).currentCoupling = ⟨newA, newC⟩ ∧
+    (s.feedbackUpdate newA newC newPrecision).attentional.allocatedPrecision = newPrecision ∧
+    (s.feedbackUpdate newA newC newPrecision).discrepancy = s.discrepancy :=
+  ⟨rfl, rfl, rfl⟩
+
+/--
+Invariant 8 (Couverture des trois interfaces par la boucle inférentielle, Doc. 1, §4) :
+Toute interface du Moteur prédictif est portée par au moins une opération inférentielle.
+-/
+theorem inferential_loop_covers_interfaces (iface : EngineInterface) :
+    ∃ op : InferentialOperation, op.carrierInterface = iface := by
+  cases iface
+  · exact ⟨.ascendingSensory, rfl⟩
+  · exact ⟨.contextualGenerative, rfl⟩
+  · exact ⟨.integrativeWeighting, rfl⟩
 
 end PredictiveEngine
 

@@ -22,6 +22,15 @@ structure LexiconEntry where
   point : CoreAffectPoint
   deriving DecidableEq, Repr, Inhabited
 
+/-- Accesseur direct pour la coordonnée X (Attente) d'une entrée lexicale. -/
+abbrev LexiconEntry.x (e : LexiconEntry) : Int := e.point.x
+
+/-- Accesseur direct pour la coordonnée Y (Contrôle) d'une entrée lexicale. -/
+abbrev LexiconEntry.y (e : LexiconEntry) : Int := e.point.y
+
+/-- Accesseur direct pour la coordonnée Z (Strate) d'une entrée lexicale. -/
+abbrev LexiconEntry.z (e : LexiconEntry) : Nat := e.point.z
+
 /-- Fonction booléenne décidable vérifiant la conformité géométrique d'un point (centre ou couronne). -/
 def isValidPointBool (p : CoreAffectPoint) : Bool :=
   (p.x == 0 && p.y == 0) || (decide (p.z ≥ 2) && p.displacementSum == crownRadius p.z)
@@ -148,7 +157,7 @@ def all176Entries : List LexiconEntry := [
   ⟨"Prostration", ⟨-2, -8, 6⟩⟩,
   ⟨"Félicité", ⟨1, -9, 6⟩⟩,
   ⟨"Désolation", ⟨-1, -9, 6⟩⟩,
-  ⟨"Irritation", ⟨-6, 4, 6⟩⟩,
+  ⟨"Rancœur", ⟨-6, 4, 6⟩⟩,
   ⟨"Amertume", ⟨-6, -4, 6⟩⟩,
   ⟨"Affolement", ⟨-7, 3, 6⟩⟩,
   ⟨"Écrasement", ⟨-7, -3, 6⟩⟩,
@@ -236,5 +245,60 @@ theorem all176Entries_unique_points : (all176Entries.map (·.point)).Nodup := by
 /-- Certification mécanique de la clôture intégrale du répertoire sous l'opérateur d'antagonisme controlatéral. -/
 theorem all176Entries_closed_under_antagonist :
     (all176Entries.all (fun e => (all176Entries.map (·.point)).contains (antagonistPoint e.point))) = true := by decide
+
+/-- Génère les 4 combinaisons de signes `(±ax, ±ay, z)` pour un couple d'amplitudes donné. -/
+def signVariants (ax ay z : Nat) : List CoreAffectPoint :=
+  let x : Int := (ax : Int)
+  let y : Int := (ay : Int)
+  [⟨x, y, z⟩, ⟨x, -y, z⟩, ⟨-x, y, z⟩, ⟨-x, -y, z⟩]
+
+/-- Tout point `p` appartient aux variantes de signes de ses propres valeurs absolues `(p.x.natAbs, p.y.natAbs, p.z)`. -/
+theorem mem_signVariants (p : CoreAffectPoint) :
+    p ∈ signVariants p.x.natAbs p.y.natAbs p.z := by
+  obtain ⟨x, y, z⟩ := p
+  dsimp [signVariants]
+  have hx : x = (x.natAbs : Int) ∨ x = - (x.natAbs : Int) := by omega
+  have hy : y = (y.natAbs : Int) ∨ y = - (y.natAbs : Int) := by omega
+  rcases hx with hx | hx <;> rcases hy with hy | hy
+  · rw [← hx, ← hy]; exact List.Mem.head _
+  · rw [← hx, ← hy]; exact List.Mem.tail _ (List.Mem.head _)
+  · rw [← hx, ← hy]; exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))
+  · rw [← hx, ← hy]; exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
+
+/-- Grille géométrique complète des positions admissibles (centres et couronnes) pour une strate `z`. -/
+def stratumValidGrid (z : Nat) : List CoreAffectPoint :=
+  ⟨0, 0, z⟩ :: (List.range (crownRadius z + 1)).flatMap (fun ax =>
+    signVariants ax (crownRadius z - ax) z)
+
+/-- Tout point géométriquement valide `p` appartient à la grille `stratumValidGrid p.z` de sa strate. -/
+theorem mem_stratumValidGrid (p : CoreAffectPoint) (hv : isValidCoreAffect p) :
+    p ∈ stratumValidGrid p.z := by
+  rcases p with ⟨x, y, z⟩
+  rcases hv with ⟨hx, hy⟩ | ⟨_, hsum⟩
+  · dsimp at hx hy
+    subst hx hy
+    exact List.Mem.head _
+  · dsimp [CoreAffectPoint.displacementSum] at hsum ⊢
+    refine List.Mem.tail _ (List.mem_flatMap.mpr ⟨x.natAbs, List.mem_range.mpr (by omega), ?_⟩)
+    have hy_abs : crownRadius z - x.natAbs = y.natAbs := by omega
+    rw [hy_abs]
+    exact mem_signVariants ⟨x, y, z⟩
+
+/-- Certification mécanique que la grille géométrique des strates Z = 0 à Z = 7 est incluse dans `all176Entries`. -/
+theorem stratumValidGrid_sub_all176 (z : Nat) (hz : z ≤ 7) :
+    ∀ q ∈ stratumValidGrid z, q ∈ all176Entries.map (·.point) := by
+  rcases (by omega : z = 0 ∨ z = 1 ∨ z = 2 ∨ z = 3 ∨ z = 4 ∨ z = 5 ∨ z = 6 ∨ z = 7) with
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> decide
+
+/--
+Théorème de complétude spatiale réciproque (Surjectivité sur la grille Z ≤ 7, Doc. 2, §1, §3 & §5) :
+Tout point à coordonnées entières `(X, Y, Z)` avec `0 ≤ Z ≤ 7` satisfaisant l'invariant géométrique
+`isValidCoreAffect` appartient effectivement au répertoire `all176Entries` (aucune coordonnée
+géométriquement admissible n'a été omise).
+-/
+theorem all176Entries_spatial_completeness (p : CoreAffectPoint)
+    (hz : p.z ≤ 7) (hv : isValidCoreAffect p) :
+    p ∈ all176Entries.map (·.point) :=
+  stratumValidGrid_sub_all176 p.z hz p (mem_stratumValidGrid p hv)
 
 end Cartograffect.Lexicon176

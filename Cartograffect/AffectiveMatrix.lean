@@ -44,33 +44,89 @@ inductive LivedControlPole : Type where
   | pragmaticDischarge : LivedControlPole
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 1, Résumé, §6 & §6.3 (Dynamique de la tension allostatique et Valence)
-/--
-Valence phénoménologique issue de l'interprétation conjointe des deux pôles et de la variation
-de la tension allostatique :
-- `homeostaticNeutral`     : maintien basal ou suspension opératoire au centre (X = 0 et Y = 0).
-- `pleasantDissipation`    : dissipation nette de la tension allostatique (décharge sans charge adverse).
-- `unpleasantAccumulation` : accumulation nette de la tension allostatique (charge sans décharge compensatoire).
-- `mixedCompensation`      : régime de compensation combinant une charge sur un axe et une décharge sur l'autre.
--/
-inductive PhenomenologicalValence : Type where
-  | homeostaticNeutral     : PhenomenologicalValence
-  | pleasantDissipation    : PhenomenologicalValence
-  | unpleasantAccumulation : PhenomenologicalValence
-  | mixedCompensation      : PhenomenologicalValence
+-- Source : Document 1, Résumé, §6, §6.2 & §6.3 ; Document 2, §2 (Découplage Régime Énergétique et Polarité Hédonique)
+/-- Régime énergétique et cinétique du couplage entre Attente (X) et Contrôle (Y). -/
+inductive EnergyRegime where
+  | neutralBasal           -- X = 0 ∧ Y = 0 (Point de Veille / Opérateurs centraux)
+  | axialPure              -- (X = 0 ∧ Y ≠ 0) ∨ (X ≠ 0 ∧ Y = 0)
+  | positiveSynergy        -- X > 0 ∧ Y > 0 (Congruence de décharge : Désir, Attrait, Estime...)
+  | negativeSynergy        -- X < 0 ∧ Y < 0 (Congruence de charge : Dégoût, Retrait, Rejet...)
+  | ergotropicCompensation -- X < 0 ∧ Y > 0 (Modèle en échec, mobilisation d'urgence : Colère, Haine, Terreur...)
+  | trophotropicRelease    -- X > 0 ∧ Y < 0 (Modèle révisé, relâchement moteur : Calme, Sérénité, Béatitude...)
   deriving DecidableEq, Repr, Inhabited
+
+/-- Calcul du régime énergétique à partir des coordonnées (X, Y). -/
+def computeEnergyRegime (x y : Int) : EnergyRegime :=
+  if x == 0 && y == 0 then .neutralBasal
+  else if x == 0 || y == 0 then .axialPure
+  else if x > 0 && y > 0 then .positiveSynergy
+  else if x < 0 && y < 0 then .negativeSynergy
+  else if x < 0 && y > 0 then .ergotropicCompensation
+  else .trophotropicRelease
+
+/-- Polarité hédonique phénoménologique (Valence vécue). -/
+inductive HedonicPolarity where
+  | positive -- Ressenti agréable (intégration épistémique X > 0, ou élan axial X = 0, Y > 0)
+  | negative -- Ressenti aversif (échec épistémique X < 0, ou abattement axial X = 0, Y < 0)
+  | neutral  -- Suspens pré-valencé (X = 0, Y = 0 : Veille, Surprise, Anticipation, Émoi, Réserve, Recul, Saisissement, Suspension)
+  deriving DecidableEq, Repr, Inhabited
+
+/-- Inversion de la polarité hédonique. -/
+def HedonicPolarity.invert : HedonicPolarity → HedonicPolarity
+  | .positive => .negative
+  | .negative => .positive
+  | .neutral  => .neutral
+
+/-- Loi de primauté hédonique lexicographique de l'Axe X :
+    Le signe de X gouverne la valence au premier rang ; Y n'intervient que si X = 0. -/
+def computeHedonicPolarity (x y : Int) : HedonicPolarity :=
+  if x > 0 then .positive
+  else if x < 0 then .negative
+  else if y > 0 then .positive
+  else if y < 0 then .negative
+  else .neutral
+
+/-- Rétrocompatibilité : alias de `computeValence` vers `computeHedonicPolarity`
+    (ou conserver l'ancien nom pour ne casser aucun appel existant). -/
+abbrev computeValence (x y : Int) : HedonicPolarity :=
+  computeHedonicPolarity x y
+
+-- ============================================================================
+-- THÉORÈMES CONSTRUCTIFS ASSOCIÉS À LA POLARITÉ HÉDONIQUE
+-- ============================================================================
+
+/-- L'inversion de la polarité hédonique est strictement involutive. -/
+theorem HedonicPolarity.invert_involutive (p : HedonicPolarity) :
+    p.invert.invert = p := by
+  cases p <;> rfl
+
+/-- Théorème de primauté hédonique de l'Axe X :
+    Dès que X > 0, la valence est positive quel que soit le signe ou l'amplitude de Y. -/
+theorem x_positive_determines_positive_valence (x y : Int) (hx : x > 0) :
+    computeHedonicPolarity x y = .positive := by
+  unfold computeHedonicPolarity
+  simp [hx]
+
+/-- Dès que X < 0, la valence est négative quel que soit le signe ou l'amplitude de Y. -/
+theorem x_negative_determines_negative_valence (x y : Int) (hx : x < 0) :
+    computeHedonicPolarity x y = .negative := by
+  unfold computeHedonicPolarity
+  have hnot : ¬(x > 0) := Int.not_lt.mpr (Int.le_of_lt hx)
+  simp [hnot, hx]
 
 -- Source : Document 1, Résumé & §6 (Activation et sélection d'une politique d'action)
 /--
 Niveau d'activation qualifiant l'amplitude de mobilisation de la trajectoire :
 - `basalWakefulness`   : maintien homéostatique de fond au Point de Veille (0, 0, 0).
-- `operatorSuspension` : suspension de la décharge immédiate au centre opérateur (0, 0, Z ≥ 1).
+- `ascendingRupture`   : rupture de veille et saillance perceptive à la Surprise (0, 0, 1).
+- `operatorSuspension` : suspension descendante de la décharge immédiate au centre opérateur (0, 0, Z ≥ 2).
 - `lowInhibition`      : repli, réduction ou suspension de l'effort moteur (Y < 0).
 - `epistemicVigilance` : mobilisation purement épistémique à Contrôle neutre (Y = 0 et X ≠ 0).
 - `highMobilization`   : mobilisation énergétique et motrice active (Y > 0).
 -/
 inductive PhenomenologicalActivation : Type where
   | basalWakefulness   : PhenomenologicalActivation
+  | ascendingRupture   : PhenomenologicalActivation
   | operatorSuspension : PhenomenologicalActivation
   | lowInhibition      : PhenomenologicalActivation
   | epistemicVigilance : PhenomenologicalActivation
@@ -91,26 +147,13 @@ def transduceControl (y : Int) : LivedControlPole :=
   else if y > 0 then .pragmaticDischarge
   else .pragmaticNeutral
 
--- Source : Document 1, §6 (Interprétation conjointe des deux pôles pour la valence)
-/--
-Calcul de la valence vécue à partir de la configuration conjointe (X, Y) :
-La valence n'émerge qu'au niveau de la Matrice par la lecture conjointe des deux dimensions.
--/
-def computeValence (p : CoreAffectPoint) : PhenomenologicalValence :=
-  if p.x = 0 ∧ p.y = 0 then
-    .homeostaticNeutral
-  else if p.x ≥ 0 ∧ p.y ≥ 0 then
-    .pleasantDissipation
-  else if p.x ≤ 0 ∧ p.y ≤ 0 then
-    .unpleasantAccumulation
-  else
-    .mixedCompensation
-
 -- Source : Document 1, §6 (Activation et orientation de la politique d'action)
 /-- Calcul du profil d'activation phénoménologique à partir de la position dans le Noyau. -/
 def computeActivation (p : CoreAffectPoint) : PhenomenologicalActivation :=
   if p.x = 0 ∧ p.y = 0 then
-    if p.z = 0 then .basalWakefulness else .operatorSuspension
+    if p.z = 0 then .basalWakefulness
+    else if p.z = 1 then .ascendingRupture
+    else .operatorSuspension
   else if p.y > 0 then
     .highMobilization
   else if p.y < 0 then
@@ -350,6 +393,98 @@ theorem canonical_antagonist_examples :
     antagonistPoint ⟨3, -9, 7⟩ = ⟨-9, 3, 7⟩ := by
   decide
 
+/--
+Théorème 7 (Équivariance Moteur ↔ Matrice, Doc. 1, §4, §6.2 & §7.1) :
+Pour tout couplage `c` du Moteur prédictif et toute profondeur `d`, l'antagoniste géométrique
+du point projeté dans la Matrice coïncide exactement avec le déploiement du couplage aux
+polarités inversées `⟨c.attente.invert, c.controle.invert⟩`.
+-/
+theorem antagonist_commutes_with_invert (c : EngineCoupling) (d : Nat) :
+    antagonistPoint (deployCouplingAtDepth c d) =
+      deployCouplingAtDepth ⟨c.attente.invert, c.controle.invert⟩ d := by
+  cases c with
+  | mk a ctrl =>
+    cases a <;> cases ctrl <;> (
+      unfold deployCouplingAtDepth Polarity.invert signedAmplitude antagonistPoint
+      dsimp
+      try simp only [Int.natAbs_neg, or_true, ↓reduceIte, Int.neg_neg]
+    )
+
+private theorem neg_sign_mul_of_pos {x : Int} (h : x > 0) (n : Int) : -x.sign * n = -n := by
+  have hs : -x.sign = -1 := by
+    cases x with
+    | ofNat m =>
+      cases m with
+      | zero => contradiction
+      | succ _ => rfl
+    | negSucc _ => contradiction
+  rw [hs]
+  omega
+
+private theorem neg_sign_mul_of_neg {x : Int} (h : x < 0) (n : Int) : -x.sign * n = n := by
+  have hs : -x.sign = 1 := by
+    cases x with
+    | ofNat m => cases m <;> contradiction
+    | negSucc _ => rfl
+  rw [hs]
+  omega
+
+private theorem natAbs_cast_of_pos {y : Int} (h : y > 0) : (y.natAbs : Int) = y := by omega
+
+private theorem natAbs_cast_of_neg {y : Int} (h : y < 0) : (y.natAbs : Int) = -y := by omega
+
+/--
+Théorème 8 (Forme algébrique unifiée de l'antagonisme hors des axes, Doc. 1, §7.1 & Doc. 2, §4.3) :
+Pour toute position hors des axes principaux (`x ≠ 0` et `y ≠ 0`, couvrant l'ensemble des
+positions diagonales et latérales), `antagonistPoint p` coïncide avec la loi algébrique unique
+`(-sgn(X)|Y|, -sgn(Y)|X|, Z)` qui inverse le signe de chaque coordonnée tout en permutant
+leurs valeurs absolues.
+-/
+theorem antagonistPoint_unified (p : CoreAffectPoint) (hx : p.x ≠ 0) (hy : p.y ≠ 0) :
+    antagonistPoint p =
+      ⟨-p.x.sign * (p.y.natAbs : Int), -p.y.sign * (p.x.natAbs : Int), p.z⟩ := by
+  obtain ⟨x, y, z⟩ := p
+  dsimp at hx hy ⊢
+  rcases (by omega : x < 0 ∨ x > 0) with hx_neg | hx_pos <;>
+  rcases (by omega : y < 0 ∨ y > 0) with hy_neg | hy_pos
+  · rw [neg_sign_mul_of_neg hx_neg, neg_sign_mul_of_neg hy_neg,
+        natAbs_cast_of_neg hy_neg, natAbs_cast_of_neg hx_neg]
+    unfold antagonistPoint; dsimp; split <;> try split
+    all_goals (simp only [CoreAffectPoint.mk.injEq, Int.natAbs_eq_natAbs_iff, and_true] at *; try omega)
+  · rw [neg_sign_mul_of_neg hx_neg, neg_sign_mul_of_pos hy_pos,
+        natAbs_cast_of_pos hy_pos, natAbs_cast_of_neg hx_neg]
+    unfold antagonistPoint; dsimp; split <;> try split
+    all_goals (simp only [CoreAffectPoint.mk.injEq, Int.natAbs_eq_natAbs_iff, and_true, true_and] at *; try omega)
+  · rw [neg_sign_mul_of_pos hx_pos, neg_sign_mul_of_neg hy_neg,
+        natAbs_cast_of_neg hy_neg, natAbs_cast_of_pos hx_pos]
+    unfold antagonistPoint; dsimp; split <;> try split
+    all_goals (simp only [CoreAffectPoint.mk.injEq, Int.natAbs_eq_natAbs_iff, and_true] at *; try omega)
+  · rw [neg_sign_mul_of_pos hx_pos, neg_sign_mul_of_pos hy_pos,
+        natAbs_cast_of_pos hy_pos, natAbs_cast_of_pos hx_pos]
+    unfold antagonistPoint; dsimp; split <;> try split
+    all_goals (simp only [CoreAffectPoint.mk.injEq, Int.natAbs_eq_natAbs_iff, and_true] at *; try omega)
+
+/--
+Théorème 9 (Invariance de l'antagonisme sous les deux régimes de ressources, Doc. 1, §5.2 & §7.1) :
+L'opérateur d'antagonisme préserve la validité topologique `isValidCoreAffectIn r` aussi bien
+en régime concurrentiel (`ResourceRegime.competitive`) qu'en régime coopératif
+(`ResourceRegime.cooperative`).
+-/
+theorem antagonist_preserves_validity_in (r : ResourceRegime) (p : CoreAffectPoint)
+    (h : isValidCoreAffectIn r p) : isValidCoreAffectIn r (antagonistPoint p) := by
+  cases r with
+  | competitive =>
+    exact antagonistPoint_preserves_validity p h
+  | cooperative =>
+    rcases h with h_cent | ⟨hz, hsum⟩
+    · left
+      have h_fix := (antagonistPoint_fixed_iff_central p).mpr h_cent
+      rw [h_fix]
+      exact h_cent
+    · right
+      rw [antagonistPoint_preserves_z, antagonistPoint_preserves_displacementSum]
+      exact ⟨hz, hsum⟩
+
 /-!
 ## 5. Règle de transition intra-couronne et Structure `AffectiveMatrixState`
 -/
@@ -366,8 +501,8 @@ def transferUnitXtoY (p : CoreAffectPoint) : CoreAffectPoint :=
     p
 
 /--
-Lemme 7 (Invariance de couronne par transfert unitaire, Doc. 1, §6.3) :
-Le transfert d'une unité de résolution à l'intérieur d'un quadrant conserve la somme
+Lemme 7 (Invariance de couronne par transfert unitaire X → Y, Doc. 1, §6.3) :
+Le transfert d'une unité de résolution de l'Attente vers le Contrôle conserve la somme
 des déplacements `|X| + |Y|` et maintient la trajectoire sur la même couronne.
 -/
 theorem transferUnitXtoY_preserves_sum (p : CoreAffectPoint) :
@@ -377,17 +512,40 @@ theorem transferUnitXtoY_preserves_sum (p : CoreAffectPoint) :
   · dsimp; omega
   · rfl
 
+/--
+Transition élémentaire réciproque à strate constante dans le premier quadrant (`x ≥ 0`, `y > 0`)
+transférant une unité de résolution du Contrôle (Y) vers l'Attente (X).
+-/
+def transferUnitYtoX (p : CoreAffectPoint) : CoreAffectPoint :=
+  if p.x ≥ 0 ∧ p.y > 0 then
+    ⟨p.x + 1, p.y - 1, p.z⟩
+  else
+    p
+
+/--
+Lemme 8 (Invariance de couronne par transfert unitaire Y → X, Doc. 1, §6.3) :
+Le transfert d'une unité de résolution du Contrôle vers l'Attente conserve la somme
+des déplacements `|X| + |Y|` et maintient la trajectoire sur la même couronne.
+-/
+theorem transferUnitYtoX_preserves_sum (p : CoreAffectPoint) :
+    (transferUnitYtoX p).displacementSum = p.displacementSum := by
+  unfold transferUnitYtoX CoreAffectPoint.displacementSum
+  split
+  · dsimp; omega
+  · rfl
+
 -- Source : Document 1, §6 (La Matrice affective)
 /--
 État complet de la Matrice affective (`AffectiveMatrixState`), couplant un état certifié
 du Noyau affectif (`CoreAffectState`) à sa transduction phénoménologique (pôles vécus,
-valence, activation) et à son antagoniste régulateur certifié.
+régime énergétique, polarité hédonique / valence, activation) et à son antagoniste régulateur certifié.
 -/
 structure AffectiveMatrixState where
   core            : CoreAffectState
   expectationPole : LivedExpectationPole
   controlPole     : LivedControlPole
-  valence         : PhenomenologicalValence
+  energyRegime    : EnergyRegime
+  valence         : HedonicPolarity
   activation      : PhenomenologicalActivation
   antagonist      : CoreAffectState
 
@@ -401,7 +559,8 @@ def evaluateMatrix (cs : CoreAffectState) : AffectiveMatrixState :=
   { core            := cs
     expectationPole := transduceExpectation p.x
     controlPole     := transduceControl p.y
-    valence         := computeValence p
+    energyRegime    := computeEnergyRegime p.x p.y
+    valence         := computeHedonicPolarity p.x p.y
     activation      := computeActivation p
     antagonist      := {
       point   := antagonistPoint p

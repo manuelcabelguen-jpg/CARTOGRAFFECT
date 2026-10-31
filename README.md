@@ -33,7 +33,7 @@ L'intégralité du système formel CARTOGRAFFECT est compilée, vérifiée et au
 
 - **Prover :** Lean 4 (`v4.35.0`, commit `eb6cafb7290e8bd5f2937522d8d804f58f02bafc`, Release `x86_64-linux`)
 - **Build system :** Lake `5.0.0-src+eb6cafb`
-- **Commit d'introduction initiale du noyau formel :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) *(commit de référence du code Lean vérifié ; les commits ultérieurs sont documentaires et ne touchent, dans les fichiers `.lean`, qu'aux en-têtes de licence en commentaire, sans altérer aucune définition ni preuve)*
+- **Commit d'introduction initiale du noyau formel :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) *(commit de référence initial du noyau des 17 théorèmes et du lexique des 176 entrées, enrichi des lemmes de complétude structurelle documentés dans [`AUDIT_REPORT.md`](AUDIT_REPORT.md))*
 - **Compilation `lake build` :** **9 tâches compilées** avec succès (0 erreur, 0 avertissement).
 - **Audit statique et axiomatique :** `git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 axiome ad hoc**.
 - **Dépendances externes :** **0** (aucune dépendance vis-à-vis de Mathlib ou Batteries ; uniquement le noyau formel de Lean 4 et sa bibliothèque standard `Init`).
@@ -101,11 +101,11 @@ Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul dir
 1. **Origine $(0, 0, 0) \rightarrow$ `z0_pointDeVeille` / `operateurCentral` ([lignes 47–49](Cartograffect/AuditTests.lean#L47-L49)) :**  
    Évaluation de l'état basal par défaut : sous le seuil sensoriel (`magnitude = 0 < sensoryThreshold = 1`), le système converge vers le Point de Veille canonique, confirmant la stabilité homéostatique de l'origine (`stratum = z0_pointDeVeille`, `group = operateurCentral`).
 
-2. **Suspension $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `operatorSuspension` ([lignes 59–61](Cartograffect/AuditTests.lean#L59-L61)) :**  
-   Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = operatorSuspension`).
+2. **Rupture de veille $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `ascendingRupture` ([lignes 59–61](Cartograffect/AuditTests.lean#L59-L61)) :**  
+   Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = ascendingRupture`).
 
-3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`mixedCompensation`) ([lignes 71–75](Cartograffect/AuditTests.lean#L71-L75)) :**  
-   Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, et attribution de la valence de compensation mixte (`mixedCompensation`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
+3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`ergotropicCompensation` / `negative`) ([lignes 87–92](Cartograffect/AuditTests.lean#L87-L92)) :**  
+   Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, régime énergétique de compensation ergotrope (`ergotropicCompensation`) et polarité hédonique négative (`negative`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
 
 ---
 
