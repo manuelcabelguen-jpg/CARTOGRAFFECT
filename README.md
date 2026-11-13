@@ -56,55 +56,55 @@ Le pipeline CI orchestre la compilation stricte de 9 cibles (`lake build`, `warn
 
 ### Tableau d'audit des 17 théorèmes certifiés (`Cartograffect/AuditTests.lean`)
 
-L'audit automatique exécuté via `#print axioms` dans [`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) contrôle l'arbre déductif complet de chaque théorème. Il atteste formellement que le système repose exclusivement sur la réduction computationnelle pure ou sur le socle logique standard du noyau de Lean 4, sans aucun axiome personnalisé ou ad hoc :
+L'audit automatique exécuté via `#print axioms` dans [`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) contrôle l'arbre déductif complet de chaque théorème. Il atteste formellement que le système repose exclusivement sur la réduction computationnelle pure ou sur le socle logique standard du noyau de Lean 4, sans aucun axiome personnalisé ou ad hoc. *(Pour la lisibilité des tableaux ci-dessous, le préfixe racine `Cartograffect.` est omis devant les identifiants, dont les chemins complets sont de la forme `Cartograffect.<Module>.<théorème>`, par exemple `Cartograffect.AffectiveTaxonomy.end_to_end_coherence`.)*
 
 #### A. Théorèmes purement constructifs (8 théorèmes — Dépendance axiomatique : `Aucune / [none]`)
 
 Ces théorèmes sont établis par pure réduction computationnelle (`rfl`, `decide`, disjonction de cas exhaustive). Le noyau de Lean valide leur preuve sans faire appel à la moindre hypothèse logique externe :
 
-| # | Théorème certifié | Source & Ligne | Dépendances axiomatiques (`#print axioms`) | Classification logique |
+| # | Théorème certifié | Module & Source | Dépendances axiomatiques (`#print axioms`) | Classification logique |
 |---|---|---|---|---|
-| 1 | `Cartograffect.PredictiveEngine.Polarity.invert_involutive` | [`AuditTests.lean:24`](Cartograffect/AuditTests.lean#L24) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 2 | `Cartograffect.PredictiveEngine.coupling_regime_partition` | [`AuditTests.lean:25`](Cartograffect/AuditTests.lean#L25) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 3 | `Cartograffect.CoreAffect.z2_budget_conservation` | [`AuditTests.lean:27`](Cartograffect/AuditTests.lean#L27) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 4 | `Cartograffect.AffectiveMatrix.contralateral_swaps_amplitudes` | [`AuditTests.lean:32`](Cartograffect/AuditTests.lean#L32) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 5 | `Cartograffect.AffectiveTaxonomy.inventory_176_certified` | [`AuditTests.lean:33`](Cartograffect/AuditTests.lean#L33) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 6 | `Cartograffect.Lexicon176.all176Entries_length` | [`AuditTests.lean:37`](Cartograffect/AuditTests.lean#L37) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 7 | `Cartograffect.Lexicon176.all176Entries_unique_points` | [`AuditTests.lean:39`](Cartograffect/AuditTests.lean#L39) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 8 | `Cartograffect.Lexicon176.all176Entries_closed_under_antagonist` | [`AuditTests.lean:40`](Cartograffect/AuditTests.lean#L40) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 1 | `Polarity.invert_involutive` | `PredictiveEngine` · [`L24`](Cartograffect/AuditTests.lean#L24) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 2 | `coupling_regime_partition` | `PredictiveEngine` · [`L25`](Cartograffect/AuditTests.lean#L25) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 3 | `z2_budget_conservation` | `CoreAffect` · [`L29`](Cartograffect/AuditTests.lean#L29) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 4 | `contralateral_swaps_amplitudes` | `AffectiveMatrix` · [`L41`](Cartograffect/AuditTests.lean#L41) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 5 | `inventory_176_certified` | `AffectiveTaxonomy` · [`L46`](Cartograffect/AuditTests.lean#L46) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 6 | `all176Entries_length` | `Lexicon176` · [`L56`](Cartograffect/AuditTests.lean#L56) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 7 | `all176Entries_unique_points` | `Lexicon176` · [`L58`](Cartograffect/AuditTests.lean#L58) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 8 | `all176Entries_closed_under_antagonist` | `Lexicon176` · [`L59`](Cartograffect/AuditTests.lean#L59) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
 
 #### B. Théorèmes structurels reposant uniquement sur les axiomes standards de Lean (`propext`, `Quot.sound`, `Classical.choice` — 9 théorèmes)
 
 Ces théorèmes s'appuient uniquement sur le socle axiomatique classique standard du calcul des constructions inductives (CIC) de Lean 4 (`propext` pour l'extensionnalité propositionnelle, `Quot.sound` pour l'exactitude des types quotients, et `Classical.choice` mobilisé par les lemmes de décision de la bibliothèque `Init`) :
 
-| # | Théorème certifié | Source & Ligne | Dépendances axiomatiques (`#print axioms`) | Classification logique |
+| # | Théorème certifié | Module & Source | Dépendances axiomatiques (`#print axioms`) | Classification logique |
 |---|---|---|---|---|
-| 9 | `Cartograffect.CoreAffect.engine_induces_valid_core_affect` | [`AuditTests.lean:26`](Cartograffect/AuditTests.lean#L26) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
-| 10 | `Cartograffect.AffectiveTaxonomy.taxonomy_group_exclusive` | [`AuditTests.lean:35`](Cartograffect/AuditTests.lean#L35) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
-| 11 | `Cartograffect.CoreAffect.axial_to_diagonal_reallocation` | [`AuditTests.lean:28`](Cartograffect/AuditTests.lean#L28) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 12 | `Cartograffect.CoreAffect.dissipationStep_valid` | [`AuditTests.lean:29`](Cartograffect/AuditTests.lean#L29) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 13 | `Cartograffect.AffectiveMatrix.antagonistPoint_preserves_validity` | [`AuditTests.lean:30`](Cartograffect/AuditTests.lean#L30) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 14 | `Cartograffect.AffectiveMatrix.antagonistPoint_involutive` | [`AuditTests.lean:31`](Cartograffect/AuditTests.lean#L31) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 15 | `Cartograffect.AffectiveTaxonomy.taxonomy_group_exhaustive` | [`AuditTests.lean:34`](Cartograffect/AuditTests.lean#L34) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 16 | `Cartograffect.AffectiveTaxonomy.end_to_end_coherence` | [`AuditTests.lean:36`](Cartograffect/AuditTests.lean#L36) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** *(Théorème Maître)* |
-| 17 | `Cartograffect.Lexicon176.all176Entries_geometrically_valid` | [`AuditTests.lean:38`](Cartograffect/AuditTests.lean#L38) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 9 | `engine_induces_valid_core_affect` | `CoreAffect` · [`L28`](Cartograffect/AuditTests.lean#L28) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
+| 10 | `taxonomy_group_exclusive` | `AffectiveTaxonomy` · [`L48`](Cartograffect/AuditTests.lean#L48) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
+| 11 | `axial_to_diagonal_reallocation` | `CoreAffect` · [`L30`](Cartograffect/AuditTests.lean#L30) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 12 | `dissipationStep_valid` | `CoreAffect` · [`L31`](Cartograffect/AuditTests.lean#L31) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 13 | `antagonistPoint_preserves_validity` | `AffectiveMatrix` · [`L39`](Cartograffect/AuditTests.lean#L39) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 14 | `antagonistPoint_involutive` | `AffectiveMatrix` · [`L40`](Cartograffect/AuditTests.lean#L40) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 15 | `taxonomy_group_exhaustive` | `AffectiveTaxonomy` · [`L47`](Cartograffect/AuditTests.lean#L47) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 16 | `end_to_end_coherence` | `AffectiveTaxonomy` · [`L55`](Cartograffect/AuditTests.lean#L55) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** *(Théorème Maître)* |
+| 17 | `all176Entries_geometrically_valid` | `Lexicon176` · [`L57`](Cartograffect/AuditTests.lean#L57) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
 
 > **Note sur le socle logique :**  
 > `propext` (extensionnalité des propositions), `Classical.choice` (principe du choix classique) et `Quot.sound` (exactitude des types quotients) constituent les fondements standard universellement admis du noyau de Lean 4 (identiques au socle de Mathlib). Le modèle CARTOGRAFFECT n'admet aucun axiome supplémentaire ni aucune dépendance externe.
 
 ---
 
-### Vérifications phénoménologiques exécutables (`#eval` dans `AuditTests.lean`, lignes 47–75)
+### Vérifications phénoménologiques exécutables (`#eval` dans `AuditTests.lean`, lignes 79–110)
 
 Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul direct (`#eval`) le pipeline déterministe `runCartograffectPipeline` sur trois témoins phénoménologiques canoniques :
 
-1. **Origine $(0, 0, 0) \rightarrow$ `z0_pointDeVeille` / `operateurCentral` ([lignes 47–49](Cartograffect/AuditTests.lean#L47-L49)) :**  
+1. **Origine $(0, 0, 0) \rightarrow$ `z0_pointDeVeille` / `operateurCentral` ([lignes 79–81](Cartograffect/AuditTests.lean#L79-L81)) :**  
    Évaluation de l'état basal par défaut : sous le seuil sensoriel (`magnitude = 0 < sensoryThreshold = 1`), le système converge vers le Point de Veille canonique, confirmant la stabilité homéostatique de l'origine (`stratum = z0_pointDeVeille`, `group = operateurCentral`).
 
-2. **Rupture de veille $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `ascendingRupture` ([lignes 59–61](Cartograffect/AuditTests.lean#L59-L61)) :**  
+2. **Rupture de veille $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `ascendingRupture` ([lignes 91–93](Cartograffect/AuditTests.lean#L91-L93)) :**  
    Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = ascendingRupture`).
 
-3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`ergotropicCompensation` / `negative`) ([lignes 87–92](Cartograffect/AuditTests.lean#L87-L92)) :**  
+3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`ergotropicCompensation` / `negative`) ([lignes 103–110](Cartograffect/AuditTests.lean#L103-L110)) :**  
    Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, régime énergétique de compensation ergotrope (`ergotropicCompensation`) et polarité hédonique négative (`negative`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
 
 ---
@@ -173,31 +173,31 @@ Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article th�
 ```bibtex
 @unpublished{cabelguen2026cartographie,
   author = {Cabelguen, Manuel},
-  title  = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
-  year   = {2026},
-  note   = {Manuscrit théorique de référence (docs/01-Article_Cartograffect.md), enregistrement OPIC n° 1233199}
+  title = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
+  year = {2026},
+  note = {Manuscrit théorique de référence (docs/01-Article_Cartograffect.md), enregistrement OPIC n° 1233199}
 }
 
 @software{cabelguen2026cartograffect,
-  author    = {Cabelguen, Manuel},
-  title     = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
-  year      = {2026},
+  author = {Cabelguen, Manuel},
+  title = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
+  year = {2026},
   publisher = {Zenodo},
-  version   = {1.0.1},
-  doi       = {10.5281/zenodo.23833938},
-  url       = {https://doi.org/10.5281/zenodo.23833938},
-  note      = {Version v1.0.1, formal verification in Lean 4.35.0 (https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT)}
+  version = {1.0.1},
+  doi = {10.5281/zenodo.23833938},
+  url = {https://doi.org/10.5281/zenodo.23833938},
+  note = {Version v1.0.1, formal verification in Lean 4.35.0 (https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT)}
 }
 
 @inproceedings{demoura2021lean4,
-  author    = {de Moura, Leonardo and Ullrich, Sebastian},
-  title     = {The {Lean} 4 Theorem Prover and Programming Language},
+  author = {de Moura, Leonardo and Ullrich, Sebastian},
+  title = {The {Lean} 4 Theorem Prover and Programming Language},
   booktitle = {Automated Deduction -- CADE 28},
-  series    = {Lecture Notes in Computer Science},
-  volume    = {12699},
-  pages     = {625--635},
+  series = {Lecture Notes in Computer Science},
+  volume = {12699},
+  pages = {625--635},
   publisher = {Springer},
-  year      = {2021},
-  doi       = {10.1007/978-3-030-79876-5_37}
+  year = {2021},
+  doi = {10.1007/978-3-030-79876-5_37}
 }
 ```
