@@ -7,6 +7,7 @@ Author: Manuel Cabelguen
 import Cartograffect.PredictiveEngine
 import Cartograffect.CoreAffect
 import Cartograffect.AffectiveMatrix
+import Cartograffect.AffectiveDynamics
 import Cartograffect.AffectiveTaxonomy
 import Cartograffect.Lexicon176
 
@@ -15,6 +16,7 @@ namespace Cartograffect.Audit
 open PredictiveEngine
 open CoreAffect
 open AffectiveMatrix
+open AffectiveDynamics
 open AffectiveTaxonomy
 open Lexicon176
 
@@ -58,6 +60,40 @@ open Lexicon176
 #print axioms Cartograffect.Lexicon176.all176Entries_unique_points
 #print axioms Cartograffect.Lexicon176.all176Entries_closed_under_antagonist
 #print axioms Cartograffect.Lexicon176.all176Entries_spatial_completeness
+#print axioms feedbackUpdateWeighted_couples_precision
+#print axioms engineStep_remanence
+#print axioms engineStep_phase_progression
+#print axioms deployCouplingWithPrecision_valid
+#print axioms neutral_coupling_without_suspension_yields_veille
+#print axioms neutral_or_subthreshold_with_suspension_yields_central
+#print axioms descending_suspension_yields_central_operator
+#print axioms central_z_ge2_requires_descending_suspension
+#print axioms deployCouplingWithPrecision_budget_conservation
+#print axioms dual_engaged_yields_diagonal_z2_precision
+#print axioms symmetric_precision_never_lateral
+#print axioms projectToCoreAffect_surjective
+#print axioms engineStep_canonical_trajectory
+#print axioms engineStep_surprise_to_crown
+#print axioms anticipation_short_circuits_to_veille
+#print axioms dissipation_from_ge2_never_visits_surprise
+#print axioms dissipationPotential_short_circuit_jump
+#print axioms dissipation_reaches_veille
+#print axioms antagonist_commutes_with_invert_precision
+#print axioms evaluateMatrix_core_antagonist_independent
+#print axioms mapping_independent_antagonist_invariants
+#print axioms canonicalDepthKernel_reaches_crown
+#print axioms canonicalDepthKernel_reaches_lateral
+#print axioms lateral_reachable
+#print axioms lateral_reachable_from_surprise
+#print axioms canonicalDepthKernel_colere_bifurcates
+#print axioms canonicalDepthKernel_axial_instability_p2
+#print axioms canonicalDepthKernel_outgoingWeight_pos
+#print axioms classifyTaxonomicGroup_unique_maximizer
+#print axioms classifyTaxonomicGroup_maximizes_membership
+#print axioms lateral_has_overlapping_attractors
+#print axioms Cartograffect.Lexicon176.all176Entries_deterministically_reachable
+#print axioms Cartograffect.Lexicon176.all176Entries_reachable_by_engine
+#print axioms Cartograffect.Lexicon176.all176Entries_witness_check
 
 /-- Théorème 18 (Constructif) : Sur l'intégralité des 176 positions du lexique affectif,
     l'opérateur d'antagonisme (axial, diagonal ou controlatéral) inverse exactement
@@ -108,5 +144,89 @@ def sampleColereEngine : PredictiveEngineState := {
 #eval (runCartograffectPipeline sampleColereEngine).antagonistSubsector
 #eval (runCartograffectPipeline sampleColereEngine).matrix.energyRegime
 #eval (runCartograffectPipeline sampleColereEngine).matrix.valence
+
+/-- 4. Résolution R5 : Neutralité globale `(A0, C0)` et état infra-liminaire sous `descendingSuspension = true` projetés en Anticipation `(0, 0, 2)`, et trajectoire `engineStep` -/
+def sampleNeutralSuspendedEngine : PredictiveEngineState := {
+  discrepancy := { magnitude := 5, sensoryThreshold := 2, resorptionThreshold := 1, h_hysteresis := by decide }
+  perceptive  := { controleGradient := .zero }
+  subjective  := { attenteGradient := .zero, descendingSuspension := true }
+  attentional := { allocatedPrecision := 5, engagementThreshold := 3, persistenceDepth := 0, precisionA := 1, precisionC := 1 }
+}
+
+def sampleSubthresholdSuspendedEngine : PredictiveEngineState := {
+  discrepancy := { magnitude := 0, sensoryThreshold := 2, resorptionThreshold := 1, h_hysteresis := by decide }
+  perceptive  := { controleGradient := .pos }
+  subjective  := { attenteGradient := .neg, descendingSuspension := true }
+  attentional := { allocatedPrecision := 5, engagementThreshold := 3, persistenceDepth := 0, precisionA := 1, precisionC := 1 }
+}
+
+def sampleVeilleStepStart : PredictiveEngineState := {
+  discrepancy := { magnitude := 5, sensoryThreshold := 2, resorptionThreshold := 1, h_hysteresis := by decide }
+  perceptive  := { controleGradient := .zero }
+  subjective  := { attenteGradient := .zero, descendingSuspension := false }
+  attentional := { allocatedPrecision := 0, engagementThreshold := 2, persistenceDepth := 0, precisionA := 1, precisionC := 1 }
+}
+
+#eval (runCartograffectPipeline sampleNeutralSuspendedEngine).matrix.core.point
+#eval (runCartograffectPipeline sampleSubthresholdSuspendedEngine).matrix.core.point
+#eval (projectToCoreAffect sampleVeilleStepStart,
+       projectToCoreAffect (engineStep sampleVeilleStepStart),
+       projectToCoreAffect (engineStep (engineStep sampleVeilleStepStart)),
+       projectToCoreAffect (engineStep (engineStep (engineStep sampleVeilleStepStart))))
+
+-- 5. Résolution R5 : Court-circuit direct de la dissipation allostatique `(0, 0, 2) → (0, 0, 0)` et descente depuis `(-1, 3, 3)`
+#eval dissipationStep ⟨0, 0, 2⟩
+#eval dissipationPotential ⟨0, 0, 2⟩ - dissipationPotential (dissipationStep ⟨0, 0, 2⟩)
+#eval (dissipationStep ⟨-1, 1, 2⟩, dissipationStep (dissipationStep ⟨-1, 1, 2⟩))
+#eval (dissipationStep ⟨-1, 3, 3⟩, dissipationStep (dissipationStep ⟨-1, 3, 3⟩), Nat.repeat dissipationStep 3 ⟨-1, 3, 3⟩)
+
+/-- 6. Résolution R8 (Voie déterministe) : Atteinte de la position latérale Consternation `(-1, 3, 3)` via `(π_A, π_C) = (1, 3)` en `Z = 3` -/
+def sampleConsternationEngine : PredictiveEngineState := {
+  discrepancy := { magnitude := 6, sensoryThreshold := 2, resorptionThreshold := 1, h_hysteresis := by decide }
+  perceptive  := { controleGradient := .pos }
+  subjective  := { attenteGradient := .neg, descendingSuspension := true }
+  attentional := { allocatedPrecision := 5, engagementThreshold := 3, persistenceDepth := 1, precisionA := 1, precisionC := 3 }
+}
+
+#eval (runCartograffectPipeline sampleConsternationEngine).matrix.core.point
+#eval (runCartograffectPipeline sampleConsternationEngine).geometry
+#eval (runCartograffectPipeline sampleConsternationEngine).group
+#eval (runCartograffectPipeline sampleConsternationEngine).subsector
+#eval (runCartograffectPipeline sampleConsternationEngine).matrix.valence
+#eval (runCartograffectPipeline sampleConsternationEngine).matrix.antagonist.point
+
+-- 7. Résolution R8 (Voie stochastique) : Transitions du noyau `canonicalDepthKernel` depuis la Colère `(-1, 1, 2)`
+#eval canonicalDepthKernel.weight ⟨-1, 1, 2⟩ ⟨-2, 2, 3⟩
+#eval canonicalDepthKernel.weight ⟨-1, 1, 2⟩ ⟨-1, 3, 3⟩
+#eval canonicalDepthKernel.weight ⟨-1, 1, 2⟩ ⟨-3, 1, 3⟩
+#eval canonicalDepthKernel.outgoingWeight ⟨-1, 1, 2⟩
+#eval canonicalDepthKernel.weight (antagonistPoint ⟨-1, 1, 2⟩) (antagonistPoint ⟨-1, 3, 3⟩)
+
+-- 8. Résolution R1 : Appartenance graduée `attractorMembership` et chevauchement d'attracteurs sur Consternation `(-1, 3, 3)` et Envie `(-2, 4, 4)`
+#eval (attractorMembership ⟨-1, 3, 3⟩ .groupeJoie,
+       attractorMembership ⟨-1, 3, 3⟩ .groupeColere,
+       attractorMembership ⟨-1, 3, 3⟩ .groupePeur,
+       classifyTaxonomicGroup ⟨-1, 3, 3⟩)
+#eval (attractorMembership ⟨-2, 4, 4⟩ .groupeJoie,
+       attractorMembership ⟨-2, 4, 4⟩ .groupeColere,
+       attractorMembership ⟨-2, 4, 4⟩ .groupePeur,
+       classifyTaxonomicGroup ⟨-2, 4, 4⟩)
+
+/-- 9. Résolution R3 : Paramétrisation par `PhenomenologicalMapping` alternant l'interprétation sans altérer `core` ni `antagonist` -/
+def invertedPhenomenologicalMapping : PhenomenologicalMapping := {
+  expectationFn := fun x =>
+    if x < 0 then .epistemicDischarge else if x > 0 then .epistemicCharge else .epistemicNeutral
+  controlFn     := fun y =>
+    if y < 0 then .pragmaticDischarge else if y > 0 then .pragmaticCharge else .pragmaticNeutral
+  valenceFn     := fun x y => (computeValence x y).invert
+  activationFn  := fun _ => .operatorSuspension
+}
+
+#eval ((evaluateMatrix (evaluateCoreAffect sampleColereEngine) canonicalMapping).core.point,
+       (evaluateMatrix (evaluateCoreAffect sampleColereEngine) invertedPhenomenologicalMapping).core.point)
+#eval ((evaluateMatrix (evaluateCoreAffect sampleColereEngine) canonicalMapping).antagonist.point,
+       (evaluateMatrix (evaluateCoreAffect sampleColereEngine) invertedPhenomenologicalMapping).antagonist.point)
+#eval ((evaluateMatrix (evaluateCoreAffect sampleColereEngine) canonicalMapping).valence,
+       (evaluateMatrix (evaluateCoreAffect sampleColereEngine) invertedPhenomenologicalMapping).valence)
 
 end Cartograffect.Audit

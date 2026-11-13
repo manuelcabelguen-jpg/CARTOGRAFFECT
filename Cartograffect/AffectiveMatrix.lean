@@ -410,6 +410,133 @@ theorem antagonist_commutes_with_invert (c : EngineCoupling) (d : Nat) :
       try simp only [Int.natAbs_neg, or_true, ↓reduceIte, Int.neg_neg]
     )
 
+private theorem int_ofNat_succ_ne_zero (n : Nat) : Int.ofNat (n + 1) ≠ 0 := by
+  intro h; cases h
+
+private theorem int_neg_ofNat_succ_ne_zero (n : Nat) : -Int.ofNat (n + 1) ≠ 0 := by
+  intro h; cases h
+
+private theorem int_ofNat_succ_pos (n : Nat) : Int.ofNat (n + 1) > 0 := by
+  change (↑(n + 1) : Int) > 0; omega
+
+private theorem int_neg_ofNat_succ_neg (n : Nat) : -Int.ofNat (n + 1) < 0 := by
+  change -(↑(n + 1) : Int) < 0; omega
+
+private theorem antagonistPoint_pos_pos (a b z : Nat) (ha : a ≥ 1) (hb : b ≥ 1) :
+    antagonistPoint ⟨Int.ofNat a, Int.ofNat b, z⟩ = ⟨-Int.ofNat b, -Int.ofNat a, z⟩ := by
+  cases a with
+  | zero => omega
+  | succ n =>
+    cases b with
+    | zero => omega
+    | succ m =>
+      unfold antagonistPoint
+      have hx0 := int_ofNat_succ_ne_zero n
+      have hy0 := int_ofNat_succ_ne_zero m
+      have hxp := int_ofNat_succ_pos n
+      have hyp := int_ofNat_succ_pos m
+      by_cases hnm : n = m
+      · subst hnm
+        simp only [or_true, ↓reduceIte]
+      · have hnd : (Int.ofNat (n + 1)).natAbs ≠ (Int.ofNat (m + 1)).natAbs := by
+          simp only [natAbs_pos_ofNat]; omega
+        have hnlt_y : ¬(Int.ofNat (m + 1) < 0) := by omega
+        have hnlt_x : ¬(Int.ofNat (n + 1) < 0) := by omega
+        simp only [hx0, hy0, hnd, ↓reduceIte, hnlt_y, hnlt_x, and_false, false_and, or_self]
+
+private theorem antagonistPoint_neg_neg (a b z : Nat) (ha : a ≥ 1) (hb : b ≥ 1) :
+    antagonistPoint ⟨-Int.ofNat a, -Int.ofNat b, z⟩ = ⟨Int.ofNat b, Int.ofNat a, z⟩ := by
+  cases a with
+  | zero => omega
+  | succ n =>
+    cases b with
+    | zero => omega
+    | succ m =>
+      unfold antagonistPoint
+      have hx0 := int_neg_ofNat_succ_ne_zero n
+      have hy0 := int_neg_ofNat_succ_ne_zero m
+      have hxn := int_neg_ofNat_succ_neg n
+      have hyn := int_neg_ofNat_succ_neg m
+      by_cases hnm : n = m
+      · subst hnm
+        simp only [or_true, ↓reduceIte, Int.neg_neg]
+      · have hnd : (-Int.ofNat (n + 1)).natAbs ≠ (-Int.ofNat (m + 1)).natAbs := by
+          simp only [natAbs_neg_ofNat]; omega
+        have hngt_x : ¬(-Int.ofNat (n + 1) > 0) := by omega
+        have hngt_y : ¬(-Int.ofNat (m + 1) > 0) := by omega
+        simp only [hx0, hy0, hnd, ↓reduceIte, hngt_x, hngt_y, false_and, and_false, or_self, Int.neg_neg]
+
+private theorem antagonistPoint_pos_neg (a b z : Nat) (ha : a ≥ 1) (hb : b ≥ 1) :
+    antagonistPoint ⟨Int.ofNat a, -Int.ofNat b, z⟩ = ⟨-Int.ofNat b, Int.ofNat a, z⟩ := by
+  cases a with
+  | zero => omega
+  | succ n =>
+    cases b with
+    | zero => omega
+    | succ m =>
+      unfold antagonistPoint
+      have hx0 := int_ofNat_succ_ne_zero n
+      have hy0 := int_neg_ofNat_succ_ne_zero m
+      have hxp := int_ofNat_succ_pos n
+      have hyn := int_neg_ofNat_succ_neg m
+      by_cases hnm : n = m
+      · subst hnm
+        have hdiag : (Int.ofNat (n + 1)).natAbs = (-Int.ofNat (n + 1)).natAbs := by
+          simp only [natAbs_pos_ofNat, natAbs_neg_ofNat]
+        simp only [hdiag, or_true, ↓reduceIte, Int.neg_neg]
+      · have hnd : (Int.ofNat (n + 1)).natAbs ≠ (-Int.ofNat (m + 1)).natAbs := by
+          simp only [natAbs_pos_ofNat, natAbs_neg_ofNat]; omega
+        simp only [hx0, hy0, hnd, false_or, ↓reduceIte, hxp, hyn, and_self, true_or]
+
+private theorem antagonistPoint_neg_pos (a b z : Nat) (ha : a ≥ 1) (hb : b ≥ 1) :
+    antagonistPoint ⟨-Int.ofNat a, Int.ofNat b, z⟩ = ⟨Int.ofNat b, -Int.ofNat a, z⟩ := by
+  cases a with
+  | zero => omega
+  | succ n =>
+    cases b with
+    | zero => omega
+    | succ m =>
+      unfold antagonistPoint
+      have hx0 := int_neg_ofNat_succ_ne_zero n
+      have hy0 := int_ofNat_succ_ne_zero m
+      have hxn := int_neg_ofNat_succ_neg n
+      have hyp := int_ofNat_succ_pos m
+      by_cases hnm : n = m
+      · subst hnm
+        have hdiag : (-Int.ofNat (n + 1)).natAbs = (Int.ofNat (n + 1)).natAbs := by
+          simp only [natAbs_pos_ofNat, natAbs_neg_ofNat]
+        simp only [hdiag, or_true, ↓reduceIte, Int.neg_neg]
+      · have hnd : (-Int.ofNat (n + 1)).natAbs ≠ (Int.ofNat (m + 1)).natAbs := by
+          simp only [natAbs_pos_ofNat, natAbs_neg_ofNat]; omega
+        simp only [hx0, hy0, hnd, false_or, ↓reduceIte, hxn, hyp, and_self, or_true]
+
+/--
+Théorème 7bis (Équivariance généralisée sous partage de précision `(π_A, π_C)`, Arbitrage 4) :
+Pour tout couplage `c`, toute profondeur `d` et tout couple de précisions `(piA, piC)`,
+l'antagoniste géométrique du point déployé coïncide avec le déploiement du couplage aux
+polarités inversées sous permutation des précisions `(piC, piA)`.
+-/
+theorem antagonist_commutes_with_invert_precision (c : EngineCoupling) (d piA piC : Nat) :
+    antagonistPoint (deployCouplingWithPrecision c d piA piC) =
+      deployCouplingWithPrecision ⟨c.attente.invert, c.controle.invert⟩ d piC piA := by
+  have hb := apportionRay_bounds d piA piC
+  have hsw := apportionRay_swap d piA piC
+  rcases h_eq : apportionRay d piA piC with ⟨ax, ay⟩
+  rw [h_eq] at hb hsw
+  dsimp only at hb hsw
+  rcases c with ⟨a, ctrl⟩
+  cases a <;> cases ctrl <;>
+    dsimp only [deployCouplingWithPrecision, Polarity.invert, signedAmplitude]
+  · rw [h_eq, hsw]; exact antagonistPoint_neg_neg ax ay (d + 2) hb.1 hb.2.1
+  · unfold antagonistPoint; simp
+  · rw [h_eq, hsw]; exact antagonistPoint_neg_pos ax ay (d + 2) hb.1 hb.2.1
+  · unfold antagonistPoint; simp [Int.neg_neg]
+  · rfl
+  · unfold antagonistPoint; simp
+  · rw [h_eq, hsw]; exact antagonistPoint_pos_neg ax ay (d + 2) hb.1 hb.2.1
+  · unfold antagonistPoint; simp
+  · rw [h_eq, hsw]; exact antagonistPoint_pos_pos ax ay (d + 2) hb.1 hb.2.1
+
 private theorem neg_sign_mul_of_pos {x : Int} (h : x > 0) (n : Int) : -x.sign * n = -n := by
   have hs : -x.sign = -1 := by
     cases x with
@@ -549,19 +676,43 @@ structure AffectiveMatrixState where
   activation      : PhenomenologicalActivation
   antagonist      : CoreAffectState
 
+-- Source : Résolution R3 (Paramétrisation formelle des hypothèses de correspondance phénoménologique)
+/--
+Structure encapsulant explicitement les conventions d'interprétation phénoménologique (R3) :
+isole les quatre règles de transduction vécue (`expectationFn`, `controlFn`, `valenceFn`,
+`activationFn`) des lois géométriques et antagonistes intrinsèques du Noyau affectif.
+-/
+structure PhenomenologicalMapping where
+  expectationFn : Int → LivedExpectationPole
+  controlFn     : Int → LivedControlPole
+  valenceFn     : Int → Int → HedonicPolarity
+  activationFn  : CoreAffectPoint → PhenomenologicalActivation
+
+/-- Instance canonique reprenant les conventions phénoménologiques établies du modèle. -/
+def canonicalMapping : PhenomenologicalMapping :=
+  { expectationFn := transduceExpectation
+    controlFn     := transduceControl
+    valenceFn     := computeValence
+    activationFn  := computeActivation }
+
+instance : Inhabited PhenomenologicalMapping where
+  default := canonicalMapping
+
 -- Source : Document 1, §6 (La Matrice affective)
 /--
 Opérateur de transduction projetant tout état valide du Noyau affectif (`CoreAffectState`)
-dans un état complet de la Matrice affective (`AffectiveMatrixState`).
+dans un état complet de la Matrice affective (`AffectiveMatrixState`), paramétré par une
+instance explicite de correspondance phénoménologique `mapping` (par défaut `canonicalMapping`).
 -/
-def evaluateMatrix (cs : CoreAffectState) : AffectiveMatrixState :=
+def evaluateMatrix (cs : CoreAffectState)
+    (mapping : PhenomenologicalMapping := canonicalMapping) : AffectiveMatrixState :=
   let p := cs.point
   { core            := cs
-    expectationPole := transduceExpectation p.x
-    controlPole     := transduceControl p.y
+    expectationPole := mapping.expectationFn p.x
+    controlPole     := mapping.controlFn p.y
     energyRegime    := computeEnergyRegime p.x p.y
-    valence         := computeHedonicPolarity p.x p.y
-    activation      := computeActivation p
+    valence         := mapping.valenceFn p.x p.y
+    activation      := mapping.activationFn p
     antagonist      := {
       point   := antagonistPoint p
       h_valid := antagonistPoint_preserves_validity p cs.h_valid
@@ -570,6 +721,43 @@ def evaluateMatrix (cs : CoreAffectState) : AffectiveMatrixState :=
 /-- Preuve d'inhabitation de `AffectiveMatrixState` centrée sur le Point de Veille. -/
 instance : Inhabited AffectiveMatrixState where
   default := evaluateMatrix default
+
+/--
+Théorème 10 (Indépendance structurale de l'état de Noyau, du régime énergétique et de
+l'antagoniste vis-à-vis du choix de `PhenomenologicalMapping`, R3) :
+Deux interprétations phénoménologiques arbitraires `m1` et `m2` produisent exactement
+le même état du Noyau `core`, le même régime énergétique et le même antagoniste régulateur.
+-/
+theorem evaluateMatrix_core_antagonist_independent
+    (cs : CoreAffectState) (m1 m2 : PhenomenologicalMapping) :
+    (evaluateMatrix cs m1).core = (evaluateMatrix cs m2).core ∧
+    (evaluateMatrix cs m1).energyRegime = (evaluateMatrix cs m2).energyRegime ∧
+    (evaluateMatrix cs m1).antagonist = (evaluateMatrix cs m2).antagonist :=
+  ⟨rfl, rfl, rfl⟩
+
+/--
+Théorème 11 (Indépendance complète des invariants géométriques et antagonistes vis-à-vis
+du `PhenomenologicalMapping` choisi, R3) :
+Pour tout état valide `cs : CoreAffectState` et tout `mapping : PhenomenologicalMapping`,
+les trois théorèmes structurels (`antagonistPoint_preserves_validity`, `antagonistPoint_involutive`,
+`antagonistPoint_unified`) s'appliquent à l'antagoniste produit par `evaluateMatrix cs mapping`
+de façon strictement indépendante de `mapping`.
+-/
+theorem mapping_independent_antagonist_invariants
+    (cs : CoreAffectState) (mapping : PhenomenologicalMapping) :
+    isValidCoreAffect (evaluateMatrix cs mapping).antagonist.point ∧
+    (evaluateMatrix (evaluateMatrix cs mapping).antagonist mapping).antagonist.point = cs.point ∧
+    (cs.point.x ≠ 0 → cs.point.y ≠ 0 →
+      (evaluateMatrix cs mapping).antagonist.point =
+        ⟨-cs.point.x.sign * (cs.point.y.natAbs : Int),
+         -cs.point.y.sign * (cs.point.x.natAbs : Int),
+         cs.point.z⟩) ∧
+    (evaluateMatrix cs mapping).antagonist = (evaluateMatrix cs canonicalMapping).antagonist := by
+  refine ⟨?_, ?_, ?_, rfl⟩
+  · exact antagonistPoint_preserves_validity cs.point cs.h_valid
+  · exact antagonistPoint_involutive cs.point
+  · intro hx hy
+    exact antagonistPoint_unified cs.point hx hy
 
 end AffectiveMatrix
 

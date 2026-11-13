@@ -121,7 +121,9 @@ structure PerceptiveInterface where
 /--
 Interface Subjective (versant prédictif interne de la frontière) :
 Évalue le gradient d'Attente (A : révisabilité épistémique du modèle interne)
-et génère l'Anticipation (projection proactive descendante pouvant suspendre la décharge).
+et génère l'Anticipation (`descendingSuspension = true` : suspension descendante endogène
+orientant vers `(0, 0, 2)` et les centres `Z ≥ 2` lorsque le couplage est neutre `(A0, C0)`,
+infra-liminaire, ou sous le seuil d'engagement attentionnel).
 -/
 structure SubjectiveInterface where
   attenteGradient      : Polarity
@@ -132,14 +134,29 @@ structure SubjectiveInterface where
 /--
 Interface Attentionnelle (mécanisme de pondération de la précision) :
 N'évalue aucun contenu propre et ne produit aucun gradient polarisé.
-Attribue un coefficient de précision aux gradients A et C et indexe la profondeur
-additionnelle liée à la persistance d'un écart non résolu.
+Attribue un niveau de précision global (`allocatedPrecision` comparé à `engagementThreshold`),
+un couple de précisions relatives entières `(precisionA, precisionC)` régissant le partage
+discret du rayon `R(Z) = 2Z - 2` entre Attente (Axe X) et Contrôle (Axe Y) dès `Z ≥ 3`,
+et indexe la profondeur additionnelle (`persistenceDepth`) liée à la persistance d'un écart
+non résolu. Par défaut `(precisionA, precisionC) = (1, 1)` (partage symétrique diagonal).
 -/
 structure AttentionalInterface where
   allocatedPrecision  : Nat
   engagementThreshold : Nat
   persistenceDepth    : Nat
-  deriving DecidableEq, Repr, Inhabited
+  precisionA          : Nat := 1
+  precisionC          : Nat := 1
+  deriving DecidableEq, Repr
+
+/-- Instance par défaut maintenant un partage symétrique `(precisionA, precisionC) = (1, 1)`. -/
+instance : Inhabited AttentionalInterface where
+  default := {
+    allocatedPrecision  := 0
+    engagementThreshold := 0
+    persistenceDepth    := 0
+    precisionA          := 1
+    precisionC          := 1
+  }
 
 -- Source : Document 1, §4 (Le Moteur prédictif - Interface Attentionnelle)
 /-- Vérifie si la précision allouée franchit le seuil d'engagement attentionnel. -/
@@ -260,6 +277,93 @@ def PredictiveEngineState.feedbackUpdate
     perceptive  := { s.perceptive with controleGradient := newC }
     attentional := { s.attentional with allocatedPrecision := newPrecision } }
 
+-- Source : Document 1, §7 & Arbitrage 4 (Arbitrage attentionnel pondéré par π_A, π_C)
+/--
+Opérateur complet de rétroaction attentionnelle avec mise à jour des précisions relatives `(π_A, π_C)` :
+étend `feedbackUpdate` en actualisant conjointement le couplage `(newA, newC)`, la précision
+globale `newPrecision` et le partage `(newPrecisionA, newPrecisionC)`.
+-/
+def PredictiveEngineState.feedbackUpdateWeighted
+    (s : PredictiveEngineState)
+    (newA : Polarity)
+    (newC : Polarity)
+    (newPrecision newPrecisionA newPrecisionC : Nat) : PredictiveEngineState :=
+  { s with
+    subjective  := { s.subjective with attenteGradient := newA }
+    perceptive  := { s.perceptive with controleGradient := newC }
+    attentional := { s.attentional with
+      allocatedPrecision := newPrecision
+      precisionA         := newPrecisionA
+      precisionC         := newPrecisionC } }
+
+-- Source : Document 1, §4, §6.3 & §7 (Dynamique séquentielle du Moteur prédictif — Résolution R5)
+/--
+Opérateur de transition séquentielle d'un pas du Moteur prédictif (`engineStep`) :
+1. Sous le seuil de saillance sensorielle (`!discrepancy.isSensorilySalient`) :
+   - Dans la fenêtre de rémanence (`isInRemanenceWindow`), l'état persiste par hystérésis.
+   - Sous le seuil de résorption homéostatique, le moteur revient au régime basal
+     du Point de Veille (`(A0, C0)`, sans suspension descendante ni engagement).
+2. Sous écart sensoriellement saillant (`discrepancy.isSensorilySalient = true`) :
+   - Si le couplage est encore neutre `(A0, C0)` : l'Interface Perceptive rompt la neutralité
+     (amorçage ascendant de la Surprise `(0, 0, 1)` en l'absence de suspension préalable).
+   - Sinon, si la suspension descendante est inactive et l'attention non engagée :
+     l'Interface Subjective active `descendingSuspension := true` (orientation vers l'Anticipation `(0, 0, 2)`).
+   - Sinon, si la précision attentionnelle demeure sous le seuil d'engagement :
+     l'Interface Attentionnelle élève la précision au seuil (`allocatedPrecision := engagementThreshold`,
+     déploiement sur la couronne).
+   - Sinon (déjà engagé sur couronne avec écart persistant) : l'état actif est maintenu.
+-/
+def engineStep (s : PredictiveEngineState) : PredictiveEngineState :=
+  let c := s.currentCoupling
+  if !s.discrepancy.isSensorilySalient then
+    if s.discrepancy.isInRemanenceWindow then
+      s
+    else
+      { s with
+        perceptive  := { controleGradient := .zero }
+        subjective  := { attenteGradient := .zero, descendingSuspension := false }
+        attentional := { s.attentional with allocatedPrecision := 0, persistenceDepth := 0 } }
+  else if c.isGlobalNeutrality then
+    { s with perceptive := { controleGradient := .pos } }
+  else if !s.subjective.descendingSuspension && !s.attentional.isEngaged then
+    { s with subjective := { s.subjective with descendingSuspension := true } }
+  else if !s.attentional.isEngaged then
+    { s with attentional := { s.attentional with allocatedPrecision := s.attentional.engagementThreshold } }
+  else
+    s
+
+/-- Pas élémentaire d'`engineStep` depuis la neutralité globale sous écart saillant :
+    amorçage ascendant sur l'Interface Perceptive (`controleGradient := .pos`). -/
+theorem engineStep_of_salient_neutral (s : PredictiveEngineState)
+    (h_sal : s.discrepancy.isSensorilySalient = true)
+    (h_neut : s.currentCoupling.isGlobalNeutrality = true) :
+    engineStep s = { s with perceptive := { controleGradient := .pos } } := by
+  unfold engineStep
+  simp [h_sal, h_neut]
+
+/-- Pas élémentaire d'`engineStep` depuis la Surprise (`!descendingSuspension`, `!isEngaged`) :
+    activation de la suspension descendante endogène (`descendingSuspension := true`). -/
+theorem engineStep_of_salient_nonneutral_unsuspended (s : PredictiveEngineState)
+    (h_sal : s.discrepancy.isSensorilySalient = true)
+    (h_non_neut : s.currentCoupling.isGlobalNeutrality = false)
+    (h_nosusp : s.subjective.descendingSuspension = false)
+    (h_uneng : s.attentional.isEngaged = false) :
+    engineStep s = { s with subjective := { s.subjective with descendingSuspension := true } } := by
+  unfold engineStep
+  simp [h_sal, h_non_neut, h_nosusp, h_uneng]
+
+/-- Pas élémentaire d'`engineStep` depuis la suspension endogène non engagée :
+    élévation de la précision au seuil d'engagement (`allocatedPrecision := engagementThreshold`). -/
+theorem engineStep_of_salient_nonneutral_suspended_unengaged (s : PredictiveEngineState)
+    (h_sal : s.discrepancy.isSensorilySalient = true)
+    (h_non_neut : s.currentCoupling.isGlobalNeutrality = false)
+    (h_susp : s.subjective.descendingSuspension = true)
+    (h_uneng : s.attentional.isEngaged = false) :
+    engineStep s =
+      { s with attentional := { s.attentional with allocatedPrecision := s.attentional.engagementThreshold } } := by
+  unfold engineStep
+  simp [h_sal, h_non_neut, h_susp, h_uneng]
+
 /-!
 ## 4. Démonstration des invariants fondamentaux du Moteur prédictif
 -/
@@ -324,6 +428,21 @@ theorem feedbackUpdate_couples_gradients
   ⟨rfl, rfl, rfl⟩
 
 /--
+Invariant 7bis (Rétroaction pondérée `(π_A, π_C)`, Arbitrage 4) :
+L'opérateur `feedbackUpdateWeighted` réinjecte exactement `(newA, newC, newPrecision, newPrecisionA, newPrecisionC)`
+tout en conservant l'écart sensoriel d'entrée.
+-/
+theorem feedbackUpdateWeighted_couples_precision
+    (s : PredictiveEngineState) (newA newC : Polarity)
+    (newPrecision newPrecisionA newPrecisionC : Nat) :
+    (s.feedbackUpdateWeighted newA newC newPrecision newPrecisionA newPrecisionC).currentCoupling = ⟨newA, newC⟩ ∧
+    (s.feedbackUpdateWeighted newA newC newPrecision newPrecisionA newPrecisionC).attentional.allocatedPrecision = newPrecision ∧
+    (s.feedbackUpdateWeighted newA newC newPrecision newPrecisionA newPrecisionC).attentional.precisionA = newPrecisionA ∧
+    (s.feedbackUpdateWeighted newA newC newPrecision newPrecisionA newPrecisionC).attentional.precisionC = newPrecisionC ∧
+    (s.feedbackUpdateWeighted newA newC newPrecision newPrecisionA newPrecisionC).discrepancy = s.discrepancy :=
+  ⟨rfl, rfl, rfl, rfl, rfl⟩
+
+/--
 Invariant 8 (Couverture des trois interfaces par la boucle inférentielle, Doc. 1, §4) :
 Toute interface du Moteur prédictif est portée par au moins une opération inférentielle.
 -/
@@ -333,6 +452,95 @@ theorem inferential_loop_covers_interfaces (iface : EngineInterface) :
   · exact ⟨.ascendingSensory, rfl⟩
   · exact ⟨.contextualGenerative, rfl⟩
   · exact ⟨.integrativeWeighting, rfl⟩
+
+/--
+Invariant 9 (Rémanence dynamique du Moteur prédictif, Doc. 1, §6.3) :
+Lorsque l'écart résiduel demeure dans la fenêtre de rémanence temporaire, `engineStep`
+maintient l'état du Moteur inchangé par hystérésis.
+-/
+theorem engineStep_remanence (s : PredictiveEngineState)
+    (h_rem : s.discrepancy.isInRemanenceWindow = true) :
+    engineStep s = s := by
+  unfold SalientDiscrepancy.isInRemanenceWindow at h_rem
+  simp only [decide_eq_true_eq] at h_rem
+  have h_nsal : s.discrepancy.isSensorilySalient = false := by
+    unfold SalientDiscrepancy.isSensorilySalient
+    simp only [decide_eq_false_iff_not, Nat.not_le]
+    exact h_rem.2
+  have h_rem_b : s.discrepancy.isInRemanenceWindow = true := by
+    unfold SalientDiscrepancy.isInRemanenceWindow
+    exact decide_eq_true h_rem
+  unfold engineStep
+  simp only [h_nsal, Bool.not_false, ↓reduceIte, h_rem_b]
+
+/--
+Invariant 10 (Progression séquentielle en quatre phases dans le Moteur, Doc. 1, §4 & §7 — R5) :
+Depuis un état basal neutre soumis à un écart saillant non engagé (`s0`), trois applications
+successives de `engineStep` font parcourir les quatre régimes séquentiels :
+1. `s0` : neutralité sans suspension ni engagement (Veille),
+2. `s1 = engineStep s0` : rupture perceptive non neutre sans suspension ni engagement (Surprise),
+3. `s2 = engineStep s1` : activation de la suspension descendante endogène (Anticipation),
+4. `s3 = engineStep s2` : franchissement du seuil d'engagement attentionnel (déploiement sur couronne).
+-/
+theorem engineStep_phase_progression (s0 : PredictiveEngineState)
+    (h_sal : s0.discrepancy.isSensorilySalient = true)
+    (h_neut : s0.currentCoupling.isGlobalNeutrality = true)
+    (h_nosusp : s0.subjective.descendingSuspension = false)
+    (h_uneng : s0.attentional.isEngaged = false) :
+    let s1 := engineStep s0
+    let s2 := engineStep s1
+    let s3 := engineStep s2
+    (s1.discrepancy.isSensorilySalient = true ∧ s1.currentCoupling.isGlobalNeutrality = false ∧
+     s1.subjective.descendingSuspension = false ∧ s1.attentional.isEngaged = false) ∧
+    (s2.discrepancy.isSensorilySalient = true ∧ s2.currentCoupling.isGlobalNeutrality = false ∧
+     s2.subjective.descendingSuspension = true ∧ s2.attentional.isEngaged = false) ∧
+    (s3.discrepancy.isSensorilySalient = true ∧ s3.currentCoupling.isGlobalNeutrality = false ∧
+     s3.subjective.descendingSuspension = true ∧ s3.attentional.isEngaged = true) := by
+  have h1 : engineStep s0 = { s0 with perceptive := { controleGradient := .pos } } := by
+    unfold engineStep
+    simp [h_sal, h_neut]
+  have h_s1_neut : ({ s0 with perceptive := { controleGradient := .pos } } : PredictiveEngineState).currentCoupling.isGlobalNeutrality = false := by
+    unfold PredictiveEngineState.currentCoupling EngineCoupling.isGlobalNeutrality Polarity.isEngaged
+    simp
+  have h2 : engineStep (engineStep s0) =
+      { s0 with
+        perceptive := { controleGradient := .pos }
+        subjective := { s0.subjective with descendingSuspension := true } } := by
+    rw [h1]
+    unfold engineStep
+    simp only [h_sal, Bool.not_true, ↓reduceIte, h_s1_neut, Bool.false_eq_true,
+      h_nosusp, Bool.not_false, h_uneng, Bool.and_self]
+  have h_s2_neut : ({ s0 with
+        perceptive := { controleGradient := .pos }
+        subjective := { s0.subjective with descendingSuspension := true } } : PredictiveEngineState).currentCoupling.isGlobalNeutrality = false := by
+    unfold PredictiveEngineState.currentCoupling EngineCoupling.isGlobalNeutrality Polarity.isEngaged
+    simp
+  have h3 : engineStep (engineStep (engineStep s0)) =
+      { s0 with
+        perceptive  := { controleGradient := .pos }
+        subjective  := { s0.subjective with descendingSuspension := true }
+        attentional := { s0.attentional with allocatedPrecision := s0.attentional.engagementThreshold } } := by
+    rw [h2]
+    unfold engineStep
+    simp only [h_sal, Bool.not_true, ↓reduceIte, h_s2_neut, Bool.false_eq_true,
+      Bool.not_true, Bool.false_and, h_uneng, Bool.not_false]
+  have h_s3_neut : ({ s0 with
+        perceptive  := { controleGradient := .pos }
+        subjective  := { s0.subjective with descendingSuspension := true }
+        attentional := { s0.attentional with allocatedPrecision := s0.attentional.engagementThreshold } } : PredictiveEngineState).currentCoupling.isGlobalNeutrality = false := by
+    unfold PredictiveEngineState.currentCoupling EngineCoupling.isGlobalNeutrality Polarity.isEngaged
+    simp
+  have h_s3_eng : ({ s0 with
+        perceptive  := { controleGradient := .pos }
+        subjective  := { s0.subjective with descendingSuspension := true }
+        attentional := { s0.attentional with allocatedPrecision := s0.attentional.engagementThreshold } } : PredictiveEngineState).attentional.isEngaged = true := by
+    unfold AttentionalInterface.isEngaged
+    simp
+  dsimp only
+  rw [h3, h2, h1]
+  exact ⟨⟨h_sal, h_s1_neut, h_nosusp, h_uneng⟩,
+         ⟨h_sal, h_s2_neut, rfl, h_uneng⟩,
+         ⟨h_sal, h_s3_neut, rfl, h_s3_eng⟩⟩
 
 end PredictiveEngine
 

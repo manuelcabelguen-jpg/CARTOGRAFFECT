@@ -301,4 +301,44 @@ theorem all176Entries_spatial_completeness (p : CoreAffectPoint)
     p ∈ all176Entries.map (·.point) :=
   stratumValidGrid_sub_all176 p.z hz p (mem_stratumValidGrid p hv)
 
+private theorem isValidCoreAffect_of_bool {p : CoreAffectPoint} (h : isValidPointBool p = true) :
+    isValidCoreAffect p := by
+  simp only [isValidPointBool, Bool.or_eq_true, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at h
+  rcases h with hcent | hcr
+  · exact Or.inl hcent
+  · exact Or.inr hcr
+
+/--
+Certification de surjectivité complète sur le lexique (Arbitrage 4) :
+Chacune des 176 entrées de `all176Entries` (y compris les 120 positions latérales)
+est déterministement atteignable par le pipeline complet `runCartograffectPipeline`
+muni d'un couple de précisions relatives `(precisionA, precisionC)` approprié.
+-/
+theorem all176Entries_deterministically_reachable :
+    ∀ e ∈ all176Entries, ∃ s : PredictiveEngineState,
+      (runCartograffectPipeline s).matrix.core.point = e.point := by
+  intro e he
+  have hbool : isValidPointBool e.point = true :=
+    List.all_eq_true.mp all176Entries_geometrically_valid e he
+  have hvalid : isValidCoreAffect e.point := isValidCoreAffect_of_bool hbool
+  exact ⟨witnessEngineForPoint e.point, projectToCoreAffect_surjective e.point hvalid⟩
+
+/--
+Résolution R8 (Surjectivité sur le lexique via `(π_A, π_C)`) :
+Alias principal certifiant que chacune des 176 entrées de `Lexicon176` (y compris
+les 120 positions latérales) est atteignable par le pipeline déterministe `runCartograffectPipeline`.
+-/
+theorem all176Entries_reachable_by_engine :
+    ∀ e ∈ all176Entries, ∃ s : PredictiveEngineState,
+      (runCartograffectPipeline s).matrix.core.point = e.point :=
+  all176Entries_deterministically_reachable
+
+/--
+Vérification computationnelle exhaustive sur les 176 entrées :
+le témoin explicite `witnessEngineForPoint` projette exactement chaque entrée `e` sur `e.point`.
+-/
+theorem all176Entries_witness_check :
+    (all176Entries.all (fun e => projectToCoreAffect (witnessEngineForPoint e.point) == e.point)) = true := by
+  decide
+
 end Cartograffect.Lexicon176
