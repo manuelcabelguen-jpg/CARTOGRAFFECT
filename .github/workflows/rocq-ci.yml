@@ -1,0 +1,37 @@
+name: Rocq Formal Verification CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'rocq/**'
+      - '.github/workflows/rocq-ci.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'rocq/**'
+
+jobs:
+  verify-rocq:
+    runs-on: ubuntu-latest
+    container:
+      image: rocq/rocq-prover:9.0
+
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: Audit statique (0 Admitted / 0 Axiom)
+        working-directory: ./rocq
+        run: |
+          if grep -rnE "\b(Admitted|give_up|Axiom|Parameter|Conjecture)\b" theories/; then
+            echo "ERREUR : Preuve incomplète ou axiome non autorisé détecté !"
+            exit 1
+          fi
+          echo "Audit statique réussi : 0 Admitted, 0 Axiom."
+
+      - name: Compilation stricte et exécution de AuditTests.v
+        working-directory: ./rocq
+        run: |
+          coq_makefile -f _CoqProject -o Makefile
+          COQEXTRAFLAGS="-w +all" make -j$(nproc)
