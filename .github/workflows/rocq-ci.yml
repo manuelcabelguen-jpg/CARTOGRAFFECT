@@ -34,6 +34,7 @@ jobs:
       - name: Compilation stricte et exécution de AuditTests.v
         working-directory: ./rocq
         run: |
-          eval $(opam env --root=/home/rocq/.opam --set-root)
+          ROCQ_BIN=$(dirname "$(find /home /root /opt /usr -name coq_makefile 2>/dev/null | head -n 1)")
+          export PATH="$ROCQ_BIN:$PATH"
           coq_makefile -f _CoqProject -o Makefile
           COQEXTRAFLAGS="-w +all" make -j$(nproc)
