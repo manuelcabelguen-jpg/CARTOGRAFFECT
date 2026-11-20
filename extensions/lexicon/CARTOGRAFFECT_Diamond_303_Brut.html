@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 select-none">
+  <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">Diamant Brut 303</span>
+        <h2 class="text-sm font-bold text-[var(--foreground)]">CARTOGRAFFECT — Double Pyramide L1 (Z⁺ Affects ↔ Z⁻ Valeurs)</h2>
+      </div>
+      <div class="flex items-center gap-2 text-xs">
+        <select id="stratumSel" class="bg-[var(--content)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-2 py-1 text-xs focus:outline-none">
+          <option value="ALL">Tout le Diamant (303 pôles • h = -7 à +7)</option>
+          <option value="Z_MINUS">Hémisphère Axiologique Z⁻ (-7 à -1 • 127 valeurs)</option>
+          <option value="EQ">Équateur Suspension Z = +7 (49 pôles • R=12)</option>
+          <option value="Z_PLUS">Hémisphère Affectif Z⁺ (0 à +6 • 127 affects)</option>
+          <option value="PAIR_6">|Z| = 6 : Z=+6 Identités ↔ Z=-6 Valeurs (R=10)</option>
+          <option value="PAIR_5">|Z| = 5 : Z=+5 Dispositions ↔ Z=-5 Forces (R=8)</option>
+          <option value="PAIR_4">|Z| = 4 : Z=+4 Sentiments ↔ Z=-4 Engagements (R=6)</option>
+          <option value="PAIR_3">|Z| = 3 : Z=+3 Émotions ↔ Z=-3 Intégration (R=4)</option>
+          <option value="PAIR_2">|Z| = 2 : Z=+2 Primaires ↔ Z=-2 Cardinales (R=2)</option>
+        </select>
+        <input id="qInput" type="text" placeholder="Chercher (ex: Juste, Tourment, Éveil...)"
+          class="bg-[var(--content)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-2 py-1 text-xs w-44 focus:outline-none" />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-3 items-stretch">
+      <div class="col-span-7 relative rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--content)] h-[365px]">
+        <canvas id="diamCanvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+        <div class="absolute top-2 left-2.5 pointer-events-none flex flex-col gap-0.5 text-xs">
+          <span class="font-semibold text-violet-400">▲ Sommet Z = -7 : ÉVEIL (Valeurs Z⁻)</span>
+          <span class="font-semibold text-amber-300">◆ Équateur Z = +7 : SUSPENSION (R=12)</span>
+          <span class="font-semibold text-rose-400">▼ Sommet Z = 0 : VEILLE (Affects Z⁺)</span>
+        </div>
+        <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-xs">
+          <label class="inline-flex items-center gap-1.5 bg-[var(--card)]/85 backdrop-blur px-2 py-0.5 rounded border border-[var(--border)] cursor-pointer">
+            <input id="showHomolLine" type="checkbox" checked class="rounded" />
+            <span>Pilier d'homologie (+Z ↔ -Z)</span>
+          </label>
+          <button id="resetBtn" class="bg-[var(--card)]/85 backdrop-blur px-2 py-0.5 rounded border border-[var(--border)] hover:opacity-80">
+            Réinitialiser vue
+          </button>
+        </div>
+      </div>
+
+      <div class="col-span-5 bg-[var(--content)] border border-[var(--border)] rounded-lg p-3 flex flex-col justify-between h-[365px] text-xs">
+        <div>
+          <div class="flex items-center justify-between gap-1">
+            <span id="nBadge" class="px-2 py-0.5 rounded font-mono bg-[var(--card)] border border-[var(--border)]"></span>
+            <span id="nGrp" class="px-2 py-0.5 rounded-full font-semibold"></span>
+          </div>
+          <h3 id="nTitle" class="text-base font-bold text-[var(--foreground)] mt-1"></h3>
+          <p id="nCoords" class="font-mono text-[var(--muted-foreground)] mt-0.5"></p>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5 space-y-1">
+          <div class="text-[var(--muted-foreground)] font-medium">Homologue vertical (X, Y identiques • Z⁺ ↔ Z⁻) :</div>
+          <div class="flex items-center justify-between">
+            <button id="homBtn" class="font-bold underline text-left hover:opacity-80 text-[var(--foreground)]"></button>
+            <span id="homCoords" class="font-mono text-[var(--muted-foreground)]"></span>
+          </div>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5 space-y-1">
+          <div id="corrHeader" class="text-[var(--muted-foreground)] font-medium">Correspondant intra-couronne (même Z) :</div>
+          <div class="flex items-center justify-between">
+            <button id="corrBtn" class="font-bold underline text-left hover:opacity-80 text-[var(--foreground)]"></button>
+            <span id="corrCoords" class="font-mono text-[var(--muted-foreground)]"></span>
+          </div>
+          <div id="symRule" class="text-[var(--muted-foreground)] font-mono"></div>
+        </div>
+
+        <div id="triadBox" class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5 space-y-1">
+          <div class="text-[var(--muted-foreground)] font-medium">Équilibre axiologique (D⁻ ← V → D⁺) :</div>
+          <div id="triadContent" class="font-semibold text-[var(--foreground)]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const RAW = [[1,"Veille",0,0,0,-7,"Centre","OPERATEUR_CENTRAL",1,177,"-","-","-"],[2,"Surprise",0,0,1,-6,"Centre","OPERATEUR_CENTRAL",2,178,"-","-","-"],[3,"Anticipation",0,0,2,-5,"Centre","OPERATEUR_CENTRAL",3,179,"-","-","-"],[4,"Joie",0,2,2,-5,"Axiale","JOIE",5,180,"-","-","-"],[5,"Tristesse",0,-2,2,-5,"Axiale","TRISTESSE",4,181,"-","-","-"],[6,"Peur",-2,0,2,-5,"Axiale","PEUR",7,182,"-","-","-"],[7,"Courage",2,0,2,-5,"Axiale","COURAGE",6,183,"-","-","-"],[8,"Colère",-1,1,2,-5,"Diagonale","COLERE",9,184,"-","-","-"],[9,"Calme",1,-1,2,-5,"Diagonale","CALME",8,185,"-","-","-"],[10,"Désir",1,1,2,-5,"Diagonale","DESIR",11,186,"-","-","-"],[11,"Dégoût",-1,-1,2,-5,"Diagonale","DEGOUT",10,187,"-","-","-"],[12,"Émoi",0,0,3,-4,"Centre","OPERATEUR_CENTRAL",12,188,"-","-","-"],[13,"Enthousiasme",0,4,3,-4,"Axiale","JOIE",14,189,"-","-","-"],[14,"Ennui",0,-4,3,-4,"Axiale","TRISTESSE",13,190,"-","-","-"],[15,"Crainte",-4,0,3,-4,"Axiale","PEUR",16,191,"-","-","-"],[16,"Curiosité",4,0,3,-4,"Axiale","COURAGE",15,192,"-","-","-"],[17,"Consternation",-1,3,3,-4,"Laterale","JOIE",23,193,"-","-","-"],[18,"Euphorie",1,3,3,-4,"Laterale","JOIE",22,194,"-","-","-"],[19,"Soulagement",1,-3,3,-4,"Laterale","TRISTESSE",21,195,"-","-","-"],[20,"Chagrin",-1,-3,3,-4,"Laterale","TRISTESSE",24,196,"-","-","-"],[21,"Panique",-3,1,3,-4,"Laterale","PEUR",19,197,"-","-","-"],[22,"Effroi",-3,-1,3,-4,"Laterale","PEUR",18,198,"-","-","-"],[23,"Émerveillement",3,-1,3,-4,"Laterale","COURAGE",17,199,"-","-","-"],[24,"Aplomb",3,1,3,-4,"Laterale","COURAGE",20,200,"-","-","-"],[25,"Exaspération",-2,2,3,-4,"Diagonale","COLERE",26,201,"-","-","-"],[26,"Détente",2,-2,3,-4,"Diagonale","CALME",25,202,"-","-","-"],[27,"Attrait",2,2,3,-4,"Diagonale","DESIR",28,203,"-","-","-"],[28,"Retrait",-2,-2,3,-4,"Diagonale","DEGOUT",27,204,"-","-","-"],[29,"Réserve",0,0,4,-3,"Centre","OPERATEUR_CENTRAL",29,205,"-","-","-"],[30,"Exaltation",0,6,4,-3,"Axiale","JOIE",31,206,"-","-","-"],[31,"Solitude",0,-6,4,-3,"Axiale","TRISTESSE",30,207,"-","-","-"],[32,"Doute",-6,0,4,-3,"Axiale","PEUR",33,208,"-","-","-"],[33,"Assurance",6,0,4,-3,"Axiale","COURAGE",32,209,"-","-","-"],[34,"Envie",-2,4,4,-3,"Laterale","JOIE",49,210,"-","-","-"],[35,"Haine",-1,5,4,-3,"Laterale","JOIE",48,211,"-","-","-"],[36,"Amour",1,5,4,-3,"Laterale","JOIE",44,212,"-","-","-"],[37,"Ferveur",2,4,4,-3,"Laterale","JOIE",45,213,"-","-","-"],[38,"Sérénité",2,-4,4,-3,"Laterale","TRISTESSE",42,214,"-","-","-"],[39,"Plénitude",1,-5,4,-3,"Laterale","TRISTESSE",43,215,"-","-","-"],[40,"Honte",-2,-4,4,-3,"Laterale","TRISTESSE",46,216,"-","-","-"],[41,"Vide",-1,-5,4,-3,"Laterale","TRISTESSE",47,217,"-","-","-"],[42,"Anxiété",-4,2,4,-3,"Laterale","PEUR",38,218,"-","-","-"],[43,"Manque",-5,1,4,-3,"Laterale","PEUR",39,219,"-","-","-"],[44,"Mépris",-5,-1,4,-3,"Laterale","PEUR",36,220,"-","-","-"],[45,"Défiance",-4,-2,4,-3,"Laterale","PEUR",37,221,"-","-","-"],[46,"Fierté",4,2,4,-3,"Laterale","COURAGE",40,222,"-","-","-"],[47,"Épanouissement",5,1,4,-3,"Laterale","COURAGE",41,223,"-","-","-"],[48,"Affection",5,-1,4,-3,"Laterale","COURAGE",35,224,"-","-","-"],[49,"Admiration",4,-2,4,-3,"Laterale","COURAGE",34,225,"-","-","-"],[50,"Frustration",-3,3,4,-3,"Diagonale","COLERE",51,226,"-","-","-"],[51,"Acceptation",3,-3,4,-3,"Diagonale","CALME",50,227,"-","-","-"],[52,"Estime",3,3,4,-3,"Diagonale","DESIR",53,228,"-","-","-"],[53,"Rejet",-3,-3,4,-3,"Diagonale","DEGOUT",52,229,"-","-","-"],[54,"Recul",0,0,5,-2,"Centre","OPERATEUR_CENTRAL",54,230,"-","-","-"],[55,"Puissance",0,8,5,-2,"Axiale","JOIE",56,231,"-","-","-"],[56,"Impuissance",0,-8,5,-2,"Axiale","TRISTESSE",55,232,"-","-","-"],[57,"Méfiance",-8,0,5,-2,"Axiale","PEUR",58,233,"-","-","-"],[58,"Confiance",8,0,5,-2,"Axiale","COURAGE",57,234,"-","-","-"],[59,"Invulnérabilité",1,7,5,-2,"Laterale","JOIE",74,235,"-","-","-"],[60,"Attachement",2,6,5,-2,"Laterale","JOIE",75,236,"-","-","-"],[61,"Engagement",3,5,5,-2,"Laterale","JOIE",76,237,"-","-","-"],[62,"Désenchantement",-2,6,5,-2,"Laterale","JOIE",80,238,"-","-","-"],[63,"Intolérance",-3,5,5,-2,"Laterale","JOIE",81,239,"-","-","-"],[64,"Injustice",-1,7,5,-2,"Laterale","JOIE",82,240,"-","-","-"],[65,"Quiétude",3,-5,5,-2,"Laterale","TRISTESSE",72,241,"-","-","-"],[66,"Sécurité",2,-6,5,-2,"Laterale","TRISTESSE",71,242,"-","-","-"],[67,"Patience",1,-7,5,-2,"Laterale","TRISTESSE",73,243,"-","-","-"],[68,"Pessimisme",-2,-6,5,-2,"Laterale","TRISTESSE",77,244,"-","-","-"],[69,"Fermeture",-3,-5,5,-2,"Laterale","TRISTESSE",78,245,"-","-","-"],[70,"Désespoir",-1,-7,5,-2,"Laterale","TRISTESSE",79,246,"-","-","-"],[71,"Insécurité",-6,2,5,-2,"Laterale","PEUR",66,247,"-","-","-"],[72,"Inquiétude",-5,3,5,-2,"Laterale","PEUR",65,248,"-","-","-"],[73,"Impatience",-7,1,5,-2,"Laterale","PEUR",67,249,"-","-","-"],[74,"Vulnérabilité",-7,-1,5,-2,"Laterale","PEUR",59,250,"-","-","-"],[75,"Détachement",-6,-2,5,-2,"Laterale","PEUR",60,251,"-","-","-"],[76,"Désengagement",-5,-3,5,-2,"Laterale","PEUR",61,252,"-","-","-"],[77,"Optimisme",6,2,5,-2,"Laterale","COURAGE",68,253,"-","-","-"],[78,"Ouverture",5,3,5,-2,"Laterale","COURAGE",69,254,"-","-","-"],[79,"Espoir",7,1,5,-2,"Laterale","COURAGE",70,255,"-","-","-"],[80,"Enchantement",6,-2,5,-2,"Laterale","COURAGE",62,256,"-","-","-"],[81,"Tolérance",5,-3,5,-2,"Laterale","COURAGE",63,257,"-","-","-"],[82,"Justice",7,-1,5,-2,"Laterale","COURAGE",64,258,"-","-","-"],[83,"Insatisfaction",-4,4,5,-2,"Diagonale","COLERE",84,259,"-","-","-"],[84,"Satisfaction",4,-4,5,-2,"Diagonale","CALME",83,260,"-","-","-"],[85,"Intérêt",4,4,5,-2,"Diagonale","DESIR",86,261,"-","-","-"],[86,"Désintérêt",-4,-4,5,-2,"Diagonale","DEGOUT",85,262,"-","-","-"],[87,"Saisissement",0,0,6,-1,"Centre","OPERATEUR_CENTRAL",87,263,"-","-","-"],[88,"Élan",0,10,6,-1,"Axiale","JOIE",89,264,"-","-","-"],[89,"Inertie",0,-10,6,-1,"Axiale","TRISTESSE",88,265,"-","-","-"],[90,"Effacement",-10,0,6,-1,"Axiale","PEUR",91,266,"-","-","-"],[91,"Affirmation",10,0,6,-1,"Axiale","COURAGE",90,267,"-","-","-"],[92,"Ardeur",3,7,6,-1,"Laterale","JOIE",111,268,"-","-","-"],[93,"Angoisse",-3,7,6,-1,"Laterale","JOIE",119,269,"-","-","-"],[94,"Allégresse",4,6,6,-1,"Laterale","JOIE",109,270,"-","-","-"],[95,"Fureur",-4,6,6,-1,"Laterale","JOIE",117,271,"-","-","-"],[96,"Fougue",2,8,6,-1,"Laterale","JOIE",113,272,"-","-","-"],[97,"Frénésie",-2,8,6,-1,"Laterale","JOIE",121,273,"-","-","-"],[98,"Jubilation",1,9,6,-1,"Laterale","JOIE",115,274,"-","-","-"],[99,"Terreur",-1,9,6,-1,"Laterale","JOIE",123,275,"-","-","-"],[100,"Béatitude",3,-7,6,-1,"Laterale","TRISTESSE",110,276,"-","-","-"],[101,"Accablement",-3,-7,6,-1,"Laterale","TRISTESSE",118,277,"-","-","-"],[102,"Apaisement",4,-6,6,-1,"Laterale","TRISTESSE",108,278,"-","-","-"],[103,"Morosité",-4,-6,6,-1,"Laterale","TRISTESSE",116,279,"-","-","-"],[104,"Contemplation",2,-8,6,-1,"Laterale","TRISTESSE",112,280,"-","-","-"],[105,"Prostration",-2,-8,6,-1,"Laterale","TRISTESSE",120,281,"-","-","-"],[106,"Félicité",1,-9,6,-1,"Laterale","TRISTESSE",114,282,"-","-","-"],[107,"Désolation",-1,-9,6,-1,"Laterale","TRISTESSE",122,283,"-","-","-"],[108,"Irritation",-6,4,6,-1,"Laterale","PEUR",102,286,"-","-","-"],[109,"Amertume",-6,-4,6,-1,"Laterale","PEUR",94,287,"-","-","-"],[110,"Affolement",-7,3,6,-1,"Laterale","PEUR",100,284,"-","-","-"],[111,"Écrasement",-7,-3,6,-1,"Laterale","PEUR",92,285,"-","-","-"],[112,"Fébrilité",-8,2,6,-1,"Laterale","PEUR",104,288,"-","-","-"],[113,"Anéantissement",-8,-2,6,-1,"Laterale","PEUR",96,289,"-","-","-"],[114,"Désarroi",-9,1,6,-1,"Laterale","PEUR",106,290,"-","-","-"],[115,"Lassitude",-9,-1,6,-1,"Laterale","PEUR",98,291,"-","-","-"],[116,"Entrain",6,4,6,-1,"Laterale","COURAGE",103,294,"-","-","-"],[117,"Placidité",6,-4,6,-1,"Laterale","COURAGE",95,295,"-","-","-"],[118,"Liesse",7,3,6,-1,"Laterale","COURAGE",101,292,"-","-","-"],[119,"Limpidité",7,-3,6,-1,"Laterale","COURAGE",93,293,"-","-","-"],[120,"Extase",8,2,6,-1,"Laterale","COURAGE",105,296,"-","-","-"],[121,"Équanimité",8,-2,6,-1,"Laterale","COURAGE",97,297,"-","-","-"],[122,"Exultation",9,1,6,-1,"Laterale","COURAGE",107,298,"-","-","-"],[123,"Harmonie",9,-1,6,-1,"Laterale","COURAGE",99,299,"-","-","-"],[124,"Tourment",-5,5,6,-1,"Diagonale","COLERE",125,300,"-","-","-"],[125,"Ataraxie",5,-5,6,-1,"Diagonale","CALME",124,301,"-","-","-"],[126,"Triomphe",5,5,6,-1,"Diagonale","DESIR",127,302,"-","-","-"],[127,"Abattement",-5,-5,6,-1,"Diagonale","DEGOUT",126,303,"-","-","-"],[128,"Suspension",0,0,7,0,"Centre","OPERATEUR_CENTRAL",128,128,"-","-","-"],[129,"Infini",0,12,7,0,"Axiale","JOIE",130,129,"-","-","-"],[130,"Néant",0,-12,7,0,"Axiale","TRISTESSE",129,130,"-","-","-"],[131,"Déréliction",-12,0,7,0,"Axiale","PEUR",132,131,"-","-","-"],[132,"Communion",12,0,7,0,"Axiale","COURAGE",131,132,"-","-","-"],[133,"Transcendance",2,10,7,0,"Laterale","JOIE",154,133,"-","-","-"],[134,"Déchirement",-2,10,7,0,"Laterale","JOIE",164,134,"-","-","-"],[135,"Exubérance",4,8,7,0,"Laterale","JOIE",156,135,"-","-","-"],[136,"Horreur",-4,8,7,0,"Laterale","JOIE",166,136,"-","-","-"],[137,"Renaissance",1,11,7,0,"Laterale","JOIE",158,137,"-","-","-"],[138,"Vertige",-1,11,7,0,"Laterale","JOIE",168,138,"-","-","-"],[139,"Élévation",3,9,7,0,"Laterale","JOIE",160,139,"-","-","-"],[140,"Détresse",-3,9,7,0,"Laterale","JOIE",170,140,"-","-","-"],[141,"Enivrement",5,7,7,0,"Laterale","JOIE",162,141,"-","-","-"],[142,"Révolte",-5,7,7,0,"Laterale","JOIE",172,142,"-","-","-"],[143,"Nirvana",2,-10,7,0,"Laterale","TRISTESSE",153,143,"-","-","-"],[144,"Perdition",-2,-10,7,0,"Laterale","TRISTESSE",163,144,"-","-","-"],[145,"Paix",4,-8,7,0,"Laterale","TRISTESSE",155,145,"-","-","-"],[146,"Oppression",-4,-8,7,0,"Laterale","TRISTESSE",165,146,"-","-","-"],[147,"Pérennité",1,-11,7,0,"Laterale","TRISTESSE",157,147,"-","-","-"],[148,"Abîme",-1,-11,7,0,"Laterale","TRISTESSE",167,148,"-","-","-"],[149,"Abandon",3,-9,7,0,"Laterale","TRISTESSE",159,149,"-","-","-"],[150,"Damnation",-3,-9,7,0,"Laterale","TRISTESSE",169,150,"-","-","-"],[151,"Silence",5,-7,7,0,"Laterale","TRISTESSE",161,151,"-","-","-"],[152,"Résignation",-5,-7,7,0,"Laterale","TRISTESSE",171,152,"-","-","-"],[153,"Hantise",-10,2,7,0,"Laterale","PEUR",143,153,"-","-","-"],[154,"Isolement",-10,-2,7,0,"Laterale","PEUR",133,154,"-","-","-"],[155,"Affliction",-8,4,7,0,"Laterale","PEUR",145,155,"-","-","-"],[156,"Mélancolie",-8,-4,7,0,"Laterale","PEUR",135,156,"-","-","-"],[157,"Précarité",-11,1,7,0,"Laterale","PEUR",147,157,"-","-","-"],[158,"Déchéance",-11,-1,7,0,"Laterale","PEUR",137,158,"-","-","-"],[159,"Sidération",-9,3,7,0,"Laterale","PEUR",149,159,"-","-","-"],[160,"Engloutissement",-9,-3,7,0,"Laterale","PEUR",139,160,"-","-","-"],[161,"Tumulte",-7,5,7,0,"Laterale","PEUR",151,161,"-","-","-"],[162,"Pétrification",-7,-5,7,0,"Laterale","PEUR",141,162,"-","-","-"],[163,"Éblouissement",10,2,7,0,"Laterale","COURAGE",144,163,"-","-","-"],[164,"Recueillement",10,-2,7,0,"Laterale","COURAGE",134,164,"-","-","-"],[165,"Rayonnement",8,4,7,0,"Laterale","COURAGE",146,165,"-","-","-"],[166,"Contentement",8,-4,7,0,"Laterale","COURAGE",136,166,"-","-","-"],[167,"Ravissement",11,1,7,0,"Laterale","COURAGE",148,167,"-","-","-"],[168,"Épiphanie",11,-1,7,0,"Laterale","COURAGE",138,168,"-","-","-"],[169,"Louange",9,3,7,0,"Laterale","COURAGE",150,169,"-","-","-"],[170,"Lucidité",9,-3,7,0,"Laterale","COURAGE",140,170,"-","-","-"],[171,"Effusion",7,5,7,0,"Laterale","COURAGE",152,171,"-","-","-"],[172,"Consentement",7,-5,7,0,"Laterale","COURAGE",142,172,"-","-","-"],[173,"Rage",-6,6,7,0,"Diagonale","COLERE",174,173,"-","-","-"],[174,"Impassibilité",6,-6,7,0,"Diagonale","CALME",173,174,"-","-","-"],[175,"Sublimation",6,6,7,0,"Diagonale","DESIR",176,175,"-","-","-"],[176,"Dissolution",-6,-6,7,0,"Diagonale","DEGOUT",175,176,"-","-","-"],[177,"Éveil",0,0,-7,7,"Centre","OPERATEUR_CENTRAL",177,1,"-","-","-"],[178,"Évidence",0,0,-1,6,"Centre","OPERATEUR_CENTRAL",178,2,"-","-","-"],[179,"Intention",0,0,-2,5,"Centre","OPERATEUR_CENTRAL",179,3,"-","-","-"],[180,"Volonté",0,2,-2,5,"Axiale","VOLONTÉ",181,4,"-","-","-"],[181,"Tempérance",0,-2,-2,5,"Axiale","TEMPÉRANCE",180,5,"-","-","-"],[182,"Prudence",-2,0,-2,5,"Axiale","PRUDENCE",183,6,"-","-","-"],[183,"Audace",2,0,-2,5,"Axiale","AUDACE",182,7,"-","-","-"],[184,"Équité",-1,1,-2,5,"Diagonale","ÉQUITÉ",185,8,"-","-","-"],[185,"Clémence",1,-1,-2,5,"Diagonale","CLÉMENCE",184,9,"-","-","-"],[186,"Aspiration",1,1,-2,5,"Diagonale","ASPIRATION",187,10,"-","-","-"],[187,"Intégrité",-1,-1,-2,5,"Diagonale","INTÉGRITÉ",186,11,"-","-","-"],[188,"Présence",0,0,-3,4,"Centre","OPERATEUR_CENTRAL",188,12,"-","-","-"],[189,"Dévouement",0,4,-3,4,"Axiale","VOLONTÉ",190,13,"-","-","-"],[190,"Accueil",0,-4,-3,4,"Axiale","TEMPÉRANCE",189,14,"-","-","-"],[191,"Vigilance",-4,0,-3,4,"Axiale","PRUDENCE",192,15,"-","-","-"],[192,"Inventivité",4,0,-3,4,"Axiale","AUDACE",191,16,"-","-","-"],[193,"Sens du devoir",-1,3,-3,4,"Laterale","VOLONTÉ",199,17,"-","-","-"],[194,"Humour",1,3,-3,4,"Laterale","VOLONTÉ",198,18,"-","-","-"],[195,"Lâcher-prise",1,-3,-3,4,"Laterale","TEMPÉRANCE",197,19,"-","-","-"],[196,"Constance",-1,-3,-3,4,"Laterale","TEMPÉRANCE",200,20,"-","-","-"],[197,"Promptitude",-3,1,-3,4,"Laterale","PRUDENCE",195,21,"-","-","-"],[198,"Gravité",-3,-1,-3,4,"Laterale","PRUDENCE",194,22,"-","-","-"],[199,"Gratitude",3,-1,-3,4,"Laterale","AUDACE",193,23,"-","-","-"],[200,"Initiative",3,1,-3,4,"Laterale","AUDACE",196,24,"-","-","-"],[201,"Fermeté",-2,2,-3,4,"Diagonale","ÉQUITÉ",202,25,"-","-","-"],[202,"Douceur",2,-2,-3,4,"Diagonale","CLÉMENCE",201,26,"-","-","-"],[203,"Inspiration",2,2,-3,4,"Diagonale","ASPIRATION",204,27,"-","-","-"],[204,"Retenue",-2,-2,-3,4,"Diagonale","INTÉGRITÉ",203,28,"-","-","-"],[205,"Cohérence",0,0,-4,3,"Centre","OPERATEUR_CENTRAL",205,29,"-","-","-"],[206,"Service",0,6,-4,3,"Axiale","VOLONTÉ",207,30,"-","-","-"],[207,"Intériorité",0,-6,-4,3,"Axiale","TEMPÉRANCE",206,31,"-","-","-"],[208,"Esprit critique",-6,0,-4,3,"Axiale","PRUDENCE",209,32,"-","-","-"],[209,"Adhésion",6,0,-4,3,"Axiale","AUDACE",208,33,"-","-","-"],[210,"Émulation",-2,4,-4,3,"Laterale","VOLONTÉ",225,34,"-","-","-"],[211,"Combativité",-1,5,-4,3,"Laterale","VOLONTÉ",224,35,"-","-","-"],[212,"Don de soi",1,5,-4,3,"Laterale","VOLONTÉ",220,36,"-","-","-"],[213,"Solidarité",2,4,-4,3,"Laterale","VOLONTÉ",221,37,"-","-","-"],[214,"Équilibre",2,-4,-4,3,"Laterale","TEMPÉRANCE",218,38,"-","-","-"],[215,"Sobriété",1,-5,-4,3,"Laterale","TEMPÉRANCE",219,39,"-","-","-"],[216,"Pudeur",-2,-4,-4,3,"Laterale","TEMPÉRANCE",222,40,"-","-","-"],[217,"Dépouillement",-1,-5,-4,3,"Laterale","TEMPÉRANCE",223,41,"-","-","-"],[218,"Protection",-4,2,-4,3,"Laterale","PRUDENCE",214,42,"-","-","-"],[219,"Quête de sens",-5,1,-4,3,"Laterale","PRUDENCE",215,43,"-","-","-"],[220,"Dignité",-5,-1,-4,3,"Laterale","PRUDENCE",212,44,"-","-","-"],[221,"Indépendance d’esprit",-4,-2,-4,3,"Laterale","PRUDENCE",213,45,"-","-","-"],[222,"Accomplissement",4,2,-4,3,"Laterale","AUDACE",216,46,"-","-","-"],[223,"Croissance",5,1,-4,3,"Laterale","AUDACE",217,47,"-","-","-"],[224,"Tendresse",5,-1,-4,3,"Laterale","AUDACE",211,48,"-","-","-"],[225,"Appréciation",4,-2,-4,3,"Laterale","AUDACE",210,49,"-","-","-"],[226,"Militantisme",-3,3,-4,3,"Diagonale","ÉQUITÉ",227,50,"-","-","-"],[227,"Pardon",3,-3,-4,3,"Diagonale","CLÉMENCE",226,51,"-","-","-"],[228,"Coopération",3,3,-4,3,"Diagonale","ASPIRATION",229,52,"-","-","-"],[229,"Respect des limites",-3,-3,-4,3,"Diagonale","INTÉGRITÉ",228,53,"-","-","-"],[230,"Résolution",0,0,-5,2,"Centre","OPERATEUR_CENTRAL",230,54,"-","-","-"],[231,"Autorité",0,8,-5,2,"Axiale","VOLONTÉ",232,55,"-","-","-"],[232,"Résilience",0,-8,-5,2,"Axiale","TEMPÉRANCE",231,56,"-","-","-"],[233,"Circonspection",-8,0,-5,2,"Axiale","PRUDENCE",234,57,"-","-","-"],[234,"Bonne foi",8,0,-5,2,"Axiale","AUDACE",233,58,"-","-","-"],[235,"Force d’âme",1,7,-5,2,"Laterale","VOLONTÉ",250,59,"-","-","-"],[236,"Loyauté",2,6,-5,2,"Laterale","VOLONTÉ",251,60,"-","-","-"],[237,"Assiduité",3,5,-5,2,"Laterale","VOLONTÉ",252,61,"-","-","-"],[238,"Réalisme",-2,6,-5,2,"Laterale","VOLONTÉ",256,62,"-","-","-"],[239,"Rigueur morale",-3,5,-5,2,"Laterale","VOLONTÉ",257,63,"-","-","-"],[240,"Droiture",-1,7,-5,2,"Laterale","VOLONTÉ",258,64,"-","-","-"],[241,"Ancrage",3,-5,-5,2,"Laterale","TEMPÉRANCE",248,65,"-","-","-"],[242,"Stabilité",2,-6,-5,2,"Laterale","TEMPÉRANCE",247,66,"-","-","-"],[243,"Longanimité",1,-7,-5,2,"Laterale","TEMPÉRANCE",249,67,"-","-","-"],[244,"Prévoyance",-2,-6,-5,2,"Laterale","TEMPÉRANCE",253,68,"-","-","-"],[245,"Discrétion",-3,-5,-5,2,"Laterale","TEMPÉRANCE",254,69,"-","-","-"],[246,"Stoïcisme",-1,-7,-5,2,"Laterale","TEMPÉRANCE",255,70,"-","-","-"],[247,"Précaution",-6,2,-5,2,"Laterale","PRUDENCE",242,71,"-","-","-"],[248,"Sollicitude",-5,3,-5,2,"Laterale","PRUDENCE",241,72,"-","-","-"],[249,"Diligence",-7,1,-5,2,"Laterale","PRUDENCE",243,73,"-","-","-"],[250,"Authenticité",-7,-1,-5,2,"Laterale","PRUDENCE",235,74,"-","-","-"],[251,"Liberté intérieure",-6,-2,-5,2,"Laterale","PRUDENCE",236,75,"-","-","-"],[252,"Modération",-5,-3,-5,2,"Laterale","PRUDENCE",237,76,"-","-","-"],[253,"Gaieté",6,2,-5,2,"Laterale","AUDACE",244,77,"-","-","-"],[254,"Sociabilité",5,3,-5,2,"Laterale","AUDACE",245,78,"-","-","-"],[255,"Espérance",7,1,-5,2,"Laterale","AUDACE",246,79,"-","-","-"],[256,"Sens du beau",6,-2,-5,2,"Laterale","AUDACE",238,80,"-","-","-"],[257,"Indulgence",5,-3,-5,2,"Laterale","AUDACE",239,81,"-","-","-"],[258,"Impartialité",7,-1,-5,2,"Laterale","AUDACE",240,82,"-","-","-"],[259,"Exigence",-4,4,-5,2,"Diagonale","ÉQUITÉ",260,83,"-","-","-"],[260,"Simplicité",4,-4,-5,2,"Diagonale","CLÉMENCE",259,84,"-","-","-"],[261,"Amour d’apprendre",4,4,-5,2,"Diagonale","ASPIRATION",262,85,"-","-","-"],[262,"Renoncement",-4,-4,-5,2,"Diagonale","INTÉGRITÉ",261,86,"-","-","-"],[263,"Discernement",0,0,-6,1,"Centre","OPERATEUR_CENTRAL",263,87,"-","-","-"],[264,"Énergique",0,10,-6,1,"Axiale","VOLONTÉ",265,88,"Apathique","Agité","Courage"],[265,"Patient",0,-10,-6,1,"Axiale","TEMPÉRANCE",264,89,"Impatient","Impassible","Maîtrise"],[266,"Humble",-10,0,-6,1,"Axiale","PRUDENCE",267,90,"Orgueilleux","Effacé","Expression ajustée"],[267,"Confiant",10,0,-6,1,"Axiale","AUDACE",266,91,"Méfiant","Prétentieux","Courage"],[268,"Brave",3,7,-6,1,"Laterale","VOLONTÉ",285,92,"Peureux","Casse-cou","Courage"],[269,"Sensible",-3,7,-6,1,"Laterale","VOLONTÉ",293,93,"Insensible","Susceptible","Humanité"],[270,"Spontané",4,6,-6,1,"Laterale","VOLONTÉ",287,94,"Calculateur","Irréfléchi","Complément W1"],[271,"Assertif",-4,6,-6,1,"Laterale","VOLONTÉ",295,95,"Soumis","Autoritaire","Complément W1"],[272,"Autonome",2,8,-6,1,"Laterale","VOLONTÉ",289,96,"Dépendant","Indépendant","Autonomie"],[273,"Discipliné",-2,8,-6,1,"Laterale","VOLONTÉ",297,97,"Indiscipliné","Rigide","Maîtrise"],[274,"Original",1,9,-6,1,"Laterale","VOLONTÉ",291,98,"Banal","Excentrique","Ouverture"],[275,"Intègre",-1,9,-6,1,"Laterale","VOLONTÉ",299,99,"Corrompu","Inflexible","Intégrité"],[276,"Posé",3,-7,-6,1,"Laterale","TEMPÉRANCE",284,100,"Fébrile","Lent","Complément W1"],[277,"Sérieux",-3,-7,-6,1,"Laterale","TEMPÉRANCE",292,101,"Frivole","Austère","Complément W1"],[278,"Délicat",4,-6,-6,1,"Laterale","TEMPÉRANCE",286,102,"Maladroit","Précieux","Expression ajustée"],[279,"Économe",-4,-6,-6,1,"Laterale","TEMPÉRANCE",294,103,"Prodigue","Avare","Complément W1"],[280,"Réfléchi",2,-8,-6,1,"Laterale","TEMPÉRANCE",288,104,"Impulsif","Hésitant","Ouverture"],[281,"Méticuleux",-2,-8,-6,1,"Laterale","TEMPÉRANCE",296,105,"Désordonné","Pointilleux","Maîtrise"],[282,"Bienveillant",1,-9,-6,1,"Laterale","TEMPÉRANCE",290,106,"Malveillant","Paternaliste","Humanité"],[283,"Respectueux",-1,-9,-6,1,"Laterale","TEMPÉRANCE",298,107,"Irrespectueux","Obséquieux","Justice"],[284,"Persévérant",-7,3,-6,1,"Laterale","PRUDENCE",276,110,"Velléitaire","Obstiné","Maîtrise"],[285,"Avisé",-7,-3,-6,1,"Laterale","PRUDENCE",268,111,"Imprudent","Calculateur","Complément W1"],[286,"Franc",-6,4,-6,1,"Laterale","PRUDENCE",278,108,"Fuyant","Brusque","Expression ajustée"],[287,"Responsable",-6,-4,-6,1,"Laterale","PRUDENCE",270,109,"Irresponsable","Culpabilisé","Autonomie"],[288,"Intuitif",-8,2,-6,1,"Laterale","PRUDENCE",280,112,"Borné","Crédule","Complément W1"],[289,"Fidèle",-8,-2,-6,1,"Laterale","PRUDENCE",272,113,"Infidèle","Possessif","Intégrité"],[290,"Honnête",-9,1,-6,1,"Laterale","PRUDENCE",282,114,"Malhonnête","Blessant","Intégrité"],[291,"Fiable",-9,-1,-6,1,"Laterale","PRUDENCE",274,115,"Inconstant","Acharné","Autonomie"],[292,"Drôle",7,3,-6,1,"Laterale","AUDACE",277,118,"Morose","Bouffon","Expression ajustée"],[293,"Clair",7,-3,-6,1,"Laterale","AUDACE",269,119,"Confus","Simpliste","Expression ajustée"],[294,"Généreux",6,4,-6,1,"Laterale","AUDACE",279,116,"Gratteux","Gaspilleur","Humanité"],[295,"Gentil",6,-4,-6,1,"Laterale","AUDACE",271,117,"Méchant","Complaisant","Humanité"],[296,"Curieux",8,2,-6,1,"Laterale","AUDACE",281,120,"Indifférent","Indiscret","Ouverture"],[297,"Souple",8,-2,-6,1,"Laterale","AUDACE",273,121,"Rigide","Influençable","Ouverture"],[298,"Sincère",9,1,-6,1,"Laterale","AUDACE",283,122,"Hypocrite","Brutal","Intégrité"],[299,"Tolérant",9,-1,-6,1,"Laterale","AUDACE",275,123,"Intolérant","Bonasse","Justice"],[300,"Juste",-5,5,-6,1,"Diagonale","ÉQUITÉ",301,124,"Injuste","Envieux","Justice"],[301,"Compréhensif",5,-5,-6,1,"Diagonale","CLÉMENCE",300,125,"Fermé","Laxiste","Ouverture"],[302,"Ambitieux",5,5,-6,1,"Diagonale","ASPIRATION",303,126,"Résigné","Arriviste","Courage"],[303,"Modeste",-5,-5,-6,1,"Diagonale","INTÉGRITÉ",302,127,"Vaniteux","Timoré","Expression ajustée"]];
+    const NODES = RAW.map(r => {
+      const z = r[4], h3d = r[5];
+      const w = z < 0 ? (z === -7 ? 7 : 7 + z) : (z === 7 ? 0 : null);
+      return {
+        id: r[0], lbl: r[1], x: r[2], y: r[3], z, w, h3d,
+        r: Math.abs(r[2]) + Math.abs(r[3]),
+        type: r[6], grp: r[7], corr_id: r[8], hom_id: r[9],
+        d_min: r[10], d_max: r[11], fam_th: r[12]
+      };
+    });
+    const nodeById = {};
+    NODES.forEach(n => { nodeById[n.id] = n; });
+
+    const H3D_COLORS = {
+      "-7": "#ef4444", "-6": "#dc2626", "-5": "#b91c1c", "-4": "#c2410c",
+      "-3": "#d97706", "-2": "#ea580c", "-1": "#f59e0b", "0": "#fde047",
+      "1": "#10b981", "2": "#06b6d4", "3": "#0ea5e9", "4": "#3b82f6",
+      "5": "#6366f1", "6": "#8b5cf6", "7": "#f59e0b"
+    };
+
+    let rotYaw = -0.65, rotPitch = 0.22, zoom = 1.02;
+    let selectedId = 300;
+    let hoveredId = null;
+    let activeIds = new Set(NODES.map(n => n.id));
+
+    const canvas = document.getElementById("diamCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    }
+    window.addEventListener("resize", resize);
+
+    function project([x, y, h3d], w, h) {
+      const zWorld = h3d * 1.45;
+      const cosY = Math.cos(rotYaw), sinY = Math.sin(rotYaw);
+      const cosP = Math.cos(rotPitch), sinP = Math.sin(rotPitch);
+      const x1 = x * cosY - y * sinY;
+      const y1 = x * sinY + y * cosY;
+      const z2 = zWorld * cosP - y1 * sinP;
+      const depth = zWorld * sinP + y1 * cosP;
+      const scale = (Math.min(w, h) * 0.029 * zoom) * (45 / (45 - depth * 0.42));
+      return { sx: w * 0.5 + x1 * scale, sy: h * 0.5 - z2 * scale, depth };
+    }
+
+    let projList = [];
+
+    function draw() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const isLight = document.documentElement.classList.contains("light");
+      const textFill = isLight ? "#0f172a" : "#f8fafc";
+      const wireAlpha = isLight ? 0.35 : 0.28;
+
+      const pTop = project([0, 0, 7], w, h), pBot = project([0, 0, -7], w, h);
+      ctx.strokeStyle = isLight ? "rgba(71,85,105,0.45)" : "rgba(226,232,240,0.35)";
+      ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.moveTo(pBot.sx, pBot.sy); ctx.lineTo(pTop.sx, pTop.sy); ctx.stroke();
+
+      [[[-13.5, 0, 0], [13.5, 0, 0]], [[0, -13.5, 0], [0, 13.5, 0]]].forEach(([a, b]) => {
+        const pa = project(a, w, h), pb = project(b, w, h);
+        ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy); ctx.stroke();
+      });
+
+      for (let h3d = -5; h3d <= 5; h3d++) {
+        const r = 12 - 2 * Math.abs(h3d);
+        ctx.strokeStyle = H3D_COLORS[String(h3d)] || "#94a3b8";
+        ctx.globalAlpha = h3d === 0 ? 0.85 : wireAlpha;
+        ctx.lineWidth = h3d === 0 ? 2.0 : 1.1;
+        const corners = [[r, 0, h3d], [0, r, h3d], [-r, 0, h3d], [0, -r, h3d], [r, 0, h3d]];
+        ctx.beginPath();
+        corners.forEach((pt, idx) => {
+          const pr = project(pt, w, h);
+          if (idx === 0) ctx.moveTo(pr.sx, pr.sy); else ctx.lineTo(pr.sx, pr.sy);
+        });
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = isLight ? "rgba(100,116,139,0.30)" : "rgba(148,163,184,0.25)";
+      ctx.lineWidth = 1.0;
+      [[12, 0], [-12, 0], [0, 12], [0, -12], [6, 6], [-6, -6], [-6, 6], [6, -6]].forEach(([cx, cy], idx) => {
+        ctx.globalAlpha = idx < 4 ? 0.45 : 0.22;
+        const pLow = project([0, 0, -6], w, h), pMid = project([cx, cy, 0], w, h), pHigh = project([0, 0, 6], w, h);
+        ctx.beginPath(); ctx.moveTo(pLow.sx, pLow.sy); ctx.lineTo(pMid.sx, pMid.sy); ctx.lineTo(pHigh.sx, pHigh.sy); ctx.stroke();
+      });
+      ctx.globalAlpha = 1.0;
+
+      const sel = nodeById[selectedId];
+      if (sel && sel.corr_id && sel.corr_id !== sel.id) {
+        const corr = nodeById[sel.corr_id];
+        if (corr) {
+          const pA = project([sel.x, sel.y, sel.h3d], w, h), pB = project([corr.x, corr.y, corr.h3d], w, h);
+          ctx.save(); ctx.setLineDash([4, 3]); ctx.strokeStyle = textFill; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(pA.sx, pA.sy); ctx.lineTo(pB.sx, pB.sy); ctx.stroke(); ctx.restore();
+        }
+      }
+
+      if (document.getElementById("showHomolLine").checked && sel && sel.hom_id && sel.hom_id !== sel.id) {
+        const hom = nodeById[sel.hom_id];
+        if (hom) {
+          const pA = project([sel.x, sel.y, sel.h3d], w, h), pB = project([hom.x, hom.y, hom.h3d], w, h);
+          ctx.save(); ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2.2;
+          ctx.beginPath(); ctx.moveTo(pA.sx, pA.sy); ctx.lineTo(pB.sx, pB.sy); ctx.stroke(); ctx.restore();
+        }
+      }
+
+      projList = NODES.map(n => ({ n, ...project([n.x, n.y, n.h3d], w, h) })).sort((a, b) => a.depth - b.depth);
+      projList.forEach(item => {
+        const { n, sx, sy } = item;
+        const isVis = activeIds.has(n.id);
+        const isSel = n.id === selectedId;
+        const isHom = sel && sel.hom_id === n.id && n.id !== selectedId;
+        const isCorr = sel && sel.corr_id === n.id && n.id !== selectedId;
+        const isHov = n.id === hoveredId;
+
+        const baseR = n.r === 0 ? 5.2 : (n.type === "Axiale" || n.type === "Diagonale" ? 4.2 : 3.3);
+        const rad = isSel ? baseR + 3.5 : (isHom || isCorr || isHov ? baseR + 2.2 : baseR);
+
+        ctx.globalAlpha = isVis ? 1.0 : 0.10;
+        ctx.fillStyle = H3D_COLORS[String(n.h3d)] || "#94a3b8";
+        ctx.beginPath(); ctx.arc(sx, sy, rad, 0, Math.PI * 2); ctx.fill();
+
+        if (isSel || isHom || isCorr || isHov || n.r === 0) {
+          ctx.lineWidth = isSel ? 2.4 : 1.4;
+          ctx.strokeStyle = isHom ? "#38bdf8" : textFill;
+          ctx.stroke();
+        }
+
+        if (isSel || isHom || isCorr || isHov || (isVis && activeIds.size <= 34)) {
+          ctx.font = (isSel || isHom) ? "bold 12px sans-serif" : "12px sans-serif";
+          ctx.fillStyle = textFill;
+          const zTag = n.z > 0 ? `+${n.z}` : `${n.z}`;
+          ctx.fillText(`${n.lbl} (Z=${zTag})`, sx + rad + 4, sy + 4);
+        }
+      });
+      ctx.globalAlpha = 1.0;
+    }
+
+    function updateInspector() {
+      const n = nodeById[selectedId];
+      if (!n) return;
+      const zTag = n.z > 0 ? `+${n.z}` : `${n.z}`;
+      const wInfo = n.w !== null ? ` • W=${n.w}` : "";
+      document.getElementById("nBadge").textContent = `#${n.id} • Z=${zTag}${wInfo} • ${n.type}`;
+
+      const grpEl = document.getElementById("nGrp");
+      grpEl.textContent = n.grp;
+      const col = H3D_COLORS[String(n.h3d)] || "#3b82f6";
+      grpEl.style.backgroundColor = col + "28";
+      grpEl.style.color = col;
+
+      document.getElementById("nTitle").textContent = n.lbl;
+      const xStr = n.x >= 0 ? `+${n.x}` : `${n.x}`, yStr = n.y >= 0 ? `+${n.y}` : `${n.y}`;
+      document.getElementById("nCoords").textContent =
+        `(X=${xStr}, Y=${yStr}, Z=${zTag}) • R_L1=${n.r} • h_3D=${n.h3d >= 0 ? "+" + n.h3d : n.h3d}`;
+
+      const hom = nodeById[n.hom_id];
+      const homBtn = document.getElementById("homBtn"), homCoords = document.getElementById("homCoords");
+      if (hom && hom.id !== n.id) {
+        const hzTag = hom.z > 0 ? `+${hom.z}` : `${hom.z}`;
+        homBtn.textContent = `${hom.lbl} (#${hom.id})`;
+        homCoords.textContent = `(X=${xStr}, Y=${yStr}, Z=${hzTag})`;
+        homBtn.onclick = () => { selectedId = hom.id; updateInspector(); draw(); };
+      } else {
+        homBtn.textContent = `${n.lbl} (Équateur auto-dual Z=+7)`;
+        homCoords.textContent = `h_3D = 0`;
+        homBtn.onclick = null;
+      }
+
+      const corr = nodeById[n.corr_id];
+      const corrBtn = document.getElementById("corrBtn"), corrCoords = document.getElementById("corrCoords");
+      document.getElementById("corrHeader").textContent =
+        n.z < 0 ? "Contrepoids axiologique (même Z⁻) :" : "Antagoniste affectif (même Z⁺) :";
+      if (corr) {
+        const cxStr = corr.x >= 0 ? `+${corr.x}` : `${corr.x}`, cyStr = corr.y >= 0 ? `+${corr.y}` : `${corr.y}`;
+        corrBtn.textContent = `${corr.lbl} (#${corr.id})`;
+        corrCoords.textContent = `(X*=${cxStr}, Y*=${cyStr}, Z=${zTag})`;
+        corrBtn.onclick = () => { selectedId = corr.id; updateInspector(); draw(); };
+      }
+
+      const symRule = document.getElementById("symRule");
+      if (n.r === 0) symRule.textContent = "Opérateur central sur l'axe (0, 0, Z)";
+      else if (n.type === "Axiale" || n.type === "Diagonale") symRule.textContent = "Inversion centrale (-X, -Y, Z)";
+      else symRule.textContent = "Involution controlatérale (-sgn(X)|Y|, -sgn(Y)|X|, Z)";
+
+      const triadContent = document.getElementById("triadContent");
+      if (n.d_min !== "-") {
+        triadContent.innerHTML = `<span class="text-rose-400">${n.d_min} (D⁻)</span> ← <span class="text-emerald-400 font-bold">${n.lbl} (V)</span> → <span class="text-amber-400">${n.d_max} (D⁺)</span> <span class="text-[var(--muted-foreground)] font-normal">• Famille : ${n.fam_th}</span>`;
+      } else if (n.z < 0 && hom) {
+        triadContent.textContent = `Strate Z=${zTag} (W=${n.w}) — Orientation choisie issue de la transmutation de « ${hom.lbl} » (Z=+${Math.abs(n.z === -7 ? 0 : n.z)}).`;
+      } else if (n.z === 7) {
+        triadContent.textContent = `Plan médian de la Suspension (Z=+7 ≡ W=0) : équateur du Diamant entre l'éprouvé et le choisi.`;
+      } else if (hom) {
+        triadContent.textContent = `Affect de strate Z=+${n.z} — Se transmute en « ${hom.lbl} » (Z=${hom.z}) dans l'hémisphère axiologique.`;
+      }
+    }
+
+    function applyFilter() {
+      const mode = document.getElementById("stratumSel").value;
+      const q = document.getElementById("qInput").value.trim().toLowerCase();
+      activeIds.clear();
+      let firstMatch = null;
+
+      NODES.forEach(n => {
+        let keep = true;
+        if (mode === "Z_MINUS") keep = n.z < 0;
+        else if (mode === "EQ") keep = n.z === 7;
+        else if (mode === "Z_PLUS") keep = n.z >= 0 && n.z < 7;
+        else if (mode.startsWith("PAIR_")) {
+          const k = parseInt(mode.split("_")[1], 10);
+          keep = Math.abs(n.z) === k;
+        }
+        if (!keep) return;
+
+        if (q) {
+          const hom = nodeById[n.hom_id], corr = nodeById[n.corr_id];
+          const hay = `${n.lbl} ${hom ? hom.lbl : ""} ${corr ? corr.lbl : ""} ${n.d_min} ${n.d_max} ${n.grp}`.toLowerCase();
+          if (!hay.includes(q)) return;
+          if (n.lbl.toLowerCase().includes(q) && firstMatch === null) firstMatch = n.id;
+        }
+        activeIds.add(n.id);
+        if (firstMatch === null) firstMatch = n.id;
+      });
+
+      if (q && firstMatch !== null) selectedId = firstMatch;
+      updateInspector();
+      draw();
+    }
+
+    let dragging = false, sx0 = 0, sy0 = 0, moved = false;
+    canvas.addEventListener("mousedown", e => { dragging = true; moved = false; sx0 = e.clientX; sy0 = e.clientY; });
+    window.addEventListener("mousemove", e => {
+      const rect = canvas.getBoundingClientRect();
+      if (dragging) {
+        const dx = e.clientX - sx0, dy = e.clientY - sy0;
+        if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+        rotYaw += dx * 0.008;
+        rotPitch = Math.max(-1.4, Math.min(1.4, rotPitch + dy * 0.008));
+        sx0 = e.clientX; sy0 = e.clientY;
+        draw();
+        return;
+      }
+      if (e.target === canvas) {
+        const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        let f = null;
+        for (let i = projList.length - 1; i >= 0; i--) {
+          const it = projList[i];
+          if (!activeIds.has(it.n.id)) continue;
+          if (Math.hypot(mx - it.sx, my - it.sy) <= 9) { f = it.n.id; break; }
+        }
+        if (f !== hoveredId) { hoveredId = f; draw(); }
+      }
+    });
+    window.addEventListener("mouseup", e => {
+      if (dragging && !moved && e.target === canvas && hoveredId !== null) {
+        selectedId = hoveredId; updateInspector(); draw();
+      }
+      dragging = false;
+    });
+    canvas.addEventListener("wheel", e => {
+      e.preventDefault();
+      zoom = Math.max(0.5, Math.min(2.4, zoom * (e.deltaY < 0 ? 1.08 : 0.92)));
+      draw();
+    }, { passive: false });
+
+    document.getElementById("stratumSel").addEventListener("change", applyFilter);
+    document.getElementById("qInput").addEventListener("input", applyFilter);
+    document.getElementById("showHomolLine").addEventListener("change", draw);
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      rotYaw = -0.65; rotPitch = 0.22; zoom = 1.02; draw();
+    });
+
+    updateInspector();
+    setTimeout(resize, 20);
+  </script>
+</body>
+</html>

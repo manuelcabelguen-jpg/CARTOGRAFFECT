@@ -1,0 +1,2341 @@
+{
+  "epistemological_note": "Conformément à CARTOGRAFFECT®, les 8 cohortes formalisent des régimes paramétriques dynamiques et des trajectoires réversibles dans l'espace (X, Y, Z), et non des étiquettes diagnostiques statiques.",
+  "configuration": {
+    "n_per_cohort": 200,
+    "n_total_agents": 1600,
+    "n_therapy_per_cohort": 200,
+    "num_trials": 280,
+    "svi_steps": 750,
+    "svi_samples": 150,
+    "runtime_seconds": 503.76
+  },
+  "cohort_priors": [
+    {
+      "cohort_key": "normothymic",
+      "display_name": "Contrôle normothymique",
+      "short_label": "Normothymique",
+      "dsm5_reference": "Référence homéostatique (sans trouble)",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.28,
+      "tau_C": 0.28,
+      "lambda": 0.55,
+      "alpha_0": 0.65,
+      "gamma_alpha": 0.26,
+      "eta_diss": 0.52,
+      "beta_X": 2.35,
+      "beta_Y": 1.05
+    },
+    {
+      "cohort_key": "mdd_inhibited",
+      "display_name": "Trouble dépressif caractérisé inhibé",
+      "short_label": "TDC inhibé",
+      "dsm5_reference": "DSM-5 296.xx — Trouble dépressif caractérisé (spécification inhibée)",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": -0.75,
+      "tau_A": 0.34,
+      "tau_C": 0.13,
+      "lambda": 0.84,
+      "alpha_0": 2.4,
+      "gamma_alpha": 0.68,
+      "eta_diss": 0.08,
+      "beta_X": 1.45,
+      "beta_Y": 0.95
+    },
+    {
+      "cohort_key": "gad",
+      "display_name": "Trouble anxieux généralisé",
+      "short_label": "TAG",
+      "dsm5_reference": "DSM-5 300.02 — Trouble anxieux généralisé",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.11,
+      "tau_C": 0.22,
+      "lambda": 0.76,
+      "alpha_0": 1.75,
+      "gamma_alpha": 0.5,
+      "eta_diss": 0.17,
+      "beta_X": 3.1,
+      "beta_Y": 0.9
+    },
+    {
+      "cohort_key": "panic",
+      "display_name": "Trouble panique",
+      "short_label": "Panique",
+      "dsm5_reference": "DSM-5 300.01 — Trouble panique",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.09,
+      "tau_C": 0.09,
+      "lambda": 0.32,
+      "alpha_0": 0.45,
+      "gamma_alpha": 0.66,
+      "eta_diss": 0.36,
+      "beta_X": 2.65,
+      "beta_Y": 1.45
+    },
+    {
+      "cohort_key": "mania",
+      "display_name": "Épisode maniaque",
+      "short_label": "Manie",
+      "dsm5_reference": "DSM-5 296.4x — Trouble bipolaire I, épisode maniaque",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.85,
+      "tau_A": 0.58,
+      "tau_C": 0.11,
+      "lambda": 0.15,
+      "alpha_0": 0.38,
+      "gamma_alpha": 0.15,
+      "eta_diss": 0.28,
+      "beta_X": 1.95,
+      "beta_Y": 1.6
+    },
+    {
+      "cohort_key": "ocd",
+      "display_name": "Trouble obsessionnel-compulsif",
+      "short_label": "TOC",
+      "dsm5_reference": "DSM-5 300.3 — Trouble obsessionnel-compulsif",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.13,
+      "tau_C": 0.44,
+      "lambda": 0.9,
+      "alpha_0": 2.2,
+      "gamma_alpha": 0.6,
+      "eta_diss": 0.14,
+      "beta_X": 3.45,
+      "beta_Y": 0.55
+    },
+    {
+      "cohort_key": "ptsd",
+      "display_name": "Trouble de stress post-traumatique",
+      "short_label": "TSPT (bimodal)",
+      "dsm5_reference": "DSM-5 309.81 — Trouble de stress post-traumatique",
+      "num_components": 2,
+      "ptsd_bimodal": true,
+      "bpd_z4_z6_sigma": 0.0,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.29800000000000004,
+      "tau_C": 0.30900000000000005,
+      "lambda": 0.6400000000000001,
+      "alpha_0": 2.1710086627872265,
+      "gamma_alpha": 0.676,
+      "eta_diss": 0.10650000000000001,
+      "beta_X": 2.3074999999999997,
+      "beta_Y": 0.88
+    },
+    {
+      "cohort_key": "bpd",
+      "display_name": "Trouble de la personnalité limite",
+      "short_label": "TPL (Z=4,6)",
+      "dsm5_reference": "DSM-5 301.83 — Trouble de la personnalité borderline",
+      "num_components": 1,
+      "ptsd_bimodal": false,
+      "bpd_z4_z6_sigma": 0.42,
+      "ctrl_prior_bias_mean": 0.0,
+      "tau_A": 0.17,
+      "tau_C": 0.17,
+      "lambda": 0.38,
+      "alpha_0": 0.7,
+      "gamma_alpha": 0.44,
+      "eta_diss": 0.22,
+      "beta_X": 2.35,
+      "beta_Y": 1.48
+    }
+  ],
+  "parameter_recovery_1600": {
+    "tau_A": {
+      "pearson_r": 0.9856604743203061,
+      "rmse": 0.0301300103968621,
+      "bias": 0.005965532586476641,
+      "coverage_95": 0.834375
+    },
+    "tau_C": {
+      "pearson_r": 0.9836893363862209,
+      "rmse": 0.027468887693702208,
+      "bias": 0.006361835910106014,
+      "coverage_95": 0.84125
+    },
+    "lambda": {
+      "pearson_r": 0.9851178322195275,
+      "rmse": 0.0459453217222408,
+      "bias": 0.006811200996438795,
+      "coverage_95": 0.845625
+    },
+    "alpha_0": {
+      "pearson_r": 0.8877498866248388,
+      "rmse": 0.5292127975924422,
+      "bias": 0.04531689895488663,
+      "coverage_95": 0.836875
+    },
+    "gamma_alpha": {
+      "pearson_r": 0.8590773671359708,
+      "rmse": 0.1197444755013917,
+      "bias": 0.026260278768068517,
+      "coverage_95": 0.823125
+    },
+    "eta_diss": {
+      "pearson_r": 0.9621220308618639,
+      "rmse": 0.04345194777324273,
+      "bias": 0.004366002858852569,
+      "coverage_95": 0.848125
+    },
+    "beta_X": {
+      "pearson_r": 0.9156369599944564,
+      "rmse": 0.29720341202873835,
+      "bias": 0.060345726536463126,
+      "coverage_95": 0.92875
+    },
+    "beta_Y": {
+      "pearson_r": 0.9613598523331109,
+      "rmse": 0.10773031923373153,
+      "bias": 0.013507148945815757,
+      "coverage_95": 0.945625
+    },
+    "ctrl_prior_bias": {
+      "pearson_r": 0.9981617257036027,
+      "rmse": 0.02491160068783858,
+      "bias": -0.001871234434810115,
+      "coverage_95": 0.829375
+    }
+  },
+  "xyz_occupation": {
+    "normothymic": {
+      "mean_x": -0.9303392857142857,
+      "mean_y": 0.16716071428571427,
+      "mean_z": 2.898857142857143,
+      "mean_z_stress": 3.613287037037037,
+      "mean_z_remission": 0.46115384615384614,
+      "pdv_occupancy_session": 0.195375,
+      "pdv_fraction_remission": 0.8042307692307692,
+      "probe_rate": 0.5025535714285714,
+      "quadrant_pos_y": 0.37787499999999996,
+      "quadrant_neg_neg": 0.08032142857142859,
+      "quadrant_neg_pos": 0.1694464285714286,
+      "quadrant_pos_pos": 0.12823214285714285,
+      "central_suspension_rate": 0.042,
+      "state_switch_rate": 0.39146953405017926,
+      "z4_z6_instability_ratio": 1.0683013289295131,
+      "stratum_distribution": [
+        0.195375,
+        0.054410714285714284,
+        0.08989285714285715,
+        0.1687142857142857,
+        0.3116785714285714,
+        0.16776785714285714,
+        0.012160714285714285,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 49,
+          "label": "Frustration",
+          "x": -3,
+          "y": 3,
+          "z": 4,
+          "occupancy": 0.07332142857142857
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.07051785714285715
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.054410714285714284
+        },
+        {
+          "state_index": 31,
+          "label": "Doute",
+          "x": -6,
+          "y": 0,
+          "z": 4,
+          "occupancy": 0.049553571428571426
+        },
+        {
+          "state_index": 56,
+          "label": "Méfiance",
+          "x": -8,
+          "y": 0,
+          "z": 5,
+          "occupancy": 0.03494642857142857
+        }
+      ]
+    },
+    "mdd_inhibited": {
+      "mean_x": -0.7020714285714286,
+      "mean_y": -2.39175,
+      "mean_z": 3.5485714285714285,
+      "mean_z_stress": 3.880231481481481,
+      "mean_z_remission": 2.6063461538461534,
+      "pdv_occupancy_session": 0.00830357142857143,
+      "pdv_fraction_remission": 0.039999999999999994,
+      "probe_rate": 0.5173749999999999,
+      "quadrant_pos_y": 0.142,
+      "quadrant_neg_neg": 0.33435714285714285,
+      "quadrant_neg_pos": 0.005767857142857142,
+      "quadrant_pos_pos": 0.08439285714285713,
+      "central_suspension_rate": 0.04826785714285714,
+      "state_switch_rate": 0.3418458781362007,
+      "z4_z6_instability_ratio": 0.5886787100811849,
+      "stratum_distribution": [
+        0.00830357142857143,
+        0.05544642857142857,
+        0.13789285714285715,
+        0.22782142857142856,
+        0.350625,
+        0.18830357142857143,
+        0.031392857142857146,
+        0.00021428571428571427
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 52,
+          "label": "Rejet",
+          "x": -3,
+          "y": -3,
+          "z": 4,
+          "occupancy": 0.13010714285714287
+        },
+        {
+          "state_index": 85,
+          "label": "Désintérêt",
+          "x": -4,
+          "y": -4,
+          "z": 5,
+          "occupancy": 0.097375
+        },
+        {
+          "state_index": 30,
+          "label": "Langueur",
+          "x": 0,
+          "y": -6,
+          "z": 4,
+          "occupancy": 0.09392857142857143
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.05544642857142857
+        },
+        {
+          "state_index": 13,
+          "label": "Ennui",
+          "x": 0,
+          "y": -4,
+          "z": 3,
+          "occupancy": 0.052196428571428574
+        }
+      ]
+    },
+    "gad": {
+      "mean_x": -1.0581428571428573,
+      "mean_y": 0.4629642857142857,
+      "mean_z": 3.062321428571429,
+      "mean_z_stress": 3.512175925925926,
+      "mean_z_remission": 1.5793269230769231,
+      "pdv_occupancy_session": 0.06857142857142857,
+      "pdv_fraction_remission": 0.27778846153846154,
+      "probe_rate": 0.5948035714285714,
+      "quadrant_pos_y": 0.4215714285714286,
+      "quadrant_neg_neg": 0.07585714285714286,
+      "quadrant_neg_pos": 0.2010178571428571,
+      "quadrant_pos_pos": 0.16541071428571427,
+      "central_suspension_rate": 0.04121428571428572,
+      "state_switch_rate": 0.39265232974910397,
+      "z4_z6_instability_ratio": 0.8595215390364761,
+      "stratum_distribution": [
+        0.06857142857142857,
+        0.08958928571428572,
+        0.13544642857142858,
+        0.223375,
+        0.3874107142857143,
+        0.09157142857142857,
+        0.004035714285714286,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 31,
+          "label": "Doute",
+          "x": -6,
+          "y": 0,
+          "z": 4,
+          "occupancy": 0.09210714285714286
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.08958928571428572
+        },
+        {
+          "state_index": 49,
+          "label": "Frustration",
+          "x": -3,
+          "y": 3,
+          "z": 4,
+          "occupancy": 0.08017857142857143
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.070875
+        },
+        {
+          "state_index": 9,
+          "label": "Désir",
+          "x": 1,
+          "y": 1,
+          "z": 2,
+          "occupancy": 0.054089285714285715
+        }
+      ]
+    },
+    "panic": {
+      "mean_x": -0.9558571428571428,
+      "mean_y": 0.31114285714285717,
+      "mean_z": 3.013375,
+      "mean_z_stress": 3.685,
+      "mean_z_remission": 0.759423076923077,
+      "pdv_occupancy_session": 0.16135714285714287,
+      "pdv_fraction_remission": 0.6772115384615386,
+      "probe_rate": 0.4588928571428572,
+      "quadrant_pos_y": 0.45903571428571427,
+      "quadrant_neg_neg": 0.11792857142857144,
+      "quadrant_neg_pos": 0.2546785714285714,
+      "quadrant_pos_pos": 0.16528571428571429,
+      "central_suspension_rate": 0.011464285714285713,
+      "state_switch_rate": 0.3851612903225806,
+      "z4_z6_instability_ratio": 0.833204545206303,
+      "stratum_distribution": [
+        0.16135714285714287,
+        0.06282142857142857,
+        0.09026785714285715,
+        0.17333928571428572,
+        0.32273214285714286,
+        0.17782142857142857,
+        0.011660714285714286,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 49,
+          "label": "Frustration",
+          "x": -3,
+          "y": 3,
+          "z": 4,
+          "occupancy": 0.09396428571428571
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.08123214285714286
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.06282142857142857
+        },
+        {
+          "state_index": 9,
+          "label": "Désir",
+          "x": 1,
+          "y": 1,
+          "z": 2,
+          "occupancy": 0.036517857142857144
+        },
+        {
+          "state_index": 24,
+          "label": "Exaspération",
+          "x": -2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.029464285714285714
+        }
+      ]
+    },
+    "mania": {
+      "mean_x": -0.8773392857142858,
+      "mean_y": 3.149910714285714,
+      "mean_z": 3.3740357142857142,
+      "mean_z_stress": 4.1401157407407405,
+      "mean_z_remission": 0.8086538461538462,
+      "pdv_occupancy_session": 0.145125,
+      "pdv_fraction_remission": 0.6352884615384614,
+      "probe_rate": 0.2993571428571428,
+      "quadrant_pos_y": 0.7480892857142857,
+      "quadrant_neg_neg": 0.0019285714285714284,
+      "quadrant_neg_pos": 0.319,
+      "quadrant_pos_pos": 0.1265,
+      "central_suspension_rate": 0.012017857142857143,
+      "state_switch_rate": 0.29016129032258065,
+      "z4_z6_instability_ratio": 1.5364691618479236,
+      "stratum_distribution": [
+        0.145125,
+        0.07207142857142858,
+        0.08396428571428571,
+        0.15542857142857142,
+        0.16833928571428572,
+        0.2565,
+        0.11810714285714285,
+        0.0004642857142857143
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 82,
+          "label": "Insatisfaction",
+          "x": -4,
+          "y": 4,
+          "z": 5,
+          "occupancy": 0.14607142857142857
+        },
+        {
+          "state_index": 54,
+          "label": "Puissance",
+          "x": 0,
+          "y": 8,
+          "z": 5,
+          "occupancy": 0.08605357142857142
+        },
+        {
+          "state_index": 29,
+          "label": "Exaltation",
+          "x": 0,
+          "y": 6,
+          "z": 4,
+          "occupancy": 0.0745
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.07207142857142858
+        },
+        {
+          "state_index": 49,
+          "label": "Frustration",
+          "x": -3,
+          "y": 3,
+          "z": 4,
+          "occupancy": 0.06730357142857143
+        }
+      ]
+    },
+    "ocd": {
+      "mean_x": -1.2010535714285715,
+      "mean_y": 0.31108928571428573,
+      "mean_z": 3.020410714285714,
+      "mean_z_stress": 3.4057175925925924,
+      "mean_z_remission": 1.7575,
+      "pdv_occupancy_session": 0.052071428571428574,
+      "pdv_fraction_remission": 0.19634615384615384,
+      "probe_rate": 0.6950714285714286,
+      "quadrant_pos_y": 0.252625,
+      "quadrant_neg_neg": 0.03351785714285715,
+      "quadrant_neg_pos": 0.08651785714285715,
+      "quadrant_pos_pos": 0.12719642857142857,
+      "central_suspension_rate": 0.09289285714285715,
+      "state_switch_rate": 0.3553584229390681,
+      "z4_z6_instability_ratio": 0.7058751403904958,
+      "stratum_distribution": [
+        0.052071428571428574,
+        0.08835714285714286,
+        0.15896428571428572,
+        0.2633392857142857,
+        0.3646607142857143,
+        0.07017857142857142,
+        0.0024285714285714284,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 31,
+          "label": "Doute",
+          "x": -6,
+          "y": 0,
+          "z": 4,
+          "occupancy": 0.18826785714285715
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.08835714285714286
+        },
+        {
+          "state_index": 15,
+          "label": "Curiosité",
+          "x": 4,
+          "y": 0,
+          "z": 3,
+          "occupancy": 0.059875
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.055035714285714285
+        },
+        {
+          "state_index": 9,
+          "label": "Désir",
+          "x": 1,
+          "y": 1,
+          "z": 2,
+          "occupancy": 0.04973214285714286
+        }
+      ]
+    },
+    "ptsd": {
+      "mean_x": -0.8530892857142857,
+      "mean_y": 0.5941607142857143,
+      "mean_z": 3.4324285714285714,
+      "mean_z_stress": 3.7782870370370376,
+      "mean_z_remission": 2.4215384615384616,
+      "pdv_occupancy_session": 0.02082142857142857,
+      "pdv_fraction_remission": 0.08971153846153845,
+      "probe_rate": 0.5348928571428572,
+      "quadrant_pos_y": 0.36844642857142856,
+      "quadrant_neg_neg": 0.050107142857142864,
+      "quadrant_neg_pos": 0.14830357142857142,
+      "quadrant_pos_pos": 0.13305357142857144,
+      "central_suspension_rate": 0.25569642857142855,
+      "state_switch_rate": 0.36933691756272397,
+      "z4_z6_instability_ratio": 0.772309427805983,
+      "stratum_distribution": [
+        0.02082142857142857,
+        0.06380357142857143,
+        0.131625,
+        0.22708928571428572,
+        0.3751607142857143,
+        0.16553571428571429,
+        0.015964285714285716,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 28,
+          "label": "Réserve",
+          "x": 0,
+          "y": 0,
+          "z": 4,
+          "occupancy": 0.09032142857142857
+        },
+        {
+          "state_index": 53,
+          "label": "Recul",
+          "x": 0,
+          "y": 0,
+          "z": 5,
+          "occupancy": 0.07378571428571429
+        },
+        {
+          "state_index": 31,
+          "label": "Doute",
+          "x": -6,
+          "y": 0,
+          "z": 4,
+          "occupancy": 0.06607142857142857
+        },
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.06380357142857143
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.062267857142857146
+        }
+      ]
+    },
+    "bpd": {
+      "mean_x": -0.8959285714285715,
+      "mean_y": 0.2980357142857143,
+      "mean_z": 3.171625,
+      "mean_z_stress": 3.799189814814815,
+      "mean_z_remission": 1.0798076923076925,
+      "pdv_occupancy_session": 0.11941071428571429,
+      "pdv_fraction_remission": 0.50875,
+      "probe_rate": 0.4321428571428571,
+      "quadrant_pos_y": 0.4364285714285714,
+      "quadrant_neg_neg": 0.11339285714285716,
+      "quadrant_neg_pos": 0.21100000000000002,
+      "quadrant_pos_pos": 0.159875,
+      "central_suspension_rate": 0.029803571428571426,
+      "state_switch_rate": 0.47478494623655915,
+      "z4_z6_instability_ratio": 2.473180187512293,
+      "stratum_distribution": [
+        0.11941071428571429,
+        0.08083928571428571,
+        0.096375,
+        0.16544642857142858,
+        0.30892857142857144,
+        0.20801785714285714,
+        0.020982142857142855,
+        0.0
+      ],
+      "top_non_pdv_states": [
+        {
+          "state_index": 1,
+          "label": "Surprise",
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "occupancy": 0.08083928571428571
+        },
+        {
+          "state_index": 26,
+          "label": "Attrait",
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "occupancy": 0.07373214285714286
+        },
+        {
+          "state_index": 49,
+          "label": "Frustration",
+          "x": -3,
+          "y": 3,
+          "z": 4,
+          "occupancy": 0.07294642857142856
+        },
+        {
+          "state_index": 82,
+          "label": "Insatisfaction",
+          "x": -4,
+          "y": 4,
+          "z": 5,
+          "occupancy": 0.03782142857142857
+        },
+        {
+          "state_index": 9,
+          "label": "Désir",
+          "x": 1,
+          "y": 1,
+          "z": 2,
+          "occupancy": 0.03610714285714286
+        }
+      ]
+    }
+  },
+  "ptsd_bimodality": {
+    "sarle_bc_tau_a_hat": 0.8457261640175182,
+    "sarle_bc_suspension": 0.7143476590719552,
+    "hypervigilance_count": 108,
+    "dissociation_count": 92
+  },
+  "bpd_z4_z6_instability_tests": {
+    "bpd_vs_normothymic": {
+      "u_stat": 39839.0,
+      "p_value": 2.6819439729592116e-66,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 1.0683013289295131,
+      "p_holm": 5.363887945918423e-66
+    },
+    "bpd_vs_mdd_inhibited": {
+      "u_stat": 40000.0,
+      "p_value": 2.4154281951986995e-67,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 0.5886787100811849,
+      "p_holm": 1.6907997366390895e-66
+    },
+    "bpd_vs_gad": {
+      "u_stat": 39988.0,
+      "p_value": 2.8920499983104855e-67,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 0.8595215390364761,
+      "p_holm": 1.6907997366390895e-66
+    },
+    "bpd_vs_panic": {
+      "u_stat": 39918.0,
+      "p_value": 8.251085522753779e-67,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 0.833204545206303,
+      "p_holm": 2.475325656826134e-66
+    },
+    "bpd_vs_mania": {
+      "u_stat": 36479.0,
+      "p_value": 2.1473173624690268e-46,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 1.5364691618479236,
+      "p_holm": 2.1473173624690268e-46
+    },
+    "bpd_vs_ocd": {
+      "u_stat": 40000.0,
+      "p_value": 2.4154281951986995e-67,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 0.7058751403904958,
+      "p_holm": 1.6907997366390895e-66
+    },
+    "bpd_vs_ptsd": {
+      "u_stat": 39997.0,
+      "p_value": 2.5266868478155418e-67,
+      "bpd_mean": 2.473180187512293,
+      "other_mean": 0.772309427805983,
+      "p_holm": 1.6907997366390895e-66
+    }
+  },
+  "separability": {
+    "theta_hat_only": {
+      "accuracy": 0.900625,
+      "balanced_accuracy": 0.900625,
+      "macro_f1": 0.8991634230343676,
+      "cohen_kappa": 0.8864285714285715,
+      "n_folds": 10,
+      "per_class": {
+        "normothymic": {
+          "precision": 0.9408866995073891,
+          "recall": 0.955,
+          "f1": 0.9478908188585607,
+          "support": 200
+        },
+        "mdd_inhibited": {
+          "precision": 0.9900990099009901,
+          "recall": 1.0,
+          "f1": 0.9950248756218906,
+          "support": 200
+        },
+        "gad": {
+          "precision": 0.7713004484304933,
+          "recall": 0.86,
+          "f1": 0.8132387706855791,
+          "support": 200
+        },
+        "panic": {
+          "precision": 0.8318965517241379,
+          "recall": 0.965,
+          "f1": 0.8935185185185186,
+          "support": 200
+        },
+        "mania": {
+          "precision": 0.9900497512437811,
+          "recall": 0.995,
+          "f1": 0.9925187032418954,
+          "support": 200
+        },
+        "ocd": {
+          "precision": 0.9095238095238095,
+          "recall": 0.955,
+          "f1": 0.9317073170731708,
+          "support": 200
+        },
+        "ptsd": {
+          "precision": 0.9423076923076923,
+          "recall": 0.735,
+          "f1": 0.8258426966292134,
+          "support": 200
+        },
+        "bpd": {
+          "precision": 0.8554913294797688,
+          "recall": 0.74,
+          "f1": 0.7935656836461126,
+          "support": 200
+        }
+      },
+      "confusion_norm": [
+        [
+          0.955,
+          0.0,
+          0.005,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.04
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.86,
+          0.01,
+          0.0,
+          0.095,
+          0.015,
+          0.02
+        ],
+        [
+          0.005,
+          0.0,
+          0.0,
+          0.965,
+          0.0,
+          0.0,
+          0.005,
+          0.025
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.995,
+          0.0,
+          0.0,
+          0.005
+        ],
+        [
+          0.0,
+          0.0,
+          0.045,
+          0.0,
+          0.0,
+          0.955,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.175,
+          0.055,
+          0.0,
+          0.0,
+          0.735,
+          0.035
+        ],
+        [
+          0.055,
+          0.01,
+          0.03,
+          0.13,
+          0.01,
+          0.0,
+          0.025,
+          0.74
+        ]
+      ],
+      "confusion_counts": [
+        [
+          191,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          200,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          172,
+          2,
+          0,
+          19,
+          3,
+          4
+        ],
+        [
+          1,
+          0,
+          0,
+          193,
+          0,
+          0,
+          1,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          199,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          0,
+          191,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          35,
+          11,
+          0,
+          0,
+          147,
+          7
+        ],
+        [
+          11,
+          2,
+          6,
+          26,
+          2,
+          0,
+          5,
+          148
+        ]
+      ],
+      "silhouette": {
+        "global_silhouette": 0.1934554842310206,
+        "silhouette_by_cohort": {
+          "normothymic": 0.25753203440338895,
+          "mdd_inhibited": 0.3686671180332442,
+          "gad": 0.11609237234965632,
+          "panic": 0.2500122402605195,
+          "mania": 0.5013207464926659,
+          "ocd": 0.24754994644300474,
+          "ptsd": -0.16627613999155272,
+          "bpd": -0.027254444142761947
+        }
+      },
+      "wilks_lambda": 0.004467738857003267,
+      "pillais_trace": 2.979727533510117
+    },
+    "theta_hat_plus_dynamics": {
+      "accuracy": 0.933125,
+      "balanced_accuracy": 0.933125,
+      "macro_f1": 0.9316175767260234,
+      "cohen_kappa": 0.9235714285714286,
+      "n_folds": 10,
+      "per_class": {
+        "normothymic": {
+          "precision": 1.0,
+          "recall": 0.99,
+          "f1": 0.9949748743718593,
+          "support": 200
+        },
+        "mdd_inhibited": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 200
+        },
+        "gad": {
+          "precision": 0.731404958677686,
+          "recall": 0.885,
+          "f1": 0.8009049773755657,
+          "support": 200
+        },
+        "panic": {
+          "precision": 0.9045454545454545,
+          "recall": 0.995,
+          "f1": 0.9476190476190477,
+          "support": 200
+        },
+        "mania": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 200
+        },
+        "ocd": {
+          "precision": 0.9178743961352657,
+          "recall": 0.95,
+          "f1": 0.9336609336609336,
+          "support": 200
+        },
+        "ptsd": {
+          "precision": 0.9774436090225563,
+          "recall": 0.65,
+          "f1": 0.7807807807807808,
+          "support": 200
+        },
+        "bpd": {
+          "precision": 0.995,
+          "recall": 0.995,
+          "f1": 0.995,
+          "support": 200
+        }
+      },
+      "confusion_norm": [
+        [
+          0.99,
+          0.0,
+          0.01,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.885,
+          0.015,
+          0.0,
+          0.085,
+          0.015,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.995,
+          0.0,
+          0.0,
+          0.0,
+          0.005
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.05,
+          0.0,
+          0.0,
+          0.95,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.265,
+          0.085,
+          0.0,
+          0.0,
+          0.65,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.005,
+          0.0,
+          0.0,
+          0.0,
+          0.995
+        ]
+      ],
+      "confusion_counts": [
+        [
+          198,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          200,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          177,
+          3,
+          0,
+          17,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          199,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          200,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          10,
+          0,
+          0,
+          190,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          53,
+          17,
+          0,
+          0,
+          130,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          199
+        ]
+      ],
+      "silhouette": {
+        "global_silhouette": 0.22972315400935223,
+        "silhouette_by_cohort": {
+          "normothymic": 0.259194606164899,
+          "mdd_inhibited": 0.403494592039347,
+          "gad": 0.12045354597980644,
+          "panic": 0.28642569306068943,
+          "mania": 0.540407006868558,
+          "ocd": 0.21576069078746601,
+          "ptsd": -0.16166874437727494,
+          "bpd": 0.17371784155132694
+        }
+      },
+      "wilks_lambda": 6.0462422957986145e-05,
+      "pillais_trace": 4.337132093315636
+    },
+    "clearest_separations_top6": [
+      {
+        "cohort_a": "mania",
+        "cohort_b": "ocd",
+        "mahalanobis_distance": 11.316410241018731,
+        "bhattacharyya_distance": 17.95691099011538,
+        "bhattacharyya_overlap": 1.5900568238070735e-08,
+        "lexicon176_js_divergence": 0.54766860870191,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "gad",
+        "cohort_b": "mania",
+        "mahalanobis_distance": 8.96112821946303,
+        "bhattacharyya_distance": 9.253645924397972,
+        "bhattacharyya_overlap": 9.57618742633779e-05,
+        "lexicon176_js_divergence": 0.4418840840991203,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "mania",
+        "cohort_b": "ptsd",
+        "mahalanobis_distance": 7.317575959408452,
+        "bhattacharyya_distance": 7.098721631172763,
+        "bhattacharyya_overlap": 0.000826160386170706,
+        "lexicon176_js_divergence": 0.4787312890509896,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "panic",
+        "cohort_b": "ocd",
+        "mahalanobis_distance": 7.260704034984918,
+        "bhattacharyya_distance": 7.632737622312361,
+        "bhattacharyya_overlap": 0.00048433312058983726,
+        "lexicon176_js_divergence": 0.254557121454621,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "mdd_inhibited",
+        "cohort_b": "ocd",
+        "mahalanobis_distance": 7.153888435776,
+        "bhattacharyya_distance": 5.471178528366963,
+        "bhattacharyya_overlap": 0.004206272024841889,
+        "lexicon176_js_divergence": 0.41356096279222265,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "mdd_inhibited",
+        "cohort_b": "mania",
+        "mahalanobis_distance": 7.017989781697792,
+        "bhattacharyya_distance": 7.198739009600327,
+        "bhattacharyya_overlap": 0.0007475278397349969,
+        "lexicon176_js_divergence": 0.6910132093219696,
+        "sym_confusion_theta_hat": 0.0,
+        "sym_confusion_combined": 0.0
+      }
+    ],
+    "transdiagnostic_overlaps_top6": [
+      {
+        "cohort_a": "gad",
+        "cohort_b": "ptsd",
+        "mahalanobis_distance": 2.9001515122814854,
+        "bhattacharyya_distance": 1.207721365608175,
+        "bhattacharyya_overlap": 0.2988775367408625,
+        "lexicon176_js_divergence": 0.10357017866326458,
+        "sym_confusion_theta_hat": 0.095,
+        "sym_confusion_combined": 0.14
+      },
+      {
+        "cohort_a": "panic",
+        "cohort_b": "bpd",
+        "mahalanobis_distance": 2.3234566009399513,
+        "bhattacharyya_distance": 1.1221510277974802,
+        "bhattacharyya_overlap": 0.32557871200946537,
+        "lexicon176_js_divergence": 0.024814964088651328,
+        "sym_confusion_theta_hat": 0.0775,
+        "sym_confusion_combined": 0.005
+      },
+      {
+        "cohort_a": "gad",
+        "cohort_b": "ocd",
+        "mahalanobis_distance": 2.928967358960757,
+        "bhattacharyya_distance": 1.149114696740098,
+        "bhattacharyya_overlap": 0.3169172130637267,
+        "lexicon176_js_divergence": 0.07959322089683074,
+        "sym_confusion_theta_hat": 0.07,
+        "sym_confusion_combined": 0.0675
+      },
+      {
+        "cohort_a": "normothymic",
+        "cohort_b": "bpd",
+        "mahalanobis_distance": 3.4588220565684638,
+        "bhattacharyya_distance": 1.4977255227912496,
+        "bhattacharyya_overlap": 0.22363824220376366,
+        "lexicon176_js_divergence": 0.02901307793753783,
+        "sym_confusion_theta_hat": 0.0475,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "ptsd",
+        "cohort_b": "bpd",
+        "mahalanobis_distance": 3.5042189899384693,
+        "bhattacharyya_distance": 1.570172999863513,
+        "bhattacharyya_overlap": 0.20800919368197587,
+        "lexicon176_js_divergence": 0.16458855657327545,
+        "sym_confusion_theta_hat": 0.030000000000000002,
+        "sym_confusion_combined": 0.0
+      },
+      {
+        "cohort_a": "panic",
+        "cohort_b": "ptsd",
+        "mahalanobis_distance": 4.547371862333055,
+        "bhattacharyya_distance": 2.629997876609818,
+        "bhattacharyya_overlap": 0.07207861528962764,
+        "lexicon176_js_divergence": 0.21154114792558493,
+        "sym_confusion_theta_hat": 0.03,
+        "sym_confusion_combined": 0.0425
+      }
+    ]
+  },
+  "therapeutic_recovery": {
+    "total_trials": 180,
+    "induction_trials": 80,
+    "exposure_trials": 40,
+    "remission_trials": 60,
+    "cohorts": {
+      "normothymic": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 9.114828644350528e-05,
+            "end_z_sd": 0.0012091539230347705,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.9221666666666667,
+            "auc_z_tx_mean": 1.6235731984143518,
+            "auc_lyap_tx_mean": 3.628,
+            "half_life_tx_mean": 41.775
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 8.942199546827541e-05,
+            "end_z_sd": 0.0011881131170251797,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.9280833333333334,
+            "auc_z_tx_mean": 1.424628266630627,
+            "auc_lyap_tx_mean": 3.2256499999999995,
+            "half_life_tx_mean": 30.24
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 9.129587113397927e-05,
+            "end_z_sd": 0.0012082226504457022,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.92525,
+            "auc_z_tx_mean": 1.4758038073893898,
+            "auc_lyap_tx_mean": 3.3347,
+            "half_life_tx_mean": 31.07
+          },
+          "combined": {
+            "end_z_mean": 5.302063434769349e-08,
+            "end_z_sd": 7.222945505974593e-07,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.9463333333333332,
+            "auc_z_tx_mean": 1.3793537473369537,
+            "auc_lyap_tx_mean": 3.1273,
+            "half_life_tx_mean": 27.58
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 155.5,
+            "p_value": 3.187205426628428e-33,
+            "r_rb": -0.9842139992893761,
+            "mean_a": 3.1273,
+            "mean_b": 3.628,
+            "median_a": 3.175,
+            "median_b": 3.63,
+            "p_holm": 1.2111380621188025e-31
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 640.0,
+            "p_value": 1.047497793027099e-25,
+            "r_rb": 0.9139669310391182,
+            "mean_a": 0.9463333333333332,
+            "mean_b": 0.9221666666666667,
+            "median_a": 0.95,
+            "median_b": 0.9333333333333333,
+            "p_holm": 1.990245806751488e-24
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 690.0,
+            "p_value": 4.225334063431955e-29,
+            "r_rb": -0.9270420301348137,
+            "mean_a": 3.2256499999999995,
+            "mean_b": 3.628,
+            "median_a": 3.225,
+            "median_b": 3.63,
+            "p_holm": 1.044878347666979e-27
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 734.5,
+            "p_value": 2.8240376570367926e-24,
+            "r_rb": -0.8989336085311318,
+            "mean_a": 3.3347,
+            "mean_b": 3.628,
+            "median_a": 3.365,
+            "median_b": 3.63,
+            "p_holm": 4.236056485555189e-23
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 3971.5,
+            "p_value": 4.026645171466493e-12,
+            "r_rb": -0.5757171091287858,
+            "mean_a": 3.2256499999999995,
+            "mean_b": 3.3347,
+            "median_a": 3.225,
+            "median_b": 3.365,
+            "p_holm": 3.221316137173194e-11
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 2503.5,
+            "p_value": 3.647003352239987e-17,
+            "r_rb": -0.7120924616180783,
+            "mean_a": 3.1273,
+            "mean_b": 3.2256499999999995,
+            "median_a": 3.175,
+            "median_b": 3.225,
+            "p_holm": 3.2823030170159886e-16
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 1680.0,
+            "p_value": 2.992523702677804e-23,
+            "r_rb": -0.8223632038065027,
+            "mean_a": 3.1273,
+            "mean_b": 3.3347,
+            "median_a": 3.175,
+            "median_b": 3.365,
+            "p_holm": 4.1895331837489255e-22
+          }
+        }
+      },
+      "mdd_inhibited": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.9735070115999261,
+            "end_z_sd": 1.2765915059299424,
+            "pdv_final_rate": 0.6104999999999999,
+            "pdv_remission_fraction": 0.253,
+            "auc_z_tx_mean": 3.020042740836591,
+            "auc_lyap_tx_mean": 6.599200000000001,
+            "half_life_tx_mean": 62.935
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.7641193700677976,
+            "end_z_sd": 1.1886827328051337,
+            "pdv_final_rate": 0.7084999999999999,
+            "pdv_remission_fraction": 0.3325,
+            "auc_z_tx_mean": 2.715998260088909,
+            "auc_lyap_tx_mean": 5.878299999999999,
+            "half_life_tx_mean": 54.95
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.42794007993275585,
+            "end_z_sd": 0.501410362829288,
+            "pdv_final_rate": 0.7155,
+            "pdv_remission_fraction": 0.29491666666666666,
+            "auc_z_tx_mean": 2.4314202497143977,
+            "auc_lyap_tx_mean": 5.40415,
+            "half_life_tx_mean": 51.1
+          },
+          "combined": {
+            "end_z_mean": 0.0025058563413200585,
+            "end_z_sd": 0.012296790075323517,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.7369999999999999,
+            "auc_z_tx_mean": 1.7744822724843659,
+            "auc_lyap_tx_mean": 3.929,
+            "half_life_tx_mean": 35.885
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.4355397239332455e-34,
+            "r_rb": -1.0,
+            "mean_a": 3.929,
+            "mean_b": 6.599200000000001,
+            "median_a": 3.885,
+            "median_b": 6.029999999999999,
+            "p_holm": 7.665478681817016e-33
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.4195330892253733e-34,
+            "r_rb": 1.0,
+            "mean_a": 0.7369999999999999,
+            "mean_b": 0.253,
+            "median_a": 0.75,
+            "median_b": 0.23333333333333334,
+            "p_holm": 7.665478681817016e-33
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 558.0,
+            "p_value": 1.1704672512189812e-30,
+            "r_rb": -0.9433531292827775,
+            "mean_a": 5.878299999999999,
+            "mean_b": 6.599200000000001,
+            "median_a": 5.07,
+            "median_b": 6.029999999999999,
+            "p_holm": 3.3943550285350453e-29
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 1626.0,
+            "p_value": 8.781611585594212e-25,
+            "r_rb": -0.8382089552238806,
+            "mean_a": 5.40415,
+            "mean_b": 6.599200000000001,
+            "median_a": 5.36,
+            "median_b": 6.029999999999999,
+            "p_holm": 1.492873969551016e-23
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 8711.5,
+            "p_value": 0.15829105406999977,
+            "r_rb": 0.11562864829196487,
+            "mean_a": 5.878299999999999,
+            "mean_b": 5.40415,
+            "median_a": 5.07,
+            "median_b": 5.36,
+            "p_holm": 0.15829105406999977
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 45.5,
+            "p_value": 2.844593309319605e-34,
+            "r_rb": -0.9954726368159204,
+            "mean_a": 3.929,
+            "mean_b": 5.878299999999999,
+            "median_a": 3.885,
+            "median_b": 5.07,
+            "p_holm": 1.2231751230074302e-32
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.435115190237373e-34,
+            "r_rb": -1.0,
+            "mean_a": 3.929,
+            "mean_b": 5.40415,
+            "median_a": 3.885,
+            "median_b": 5.36,
+            "p_holm": 7.665478681817016e-33
+          }
+        }
+      },
+      "gad": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.08086690097324886,
+            "end_z_sd": 0.263147491939076,
+            "pdv_final_rate": 0.9545,
+            "pdv_remission_fraction": 0.6269166666666666,
+            "auc_z_tx_mean": 2.0036070860099464,
+            "auc_lyap_tx_mean": 4.4577,
+            "half_life_tx_mean": 47.88
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.05437874942742096,
+            "end_z_sd": 0.1662850092645987,
+            "pdv_final_rate": 0.9744999999999999,
+            "pdv_remission_fraction": 0.6679166666666667,
+            "auc_z_tx_mean": 1.8306925211656835,
+            "auc_lyap_tx_mean": 4.056699999999999,
+            "half_life_tx_mean": 44.22
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.056484991614649635,
+            "end_z_sd": 0.1571786199881832,
+            "pdv_final_rate": 0.9744999999999999,
+            "pdv_remission_fraction": 0.6409999999999999,
+            "auc_z_tx_mean": 1.879632576788024,
+            "auc_lyap_tx_mean": 4.19585,
+            "half_life_tx_mean": 46.51
+          },
+          "combined": {
+            "end_z_mean": 0.00018071271500280748,
+            "end_z_sd": 0.0008439742504198203,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8333333333333331,
+            "auc_z_tx_mean": 1.5692696241387074,
+            "auc_lyap_tx_mean": 3.5215499999999995,
+            "half_life_tx_mean": 39.845
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 37.0,
+            "p_value": 2.502854842778221e-34,
+            "r_rb": -0.996318407960199,
+            "mean_a": 3.5215499999999995,
+            "mean_b": 4.4577,
+            "median_a": 3.48,
+            "median_b": 4.234999999999999,
+            "p_holm": 1.1262846792501994e-32
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.3808179886511604e-34,
+            "r_rb": 1.0,
+            "mean_a": 0.8333333333333331,
+            "mean_b": 0.6269166666666666,
+            "median_a": 0.85,
+            "median_b": 0.7,
+            "p_holm": 7.594498937581382e-33
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 884.0,
+            "p_value": 7.524458182024443e-29,
+            "r_rb": -0.9111557788944724,
+            "mean_a": 4.056699999999999,
+            "mean_b": 4.4577,
+            "median_a": 3.86,
+            "median_b": 4.234999999999999,
+            "p_holm": 1.730625381865622e-27
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 2674.0,
+            "p_value": 2.0810845690070367e-17,
+            "r_rb": -0.7083333333333334,
+            "mean_a": 4.19585,
+            "mean_b": 4.4577,
+            "median_a": 4.03,
+            "median_b": 4.234999999999999,
+            "p_holm": 2.0810845690070368e-16
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 4973.0,
+            "p_value": 9.436728188645708e-10,
+            "r_rb": -0.5002010050251257,
+            "mean_a": 4.056699999999999,
+            "mean_b": 4.19585,
+            "median_a": 3.86,
+            "median_b": 4.03,
+            "p_holm": 5.662036913187424e-09
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 366.0,
+            "p_value": 3.2157593311265026e-32,
+            "r_rb": -0.9635820895522388,
+            "mean_a": 3.5215499999999995,
+            "mean_b": 4.056699999999999,
+            "median_a": 3.48,
+            "median_b": 3.86,
+            "p_holm": 1.0612005792717458e-30
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 67.5,
+            "p_value": 3.949983856636695e-34,
+            "r_rb": -0.9932835820895523,
+            "mean_a": 3.5215499999999995,
+            "mean_b": 4.19585,
+            "median_a": 3.48,
+            "median_b": 4.03,
+            "p_holm": 1.6589932197874118e-32
+          }
+        }
+      },
+      "panic": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.0015658640827089293,
+            "end_z_sd": 0.018244708950393512,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8696666666666667,
+            "auc_z_tx_mean": 1.7902014457652735,
+            "auc_lyap_tx_mean": 4.0004,
+            "half_life_tx_mean": 42.725
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.0009566546720335861,
+            "end_z_sd": 0.010081260368164601,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8845833333333334,
+            "auc_z_tx_mean": 1.6543005788590346,
+            "auc_lyap_tx_mean": 3.6944000000000004,
+            "half_life_tx_mean": 38.38
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.0012469398150591828,
+            "end_z_sd": 0.01390386170866409,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8756666666666666,
+            "auc_z_tx_mean": 1.6737721709780886,
+            "auc_lyap_tx_mean": 3.7737,
+            "half_life_tx_mean": 42.105
+          },
+          "combined": {
+            "end_z_mean": 1.7031096253096042e-07,
+            "end_z_sd": 1.8544493032595027e-06,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.9238333333333333,
+            "auc_z_tx_mean": 1.5245371762402644,
+            "auc_lyap_tx_mean": 3.4339999999999997,
+            "half_life_tx_mean": 35.79
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 17.0,
+            "p_value": 1.851378666235767e-34,
+            "r_rb": -0.9983084577114428,
+            "mean_a": 3.4339999999999997,
+            "mean_b": 4.0004,
+            "median_a": 3.415,
+            "median_b": 3.925,
+            "p_holm": 9.071755464555258e-33
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 104.5,
+            "p_value": 2.0732397693876475e-32,
+            "r_rb": 0.9884816753926702,
+            "mean_a": 0.9238333333333333,
+            "mean_b": 0.8696666666666667,
+            "median_a": 0.9333333333333333,
+            "median_b": 0.9,
+            "p_holm": 7.0490152159180015e-31
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 748.0,
+            "p_value": 1.740749927651101e-29,
+            "r_rb": -0.9240647682858738,
+            "mean_a": 3.6944000000000004,
+            "mean_b": 4.0004,
+            "median_a": 3.64,
+            "median_b": 3.925,
+            "p_holm": 4.525949811892862e-28
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 1111.0,
+            "p_value": 9.395614185878119e-25,
+            "r_rb": -0.8708514966579483,
+            "mean_a": 3.7737,
+            "mean_b": 4.0004,
+            "median_a": 3.75,
+            "median_b": 3.925,
+            "p_holm": 1.503298269740499e-23
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 6741.5,
+            "p_value": 0.00017202943436324107,
+            "r_rb": -0.3086704609547249,
+            "mean_a": 3.6944000000000004,
+            "mean_b": 3.7737,
+            "median_a": 3.64,
+            "median_b": 3.75,
+            "p_holm": 0.0006881177374529643
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 1482.0,
+            "p_value": 3.5213194543085683e-25,
+            "r_rb": -0.8495507842241511,
+            "mean_a": 3.4339999999999997,
+            "mean_b": 3.6944000000000004,
+            "median_a": 3.415,
+            "median_b": 3.64,
+            "p_holm": 6.338375017755423e-24
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 289.5,
+            "p_value": 1.5678295361728752e-32,
+            "r_rb": -0.9709045226130654,
+            "mean_a": 3.4339999999999997,
+            "mean_b": 3.7737,
+            "median_a": 3.415,
+            "median_b": 3.75,
+            "p_holm": 5.487403376605063e-31
+          }
+        }
+      },
+      "mania": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.0034697265491211264,
+            "end_z_sd": 0.01684316417527759,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8506666666666667,
+            "auc_z_tx_mean": 1.9028220127238646,
+            "auc_lyap_tx_mean": 4.2112,
+            "half_life_tx_mean": 41.825
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.0031435062213363866,
+            "end_z_sd": 0.01552219894486456,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8616666666666667,
+            "auc_z_tx_mean": 1.8198700031242019,
+            "auc_lyap_tx_mean": 4.03405,
+            "half_life_tx_mean": 41.18
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.0036120915473401407,
+            "end_z_sd": 0.018465222192516288,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8522500000000001,
+            "auc_z_tx_mean": 1.8790478884066808,
+            "auc_lyap_tx_mean": 4.16245,
+            "half_life_tx_mean": 41.585
+          },
+          "combined": {
+            "end_z_mean": 9.000286138047354e-07,
+            "end_z_sd": 6.314449887973797e-06,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.9229166666666666,
+            "auc_z_tx_mean": 1.7226345782312678,
+            "auc_lyap_tx_mean": 3.8346,
+            "half_life_tx_mean": 40.155
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 77.0,
+            "p_value": 4.549610187500613e-34,
+            "r_rb": -0.9923383084577114,
+            "mean_a": 3.8346,
+            "mean_b": 4.2112,
+            "median_a": 3.82,
+            "median_b": 4.2,
+            "p_holm": 1.8198440750002452e-32
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 17.5,
+            "p_value": 1.1546817744446728e-34,
+            "r_rb": 0.9982587064676617,
+            "mean_a": 0.9229166666666666,
+            "mean_b": 0.8506666666666667,
+            "median_a": 0.9333333333333333,
+            "median_b": 0.8833333333333333,
+            "p_holm": 6.466217936890167e-33
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 1149.5,
+            "p_value": 4.370093207128146e-27,
+            "r_rb": -0.8833054159687326,
+            "mean_a": 4.03405,
+            "mean_b": 4.2112,
+            "median_a": 4.03,
+            "median_b": 4.2,
+            "p_holm": 9.177195734969106e-26
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 2366.0,
+            "p_value": 2.24075246762689e-10,
+            "r_rb": -0.5930512555899553,
+            "mean_a": 4.16245,
+            "mean_b": 4.2112,
+            "median_a": 4.14,
+            "median_b": 4.2,
+            "p_holm": 1.5685267273388231e-09
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 2782.0,
+            "p_value": 9.165303047179924e-18,
+            "r_rb": -0.708843537414966,
+            "mean_a": 4.03405,
+            "mean_b": 4.16245,
+            "median_a": 4.03,
+            "median_b": 4.14,
+            "p_holm": 1.0081833351897916e-16
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 375.0,
+            "p_value": 3.649659880847525e-32,
+            "r_rb": -0.9626865671641791,
+            "mean_a": 3.8346,
+            "mean_b": 4.03405,
+            "median_a": 3.82,
+            "median_b": 4.03,
+            "p_holm": 1.167891161871208e-30
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 141.0,
+            "p_value": 1.7386573398349048e-33,
+            "r_rb": -0.9858291457286432,
+            "mean_a": 3.8346,
+            "mean_b": 4.16245,
+            "median_a": 3.82,
+            "median_b": 4.14,
+            "p_holm": 6.780763625356129e-32
+          }
+        }
+      },
+      "ocd": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.1899864049397295,
+            "end_z_sd": 0.4865954212669595,
+            "pdv_final_rate": 0.8935,
+            "pdv_remission_fraction": 0.5455,
+            "auc_z_tx_mean": 2.1055648597489878,
+            "auc_lyap_tx_mean": 4.62355,
+            "half_life_tx_mean": 50.995
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.12454448535035118,
+            "end_z_sd": 0.3374937646775807,
+            "pdv_final_rate": 0.9385000000000001,
+            "pdv_remission_fraction": 0.598,
+            "auc_z_tx_mean": 1.868167511656507,
+            "auc_lyap_tx_mean": 4.12535,
+            "half_life_tx_mean": 44.865
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.10306996810771217,
+            "end_z_sd": 0.23051628703185384,
+            "pdv_final_rate": 0.9454999999999998,
+            "pdv_remission_fraction": 0.5728333333333333,
+            "auc_z_tx_mean": 1.8702052591551728,
+            "auc_lyap_tx_mean": 4.15115,
+            "half_life_tx_mean": 45.9
+          },
+          "combined": {
+            "end_z_mean": 0.0003877907024880471,
+            "end_z_sd": 0.0016508903013728261,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8015000000000001,
+            "auc_z_tx_mean": 1.527149137012839,
+            "auc_lyap_tx_mean": 3.4238,
+            "half_life_tx_mean": 36.59
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 33.5,
+            "p_value": 2.3749042036132965e-34,
+            "r_rb": -0.9966666666666667,
+            "mean_a": 3.4238,
+            "mean_b": 4.62355,
+            "median_a": 3.4050000000000002,
+            "median_b": 4.275,
+            "p_holm": 1.0924559336621164e-32
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 15.0,
+            "p_value": 2.577654347374564e-34,
+            "r_rb": 0.9984924623115577,
+            "mean_a": 0.8015000000000001,
+            "mean_b": 0.5455,
+            "median_a": 0.8166666666666667,
+            "median_b": 0.6166666666666667,
+            "p_holm": 1.1341679128448081e-32
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 1288.0,
+            "p_value": 2.791582709834687e-26,
+            "r_rb": -0.8692452159788843,
+            "mean_a": 4.12535,
+            "mean_b": 4.62355,
+            "median_a": 3.85,
+            "median_b": 4.275,
+            "p_holm": 5.583165419669374e-25
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 2201.5,
+            "p_value": 1.923665215109134e-20,
+            "r_rb": -0.7672217816547714,
+            "mean_a": 4.15115,
+            "mean_b": 4.62355,
+            "median_a": 3.94,
+            "median_b": 4.275,
+            "p_holm": 2.3083982581309606e-19
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 7601.0,
+            "p_value": 0.017743500119938353,
+            "r_rb": -0.19629923341263547,
+            "mean_a": 4.12535,
+            "mean_b": 4.15115,
+            "median_a": 3.85,
+            "median_b": 3.94,
+            "p_holm": 0.035487000239876706
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 627.5,
+            "p_value": 1.3627772004996703e-30,
+            "r_rb": -0.9375621890547263,
+            "mean_a": 3.4238,
+            "mean_b": 4.12535,
+            "median_a": 3.4050000000000002,
+            "median_b": 3.85,
+            "p_holm": 3.815776161399077e-29
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 278.5,
+            "p_value": 8.984082699296393e-33,
+            "r_rb": -0.9722885572139304,
+            "mean_a": 3.4238,
+            "mean_b": 4.15115,
+            "median_a": 3.4050000000000002,
+            "median_b": 3.94,
+            "p_holm": 3.2342697717467015e-31
+          }
+        }
+      },
+      "ptsd": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.7554440650343501,
+            "end_z_sd": 1.1696043351000163,
+            "pdv_final_rate": 0.6759999999999999,
+            "pdv_remission_fraction": 0.33799999999999997,
+            "auc_z_tx_mean": 2.8140358830062517,
+            "auc_lyap_tx_mean": 6.002999999999999,
+            "half_life_tx_mean": 61.115
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.4132711749523142,
+            "end_z_sd": 0.769743439843419,
+            "pdv_final_rate": 0.7995,
+            "pdv_remission_fraction": 0.4100833333333334,
+            "auc_z_tx_mean": 2.4029766227990375,
+            "auc_lyap_tx_mean": 5.230599999999999,
+            "half_life_tx_mean": 52.34
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.27409571394522025,
+            "end_z_sd": 0.4375237981079692,
+            "pdv_final_rate": 0.851,
+            "pdv_remission_fraction": 0.4146666666666667,
+            "auc_z_tx_mean": 2.2328470171562143,
+            "auc_lyap_tx_mean": 4.88975,
+            "half_life_tx_mean": 48.83
+          },
+          "combined": {
+            "end_z_mean": 0.003631897758951211,
+            "end_z_sd": 0.02552565864497761,
+            "pdv_final_rate": 0.9990000000000001,
+            "pdv_remission_fraction": 0.7413333333333333,
+            "auc_z_tx_mean": 1.7871473272534972,
+            "auc_lyap_tx_mean": 3.9385000000000003,
+            "half_life_tx_mean": 42.105
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.4357823695138084e-34,
+            "r_rb": -1.0,
+            "mean_a": 3.9385000000000003,
+            "mean_b": 6.002999999999999,
+            "median_a": 3.87,
+            "median_b": 5.37,
+            "p_holm": 7.665478681817016e-33
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 0.0,
+            "p_value": 1.4211339084151592e-34,
+            "r_rb": 1.0,
+            "mean_a": 0.7413333333333333,
+            "mean_b": 0.33799999999999997,
+            "median_a": 0.7583333333333333,
+            "median_b": 0.35,
+            "p_holm": 7.665478681817016e-33
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 768.5,
+            "p_value": 9.858153240227216e-30,
+            "r_rb": -0.9235323383084577,
+            "mean_a": 5.230599999999999,
+            "mean_b": 6.002999999999999,
+            "median_a": 4.720000000000001,
+            "median_b": 5.37,
+            "p_holm": 2.6617013748613482e-28
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 893.5,
+            "p_value": 2.0607565713823773e-28,
+            "r_rb": -0.908373070809619,
+            "mean_a": 4.88975,
+            "mean_b": 6.002999999999999,
+            "median_a": 4.64,
+            "median_b": 5.37,
+            "p_holm": 4.53366445704123e-27
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 7122.0,
+            "p_value": 0.0010312646702792163,
+            "r_rb": 0.26965082295031534,
+            "mean_a": 5.230599999999999,
+            "mean_b": 4.88975,
+            "median_a": 4.720000000000001,
+            "median_b": 4.64,
+            "p_holm": 0.003093794010837649
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 74.5,
+            "p_value": 4.390690795423254e-34,
+            "r_rb": -0.992587064676617,
+            "mean_a": 3.9385000000000003,
+            "mean_b": 5.230599999999999,
+            "median_a": 3.87,
+            "median_b": 4.720000000000001,
+            "p_holm": 1.800183226123534e-32
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 252.5,
+            "p_value": 6.138455796723364e-33,
+            "r_rb": -0.9748756218905472,
+            "mean_a": 3.9385000000000003,
+            "mean_b": 4.88975,
+            "median_a": 3.87,
+            "median_b": 4.64,
+            "p_holm": 2.2712286447876447e-31
+          }
+        }
+      },
+      "bpd": {
+        "n_agents": 200,
+        "modalities": {
+          "none": {
+            "end_z_mean": 0.009695379054337264,
+            "end_z_sd": 0.04787125913585068,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.7939999999999999,
+            "auc_z_tx_mean": 1.8588338940622133,
+            "auc_lyap_tx_mean": 4.13115,
+            "half_life_tx_mean": 43.43
+          },
+          "bottom_up_interoceptive": {
+            "end_z_mean": 0.007348436295165842,
+            "end_z_sd": 0.0336835402753087,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8125833333333332,
+            "auc_z_tx_mean": 1.7259341343920744,
+            "auc_lyap_tx_mean": 3.8080000000000003,
+            "half_life_tx_mean": 41.27
+          },
+          "top_down_prior_relaxation": {
+            "end_z_mean": 0.008046012276314723,
+            "end_z_sd": 0.03698748237338312,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.7999166666666667,
+            "auc_z_tx_mean": 1.7524330823472534,
+            "auc_lyap_tx_mean": 3.9090499999999997,
+            "half_life_tx_mean": 42.855
+          },
+          "combined": {
+            "end_z_mean": 9.903336095323345e-06,
+            "end_z_sd": 7.274117317370777e-05,
+            "pdv_final_rate": 1.0,
+            "pdv_remission_fraction": 0.8959166666666667,
+            "auc_z_tx_mean": 1.5765559132930875,
+            "auc_lyap_tx_mean": 3.5251,
+            "half_life_tx_mean": 38.375
+          }
+        },
+        "paired_tests": {
+          "combined_vs_none_auc_lyap": {
+            "wilcoxon_w": 28.0,
+            "p_value": 2.18435699807021e-34,
+            "r_rb": -0.9972139303482587,
+            "mean_a": 3.5251,
+            "mean_b": 4.13115,
+            "median_a": 3.51,
+            "median_b": 4.05,
+            "p_holm": 1.0266477890929988e-32
+          },
+          "combined_vs_none_pdv_rem": {
+            "wilcoxon_w": 7.5,
+            "p_value": 2.029038306372261e-34,
+            "r_rb": 0.9992462311557789,
+            "mean_a": 0.8959166666666667,
+            "mean_b": 0.7939999999999999,
+            "median_a": 0.9,
+            "median_b": 0.8333333333333334,
+            "p_holm": 9.739383870586853e-33
+          },
+          "bottom_up_vs_none_auc_lyap": {
+            "wilcoxon_w": 334.0,
+            "p_value": 1.506909242586278e-31,
+            "r_rb": -0.9650444793301937,
+            "mean_a": 3.8080000000000003,
+            "mean_b": 4.13115,
+            "median_a": 3.77,
+            "median_b": 4.05,
+            "p_holm": 4.520727727758834e-30
+          },
+          "top_down_vs_none_auc_lyap": {
+            "wilcoxon_w": 2108.5,
+            "p_value": 2.346764542723477e-21,
+            "r_rb": -0.781570496218792,
+            "mean_a": 3.9090499999999997,
+            "mean_b": 4.13115,
+            "median_a": 3.9,
+            "median_b": 4.05,
+            "p_holm": 3.05079390554052e-20
+          },
+          "bottom_up_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 5134.0,
+            "p_value": 5.338854099246791e-08,
+            "r_rb": -0.45152502537257627,
+            "mean_a": 3.8080000000000003,
+            "mean_b": 3.9090499999999997,
+            "median_a": 3.77,
+            "median_b": 3.9,
+            "p_holm": 2.6694270496233954e-07
+          },
+          "combined_vs_bottom_up_auc_lyap": {
+            "wilcoxon_w": 873.0,
+            "p_value": 4.1795133906679156e-29,
+            "r_rb": -0.913134328358209,
+            "mean_a": 3.5251,
+            "mean_b": 3.8080000000000003,
+            "median_a": 3.51,
+            "median_b": 3.77,
+            "p_holm": 1.044878347666979e-27
+          },
+          "combined_vs_top_down_auc_lyap": {
+            "wilcoxon_w": 374.5,
+            "p_value": 5.444464031136186e-32,
+            "r_rb": -0.9623618090452262,
+            "mean_a": 3.5251,
+            "mean_b": 3.9090499999999997,
+            "median_a": 3.51,
+            "median_b": 3.9,
+            "p_holm": 1.6877838496522178e-30
+          }
+        }
+      }
+    }
+  },
+  "figures": {
+    "fig4a": "results/dsm5_phenotyping/fig4a_xyz_occupation_densities.png",
+    "fig4b": "results/dsm5_phenotyping/fig4b_theta_profiles_and_strata.png",
+    "fig4c": "results/dsm5_phenotyping/fig4c_inter_syndromic_confusion.png",
+    "fig4d": "results/dsm5_phenotyping/fig4d_therapeutic_recovery_curves.png"
+  }
+}

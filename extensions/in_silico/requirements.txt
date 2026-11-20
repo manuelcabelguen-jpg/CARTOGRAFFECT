@@ -1,0 +1,15 @@
+# Dépendances principales — Cartograffect-simulation-in-silico
+numpy
+scipy
+pandas
+jax
+equinox
+inferactively-pymdp
+numpyro
+arviz
+matplotlib
+seaborn
+
+# Tests & validation
+pytest
+

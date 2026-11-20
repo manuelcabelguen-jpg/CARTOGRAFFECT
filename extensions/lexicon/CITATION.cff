@@ -1,0 +1,138 @@
+cff-version: 1.2.0
+title: "CARTOGRAFFECT® : Modèle Topologique Octaédrique 3D, Certification Formelle Lean 4 (Scherer GRID/CPM) et Dictionnaire Vectoriel Multi-Strates"
+message: "Si vous utilisez le modèle théorique, les preuves formelles Lean 4 ou le dictionnaire vectoriel multi-strates CARTOGRAFFECT® dans vos travaux de recherche, veuillez citer cette œuvre selon les métadonnées ci-dessous."
+type: software
+authors:
+  - family-names: "Cabelguen"
+    given-names: "Manuel"
+    affiliation: "Projet CARTOGRAFFECT®"
+version: "2.0.0"
+date-released: "2026-11-08"
+license: "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"
+copyright: "Copyright (c) 2026 Manuel Cabelguen — Certificat d'enregistrement de droit d'auteur OPIC / CIPO n° 1233199 (CARTOGRAFFECT®). Double licence : GNU AGPLv3 (code source, scripts, preuves Lean 4, HTML) et CC BY-NC-SA 4.0 (architecture théorique, taxonomie, documentation et tables)."
+identifiers:
+  - type: other
+    value: "CIPO-OPIC-1233199"
+    description: "Certificat d'enregistrement de droit d'auteur auprès de l'Office de la propriété intellectuelle du Canada (OPIC / CIPO) n° 1233199 — CARTOGRAFFECT®"
+keywords:
+  - "CARTOGRAFFECT"
+  - "affective computing"
+  - "Component Process Model"
+  - "GRID paradigm"
+  - "Lean 4 formal verification"
+  - "octahedral L1 geometry"
+  - "French affective lexicon"
+  - "moral emotions"
+  - "axiology"
+  - "political emotions"
+abstract: >-
+  Architecture géométrique tridimensionnelle (enveloppe octaédrique L1 à 176 prototypes
+  et diamant 303), preuves formelles certifiées sous Lean 4.35.0 (isomorphisme avec les
+  5 composantes et 142 items du Component Process Model de Scherer / GRID) et pipeline
+  du Dictionnaire Vectoriel Complet CARTOGRAFFECT® couvrant les 6 strates sémantiques
+  de l'expérience humaine (1. Affectif basal/somatique, 2. Émotif épisodique,
+  3. Sentimental durable, 4. Éthique & moral, 5. Axiologique / Valeurs,
+  6. Politique & civique).
+references:
+  - type: article
+    authors:
+      - family-names: "Scherer"
+        given-names: "Klaus R."
+    title: "What are emotions? And how can they be measured?"
+    journal: "Social Science Information"
+    volume: 44
+    issue: 4
+    start: 695
+    end: 729
+    year: 2005
+    doi: "10.1177/0539018405058216"
+  - type: article
+    authors:
+      - family-names: "Fontaine"
+        given-names: "Johnny R. J."
+      - family-names: "Scherer"
+        given-names: "Klaus R."
+      - family-names: "Roesch"
+        given-names: "Etienne B."
+      - family-names: "Ellsworth"
+        given-names: "Phoebe C."
+    title: "The world of emotions is not two-dimensional"
+    journal: "Psychological Science"
+    volume: 18
+    issue: 12
+    start: 1050
+    end: 1057
+    year: 2007
+    doi: "10.1111/j.1467-9280.2007.02024.x"
+  - type: book
+    authors:
+      - family-names: "Fontaine"
+        given-names: "Johnny R. J."
+      - family-names: "Scherer"
+        given-names: "Klaus R."
+      - family-names: "Soriano"
+        given-names: "Cristina"
+    title: "Components of Emotional Meaning: A Sourcebook"
+    publisher:
+      name: "Oxford University Press"
+    year: 2013
+    doi: "10.1093/acprof:oso/9780199592746.001.0001"
+  - type: conference-paper
+    authors:
+      - family-names: "Mohammad"
+        given-names: "Saif M."
+    title: "Obtaining Reliable Human Ratings of Valence, Arousal, and Dominance for 20,000 English Words"
+    collection-title: "Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (ACL 2018)"
+    start: 174
+    end: 184
+    year: 2018
+  - type: article
+    authors:
+      - family-names: "New"
+        given-names: "Boris"
+      - family-names: "Pallier"
+        given-names: "Christophe"
+      - family-names: "Brysbaert"
+        given-names: "Marc"
+      - family-names: "Ferrand"
+        given-names: "Ludovic"
+    title: "Lexique 2: A new French lexical database"
+    journal: "Behavior Research Methods, Instruments, & Computers"
+    volume: 36
+    issue: 3
+    start: 516
+    end: 524
+    year: 2004
+  - type: conference-paper
+    authors:
+      - family-names: "Sajous"
+        given-names: "Franck"
+      - family-names: "Hathout"
+        given-names: "Nabil"
+    title: "GLAWI, a free XML-encoded Machine-Readable Dictionary built from the French Wiktionary"
+    collection-title: "Proceedings of the eLex 2015 Conference"
+    start: 405
+    end: 426
+    year: 2015
+  - type: chapter
+    authors:
+      - family-names: "Haidt"
+        given-names: "Jonathan"
+    title: "The moral emotions"
+    collection-title: "Handbook of Affective Sciences"
+    publisher:
+      name: "Oxford University Press"
+    start: 852
+    end: 870
+    year: 2003
+  - type: article
+    authors:
+      - family-names: "Schwartz"
+        given-names: "Shalom H."
+    title: "An Overview of the Schwartz Theory of Basic Values"
+    journal: "Online Readings in Psychology and Culture"
+    volume: 2
+    issue: 1
+    year: 2012
+    doi: "10.9707/2307-0919.1116"
+

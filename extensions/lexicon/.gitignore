@@ -1,0 +1,32 @@
+# Environnements virtuels
+.venv/
+venv/
+env/
+ENV/
+
+# Variables d'environnement sensibles
+.env
+!.env.example
+
+# Caches Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Fichiers système et IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build MkDocs
+site/
+
+# Fichiers bruts tiers propriétaires ou sous licence de recherche restreinte (non redistribués)
+data/raw_third_party/
+data/raw_third_party/**
+
+
+

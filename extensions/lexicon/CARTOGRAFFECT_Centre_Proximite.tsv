@@ -1,0 +1,81 @@
+operateur	Z_operateur	rang	terme_fr	X_proj	Y_proj	Z_proj	r_xy	distance_centre	proto_fr_ancre	Z_ancre	ancre_sur_operateur
+Point de Veille	0	1	veille	0.048	0.6296	0.0	0.6776	0.6776	Point de Veille	0	True
+Point de Veille	0	2	médusé	0.0	0.0185	1.0	0.0185	0.1614	Surprise	1	False
+Point de Veille	0	3	étonné	0.02	0.1147	1.0	0.1347	0.2776	Surprise	1	False
+Point de Veille	0	4	émoustillé	-0.02	-0.023	2.45	0.043	0.393	Désir	2	False
+Point de Veille	0	5	froussard	-0.04	-0.076	2.0	0.116	0.4017	Peur	2	False
+Point de Veille	0	6	sursaut	-0.27	0.066	1.0	0.336	0.4789	Surprise	1	False
+Point de Veille	0	7	plaisant	0.034	0.017	3.0	0.051	0.4796	Attrait	3	False
+Point de Veille	0	8	frousse	-0.04	-0.02	3.0	0.06	0.4886	Crainte	3	False
+Point de Veille	0	9	fasciné	0.04	-0.027	3.0	0.067	0.4956	Émerveillement	3	False
+Point de Veille	0	10	émouvant	-0.042	0.031	3.0	0.073	0.5016	Émoi	3	False
+Surprise	1	1	médusé	0.0	0.0185	1.0	0.0185	0.0185	Surprise	1	True
+Surprise	1	2	étonné	0.02	0.1147	1.0	0.1347	0.1347	Surprise	1	True
+Surprise	1	3	sursaut	-0.27	0.066	1.0	0.336	0.336	Surprise	1	True
+Surprise	1	4	étonnement	0.36	0.0273	1.0	0.3873	0.3873	Surprise	1	True
+Surprise	1	5	choc	-0.428	-0.0772	1.0	0.5052	0.5052	Surprise	1	True
+Surprise	1	6	saisissant	-0.286	0.2597	1.0	0.5457	0.5457	Surprise	1	True
+Surprise	1	7	choqué	-0.416	0.148	1.0	0.564	0.564	Surprise	1	True
+Surprise	1	8	décoiffant	0.2275	0.3651	1.0	0.5926	0.5926	Surprise	1	True
+Surprise	1	9	décoiffer	0.2275	0.3651	1.0	0.5926	0.5926	Surprise	1	True
+Surprise	1	10	dépaysant	0.2275	0.3651	1.0	0.5926	0.5926	Surprise	1	True
+Anticipation	2	1	anticipation	0.396	0.078	2.0	0.474	0.474	Anticipation	2	True
+Anticipation	2	2	escompter	0.396	0.2156	2.0	0.6116	0.6116	Anticipation	2	True
+Anticipation	2	3	émoustillé	-0.02	-0.023	2.45	0.043	0.1073	Désir	2	False
+Anticipation	2	4	froussard	-0.04	-0.076	2.0	0.116	0.116	Peur	2	False
+Anticipation	2	5	médusé	0.0	0.0185	1.0	0.0185	0.1614	Surprise	1	False
+Anticipation	2	6	plaisant	0.034	0.017	3.0	0.051	0.1939	Attrait	3	False
+Anticipation	2	7	frousse	-0.04	-0.02	3.0	0.06	0.2029	Crainte	3	False
+Anticipation	2	8	fasciné	0.04	-0.027	3.0	0.067	0.2099	Émerveillement	3	False
+Anticipation	2	9	émouvant	-0.042	0.031	3.0	0.073	0.2159	Émoi	3	False
+Anticipation	2	10	aplomb	0.0	0.0764	3.0	0.0764	0.2193	Aplomb	3	False
+Émoi	3	1	émouvant	-0.042	0.031	3.0	0.073	0.073	Émoi	3	True
+Émoi	3	2	affect	-0.084	0.0888	3.0	0.1728	0.1728	Émoi	3	True
+Émoi	3	3	émoi	-0.104	-0.0727	3.0	0.1767	0.1767	Émoi	3	True
+Émoi	3	4	affecter	-0.084	0.1452	3.0	0.2292	0.2292	Émoi	3	True
+Émoi	3	5	affectif	-0.084	0.1452	3.0	0.2292	0.2292	Émoi	3	True
+Émoi	3	6	affectivité	-0.084	0.1452	3.0	0.2292	0.2292	Émoi	3	True
+Émoi	3	7	sentimentale	0.02	-0.2619	3.0	0.2819	0.2819	Émoi	3	True
+Émoi	3	8	ébranlement	-0.25	0.1076	3.0	0.3576	0.3576	Émoi	3	True
+Émoi	3	9	accès	0.1395	0.2307	3.0	0.3702	0.3702	Émoi	3	True
+Émoi	3	10	mouvement	0.1395	0.2307	3.0	0.3702	0.3702	Émoi	3	True
+Réserve	4	1	réservé	0.188	-0.101	4.0	0.289	0.289	Réserve	4	True
+Réserve	4	2	réserve	0.17	-0.122	4.0	0.292	0.292	Réserve	4	True
+Réserve	4	3	coincer	0.0707	-0.2832	4.0	0.3539	0.3539	Réserve	4	True
+Réserve	4	4	timide	-0.2	-0.188	4.0	0.388	0.388	Réserve	4	True
+Réserve	4	5	inhibition	-0.47	0.0413	4.0	0.5113	0.5113	Réserve	4	True
+Réserve	4	6	intimidant	-0.2	-0.3392	4.0	0.5392	0.5392	Réserve	4	True
+Réserve	4	7	timidement	-0.2	-0.3392	4.0	0.5392	0.5392	Réserve	4	True
+Réserve	4	8	inhibant	-0.47	-0.1024	4.0	0.5724	0.5724	Réserve	4	True
+Réserve	4	9	inhiber	-0.47	-0.1024	4.0	0.5724	0.5724	Réserve	4	True
+Réserve	4	10	méfiant	0.516	0.2232	4.0	0.7392	0.7392	Réserve	4	True
+Recul	5	1	désinvolte	0.062	-0.019	5.0	0.081	0.081	Recul	5	True
+Recul	5	2	ranimer	0.042	-0.0416	5.0	0.0836	0.0836	Élan	6	False
+Recul	5	3	sensibilité	-0.084	-0.009	5.0	0.093	0.093	Vulnérabilité	5	False
+Recul	5	4	susceptibilité	-0.083	0.019	5.0	0.102	0.102	Vulnérabilité	5	False
+Recul	5	5	émotivité	0.042	0.0745	5.0	0.1165	0.1165	Émoi	3	False
+Recul	5	6	sensibiliser	-0.084	0.0436	5.0	0.1276	0.1276	Ouverture	5	False
+Recul	5	7	fébrile	-0.102	0.0325	5.0	0.1345	0.1345	Fébrilité	6	False
+Recul	5	8	dubitatif	-0.124	0.0125	5.0	0.1365	0.1365	Doute	4	False
+Recul	5	9	troublant	-0.062	-0.0755	5.0	0.1375	0.1375	Inquiétude	5	False
+Recul	5	10	distraire	0.0	0.0	6.0	0.0	0.1429	Entrain	6	False
+Saisissement	6	1	empoigner	0.292	-0.0528	6.0	0.3448	0.3448	Saisissement	6	True
+Saisissement	6	2	saisi	-0.334	0.045	6.0	0.379	0.379	Saisissement	6	True
+Saisissement	6	3	ébranler	-0.25	-0.0702	5.0	0.3202	0.4631	Saisissement	6	True
+Saisissement	6	4	ébranlé	-0.312	-0.01	5.0	0.322	0.4649	Saisissement	6	True
+Saisissement	6	5	frappant	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Saisissement	6	6	frapper	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Saisissement	6	7	marquer	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Saisissement	6	8	pantelant	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Saisissement	6	9	renversant	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Saisissement	6	10	renverser	-0.2831	0.1987	6.0	0.4818	0.4818	Saisissement	6	True
+Suspension	7	1	envoûté	0.062	0.034	7.0	0.096	0.096	Suspension	7	True
+Suspension	7	2	hypnotisant	0.062	0.086	7.0	0.148	0.148	Suspension	7	True
+Suspension	7	3	hypnotiser	0.062	0.086	7.0	0.148	0.148	Suspension	7	True
+Suspension	7	4	stupéfaire	-0.0263	0.0023	7.0	0.0286	0.0286	Sidération	7	False
+Suspension	7	5	stupéfier	-0.0263	0.0023	7.0	0.0286	0.0286	Sidération	7	False
+Suspension	7	6	captivé	0.042	0.0147	7.0	0.0567	0.0567	Ravissement	7	False
+Suspension	7	7	zen	-0.016	-0.1074	7.0	0.1234	0.1234	Nirvana	7	False
+Suspension	7	8	consentement	0.084	-0.04	7.0	0.124	0.124	Consentement	7	False
+Suspension	7	9	distraire	0.0	0.0	6.0	0.0	0.1429	Entrain	6	False
+Suspension	7	10	distrayant	0.0	0.0	6.0	0.0	0.1429	Entrain	6	False

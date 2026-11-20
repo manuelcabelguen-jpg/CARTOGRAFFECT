@@ -1,0 +1,110 @@
+wheel	family	term_en	term_fr_utilise	theta_wheel	valence_wheel	power_wheel	intensity	empirical	nrc_V	nrc_A	nrc_D	methode	id_303	id176	ancre	X	Y	Z	antagoniste	theta_carto
+GEW3	admiration	admiration	Admiration	-7.765	0.66	-0.09		1	0.938	0.166	0.452	ANCRE_EXACTE_303	49	49	Admiration	4	-2	4	Envie	-26.565
+GEW3	amusement	amusement	Amusement	15.832	0.67	0.19		1	0.836	0.686	0.334	LEXIQUE_PIPELINE	37	37	Ferveur	2	4	4	Défiance	63.435
+GEW3	anger	anger	Colère	128.211	-0.37	0.47		1	-0.666	0.73	0.314	ANCRE_EXACTE_303	8	8	Colère	-1	1	2	Calme	135.0
+GEW3	compassion	compassion	Compassion	-95.194	-0.05	-0.55		1	0.654	-0.006	0.268	LEXIQUE_PIPELINE	7	7	Courage	2	0	2	Peur	0.0
+GEW3	contempt	contempt	Mépris	141.981	-0.55	0.43		1	-0.588	0.27	-0.208	ANCRE_EXACTE_303	44	44	Mépris	-5	-1	4	Amour	-168.69
+GEW3	contentment	contentment	Contentement	-2.231	0.77	-0.03		1	1.0	-1.0	0.333	ANCRE_EXACTE_303	166	166	Contentement	8	-4	7	Horreur	-26.565
+GEW3	disappointment	disappointment	Déception	-171.142	-0.77	-0.12		1	-0.674	0.0	-0.466	LEXIQUE_PIPELINE	75	75	Détachement	-6	-2	5	Attachement	-161.565
+GEW3	disgust	disgust	Dégoût	163.61	-0.68	0.2		1	-0.896	0.55	-0.366	ANCRE_EXACTE_303	11	11	Dégoût	-1	-1	2	Désir	-135.0
+GEW3	fear	fear	Peur	173.454	-0.61	0.07		1	-0.889	0.667	-0.958	ANCRE_EXACTE_303	6	6	Peur	-2	0	2	Courage	180.0
+GEW3	guilt	guilt	Culpabilité	-154.654	-0.57	-0.27		1	-0.584	0.134	-0.588	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW3	hate	hate	Haine	136.302	-0.45	0.43		1	-1.0	0.762	0.75	ANCRE_EXACTE_303	35	35	Haine	-1	5	4	Affection	101.31
+GEW3	interest	interest	Intérêt	22.286	0.61	0.25		1	0.56	0.334	0.236	ANCRE_EXACTE_303	85	85	Intérêt	4	4	5	Désintérêt	45.0
+GEW3	joy	joy	Joie	5.877	0.68	0.07		1	0.96	0.648	0.588	ANCRE_EXACTE_303	4	4	Joie	0	2	2	Tristesse	90.0
+GEW3	love	love	Amour	-15.422	0.58	-0.16		1	0.73	-0.04	0.304	ANCRE_EXACTE_303	36	36	Amour	1	5	4	Mépris	78.69
+GEW3	pleasure	pleasure	Plaisir	1.614	0.71	0.02		1	0.878	0.48	0.364	LEXIQUE_PIPELINE	61	61	Engagement	3	5	5	Désengagement	59.036
+GEW3	pride	pride	Fierté	11.768	0.72	0.15		1	0.458	0.268	0.696	ANCRE_EXACTE_303	46	46	Fierté	4	2	4	Honte	26.565
+GEW3	regret	regret	Regret	-164.814	-0.7	-0.19		1	-0.54	0.246	-0.338	LEXIQUE_PIPELINE	28	28	Retrait	-2	-2	3	Attrait	-135.0
+GEW3	relief	relief	Soulagement	-28.61	0.66	-0.36		1	0.47	-0.6	-0.018	ANCRE_EXACTE_303	19	19	Soulagement	1	-3	3	Panique	-71.565
+GEW3	sadness	sadness	Tristesse	-152.765	-0.68	-0.35		1	-0.704	-0.875	-0.593	ANCRE_EXACTE_303	5	5	Tristesse	0	-2	2	Joie	-90.0
+GEW3	shame	shame	Honte	-165.303	-0.61	-0.16		1	-0.88	0.34	-0.69	ANCRE_EXACTE_303	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW2	interest	involvement	Implication	81.0				0	0.52	0.24	0.392	LEXIQUE_PIPELINE	236	236	Loyauté	2	6	-5	Liberté intérieure	71.565
+GEW2	interest	interest	Intérêt	81.0				0	0.56	0.334	0.236	ANCRE_EXACTE_303	85	85	Intérêt	4	4	5	Désintérêt	45.0
+GEW2	amusement	amusement	Amusement	63.0				0	0.836	0.686	0.334	LEXIQUE_PIPELINE	37	37	Ferveur	2	4	4	Défiance	63.435
+GEW2	amusement	laughter	Rire	63.0				0	0.918	0.308	0.176	LEXIQUE_PIPELINE	4	4	Joie	0	2	2	Tristesse	90.0
+GEW2	pride	pride	Fierté	45.0				0	0.458	0.268	0.696	ANCRE_EXACTE_303	46	46	Fierté	4	2	4	Honte	26.565
+GEW2	pride	elation	Exaltation	45.0				0	0.188	0.784	0.346	ANCRE_EXACTE_303	30	30	Exaltation	0	6	4	Solitude	90.0
+GEW2	joy	happiness	Bonheur	27.0				0	0.92	0.464	0.7	LEXIQUE_PIPELINE	175	175	Sublimation	6	6	7	Dissolution	45.0
+GEW2	joy	joy	Joie	27.0				0	0.96	0.648	0.588	ANCRE_EXACTE_303	4	4	Joie	0	2	2	Tristesse	90.0
+GEW2	pleasure	enjoyment	Jouissance	9.0				0	0.592	0.844	0.31	LEXIQUE_PIPELINE	120	120	Extase	8	2	6	Prostration	14.036
+GEW2	pleasure	pleasure	Plaisir	9.0				0	0.878	0.48	0.364	LEXIQUE_PIPELINE	61	61	Engagement	3	5	5	Désengagement	59.036
+GEW2	love	tenderness	Tendresse	-9.0				0	0.898	-0.448	-0.266	ANCRE_EXACTE_303	224	224	Tendresse	5	-1	-4	Combativité	-11.31
+GEW2	love	feeling love	Amour	-9.0				0	0.73	-0.04	0.304	ANCRE_EXACTE_303	36	36	Amour	1	5	4	Mépris	78.69
+GEW2	awe	wonderment	Émerveillement	-27.0				0	0.858	0.358	0.59	ANCRE_EXACTE_303	23	23	Émerveillement	3	-1	3	Consternation	-18.435
+GEW2	awe	feeling awe	Révérence	-27.0				0	0.648	0.1087	0.2727	LEXIQUE_PIPELINE	253	253	Gaieté	6	2	-5	Prévoyance	18.435
+GEW2	relief	feeling disburdened	Délivrance	-45.0				0	0.65	-0.15	0.35	LEXIQUE_PIPELINE	23	23	Émerveillement	3	-1	3	Consternation	-18.435
+GEW2	relief	relief	Soulagement	-45.0				0	0.47	-0.6	-0.018	ANCRE_EXACTE_303	19	19	Soulagement	1	-3	3	Panique	-71.565
+GEW2	surprise	astonishment	Étonnement	-63.0				0	0.36	0.436	0.038	LEXIQUE_PIPELINE	2	2	Surprise	0	0	1	Surprise	
+GEW2	surprise	surprise	Surprise	-63.0				0	0.75	0.75	0.124	ANCRE_EXACTE_303	2	2	Surprise	0	0	1	Surprise	
+GEW2	nostalgia	longing	Langueur	-81.0				0	-0.484	-0.322	-0.335	LEXIQUE_PIPELINE	31	31	Solitude	0	-6	4	Exaltation	-90.0
+GEW2	nostalgia	nostalgia	Nostalgie	-81.0				0	0.418	0.02	0.074	LEXIQUE_PIPELINE	47	47	Épanouissement	5	1	4	Vide	11.31
+GEW2	compassion	pity	Pitié	-99.0				0	-0.68	-0.204	-0.772	LEXIQUE_PIPELINE	103	103	Morosité	-4	-6	6	Entrain	-123.69
+GEW2	compassion	compassion	Compassion	-99.0				0	0.654	-0.006	0.268	LEXIQUE_PIPELINE	7	7	Courage	2	0	2	Peur	0.0
+GEW2	sadness	sadness	Tristesse	-117.0				0	-0.704	-0.875	-0.593	ANCRE_EXACTE_303	5	5	Tristesse	0	-2	2	Joie	-90.0
+GEW2	sadness	despair	Désespoir	-117.0				0	-0.77	0.588	-0.51	ANCRE_EXACTE_303	70	70	Désespoir	-1	-7	5	Espoir	-98.13
+GEW2	fear	worry	Inquiétude	-135.0				0	-0.5	0.468	-0.074	ANCRE_EXACTE_303	72	72	Inquiétude	-5	3	5	Quiétude	149.036
+GEW2	fear	fear	Peur	-135.0				0	-0.889	0.667	-0.958	ANCRE_EXACTE_303	6	6	Peur	-2	0	2	Courage	180.0
+GEW2	shame	embarrassment	Embarras	-153.0				0	-0.533	-0.667	-0.722	LEXIQUE_PIPELINE	68	68	Pessimisme	-2	-6	5	Optimisme	-108.435
+GEW2	shame	shame	Honte	-153.0				0	-0.88	0.34	-0.69	ANCRE_EXACTE_303	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW2	guilt	guilt	Culpabilité	-171.0				0	-0.584	0.134	-0.588	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW2	guilt	remorse	Remords	-171.0				0	-0.667	-0.667	-0.259	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW2	disappointment	disappointment	Déception	171.0				0	-0.674	0.0	-0.466	LEXIQUE_PIPELINE	75	75	Détachement	-6	-2	5	Attachement	-161.565
+GEW2	disappointment	regret	Regret	171.0				0	-0.54	0.246	-0.338	LEXIQUE_PIPELINE	28	28	Retrait	-2	-2	3	Attrait	-135.0
+GEW2	envy	envy	Envie	153.0				0	-0.52	0.408	-0.146	ANCRE_EXACTE_303	34	34	Envie	-2	4	4	Admiration	116.565
+GEW2	envy	jealousy	Jalousie	153.0				0	-0.708	0.566	-0.038	LEXIQUE_PIPELINE	34	34	Envie	-2	4	4	Admiration	116.565
+GEW2	disgust	disgust	Dégoût	135.0				0	-0.896	0.55	-0.366	ANCRE_EXACTE_303	11	11	Dégoût	-1	-1	2	Désir	-135.0
+GEW2	disgust	repulsion	Répulsion	135.0				0	-0.506	0.346	-0.294	LEXIQUE_PIPELINE	28	28	Retrait	-2	-2	3	Attrait	-135.0
+GEW2	contempt	contempt	Mépris	117.0				0	-0.588	0.27	-0.208	ANCRE_EXACTE_303	44	44	Mépris	-5	-1	4	Amour	-168.69
+GEW2	contempt	scorn	Dédain	117.0				0	-0.694	-0.108	-0.118	LEXIQUE_PIPELINE	44	44	Mépris	-5	-1	4	Amour	-168.69
+GEW2	anger	irritation	Irritation	99.0				0	-0.714	0.667	-0.37	ANCRE_EXACTE_303	108	108	Irritation	-6	4	6	Apaisement	146.31
+GEW2	anger	anger	Colère	99.0				0	-0.666	0.73	0.314	ANCRE_EXACTE_303	8	8	Colère	-1	1	2	Calme	135.0
+GEW1	pride	pride	Fierté	78.75				0	0.458	0.268	0.696	ANCRE_EXACTE_303	46	46	Fierté	4	2	4	Honte	26.565
+GEW1	elation	elation	Exaltation	56.25				0	0.188	0.784	0.346	ANCRE_EXACTE_303	30	30	Exaltation	0	6	4	Solitude	90.0
+GEW1	happiness	happiness	Bonheur	33.75				0	0.92	0.464	0.7	LEXIQUE_PIPELINE	175	175	Sublimation	6	6	7	Dissolution	45.0
+GEW1	satisfaction	satisfaction	Satisfaction	11.25				0	0.878	0.274	0.346	ANCRE_EXACTE_303	84	84	Satisfaction	4	-4	5	Insatisfaction	-45.0
+GEW1	relief	relief	Soulagement	-11.25				0	0.47	-0.6	-0.018	ANCRE_EXACTE_303	19	19	Soulagement	1	-3	3	Panique	-71.565
+GEW1	hope	hope	Espoir	-33.75				0	0.854	-0.366	0.478	ANCRE_EXACTE_303	79	79	Espoir	7	1	5	Désespoir	8.13
+GEW1	interest	interest	Intérêt	-56.25				0	0.56	0.334	0.236	ANCRE_EXACTE_303	85	85	Intérêt	4	4	5	Désintérêt	45.0
+GEW1	surprise	surprise	Surprise	-78.75				0	0.75	0.75	0.124	ANCRE_EXACTE_303	2	2	Surprise	0	0	1	Surprise	
+GEW1	anxiety	anxiety	Anxiété	-101.25				0	-0.708	0.73	-0.316	ANCRE_EXACTE_303	42	42	Anxiété	-4	2	4	Sérénité	153.435
+GEW1	sadness	sadness	Tristesse	-123.75				0	-0.704	-0.875	-0.593	ANCRE_EXACTE_303	5	5	Tristesse	0	-2	2	Joie	-90.0
+GEW1	boredom	boredom	Ennui	-146.25				0	-0.188	-0.078	-0.368	ANCRE_EXACTE_303	14	14	Ennui	0	-4	3	Enthousiasme	-90.0
+GEW1	shame/guilt	shame	Honte	-168.75				0	-0.88	0.34	-0.69	ANCRE_EXACTE_303	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW1	shame/guilt	guilt	Culpabilité	-168.75				0	-0.584	0.134	-0.588	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565
+GEW1	disgust	disgust	Dégoût	168.75				0	-0.896	0.55	-0.366	ANCRE_EXACTE_303	11	11	Dégoût	-1	-1	2	Désir	-135.0
+GEW1	contempt	contempt	Mépris	146.25				0	-0.588	0.27	-0.208	ANCRE_EXACTE_303	44	44	Mépris	-5	-1	4	Amour	-168.69
+GEW1	hostility	hostility	Hostilité	123.75				0	-0.756	0.55	-0.07	LEXIQUE_PIPELINE	35	35	Haine	-1	5	4	Affection	101.31
+GEW1	anger	anger	Colère	101.25				0	-0.666	0.73	0.314	ANCRE_EXACTE_303	8	8	Colère	-1	1	2	Calme	135.0
+PLUTCHIK	joy	serenity	Sérénité	90.0			1.0	0	0.8	-0.878	0.114	ANCRE_EXACTE_303	38	38	Sérénité	2	-4	4	Anxiété	-63.435
+PLUTCHIK	joy	joy	Joie	90.0			2.0	0	0.96	0.648	0.588	ANCRE_EXACTE_303	4	4	Joie	0	2	2	Tristesse	90.0
+PLUTCHIK	joy	ecstasy	Extase	90.0			3.0	0	0.592	0.844	0.31	ANCRE_EXACTE_303	120	120	Extase	8	2	6	Prostration	14.036
+PLUTCHIK	trust	acceptance	Acceptation	45.0			1.0	0	0.666	-0.426	0.51	ANCRE_EXACTE_303	51	51	Acceptation	3	-3	4	Frustration	-45.0
+PLUTCHIK	trust	trust	Confiance	45.0			2.0	0	0.918	-0.448	0.886	ANCRE_EXACTE_303	58	58	Confiance	8	0	5	Méfiance	0.0
+PLUTCHIK	trust	admiration	Admiration	45.0			3.0	0	0.938	0.166	0.452	ANCRE_EXACTE_303	49	49	Admiration	4	-2	4	Envie	-26.565
+PLUTCHIK	fear	apprehension	Appréhension	0.0			1.0	0	0.164	0.188	-0.072	LEXIQUE_PIPELINE	49	49	Admiration	4	-2	4	Envie	-26.565
+PLUTCHIK	fear	fear	Peur	0.0			2.0	0	-0.889	0.667	-0.958	ANCRE_EXACTE_303	6	6	Peur	-2	0	2	Courage	180.0
+PLUTCHIK	fear	terror	Terreur	0.0			3.0	0	-0.862	0.804	-0.17	ANCRE_EXACTE_303	99	99	Terreur	-1	9	6	Harmonie	96.34
+PLUTCHIK	surprise	distraction	Distraction	-45.0			1.0	0	0.0	-0.963	-0.292	LEXIQUE_PIPELINE	148	148	Abîme	-1	-11	7	Ravissement	-95.194
+PLUTCHIK	surprise	surprise	Surprise	-45.0			2.0	0	0.75	0.75	0.124	ANCRE_EXACTE_303	2	2	Surprise	0	0	1	Surprise	
+PLUTCHIK	surprise	amazement	Stupéfaction	-45.0			3.0	0	-0.412	0.408	-0.04	LEXIQUE_PIPELINE	159	159	Sidération	-9	3	7	Abandon	161.565
+PLUTCHIK	sadness	pensiveness	Songerie	-90.0			1.0	0	-0.1	-0.3	-0.2	LEXIQUE_PIPELINE	20	20	Chagrin	-1	-3	3	Aplomb	-108.435
+PLUTCHIK	sadness	sadness	Tristesse	-90.0			2.0	0	-0.704	-0.875	-0.593	ANCRE_EXACTE_303	5	5	Tristesse	0	-2	2	Joie	-90.0
+PLUTCHIK	sadness	grief	Chagrin	-90.0			3.0	0	-0.896	-0.53	-0.672	ANCRE_EXACTE_303	20	20	Chagrin	-1	-3	3	Aplomb	-108.435
+PLUTCHIK	disgust	boredom	Ennui	-135.0			1.0	0	-0.188	-0.078	-0.368	ANCRE_EXACTE_303	14	14	Ennui	0	-4	3	Enthousiasme	-90.0
+PLUTCHIK	disgust	disgust	Dégoût	-135.0			2.0	0	-0.896	0.55	-0.366	ANCRE_EXACTE_303	11	11	Dégoût	-1	-1	2	Désir	-135.0
+PLUTCHIK	disgust	loathing	Aversion	-135.0			3.0	0	-0.688	-0.188	-0.358	LEXIQUE_PIPELINE	53	53	Rejet	-3	-3	4	Estime	-135.0
+PLUTCHIK	anger	annoyance	Agacement	180.0			1.0	0	-0.666	0.436	-0.316	LEXIQUE_PIPELINE	25	25	Exaspération	-2	2	3	Détente	135.0
+PLUTCHIK	anger	anger	Colère	180.0			2.0	0	-0.666	0.73	0.314	ANCRE_EXACTE_303	8	8	Colère	-1	1	2	Calme	135.0
+PLUTCHIK	anger	rage	Rage	180.0			3.0	0	-1.0	1.0	0.875	ANCRE_EXACTE_303	173	173	Rage	-6	6	7	Impassibilité	135.0
+PLUTCHIK	anticipation	interest	Intérêt	135.0			1.0	0	0.56	0.334	0.236	ANCRE_EXACTE_303	85	85	Intérêt	4	4	5	Désintérêt	45.0
+PLUTCHIK	anticipation	anticipation	Anticipation	135.0			2.0	0	0.396	0.078	0.422	ANCRE_EXACTE_303	3	3	Anticipation	0	0	2	Anticipation	
+PLUTCHIK	anticipation	vigilance	Vigilance	135.0			3.0	0	0.56	0.75	0.5	ANCRE_EXACTE_303	191	191	Vigilance	-4	0	-3	Inventivité	180.0
+PLUTCHIK	love	love	Amour	67.5				0	0.73	-0.04	0.304	ANCRE_EXACTE_303	36	36	Amour	1	5	4	Mépris	78.69
+PLUTCHIK	submission	submission	Soumission	22.5				0	0.333	-0.933	-0.958	TRIADE_Z_MINUS	271	271	Assertif	-4	6	-6	Gentil	123.69
+PLUTCHIK	awe	awe	Crainte	-22.5				0	-0.6562	0.2047	-0.4739	ANCRE_EXACTE_303	15	15	Crainte	-4	0	3	Curiosité	180.0
+PLUTCHIK	disapproval	disapproval	Désapprobation	-67.5				0	-0.68	0.15	-0.1	LEXIQUE_PIPELINE	45	45	Défiance	-4	-2	4	Ferveur	-153.435
+PLUTCHIK	remorse	remorse	Remords	-112.5				0	-0.667	-0.667	-0.259	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565
+PLUTCHIK	contempt	contempt	Mépris	-157.5				0	-0.588	0.27	-0.208	ANCRE_EXACTE_303	44	44	Mépris	-5	-1	4	Amour	-168.69
+PLUTCHIK	aggressiveness	aggressiveness	Agressivité	157.5				0	-0.846	0.826	0.296	LEXIQUE_PIPELINE	69	69	Fermeture	-3	-5	5	Ouverture	-120.964
+PLUTCHIK	optimism	optimism	Optimisme	112.5				0	0.898	0.13	0.628	ANCRE_EXACTE_303	77	77	Optimisme	6	2	5	Pessimisme	18.435

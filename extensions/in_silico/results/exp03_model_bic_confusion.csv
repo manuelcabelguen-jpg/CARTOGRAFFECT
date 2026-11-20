@@ -1,0 +1,5 @@
+,M1_CARTOGRAFFECT,M2_NoBudget_Lam0,M3_NoThresholds,M4_ScalarValence_1D
+M1_CARTOGRAFFECT,1.0,0.0,0.0,0.0
+M2_NoBudget_Lam0,0.0,1.0,0.0,0.0
+M3_NoThresholds,0.0,0.0,1.0,0.0
+M4_ScalarValence_1D,0.0,0.0,0.0,1.0
