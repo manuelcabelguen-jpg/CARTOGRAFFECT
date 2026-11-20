@@ -251,7 +251,11 @@ $TotalSw = [System.Diagnostics.Stopwatch]::StartNew()
 foreach ($rel in $Modules) {
     $full = Join-Path $SrcDir $rel
     $sw = [System.Diagnostics.Stopwatch]::StartNew()
-    $out = & cmd /c "chcp 65001 >nul && `"$AgdaExe`" -i `"$SrcDir`" `"$full`" 2>&1"
+if ($IsWindows -or $env:OS -eq 'Windows_NT') {
+        $out = & cmd /c "chcp 65001 >nul && `"$AgdaExe`" -i `"$SrcDir`" `"$full`" 2>&1"
+    } else {
+        $out = & $AgdaExe -i $SrcDir $full 2>&1
+    }
     $exitCode = $LASTEXITCODE
     $sw.Stop()
     if ($exitCode -ne 0) {
