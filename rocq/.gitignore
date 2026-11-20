@@ -1,0 +1,12 @@
+# Artefacts de compilation Rocq (strictement locaux à rocq/)
+*.vo
+*.vos
+*.vok
+*.glob
+*.aux
+.*.aux
+.lia.cache
+.nia.cache
+Makefile.coq
+Makefile.coq.conf
+.Makefile.coq.d

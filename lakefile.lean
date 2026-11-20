@@ -7,4 +7,4 @@ package «cartograffect» where
 @[default_target]
 lean_lib «Cartograffect» where
   leanOptions := #[⟨`warningAsError, true⟩]
-  roots := #[`Cartograffect, `Cartograffect.AffectiveDynamics]
+  roots := #[`Cartograffect, `Cartograffect.AffectiveDynamics, `Cartograffect.PredictiveCircuit]

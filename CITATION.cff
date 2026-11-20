@@ -8,7 +8,7 @@ version: 1.0.1
 doi: "10.5281/zenodo.23833938"
 date-released: 2026-10-31
 url: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
-abstract: "Version formelle de CARTOGRAFFECT vérifiée sous Lean 4.35.0 (Lake 5.0.0), certifiant 17 théorèmes sans axiome ad hoc."
+abstract: "Version formelle de CARTOGRAFFECT vérifiée sous Lean 4.35.0 (Lake 5.0.0), certifiant 113 théorèmes audités sans axiome ad hoc (étendant le noyau fondateur initial de 17 théorèmes) avec moteur prédictif isomorphe en Python."
 keywords:
   - "Lean 4"
   - "formal verification"

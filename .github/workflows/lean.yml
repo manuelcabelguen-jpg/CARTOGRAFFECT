@@ -34,9 +34,29 @@ jobs:
 
       - name: Audit axioms & ensure zero sorry
         run: |
-          echo "Checking for forbidden keywords (sorry, admit, axiom, unsafe, implemented_by, noncomputable)..."
-          if git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable)\b" -- Cartograffect/ Cartograffect.lean; then
+          echo "Checking for forbidden keywords (sorry, admit, axiom, unsafe, implemented_by, noncomputable, native_decide, partial)..."
+          if git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable|native_decide|partial)\b" -- Cartograffect/ Cartograffect.lean; then
             echo "Error: Uncertified sorry, axiom, or unsafe construct found in Lean code!"
             exit 1
           fi
           echo "Audit passed: 0 sorry, 0 uncertified axioms, 100% computable."
+
+  python-tests:
+    name: Verify Isomorphic Python Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install NumPy
+        run: python -m pip install --upgrade pip && pip install "numpy>=1.24"
+
+      - name: Run Python unit tests & parity check
+        run: |
+          python -m unittest discover -s python -v
+          python python/cartograffect_predictive_engine.py

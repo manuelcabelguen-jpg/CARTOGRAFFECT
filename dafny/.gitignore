@@ -1,0 +1,13 @@
+*.js
+*.cs
+*.dll
+*.exe
+*.pdb
+*.py
+*-py/
+*.boogie
+*.bpl
+*.smt2
+.dafny/
+bin/
+obj/

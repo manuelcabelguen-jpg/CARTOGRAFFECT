@@ -6,6 +6,10 @@
 *.c
 *.trace
 
+# Python artifacts
+__pycache__/
+*.py[cod]
+
 # OS & Editor files
 .DS_Store
 Thumbs.db

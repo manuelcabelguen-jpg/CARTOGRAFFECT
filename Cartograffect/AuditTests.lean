@@ -10,6 +10,7 @@ import Cartograffect.AffectiveMatrix
 import Cartograffect.AffectiveDynamics
 import Cartograffect.AffectiveTaxonomy
 import Cartograffect.Lexicon176
+import Cartograffect.PredictiveCircuit
 
 namespace Cartograffect.Audit
 
@@ -19,6 +20,7 @@ open AffectiveMatrix
 open AffectiveDynamics
 open AffectiveTaxonomy
 open Lexicon176
+open PredictiveCircuit
 
 /-!
 ## PHASE 1 : Audit Axiomatique (#print axioms)
@@ -106,6 +108,47 @@ theorem all176Entries_antagonist_inverts_hedonic_polarity :
   decide
 
 #print axioms all176Entries_antagonist_inverts_hedonic_polarity
+#print axioms circuit_covers_interfaces_both_sides
+#print axioms circuit_refines_inferential_ops
+#print axioms phiL1_left_inv
+#print axioms phiL1_right_inv
+#print axioms phiL1_agrees_with_deployZ2
+#print axioms crossingII_is_transpose_of_crossingI
+#print axioms routeToSubjective_injective
+#print axioms routeToPerceptive_injective
+#print axioms projectPerceptible_valid
+#print axioms projectPerceptible_z2_matches_phiL1
+#print axioms projectPerceptible_neutral_elevates_to_central
+#print axioms attentional_bottleneck_sum_active
+#print axioms circuitRowSum_exact
+#print axioms veille_absorbing_free
+#print axioms lyapunov_monotone_free
+#print axioms lyapunov_strict_descent_witness
+#print axioms lyapunov_expected_drift_constant
+#print axioms axial_peur_bifurcates_p2
+#print axioms veille_reaches_all_one_step
+#print axioms all_reach_veille_two_steps
+#print axioms veille_unreachable_when_eps_max
+#print axioms circularCycle_veille_fixed_point
+#print axioms circularCycle_reduces_total_discrepancy
+#print axioms lyapunov_drift_charge_with_passive_extinction
+#print axioms p1_without_p2_eps_independent
+#print axioms epistemic_rigidity_traps_charge_slice
+#print axioms pragmatic_helplessness_traps_charge_slice
+#print axioms perseveration_traps_discharge_free
+#print axioms passive_extinction_zero_relief
+#print axioms active_resolution_beats_passive_extinction
+#print axioms charge_accumulator_bounded
+#print axioms nextStratumR5_le_zMax
+#print axioms nextStratumR5_short_circuits_z2_to_veille
+#print axioms nextStratumR5_from_ge2_never_visits_surprise
+#print axioms symmetricSigmoid_sum
+#print axioms symmetricSigmoid_pos
+#print axioms symmetricSigmoid_neg
+#print axioms precisionShare_double_charge_cancels_alpha
+#print axioms projectUnifiedState_valid
+#print axioms projectUnifiedState_crown_budget
+#print axioms projectUnifiedState_reaches_lateral_consternation
 
 /-!
 ## PHASE 2 : Tests d'Inhabitation et Évaluation Concrète (#eval)
@@ -228,5 +271,20 @@ def invertedPhenomenologicalMapping : PhenomenologicalMapping := {
        (evaluateMatrix (evaluateCoreAffect sampleColereEngine) invertedPhenomenologicalMapping).antagonist.point)
 #eval ((evaluateMatrix (evaluateCoreAffect sampleColereEngine) canonicalMapping).valence,
        (evaluateMatrix (evaluateCoreAffect sampleColereEngine) invertedPhenomenologicalMapping).valence)
+
+-- 10. Circuit circulaire à 6 opérateurs (`PredictiveCircuit`) : croisements, noyau exact et boucle fermée
+#eval (crossingIPos ⟨.zero, .zero⟩, crossingIIPos ⟨.zero, .zero⟩)
+#eval projectPerceptible ⟨.neg, .pos⟩ 3 1 3 true
+#eval circuitRowSum (default : CircuitKernelParams) ⟨.neg, .zero⟩
+#eval circuitWeight (default : CircuitKernelParams) ⟨.neg, .zero⟩ ⟨.neg, .pos⟩
+#eval (op3_crossingI_perceptible (default : CircularCircuitState)).2.point
+
+-- 11. Loi unifiée (`UnifiedDynamicsParams`) : R_t actif vs passif, court-circuit R5 et Consternation latérale (-1, 3, 3)
+#eval (nextChargeAccumulator (default : UnifiedDynamicsParams) 1000 500 500 ⟨.neg, .zero⟩ ⟨.pos, .zero⟩,
+       nextChargeAccumulator (default : UnifiedDynamicsParams) 1000 500 500 ⟨.neg, .zero⟩ ⟨.zero, .zero⟩)
+#eval (nextStratumR5 (default : UnifiedDynamicsParams) 2 100,
+       nextStratumR5 (default : UnifiedDynamicsParams) 3 100)
+#eval (projectUnifiedState (default : UnifiedDynamicsParams) ⟨.neg, .pos⟩ 3 10 90 true).point
+#eval precisionShares (default : UnifiedDynamicsParams) 10 90 ⟨.neg, .neg⟩
 
 end Cartograffect.Audit

@@ -9,19 +9,22 @@
 
 Ce dépôt contient la formalisation mathématique et la preuve assistée par ordinateur sous **Lean 4 (v4.35.0)** de l'architecture fonctionnelle de la **Cartographie des affects**, ainsi que le référentiel algorithmique complet des **176 positions de l'espace affectif ($Z = 0$ à $Z = 7$)**.
 
-> **English Overview:** This repository contains the mechanized formal verification in **Lean 4 (v4.35.0)** of **CARTOGRAFFECT** (*Cartographie des affects*), a hierarchical 3D affective geometry and predictive-processing taxonomy mapping **176 affective states** across 8 vertical strata ($Z = 0$ to $Z = 7$). Built exclusively on Lean 4's core `Init` library (**0 external dependencies**, **0 `sorry`**, **0 `admit`**, **0 custom axioms**), it formally certifies $L_1$ attentional budget conservation, involutive antagonist symmetries, exhaustive taxonomic partitioning, and the master theorem `end_to_end_coherence`.
+> **English Overview:** This repository contains the mechanized formal verification in **Lean 4 (v4.35.0)** of **CARTOGRAFFECT** (*Cartographie des affects*), a hierarchical 3D affective geometry, closed-loop generative predictive circuit, and taxonomy mapping **176 affective states** across 8 vertical strata ($Z = 0$ to $Z = 7$). Built exclusively on Lean 4's core `Init` library (**0 external dependencies**, **0 `sorry`**, **0 `admit`**, **0 custom axioms**), it formally certifies $L_1$ attentional budget conservation, involutive antagonist symmetries, exhaustive taxonomic partitioning, exact integer Markov transition conservation ($4 \cdot \mathrm{scale}^6$), unified $(R_t, Z_t, \pi_A, \pi_C)$ coupling, and the master theorem `end_to_end_coherence`, paired with an isomorphic Python numerical engine (`python/cartograffect_predictive_engine.py`).
 
 ---
 
 ## Architecture des Modules Certifiés
 
 1. **[`Cartograffect/PredictiveEngine.lean`](Cartograffect/PredictiveEngine.lean)** : Formalisation de l'écart de prédiction saillant (avec hystérésis de résorption), des trois interfaces (Perceptive, Subjective, Attentionnelle), des régimes de charge/décharge et de la partition des 9 couplages $(A/C)$.
-2. **[`Cartograffect/CoreAffect.lean`](Cartograffect/CoreAffect.lean)** : Projection spatiale tridimensionnelle $(X, Y, Z)$, opérateurs centraux ($Z = 0$ à $Z = 7$), loi géométrique des couronnes ($R(Z) = 2Z - 2$ pour $Z \ge 2$), conservation du budget attentionnel, réallocation axiale $\to$ diagonale et dissipation allostatique graduelle vers le Point de Veille $(0, 0, 0)$.
-3. **[`Cartograffect/AffectiveMatrix.lean`](Cartograffect/AffectiveMatrix.lean)** : Transduction phénoménologique (valence et activation), formalisation des 8 prototypes de la première couronne ($Z = 2$) et preuve d'involutivité de l'opérateur d'antagonisme (symétrie centrale axiale/diagonale et réflexion diagonale controlatérale pour $Z \ge 3$).
-4. **[`Cartograffect/AffectiveTaxonomy.lean`](Cartograffect/AffectiveTaxonomy.lean)** : Partition exhaustive et mutuellement exclusive des 9 groupes d'orientation, certification arithmétique des 176 entrées (8 centres + 168 positions périphériques) et démonstration du théorème maître `end_to_end_coherence`.
-5. **[`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean)** : Répertoire nominal exhaustif des 176 positions affectives ($Z = 0$ à $Z = 7$) et vérification mécanique des 84 paires antagonistes axiales, diagonales et controlatérales.
-6. **[`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) & [`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Audit axiomatique (`#print axioms`), tests d'évaluation constructive (`#eval`) et certificat d'audit formel complet.
-7. **[`Cartograffect.lean`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
+2. **[`Cartograffect/CoreAffect.lean`](Cartograffect/CoreAffect.lean)** : Projection spatiale tridimensionnelle $(X, Y, Z)$, opérateurs centraux ($Z = 0$ à $Z = 7$), loi géométrique des couronnes ($R(Z) = 2Z - 2$ pour $Z \ge 2$), partage discret `apportionRay`, conservation du budget attentionnel, réallocation axiale $\to$ diagonale, suspension descendante endogène (`R5`) et dissipation allostatique court-circuitée vers le Point de Veille $(0, 0, 0)$.
+3. **[`Cartograffect/AffectiveMatrix.lean`](Cartograffect/AffectiveMatrix.lean)** : Transduction phénoménologique paramétrique (`PhenomenologicalMapping`, `R3`), formalisation des 8 prototypes de la première couronne ($Z = 2$) et preuve d'involutivité de l'opérateur d'antagonisme (symétrie centrale axiale/diagonale et réflexion diagonale controlatérale pour $Z \ge 3$).
+4. **[`Cartograffect/AffectiveDynamics.lean`](Cartograffect/AffectiveDynamics.lean)** : Noyau stochastique inter-strates $Z \to Z + 1$ (`DepthTransitionKernel`, atteignabilité latérale `R8`) et appartenance graduée aux 9 attracteurs taxonomiques (`attractorMembership`, `R1`).
+5. **[`Cartograffect/AffectiveTaxonomy.lean`](Cartograffect/AffectiveTaxonomy.lean)** : Partition exhaustive et mutuellement exclusive des 9 groupes d'orientation et sous-secteurs fonctionnels, certification arithmétique des 176 entrées (8 centres + 168 positions périphériques) et démonstration du théorème maître `end_to_end_coherence`.
+6. **[`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean)** : Répertoire nominal exhaustif des 176 positions affectives ($Z = 0$ à $Z = 7$), vérification mécanique des 84 paires antagonistes et atteignabilité complète (`176 / 176`).
+7. **[`Cartograffect/PredictiveCircuit.lean`](Cartograffect/PredictiveCircuit.lean)** : Formalisation générative du circuit continu fermé à 2 boucles × 3 circuits et 6 opérateurs de frontière (Figure 1), dualité transposée Croisement I / II, noyau markovien entier exact (`4 * scale ^ 6`) distinguant extinction passive ($\delta$) et résolution active ($\rho, \kappa$), indépendance P1 ($L_1$) / P2 ($\chi$), ruptures topologiques d'ergodicité et loi unifiée $(R_t, Z_t, \pi_{A,t}, \pi_{C,t})$ couplée au court-circuit `R5` et à `apportionRay`.
+8. **[`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) & [`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Audit axiomatique (`#print axioms` sur 113 théorèmes), tests d'évaluation constructive (`#eval`) et certificat d'audit formel complet.
+9. **[`Cartograffect.lean`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
+10. **[`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py) & [`python/test_predictive_engine.py`](python/test_predictive_engine.py)** : Moteur prédictif numérique en Python isomorphe à `PredictiveCircuit.lean` (écart maximal $|T - W / (4 \cdot 100^6)| \le 1{,}11 \times 10^{-16}$, analyse spectrale d'ergodicité, simulation unifiée $(R_t, Z_t, \tilde{\pi}_A, \tilde{\pi}_C)$ et suite de 12 tests unitaires).
 
 ---
 
@@ -33,28 +36,30 @@ L'intégralité du système formel CARTOGRAFFECT est compilée, vérifiée et au
 
 - **Prover :** Lean 4 (`v4.35.0`, commit `eb6cafb7290e8bd5f2937522d8d804f58f02bafc`, Release `x86_64-linux`)
 - **Build system :** Lake `5.0.0-src+eb6cafb`
-- **Commit d'introduction initiale du noyau formel :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) *(commit de référence initial du noyau des 17 théorèmes et du lexique des 176 entrées, enrichi des lemmes de complétude structurelle documentés dans [`AUDIT_REPORT.md`](AUDIT_REPORT.md))*
-- **Compilation `lake build` :** **9 tâches compilées** avec succès (0 erreur, 0 avertissement).
-- **Audit statique et axiomatique :** `git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 axiome ad hoc**.
+- **Commit d'introduction initiale du noyau formel :** [`6fc3a987ab047974d10b679f6d1fb1c11183e10b`](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/commit/6fc3a987ab047974d10b679f6d1fb1c11183e10b) *(commit de référence initial du noyau des 17 théorèmes et du lexique des 176 entrées, étendu aux modules `AffectiveDynamics`, `PredictiveCircuit` et aux résolutions documentées dans [`AUDIT_REPORT.md`](AUDIT_REPORT.md))*
+- **Compilation `lake build` (`warningAsError := true`) :** **11 cibles compilées** avec succès (0 erreur, 0 avertissement).
+- **Audit statique et axiomatique :** `Select-String` / `git grep` $\rightarrow$ **0 `sorry`, 0 `admit`, 0 `axiom`, 0 `unsafe`, 0 `implemented_by`, 0 `noncomputable`** ; **113 théorèmes audités** par `#print axioms` (24 purement réductionnels `[none]`, 34 extensionnels, 55 socle classique standard).
 - **Dépendances externes :** **0** (aucune dépendance vis-à-vis de Mathlib ou Batteries ; uniquement le noyau formel de Lean 4 et sa bibliothèque standard `Init`).
 
-### Architecture des 9 unités de compilation (`lake build`)
+### Architecture des 11 cibles `lake build`
 
-Le pipeline CI orchestre la compilation stricte de 9 cibles (`lake build`, `warningAsError := true`) avec **0 erreur et 0 avertissement** :
+Le pipeline CI orchestre la compilation stricte de 11 cibles (`lake build`, `warningAsError := true`, couvrant les **9 unités modulaires `.lean`** et les cibles d'assemblage de la bibliothèque) avec **0 erreur et 0 avertissement** :
 
-1. **[`Cartograffect.PredictiveEngine`](Cartograffect/PredictiveEngine.lean)** (449 ms) : Polarité prédictive involutive et partition des régimes de couplage.
-2. **[`Cartograffect.CoreAffect`](Cartograffect/CoreAffect.lean)** (548 ms) : Induction valide du Core Affect, conservation budgétaire ($Z = 2$), réallocation axiale/diagonale et dynamique de dissipation.
-3. **[`Cartograffect.AffectiveMatrix`](Cartograffect/AffectiveMatrix.lean)** (678 ms) : Symétrie antagoniste involutive, préservation de la validité géométrique et permutation controlatérale des amplitudes.
-4. **[`Cartograffect.AffectiveTaxonomy`](Cartograffect/AffectiveTaxonomy.lean)** (853 ms) : Certification combinatoire des 176 états affectifs ($Z = 0$ à $Z = 7$), exhaustivité/exclusivité des groupes taxonomiques et cohérence de bout en bout.
-5. **[`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean)** (6,2 s) : Instanciation explicite des 176 entrées lexicales, validité géométrique $L_1$, unicité des coordonnées et clôture par symétrie antagoniste.
-6. **[`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean)** (209 ms) : Audit des dépendances axiomatiques (`#print axioms`) sur les 17 théorèmes majeurs et tests d'évaluation phénoménologique ($Z = 0, Z = 1, Z = 2$).
-7. **[`Cartograffect`](Cartograffect.lean)** (180 ms) : Module racine agrégeant l'ensemble de la bibliothèque formelle.
+1. **[`Cartograffect.PredictiveEngine`](Cartograffect/PredictiveEngine.lean)** : Polarité prédictive involutive, hystérésis, précisions $(\pi_A, \pi_C)$ et transition `engineStep`.
+2. **[`Cartograffect.CoreAffect`](Cartograffect/CoreAffect.lean)** : Induction valide du Core Affect, partage discret `apportionRay`, surjectivité sur 176/176, suspension endogène `R5` et dissipation court-circuitée.
+3. **[`Cartograffect.AffectiveMatrix`](Cartograffect/AffectiveMatrix.lean)** : Symétrie antagoniste involutive, paramétrisation phénoménologique (`R3`) et permutation controlatérale des amplitudes.
+4. **[`Cartograffect.AffectiveDynamics`](Cartograffect/AffectiveDynamics.lean)** : Noyau stochastique `DepthTransitionKernel` ($Z \to Z + 1$) et appartenance graduée `attractorMembership` (`R1`, `R8`).
+5. **[`Cartograffect.AffectiveTaxonomy`](Cartograffect/AffectiveTaxonomy.lean)** : Certification combinatoire des 176 états affectifs ($Z = 0$ à $Z = 7$), exhaustivité/exclusivité des groupes taxonomiques, sous-secteurs et cohérence de bout en bout (`end_to_end_coherence`).
+6. **[`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean)** : Instanciation explicite des 176 entrées lexicales, validité géométrique $L_1$, unicité des coordonnées, clôture antagoniste et atteignabilité complète.
+7. **[`Cartograffect.PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean)** : Boucle fermée continue à 6 opérateurs, bijection $L_1$, noyau entier exact (`4 * scale ^ 6`, extinction passive $\delta$ vs résolution active, P1 vs P2, ruptures topologiques) et loi unifiée $(R_t, Z_t, \pi_A, \pi_C)$.
+8. **[`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean)** : Audit des dépendances axiomatiques (`#print axioms` sur 113 théorèmes) et tests d'évaluation constructive (`#eval`, blocs 1 à 11).
+9. **[`Cartograffect`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
 
-> *Note sur les 9 cibles `lake build` :* Le compteur de 9 tâches compilées par Lake 5.0 (`warningAsError := true`) correspond à la compilation individuelle des **7 unités modulaires `.lean`** ci-dessus, complétée par les **2 cibles internes d'assemblage et d'agrégation de la bibliothèque**.
+> *Note sur les 11 cibles `lake build` :* Le compteur de 11 tâches compilées par Lake 5.0 (`warningAsError := true`) correspond à la compilation des **9 unités modulaires `.lean`** ci-dessus, complétée par les **2 cibles d'agrégation de la bibliothèque** (`Cartograffect`, `Cartograffect.AffectiveDynamics`, `Cartograffect.PredictiveCircuit`). L'audit complet couvre désormais **113 théorèmes** (`24` purement réductionnels `[none]`, `34` extensionnels `[propext]`/`[propext, Quot.sound]` et `55` classiques standard `[propext, Classical.choice, Quot.sound]`, détaillés dans [`AUDIT_REPORT.md`](AUDIT_REPORT.md)).
 
 ---
 
-### Tableau d'audit des 17 théorèmes certifiés (`Cartograffect/AuditTests.lean`)
+### Tableau synthétique du noyau historique (17 théorèmes fondateurs, complétés par 96 théorèmes d'extension — total 113)
 
 L'audit automatique exécuté via `#print axioms` dans [`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) contrôle l'arbre déductif complet de chaque théorème. Il atteste formellement que le système repose exclusivement sur la réduction computationnelle pure ou sur le socle logique standard du noyau de Lean 4, sans aucun axiome personnalisé ou ad hoc. *(Pour la lisibilité des tableaux ci-dessous, le préfixe racine `Cartograffect.` est omis devant les identifiants, dont les chemins complets sont de la forme `Cartograffect.<Module>.<théorème>`, par exemple `Cartograffect.AffectiveTaxonomy.end_to_end_coherence`.)*
 
@@ -64,14 +69,14 @@ Ces théorèmes sont établis par pure réduction computationnelle (`rfl`, `deci
 
 | # | Théorème certifié | Module & Source | Dépendances axiomatiques (`#print axioms`) | Classification logique |
 |---|---|---|---|---|
-| 1 | `Polarity.invert_involutive` | `PredictiveEngine` · [`L24`](Cartograffect/AuditTests.lean#L24) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 2 | `coupling_regime_partition` | `PredictiveEngine` · [`L25`](Cartograffect/AuditTests.lean#L25) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 3 | `z2_budget_conservation` | `CoreAffect` · [`L29`](Cartograffect/AuditTests.lean#L29) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 4 | `contralateral_swaps_amplitudes` | `AffectiveMatrix` · [`L41`](Cartograffect/AuditTests.lean#L41) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 5 | `inventory_176_certified` | `AffectiveTaxonomy` · [`L46`](Cartograffect/AuditTests.lean#L46) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 6 | `all176Entries_length` | `Lexicon176` · [`L56`](Cartograffect/AuditTests.lean#L56) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 7 | `all176Entries_unique_points` | `Lexicon176` · [`L58`](Cartograffect/AuditTests.lean#L58) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
-| 8 | `all176Entries_closed_under_antagonist` | `Lexicon176` · [`L59`](Cartograffect/AuditTests.lean#L59) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 1 | `Polarity.invert_involutive` | `PredictiveEngine` · [`L28`](Cartograffect/AuditTests.lean#L28) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 2 | `coupling_regime_partition` | `PredictiveEngine` · [`L29`](Cartograffect/AuditTests.lean#L29) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 3 | `z2_budget_conservation` | `CoreAffect` · [`L33`](Cartograffect/AuditTests.lean#L33) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 4 | `contralateral_swaps_amplitudes` | `AffectiveMatrix` · [`L45`](Cartograffect/AuditTests.lean#L45) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 5 | `inventory_176_certified` | `AffectiveTaxonomy` · [`L50`](Cartograffect/AuditTests.lean#L50) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 6 | `all176Entries_length` | `Lexicon176` · [`L60`](Cartograffect/AuditTests.lean#L60) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 7 | `all176Entries_unique_points` | `Lexicon176` · [`L62`](Cartograffect/AuditTests.lean#L62) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
+| 8 | `all176Entries_closed_under_antagonist` | `Lexicon176` · [`L63`](Cartograffect/AuditTests.lean#L63) | `[none]` *(0 axiome)* | **Purement constructif** (`does not depend on any axioms`) |
 
 #### B. Théorèmes structurels reposant uniquement sur les axiomes standards de Lean (`propext`, `Quot.sound`, `Classical.choice` — 9 théorèmes)
 
@@ -79,39 +84,42 @@ Ces théorèmes s'appuient uniquement sur le socle axiomatique classique standar
 
 | # | Théorème certifié | Module & Source | Dépendances axiomatiques (`#print axioms`) | Classification logique |
 |---|---|---|---|---|
-| 9 | `engine_induces_valid_core_affect` | `CoreAffect` · [`L28`](Cartograffect/AuditTests.lean#L28) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
-| 10 | `taxonomy_group_exclusive` | `AffectiveTaxonomy` · [`L48`](Cartograffect/AuditTests.lean#L48) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
-| 11 | `axial_to_diagonal_reallocation` | `CoreAffect` · [`L30`](Cartograffect/AuditTests.lean#L30) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 12 | `dissipationStep_valid` | `CoreAffect` · [`L31`](Cartograffect/AuditTests.lean#L31) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 13 | `antagonistPoint_preserves_validity` | `AffectiveMatrix` · [`L39`](Cartograffect/AuditTests.lean#L39) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 14 | `antagonistPoint_involutive` | `AffectiveMatrix` · [`L40`](Cartograffect/AuditTests.lean#L40) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 15 | `taxonomy_group_exhaustive` | `AffectiveTaxonomy` · [`L47`](Cartograffect/AuditTests.lean#L47) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
-| 16 | `end_to_end_coherence` | `AffectiveTaxonomy` · [`L55`](Cartograffect/AuditTests.lean#L55) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** *(Théorème Maître)* |
-| 17 | `all176Entries_geometrically_valid` | `Lexicon176` · [`L57`](Cartograffect/AuditTests.lean#L57) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 9 | `engine_induces_valid_core_affect` | `CoreAffect` · [`L32`](Cartograffect/AuditTests.lean#L32) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 10 | `taxonomy_group_exclusive` | `AffectiveTaxonomy` · [`L52`](Cartograffect/AuditTests.lean#L52) | `[propext, Quot.sound]` | **Fondations standard de Lean** |
+| 11 | `axial_to_diagonal_reallocation` | `CoreAffect` · [`L34`](Cartograffect/AuditTests.lean#L34) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 12 | `dissipationStep_valid` | `CoreAffect` · [`L35`](Cartograffect/AuditTests.lean#L35) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 13 | `antagonistPoint_preserves_validity` | `AffectiveMatrix` · [`L43`](Cartograffect/AuditTests.lean#L43) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 14 | `antagonistPoint_involutive` | `AffectiveMatrix` · [`L44`](Cartograffect/AuditTests.lean#L44) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 15 | `taxonomy_group_exhaustive` | `AffectiveTaxonomy` · [`L51`](Cartograffect/AuditTests.lean#L51) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
+| 16 | `end_to_end_coherence` | `AffectiveTaxonomy` · [`L59`](Cartograffect/AuditTests.lean#L59) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** *(Théorème Maître)* |
+| 17 | `all176Entries_geometrically_valid` | `Lexicon176` · [`L61`](Cartograffect/AuditTests.lean#L61) | `[propext, Classical.choice, Quot.sound]` | **Fondations classiques standard** |
 
 > **Note sur le socle logique :**  
 > `propext` (extensionnalité des propositions), `Classical.choice` (principe du choix classique) et `Quot.sound` (exactitude des types quotients) constituent les fondements standard universellement admis du noyau de Lean 4 (identiques au socle de Mathlib). Le modèle CARTOGRAFFECT n'admet aucun axiome supplémentaire ni aucune dépendance externe.
 
 ---
 
-### Vérifications phénoménologiques exécutables (`#eval` dans `AuditTests.lean`, lignes 79–110)
+### Vérifications exécutables (`#eval` dans `AuditTests.lean`, blocs 1 à 11)
 
-Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul direct (`#eval`) le pipeline déterministe `runCartograffectPipeline` sur trois témoins phénoménologiques canoniques :
+Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul direct (`#eval`) le pipeline déterministe `runCartograffectPipeline` ainsi que le circuit fermé `PredictiveCircuit` et la loi unifiée `UnifiedDynamicsParams`, notamment :
 
-1. **Origine $(0, 0, 0) \rightarrow$ `z0_pointDeVeille` / `operateurCentral` ([lignes 79–81](Cartograffect/AuditTests.lean#L79-L81)) :**  
-   Évaluation de l'état basal par défaut : sous le seuil sensoriel (`magnitude = 0 < sensoryThreshold = 1`), le système converge vers le Point de Veille canonique, confirmant la stabilité homéostatique de l'origine (`stratum = z0_pointDeVeille`, `group = operateurCentral`).
+1. **Origine $(0, 0, 0) \rightarrow$ `z0_pointDeVeille` / `operateurCentral` :**  
+   Évaluation de l'état basal par défaut : sous le seuil sensoriel (`magnitude = 0 < sensoryThreshold = 1`), le système converge vers le Point de Veille canonique (`stratum = z0_pointDeVeille`, `group = operateurCentral`).
 
-2. **Rupture de veille $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `ascendingRupture` ([lignes 91–93](Cartograffect/AuditTests.lean#L91-L93)) :**  
-   Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise sur l'axe vertical d'activation avant tout déploiement spatial (`stratum = z1_saillancePerceptive`, `activation = ascendingRupture`).
+2. **Rupture de veille $(0, 0, 1) \rightarrow$ `z1_saillancePerceptive` / `ascendingRupture` :**  
+   Évaluation d'un écart franchissant le seuil sensoriel (`magnitude 5 ≥ sensoryThreshold 2`) sans précision attentionnelle suffisante (`allocatedPrecision 1 < engagementThreshold 3`) : le moteur projette la Surprise (`stratum = z1_saillancePerceptive`, `activation = ascendingRupture`).
 
-3. **Dyade diagonale (de compensation) $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`ergotropicCompensation` / `negative`) ([lignes 103–110](Cartograffect/AuditTests.lean#L103-L110)) :**  
-   Évaluation d'un couplage engagé ($A-, C+$) à $Z = 2$ (`allocatedPrecision 5 ≥ 3`) : projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique direct le Calme $(1, -1, 2)$, régime énergétique de compensation ergotrope (`ergotropicCompensation`) et polarité hédonique négative (`negative`), avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
+3. **Dyade diagonale $(-1, 1, 2) \leftrightarrow (1, -1, 2) \rightarrow$ `groupeColere` $\leftrightarrow$ `groupeCalme` (`ergotropicCompensation` / `negative`) :**  
+   Projection exacte de la Colère $(-1, 1, 2)$, transduction de son antagoniste géométrique le Calme $(1, -1, 2)$, avec stricte conservation budgétaire $L_1$ ($|-1| + |1| = 2$).
+
+4. **Circuit circulaire et loi unifiée (`PredictiveCircuit`, blocs 10–11) :**  
+   Vérification numérique directe de `circuitRowSum = 4000000000000`, de la distinction actif vs passif sur `nextChargeAccumulator` (`(700, 1300)`), du court-circuit `nextStratumR5 default 2 100 = 0` (`R5`) et de l'atteinte de la coordonnée latérale `Consternation (-1, 3, 3)` par partage logistique.
 
 ---
 
 ### Instructions de reproduction locale
 
-Tout pair évaluateur peut reproduire, compiler et auditer mécaniquement l'ensemble des preuves et calculs en local :
+Tout pair évaluateur peut reproduire, compiler et auditer mécaniquement l'ensemble des preuves Lean 4 et des tests Python en local :
 
 ```bash
 # 1. Cloner le dépôt et se positionner à la racine
@@ -122,22 +130,26 @@ cd CARTOGRAFFECT
 lean --version
 lake --version
 
-# 3. Compilation stricte de la bibliothèque et vérification formelle (9 cibles)
+# 3. Compilation stricte de la bibliothèque et vérification formelle (11 cibles)
 lake build
 
-# 4. Exécution du banc d'audit axiomatique (#print axioms) et des tests (#eval)
+# 4. Exécution du banc d'audit axiomatique (#print axioms, 113 théorèmes) et des tests (#eval)
 lake env lean Cartograffect/AuditTests.lean
 
 # 5. Audit statique d'intégrité (garantie de 0 sorry, 0 admit, 0 axiome ad hoc)
-git grep -n -E "\b(sorry|admit|axiom)\b" -- Cartograffect/ Cartograffect.lean
+git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable)\b" -- Cartograffect/ Cartograffect.lean
+
+# 6. Tests unitaires et contrôle de parité du moteur prédictif Python (12 tests)
+python -m unittest discover -s python -v
+python python/cartograffect_predictive_engine.py
 ```
 
 ---
 
 ## Documentation associée
 
-- **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Rapport complet d'audit de certification formelle et de fidélité épistémique (Phases 1 à 5).
-- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (fondements conceptuels et dynamiques).
+- **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Rapport complet d'audit de certification formelle et de fidélité épistémique (Phases 1 à 5 & Section 6 `PredictiveCircuit`).
+- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (fondements conceptuels, section 4.1 et dynamiques).
 - **[`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
 
 ---

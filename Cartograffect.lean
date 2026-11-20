@@ -7,6 +7,7 @@ Author: Manuel Cabelguen
 import Cartograffect.PredictiveEngine
 import Cartograffect.CoreAffect
 import Cartograffect.AffectiveMatrix
+import Cartograffect.PredictiveCircuit
 import Cartograffect.AffectiveDynamics
 import Cartograffect.AffectiveTaxonomy
 import Cartograffect.Lexicon176

@@ -1,0 +1,10 @@
+-Q theories CartograffectRocq
+theories/PredictiveEngine.v
+theories/CoreAffect.v
+theories/AffectiveMatrix.v
+theories/AffectiveTaxonomy.v
+theories/AffectiveDynamics.v
+theories/Lexicon176.v
+theories/PredictiveCircuit.v
+theories/AuditTests.v
+theories/Cartograffect.v

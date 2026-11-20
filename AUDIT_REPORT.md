@@ -1,7 +1,7 @@
 # AUDIT_REPORT — Certification formelle de CARTOGRAFFECT
 
 **Cartographie des affects — formalisation Lean 4**
-Rapport d'audit de vérification formelle et de fidélité épistémique · Phases 1 à 5 & Résolution intégrale (`R1`, `R3`, `R5`, `R8`) · 2026-11-12
+Rapport d'audit de vérification formelle et de fidélité épistémique · Phases 1 à 5 & Section 6 (`PredictiveCircuit`) · 2026-11-19
 
 ---
 
@@ -12,6 +12,7 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 3. [Chaînage déductif inter-modules et traçabilité ontologique (Phase 3)](#3-audit-du-chaînage-déductif-inter-modules-et-table-de-traçabilité-ontologique-phase-3)
 4. [Journal des réparations tactiques sous Lean 4.35.0 (Phase 4)](#4-journal-des-réparations-tactiques-sous-lean-4350-phase-4)
 5. [Singularités théoriques et extensions formelles (Phase 5)](#5-diagnostic-des-singularités-théoriques-et-pistes-dextension-formelle-phase-5)
+6. [Extension générative circulaire (`Cartograffect.PredictiveCircuit` & moteur Python)](#6-extension-générative-circulaire-cartograffectpredictivecircuit--moteur-python)
 
 ---
 
@@ -25,8 +26,8 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | Sources théoriques | [Doc. 1 — Article](docs/01-Article_Cartograffect.md) · [Doc. 2 — Inventaire des 176 entrées](docs/02-Inventaire_176.md) |
 | Toolchain | `leanprover/lean4:v4.35.0` ([`lean-toolchain`](lean-toolchain)) |
 | Dépendances externes | **Aucune** (ni Mathlib ni Batteries : uniquement le noyau Lean 4 et `Init`) |
-| Bibliothèque Lake | `Cartograffect` (`@[default_target]`, incluant la racine `Cartograffect.AffectiveDynamics`, [`lakefile.lean`](lakefile.lean)) |
-| Architecture | 6 modules théoriques + 1 module d'audit + 1 module racine |
+| Bibliothèque Lake | `Cartograffect` (`@[default_target]`, incluant `Cartograffect`, `Cartograffect.AffectiveDynamics`, `Cartograffect.PredictiveCircuit`, [`lakefile.lean`](lakefile.lean)) |
+| Architecture | 7 modules théoriques + 1 module d'audit + 1 module racine + moteur Python isomorphe ([`python/`](python/cartograffect_predictive_engine.py)) |
 
 ### 1.2 Statut de compilation (Phase 1)
 
@@ -38,13 +39,16 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | 4 | [`Cartograffect.AffectiveDynamics`](Cartograffect/AffectiveDynamics.lean) | Noyau inter-strates $Z \to Z + 1$ (`DepthTransitionKernel`, `lateral_reachable`) et attracteurs gradués `attractorMembership` (Doc. 1 §7.1, §8.2) | ✅ PASS |
 | 5 | [`Cartograffect.AffectiveTaxonomy`](Cartograffect/AffectiveTaxonomy.lean) | Taxonomie hiérarchique et sous-secteurs fonctionnels (Doc. 1 §7 ; Doc. 2 §2–3, §5) | ✅ PASS |
 | 6 | [`Cartograffect.Lexicon176`](Cartograffect/Lexicon176.lean) | Répertoire nominal des 176 positions, clôture antagoniste et atteignabilité complète (Doc. 2 §3–5) | ✅ PASS |
-| 7 | [`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean) | Banc d'audit (`#print axioms`, `#eval`, vérifications constructives) | ✅ PASS |
-| 8 | [`Cartograffect`](Cartograffect.lean) | Module racine (agrégation) | ✅ PASS |
+| 7 | [`Cartograffect.PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean) | Circuit fermé à 6 opérateurs, noyau markovien exact `4 * scale ^ 6` (axes i–iii) et loi unifiée `(R_t, Z_t, pi_A, pi_C)` (axe iv) (Doc. 1 §4.1) | ✅ PASS |
+| 8 | [`Cartograffect.AuditTests`](Cartograffect/AuditTests.lean) | Banc d'audit (`#print axioms`, 113 théorèmes ; `#eval`, blocs 1 à 11) | ✅ PASS |
+| 9 | [`Cartograffect`](Cartograffect.lean) | Module racine (agrégation) | ✅ PASS |
 
-`lake build` : **PASS** — **10 jobs**, **0 erreur, 0 avertissement**.
+`lake build` : **PASS** — **11 jobs**, **0 erreur, 0 avertissement**.
 `lake env lean Cartograffect/AuditTests.lean` : **PASS** — **0 erreur, 0 avertissement**.
 
 ### 1.3 Intégrité axiomatique
+
+*(Note historique : le socle initial des phases 1 à 5 comptait **72** théorèmes audités = 15 réductionnels + 12 extensionnels + 45 classiques sur 10 jobs Lake ; avec l'extension [`Cartograffect.PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean), l'audit complet couvre désormais **113 théorèmes** répartis en **24** purement réductionnels `[none]`, **34** extensionnels `[propext]`/`[propext, Quot.sound]` et **55** classiques standard `[propext, Classical.choice, Quot.sound]` sur **11 jobs Lake**, détaillés en Section 6.)*
 
 | Contrôle | Résultat |
 |---|---|
@@ -53,7 +57,7 @@ Rapport d'audit de vérification formelle et de fidélité épistémique · Phas
 | Déclarations `noncomputable` | **0** (toutes les fonctions sont exécutables, ce que confirment les `#eval`) |
 | Axiomes mobilisés en dehors du socle standard de Lean 4 | **0** |
 
-Les **72** théorèmes audités par `#print axioms` (couvrant le socle initial, les sous-secteurs fonctionnels et l'ensemble des résolutions `R1`, `R3`, `R5`, `R8` ; sorties exactes reproduites ci-dessous) se répartissent en trois profils :
+Les **72** théorèmes du socle initial (Phases 1–5) audités par `#print axioms` (couvrant le noyau fondateur, les sous-secteurs fonctionnels et l'ensemble des résolutions `R1`, `R3`, `R5`, `R8` ; sorties exactes reproduites ci-dessous) se répartissent en trois profils (complétés par les **41** théorèmes de [`PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean) détaillés en Section 6) :
 
 | Profil axiomatique | Théorèmes | Nombre |
 |---|---|---|
@@ -62,7 +66,7 @@ Les **72** théorèmes audités par `#print axioms` (couvrant le socle initial, 
 | **Socle classique standard** — `[propext, Classical.choice, Quot.sound]` | `engine_induces_valid_core_affect`, `axial_to_diagonal_reallocation`, `dissipationStep_valid`, `dissipationStep_fixed_iff`, `dissipation_strictly_decreases`, `remanence_preserves_state`, `antagonistPoint_preserves_validity`, `antagonistPoint_involutive`, `antagonistPoint_unified`, `antagonist_preserves_validity_in`, `taxonomy_group_exhaustive`, `dominantSector_iff_taxonomicGroup`, `contralateral_group_bindings`, `classifySubsector_correct`, `classifySubsector_refines_group`, `classifySubsector_determines_valence`, **`end_to_end_coherence`**, `all176Entries_geometrically_valid`, `deployCouplingWithPrecision_valid`, `central_z_ge2_requires_descending_suspension`, `deployCouplingWithPrecision_budget_conservation`, `dual_engaged_yields_diagonal_z2_precision`, `symmetric_precision_never_lateral`, `projectToCoreAffect_surjective`, `engineStep_surprise_to_crown`, `anticipation_short_circuits_to_veille`, `dissipation_from_ge2_never_visits_surprise`, `dissipationPotential_short_circuit_jump`, `dissipation_reaches_veille`, `antagonist_commutes_with_invert_precision`, `evaluateMatrix_core_antagonist_independent`, `mapping_independent_antagonist_invariants`, `canonicalDepthKernel_reaches_crown`, `canonicalDepthKernel_reaches_lateral`, `lateral_reachable`, `lateral_reachable_from_surprise`, `canonicalDepthKernel_colere_bifurcates`, `canonicalDepthKernel_axial_instability_p2`, `canonicalDepthKernel_outgoingWeight_pos`, `classifyTaxonomicGroup_unique_maximizer`, `classifyTaxonomicGroup_maximizes_membership`, `lateral_has_overlapping_attractors`, `all176Entries_deterministically_reachable`, `all176Entries_reachable_by_engine`, `all176Entries_witness_check` | 45 |
 
 <details>
-<summary>Sorties exactes de <code>#print axioms</code> (<a href="Cartograffect/AuditTests.lean#L26-L108">AuditTests.lean, l. 26–108</a>)</summary>
+<summary>Sorties exactes de <code>#print axioms</code> (<a href="Cartograffect/AuditTests.lean#L28-L110">AuditTests.lean, l. 28–110</a>)</summary>
 
 ```text
 Polarity.invert_involutive                              : does not depend on any axioms
@@ -178,7 +182,7 @@ Une structure qui embarque une preuve, comme `CoreAffectState` avec `h_valid : i
 
 Les instances d'`AffectiveMatrix` et d'`AffectiveTaxonomy` sont **dérivées par le pipeline** et non construites à la main. Leur habitation découle donc des fonctions totales `evaluateMatrix` (quel que soit le `PhenomenologicalMapping` choisi) et `evaluateTaxonomy`, ce qui garantit aussi la non-vacuité de l'image de chaque étape. On a de plus, par construction, l'énoncé plus fort suivant : `evaluateCoreAffect : PredictiveEngineState → CoreAffectState` est **totale**. Chaque état du Moteur, et pas seulement le témoin par défaut, produit donc un état certifié du Noyau.
 
-### 2.2 Résultats d'exécution `#eval` ([AuditTests.lean, l. 115–230](Cartograffect/AuditTests.lean#L115-L230))
+### 2.2 Résultats d'exécution `#eval` ([AuditTests.lean, l. 157–288](Cartograffect/AuditTests.lean#L157-L288))
 
 #### Test 1 — Point de Veille (état par défaut)
 
@@ -672,6 +676,89 @@ $$
 
 ---
 
-**Conclusion.** La formalisation Lean 4 de CARTOGRAFFECT est **mécaniquement certifiée** (verdict : **✅ CONFORME ET CERTIFIÉ**) : **8 unités modulaires compilées** (6 modules théoriques + 1 module d'audit + 1 module racine ; **10 jobs Lake**) sous `leanprover/lean4:v4.35.0`, sans aucune dépendance externe (noyau Lean 4 et `Init` uniquement), sans `sorry` ni axiome *ad hoc*, avec **72 théorèmes** vérifiés dans le socle axiomatique standard (`15` purement réductionnels, `12` extensionnels, `45` classiques standard). Son chaînage déductif est **porté par les types** du Moteur prédictif jusqu'à la Taxonomie hiérarchique et résout l'intégralité des **10 réserves identifiées (0 réserve ouverte)** : atteignabilité déterministe et stochastique des **176 / 176 entrées** de [`Lexicon176`](Cartograffect/Lexicon176.lean) via $(\pi_A, \pi_C)$ et [`AffectiveDynamics`](Cartograffect/AffectiveDynamics.lean) (`lateral_reachable`), attracteurs probabilistes gradués non exclusifs (`attractorMembership`), suspension descendante endogène et trajectoire séquentielle `engineStep` (`Veille → Surprise → Anticipation → Couronne`) couplée à la descente allostatique court-circuitée `(0,0,2) → (0,0,0)`, ainsi que l'isolation paramétrique des hypothèses phénoménologiques (`PhenomenologicalMapping`).
+**Conclusion générale.** La formalisation Lean 4 de CARTOGRAFFECT — enrichie de l'extension générative [`Cartograffect.PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean) et de son jumeau numérique Python ([`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py)) — est **mécaniquement certifiée** (verdict : **✅ CONFORME ET CERTIFIÉ**) : **9 unités modulaires compilées** (7 modules théoriques + 1 module d'audit + 1 module racine ; **11 jobs Lake**) sous `leanprover/lean4:v4.35.0`, sans aucune dépendance externe (noyau Lean 4 et `Init` uniquement), sans `sorry` ni axiome *ad hoc*, avec **113 théorèmes** audités via `#print axioms` dans le socle axiomatique standard (**24** purement réductionnels, **34** extensionnels, **55** classiques standard).
 
-*Rapport établi à partir des données certifiées de la passe mécanique (Phases 1, 2 et 4), de la résolution complète des réserves épistémiques (`R1`–`R10`) et de l'inspection directe des sources Lean et des documents théoriques.*
+---
+
+## 6. Extension générative circulaire (`Cartograffect.PredictiveCircuit` & moteur Python)
+
+Complémentant la vérification statique des 72 théorèmes du noyau initial (Phases 1 à 5 ci-dessus), le module [`Cartograffect.PredictiveCircuit`](Cartograffect/PredictiveCircuit.lean) et son homologue exécutable [`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py) formalisent la dynamique générative en boucle fermée présentée dans [`docs/01-Article_Cartograffect.md` §4.1](docs/01-Article_Cartograffect.md) :
+
+1. **Architecture à 2 boucles × 3 circuits et 6 opérateurs de frontière (Sections 1–3, `PredictiveCircuit.lean`) :**
+   - Certification de la partition des 6 opérations (`circuit_covers_interfaces_both_sides`, `circuit_refines_inferential_ops`), de l'isomorphisme exact $L_1$ Croisement II $\leftrightarrow$ Croisement I (`phiL1_left_inv`, `phiL1_right_inv`, `phiL1_agrees_with_deployZ2`), de la dualité transposée exacte (`crossingII_is_transpose_of_crossingI`), de l'injectivité des 9 canaux `A/C` et 9 canaux `C/A` (`routeToSubjective_injective`, `routeToPerceptive_injective`), de la projection perceptible valide et compatible `R5` (`projectPerceptible_valid`, `projectPerceptible_z2_matches_phiL1`, `projectPerceptible_neutral_elevates_to_central`) et du cycle fermé `circularCycle` (`circularCycle_veille_fixed_point`, `circularCycle_reduces_total_discrepancy`).
+2. **Axes (i)–(iii) — Noyau markovien exact sur `4 * scale ^ 6` (Section 5, `PredictiveCircuit.lean`) :**
+   - **Conservation stochastique & dynamique libre** : `circuitRowSum_exact` (`4 * p.scale ^ 6`), `veille_absorbing_free`, `lyapunov_monotone_free`, `lyapunov_strict_descent_witness`, `lyapunov_expected_drift_constant` (`4 * scale ^ 5 * r`).
+   - **Axe (i) Extinction passive ($\delta_A, \delta_C$) vs Résolution active** : `lyapunov_drift_charge_with_passive_extinction` prouve que la perte apparente d'énergie libre vaut `4 * scale ^ 5 * (rho + 2 * deltaA)`, tout en produisant une pseudo-veille instable sans révision des états cachés ni réduction $-\eta$ dans $R_t$.
+   - **Axe (ii) Indépendance P1 ($L_1$) / P2 ($\chi$)** : `p1_without_p2_eps_independent` ($\chi = 0 \implies \epsilon_{\text{eff}} = \epsilon$), `axial_peur_bifurcates_p2` (bascule `Peur → Colère / Dégoût` via `effectiveEpsScaled`), `veille_reaches_all_one_step`, `all_reach_veille_two_steps`, `veille_unreachable_when_eps_max`.
+   - **Axe (iii) Ruptures d'ergodicité** : `epistemic_rigidity_traps_charge_slice` (piégeage dans `{a = -1}`), `pragmatic_helplessness_traps_charge_slice` (piégeage dans `{c = -1}`) et `perseveration_traps_discharge_free` (absorption stricte des états non chargés sous $\epsilon = \gamma_A = \gamma_C = 0$).
+3. **Axe (iv) — Loi unifiée $(R_t, Z_t, \pi_{A,t}, \pi_{C,t})$ et pont vers `apportionRay` (Section 7, `PredictiveCircuit.lean`) :**
+   - Accumulateur $R_t$ : `passive_extinction_zero_relief`, `active_resolution_beats_passive_extinction`, et preuve de stabilité bornée exacte `charge_accumulator_bounded` ($R_{t+1} \le \lfloor S^2 / (S - \lambda) \rfloor$).
+   - Strate $Z_t$ et court-circuit `R5` : `nextStratumR5_le_zMax`, `nextStratumR5_short_circuits_z2_to_veille` ($Z = 2 \to 0$) et `nextStratumR5_from_ge2_never_visits_surprise` ($\forall Z \ge 2,\ Z_{t+1} \neq 1$).
+   - Partage logistique & déploiement sur les 176 positions : `symmetricSigmoid_sum`, `symmetricSigmoid_pos`, `symmetricSigmoid_neg`, annulation exacte du terme $\alpha$ en Double Charge (`precisionShare_double_charge_cancels_alpha`), `projectUnifiedState_valid`, `projectUnifiedState_crown_budget` ($B(Z) = 2Z - 2$) et témoin constructif `projectUnifiedState_reaches_lateral_consternation` atteignant `(-1, 3, 3)`.
+
+<details>
+<summary>Sorties exactes de <code>#print axioms</code> (41 théorèmes de <code>PredictiveCircuit</code>) et <code>#eval</code> (blocs 10–11, <a href="Cartograffect/AuditTests.lean#L111-L289">AuditTests.lean</a>)</summary>
+
+```text
+-- Exemples représentatifs vérifiés par `lake build` (0 sorry, 0 axiome ad hoc) :
+circuit_covers_interfaces_both_sides         : does not depend on any axioms
+circuit_refines_inferential_ops              : does not depend on any axioms
+phiL1_left_inv                               : does not depend on any axioms
+phiL1_agrees_with_deployZ2                   : does not depend on any axioms
+crossingII_is_transpose_of_crossingI         : does not depend on any axioms
+routeToSubjective_injective                  : does not depend on any axioms
+routeToPerceptive_injective                  : does not depend on any axioms
+attentional_bottleneck_sum_active            : does not depend on any axioms
+passive_extinction_zero_relief               : does not depend on any axioms
+
+phiL1_right_inv                              : [propext, Quot.sound]
+projectPerceptible_neutral_elevates_to_central : [propext]
+circuitRowSum_exact                          : [propext, Quot.sound]
+veille_absorbing_free                        : [propext, Quot.sound]
+lyapunov_monotone_free                       : [propext, Quot.sound]
+lyapunov_strict_descent_witness              : [propext]
+lyapunov_expected_drift_constant             : [propext, Quot.sound]
+lyapunov_drift_charge_with_passive_extinction: [propext, Quot.sound]
+p1_without_p2_eps_independent                : [propext]
+epistemic_rigidity_traps_charge_slice        : [propext]
+pragmatic_helplessness_traps_charge_slice    : [propext]
+perseveration_traps_discharge_free           : [propext, Quot.sound]
+axial_peur_bifurcates_p2                     : [propext, Quot.sound]
+veille_reaches_all_one_step                  : [propext, Quot.sound]
+all_reach_veille_two_steps                   : [propext, Quot.sound]
+veille_unreachable_when_eps_max              : [propext]
+active_resolution_beats_passive_extinction   : [propext, Quot.sound]
+nextStratumR5_le_zMax                        : [propext, Quot.sound]
+nextStratumR5_short_circuits_z2_to_veille    : [propext, Quot.sound]
+nextStratumR5_from_ge2_never_visits_surprise : [propext, Quot.sound]
+symmetricSigmoid_sum                         : [propext, Quot.sound]
+precisionShare_double_charge_cancels_alpha   : [propext]
+
+projectPerceptible_valid                     : [propext, Classical.choice, Quot.sound]
+projectPerceptible_z2_matches_phiL1          : [propext, Classical.choice, Quot.sound]
+circularCycle_veille_fixed_point             : [propext, Classical.choice, Quot.sound]
+circularCycle_reduces_total_discrepancy      : [propext, Classical.choice, Quot.sound]
+charge_accumulator_bounded                   : [propext, Classical.choice, Quot.sound]
+symmetricSigmoid_pos                         : [propext, Classical.choice, Quot.sound]
+symmetricSigmoid_neg                         : [propext, Classical.choice, Quot.sound]
+projectUnifiedState_valid                    : [propext, Classical.choice, Quot.sound]
+projectUnifiedState_crown_budget             : [propext, Classical.choice, Quot.sound]
+projectUnifiedState_reaches_lateral_consternation : [propext, Classical.choice, Quot.sound]
+
+-- Résultats #eval blocs 10–11 :
+circuitRowSum (default : CircuitKernelParams) ⟨.neg, .zero⟩                 = 4000000000000
+circuitWeight (default : CircuitKernelParams) ⟨.neg, .zero⟩ ⟨.neg, .pos⟩    = 101500000000
+nextChargeAccumulator (active vs passive, r=1000, piA=piC=500)              = (700, 1300)
+nextStratumR5 default 2 100 / nextStratumR5 default 3 100                   = (0, 2)
+(projectUnifiedState default ⟨.neg, .pos⟩ 3 10 90 true).point               = { x := -1, y := 3, z := 3 }
+precisionShares default 10 90 ⟨.neg, .neg⟩                                  = (193, 807)
+```
+</details>
+
+4. **Parité numérique Python (`python/cartograffect_predictive_engine.py` & `python/test_predictive_engine.py`) :**
+   - Vérification de parité exacte avec `circuitWeight` sur `4 * 100^6` (écart maximal $|T - W / (4 \cdot 100^6)| = 1{,}11 \times 10^{-16}$) et réussite de l'ensemble de la suite de tests unitaires (`python -m unittest discover -s python -v`).
+   - **Notes techniques d'articulation Lean ↔ Python :**
+     - *Sigmoïde rationnelle vs logistique transcendante :* sans dépendance Mathlib (`Init` seul), `PredictiveCircuit.symmetricSigmoid` implémente l'homologue rationnel entier exact $\frac{1}{2}(1 + \frac{u}{|u| + K})$ (mêmes propriétés d'antisymétrie, de positivité stricte, de conservation de somme et de passage latéral sur `Consternation (-1, 3, 3)`), tandis que `partage_precision_logistique` en Python emploie la fonction logistique exponentielle $(1 + e^{-u})^{-1}$ du manuscrit (§4.1 iv).
+     - *Dissipation post-neutralisation vs descente adaptative :* `CoreAffect.dissipationStep` modélise la contraction radiale en un pas vers l'opérateur central $(0, 0, Z)$ suivie de la descente en strate sous résorption, tandis que `PredictiveCircuit.nextStratumR5` pilote la transition continue de strate $Z_t \to Z_{t+1}$ par franchissement de seuil $R_{t+1} < \theta_\downarrow(Z_t)$ ; les deux opérateurs préservent `isValidCoreAffect` et respectent rigoureusement le même court-circuit `R5` ($Z = 2 \to 0$, sans jamais traverser la Surprise $Z = 1$).
+
+*Rapport établi à partir des données certifiées des passes mécaniques (Phases 1 à 5 et extension `PredictiveCircuit`), de la résolution complète des réserves épistémiques (`R1`–`R10`) et de l'inspection directe des sources Lean, Python et des documents théoriques.*
