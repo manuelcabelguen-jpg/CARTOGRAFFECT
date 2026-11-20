@@ -20,8 +20,8 @@ $cfgPath = Join-Path $dafnyRoot "dfyconfig.toml"
 # 1. Discover Dafny.exe cleanly
 if (-not $DafnyBin) {
   $candidates = @(
-    "C:\Users\drcab\AppData\Local\dafny-4.11.0\dafny\Dafny.exe",
-    "C:\Users\drcab\.local\tools\dafny\Dafny.exe"
+    "$env:LOCALAPPDATA\dafny-4.11.0\dafny\Dafny.exe",
+    "$env:USERPROFILE\.local\tools\dafny\Dafny.exe"
   )
   foreach ($c in $candidates) {
     if (Test-Path $c) { $DafnyBin = $c; break }

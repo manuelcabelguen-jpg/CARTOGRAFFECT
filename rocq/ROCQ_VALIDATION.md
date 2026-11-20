@@ -121,4 +121,4 @@ Depuis la racine du dépôt :
 powershell -ExecutionPolicy Bypass -File rocq/verify.ps1
 ```
 
-*(Si `rocq.exe` n'est pas dans `PATH` et se trouve ailleurs que `C:\Rocq-Platform~9.1~2026.01\bin`, passer `-RocqBin <chemin>`.)*
+*(Si `rocq.exe` n'est pas dans `PATH`, passer `-RocqBin <chemin>` ou définir `$env:ROCQ_BIN` / installer dans `$env:LOCALAPPDATA\Programs\Rocq\bin`.)*

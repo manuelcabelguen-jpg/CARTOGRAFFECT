@@ -19,7 +19,7 @@ $SrcDir    = Join-Path $ScriptDir "src"
 
 function Find-Agda {
     if ($env:AGDA_BIN -and (Test-Path $env:AGDA_BIN)) { return $env:AGDA_BIN }
-    $localAgda = "C:\Users\drcab\.local\tools\agda\agda.exe"
+    $localAgda = "$env:USERPROFILE\.local\tools\agda\agda.exe"
     if (Test-Path $localAgda) { return $localAgda }
     $cmd = Get-Command "agda" -ErrorAction SilentlyContinue
     if ($cmd) { return $cmd.Source }

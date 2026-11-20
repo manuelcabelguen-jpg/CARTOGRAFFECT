@@ -20,7 +20,7 @@ $specsDir = Join-Path $tlaRoot "specs"
 # 1. Tool discovery (external toolchain)
 if (-not $JavaBin) {
   $candidates = @(
-    "C:\Users\drcab\.local\tools\jre21\jdk-21.0.13+9-jre\bin\java.exe"
+    "$env:USERPROFILE\.local\tools\jre21\jdk-21.0.13+9-jre\bin\java.exe"
   )
   foreach ($c in $candidates) {
     if (Test-Path $c) { $JavaBin = $c; break }
@@ -37,7 +37,7 @@ if (-not $JavaBin -or -not (Test-Path $JavaBin)) {
 
 if (-not $TlaJar) {
   $jarCandidates = @(
-    "C:\Users\drcab\.local\tools\tla\tla2tools.jar"
+    "$env:USERPROFILE\.local\tools\tla\tla2tools.jar"
   )
   foreach ($c in $jarCandidates) {
     if (Test-Path $c) { $TlaJar = $c; break }

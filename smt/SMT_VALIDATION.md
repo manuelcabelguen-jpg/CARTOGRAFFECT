@@ -69,4 +69,4 @@ Depuis la racine du dépôt :
 powershell -ExecutionPolicy Bypass -File smt/verify.ps1
 ```
 
-*(Option `-Z3Bin <chemin>` si `z3.exe` se trouve à un autre emplacement que `C:\Users\drcab\.local\tools\z3\z3-5.3.3-x64-win\bin` ou `PATH`.)*
+*(Option `-Z3Bin <chemin>` si `z3.exe` se trouve à un autre emplacement que `$env:USERPROFILE\.local\tools\z3\z3-5.3.3-x64-win\bin` ou `PATH`.)*
