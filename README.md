@@ -1,6 +1,7 @@
 # CARTOGRAFFECT — Formal Verification in Lean 4.35.0
 
 [![Lean 4 Formal Verification](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml)
+[![Rocq 9.0 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/rocq-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/rocq-ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23833938.svg)](https://doi.org/10.5281/zenodo.23833938)
 ![Lean 4.35.0](https://img.shields.io/badge/Lean-v4.35.0-blue?logo=lean)
 ![Zero Sorry](https://img.shields.io/badge/Proof_Audit-0_sorry_%7C_0_custom_axioms-success)
