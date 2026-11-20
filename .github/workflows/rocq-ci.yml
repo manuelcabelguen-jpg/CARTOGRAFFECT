@@ -15,7 +15,7 @@ jobs:
   verify-rocq:
     runs-on: ubuntu-latest
     container:
-      image: coqorg/coq:8.20
+      image: rocq/rocq-prover:9.0
       options: --user root
 
     steps:
@@ -34,6 +34,6 @@ jobs:
       - name: Compilation stricte et exécution de AuditTests.v
         working-directory: ./rocq
         run: |
-          eval $(opam env --root=/home/coq/.opam --set-root)
+          eval $(opam env --root=/home/rocq/.opam --set-root)
           coq_makefile -f _CoqProject -o Makefile
           COQEXTRAFLAGS="-w +all" make -j$(nproc)
