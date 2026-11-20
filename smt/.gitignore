@@ -1,0 +1,3 @@
+# Artefacts SMT / Z3 (strictement locaux à smt/)
+*.log
+*.tmp

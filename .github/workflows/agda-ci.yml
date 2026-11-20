@@ -1,0 +1,39 @@
+name: Agda 2.9 CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'agda/**'
+      - '.github/workflows/agda-ci.yml'
+  pull_request:
+    paths:
+      - 'agda/**'
+      - '.github/workflows/agda-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-agda:
+    name: Agda 2.9.0 (--safe --without-K)
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Agda 2.9.0 official release
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/agda"
+          curl -fsSL -o /tmp/agda.tar.xz \
+            "https://github.com/agda/agda/releases/download/v2.9.0/Agda-v2.9.0-linux.tar.xz"
+          tar -xJf /tmp/agda.tar.xz -C "$HOME/.local/agda"
+          AGDA_BIN="$(find "$HOME/.local/agda" -type f -name agda | head -n 1)"
+          chmod +x "$AGDA_BIN"
+          "$AGDA_BIN" --setup
+          "$AGDA_BIN" --version
+          echo "AGDA_BIN=$AGDA_BIN" >> "$GITHUB_ENV"
+
+      - name: Run Agda verification suite
+        shell: pwsh
+        run: |
+          ./agda/verify.ps1

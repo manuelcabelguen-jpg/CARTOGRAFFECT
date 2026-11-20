@@ -1,0 +1,66 @@
+name: TLA+ / TLC Formal Verification CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'tla/**'
+      - '.github/workflows/tla-ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'tla/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-tla:
+    name: Verify TLA+ Specs & TLC Temporal Models
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Temurin Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install TLA+ Tools v1.7.4
+        run: |
+          mkdir -p /tmp/tla
+          curl -sSL -o /tmp/tla/tla2tools.jar https://github.com/tlaplus/tlaplus/releases/download/v1.7.4/tla2tools.jar
+
+      - name: Static audit (0 AXIOM declarations)
+        working-directory: ./tla
+        run: |
+          python3 - <<'PY'
+          import glob, re
+          for path in sorted(glob.glob("specs/*.tla")):
+              raw = open(path, encoding="utf-8").read()
+              cleaned = re.sub(r'\(\*.*?\*\)', ' ', raw, flags=re.S)
+              cleaned = re.sub(r'\\\*.*', ' ', cleaned)
+              cleaned = re.sub(r'"(?:\\.|[^"\\])*"', '""', cleaned)
+              assert not re.search(r'\bAXIOM\b', cleaned), f"AXIOM in {path}"
+          print("Static audit OK")
+          PY
+
+      - name: Run SANY syntax check across all TLA+ modules
+        working-directory: ./tla/specs
+        run: |
+          for sp in *.tla; do
+            echo "=== SANY $sp ==="
+            java -cp /tmp/tla/tla2tools.jar tla2sany.SANY "$sp"
+          done
+
+      - name: Run TLC on AuditTests and 5 temporal models
+        working-directory: ./tla/specs
+        run: |
+          for cfg in AuditTests.cfg Model_Dissipation.cfg Model_Engine.cfg Model_DepthKernel.cfg Model_Circuit.cfg Model_Unified.cfg; do
+            spec="${cfg%.cfg}.tla"
+            echo "=== TLC $spec ($cfg) ==="
+            java -XX:+UseParallelGC -cp /tmp/tla/tla2tools.jar tlc2.TLC -workers auto -cleanup -config "$cfg" "$spec"
+          done

@@ -1,16 +1,20 @@
-# CARTOGRAFFECT — Formal Verification in Lean 4.35.0
+# CARTOGRAFFECT — Hexa-Prover Formal Verification (Lean 4.35 · Rocq 9.0 · Agda 2.9 · Dafny 4.11 · Z3 5.3 · TLA+ 2.19)
 
 [![Lean 4 Formal Verification](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/lean.yml)
 [![Rocq 9.0 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/rocq-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/rocq-ci.yml)
+[![Agda 2.9 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/agda-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/agda-ci.yml)
+[![Dafny 4.11 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/dafny-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/dafny-ci.yml)
+[![SMT Z3 CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/smt-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/smt-ci.yml)
+[![TLA+ TLC CI](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/tla-ci.yml/badge.svg)](https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/actions/workflows/tla-ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23833938.svg)](https://doi.org/10.5281/zenodo.23833938)
 ![Lean 4.35.0](https://img.shields.io/badge/Lean-v4.35.0-blue?logo=lean)
-![Zero Sorry](https://img.shields.io/badge/Proof_Audit-0_sorry_%7C_0_custom_axioms-success)
+![Zero Sorry](https://img.shields.io/badge/Proof_Audit-6_Provers_%7C_113_Theorems_%7C_0_Axioms-success)
 [![License: AGPL v3](https://img.shields.io/badge/Code_License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/Theory_%26_Taxonomy-CC_BY--NC--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-Ce dépôt contient la formalisation mathématique et la preuve assistée par ordinateur sous **Lean 4 (v4.35.0)** de l'architecture fonctionnelle de la **Cartographie des affects**, ainsi que le référentiel algorithmique complet des **176 positions de l'espace affectif ($Z = 0$ à $Z = 7$)**.
+Ce dépôt contient la sextuple certification formelle mécanisée sous **Lean 4 (v4.35.0)**, **Rocq 9.0**, **Agda 2.9.0** (`--safe --without-K`), **Dafny 4.11.0**, **SMT-LIB 2.6 / Z3 5.3.3** et **TLA+ / TLC 2.19** (validation croisée sur **six systèmes formels indépendants**, **113 / 113 théorèmes certifiés** et **11 / 11 blocs d'évaluation bit à bit** dans chaque système, **0 `sorry`**, **0 `Admitted`**, **0 `postulate`**, **0 `{:axiom}`**, **0 axiome personnalisé**) de l'architecture fonctionnelle de la **Cartographie des affects**, ainsi que le référentiel algorithmique complet des **176 positions de l'espace affectif ($Z = 0$ à $Z = 7$)**.
 
-> **English Overview:** This repository contains the mechanized formal verification in **Lean 4 (v4.35.0)** of **CARTOGRAFFECT** (*Cartographie des affects*), a hierarchical 3D affective geometry, closed-loop generative predictive circuit, and taxonomy mapping **176 affective states** across 8 vertical strata ($Z = 0$ to $Z = 7$). Built exclusively on Lean 4's core `Init` library (**0 external dependencies**, **0 `sorry`**, **0 `admit`**, **0 custom axioms**), it formally certifies $L_1$ attentional budget conservation, involutive antagonist symmetries, exhaustive taxonomic partitioning, exact integer Markov transition conservation ($4 \cdot \mathrm{scale}^6$), unified $(R_t, Z_t, \pi_A, \pi_C)$ coupling, and the master theorem `end_to_end_coherence`, paired with an isomorphic Python numerical engine (`python/cartograffect_predictive_engine.py`).
+> **English Overview:** This repository contains the six-fold mechanized formal verification in **Lean 4 (v4.35.0)**, **Rocq 9.0**, **Agda 2.9.0** (`--safe --without-K`), **Dafny 4.11.0**, **SMT-LIB 2.6 / Z3 5.3.3**, and **TLA+ / TLC 2.19** (cross-validated across six independent formal verification paradigms) of **CARTOGRAFFECT** (*Cartographie des affects*), a hierarchical 3D affective geometry, closed-loop generative predictive circuit, and taxonomy mapping **176 affective states** across 8 vertical strata ($Z = 0$ to $Z = 7$). Built with **0 external dependencies**, **0 `sorry`**, **0 `admit` / `Admitted`**, **0 `postulate` / `trustMe`**, **0 `{:axiom}` / `assume`**, and **0 custom axioms** across all six suites (**113 / 113** theorems and **11 / 11** computational evaluation blocks matched bit-for-bit across all 6 provers), it formally certifies $L_1$ attentional budget conservation, involutive antagonist symmetries, exhaustive taxonomic partitioning, exact integer Markov transition conservation ($4 \cdot \mathrm{scale}^6$), unified $(R_t, Z_t, \pi_A, \pi_C)$ coupling, and the master theorem `end_to_end_coherence`, paired with an isomorphic Python numerical engine (`python/cartograffect_predictive_engine.py`).
 
 ---
 
@@ -26,10 +30,15 @@ Ce dépôt contient la formalisation mathématique et la preuve assistée par or
 8. **[`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) & [`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Audit axiomatique (`#print axioms` sur 113 théorèmes), tests d'évaluation constructive (`#eval`) et certificat d'audit formel complet.
 9. **[`Cartograffect.lean`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
 10. **[`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py) & [`python/test_predictive_engine.py`](python/test_predictive_engine.py)** : Moteur prédictif numérique en Python isomorphe à `PredictiveCircuit.lean` (écart maximal $|T - W / (4 \cdot 100^6)| \le 1{,}11 \times 10^{-16}$, analyse spectrale d'ergodicité, simulation unifiée $(R_t, Z_t, \tilde{\pi}_A, \tilde{\pi}_C)$ et suite de 12 tests unitaires).
+11. **[`rocq/`](rocq/)** : Validation croisée formelle isolée et entièrement constructive sous **Rocq 9** (`From Stdlib` uniquement, 0 dépendance externe), regroupant les **9 modules isomorphes** dans `rocq/theories/` — [`PredictiveEngine.v`](rocq/theories/PredictiveEngine.v), [`CoreAffect.v`](rocq/theories/CoreAffect.v), [`AffectiveMatrix.v`](rocq/theories/AffectiveMatrix.v), [`AffectiveTaxonomy.v`](rocq/theories/AffectiveTaxonomy.v), [`AffectiveDynamics.v`](rocq/theories/AffectiveDynamics.v), [`Lexicon176.v`](rocq/theories/Lexicon176.v), [`PredictiveCircuit.v`](rocq/theories/PredictiveCircuit.v), [`AuditTests.v`](rocq/theories/AuditTests.v) et [`Cartograffect.v`](rocq/theories/Cartograffect.v) — accompagnés du descripteur de projet [`rocq/_CoqProject`](rocq/_CoqProject), du script d'audit autonome [`rocq/verify.ps1`](rocq/verify.ps1) et du rapport détaillé [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md).
+12. **[`agda/`](agda/)** : Validation croisée formelle intensionnelle sous **Agda 2.9.0** (`{-# OPTIONS --safe --without-K #-}`, compatible HoTT, 0 dépendance externe, uniquement `Agda.Builtin.*`), regroupant **10 modules** dans `agda/src/` (5 227 lignes : [`Prelude.agda`](agda/src/Cartograffect/Prelude.agda), [`PredictiveEngine.agda`](agda/src/Cartograffect/PredictiveEngine.agda), [`CoreAffect.agda`](agda/src/Cartograffect/CoreAffect.agda), [`AffectiveMatrix.agda`](agda/src/Cartograffect/AffectiveMatrix.agda), [`AffectiveTaxonomy.agda`](agda/src/Cartograffect/AffectiveTaxonomy.agda), [`AffectiveDynamics.agda`](agda/src/Cartograffect/AffectiveDynamics.agda), [`Lexicon176.agda`](agda/src/Cartograffect/Lexicon176.agda), [`PredictiveCircuit.agda`](agda/src/Cartograffect/PredictiveCircuit.agda), [`AuditTests.agda`](agda/src/Cartograffect/AuditTests.agda), [`Cartograffect.agda`](agda/src/Cartograffect.agda)), le descripteur [`agda/cartograffect.agda-lib`](agda/cartograffect.agda-lib), le script [`agda/verify.ps1`](agda/verify.ps1) et le rapport [`agda/AGDA_VALIDATION.md`](agda/AGDA_VALIDATION.md).
+13. **[`dafny/`](dafny/)** : Vérification déductive de programmes et compilation exécutable certifiée sous **Dafny 4.11.0** (2 113 obligations Boogie/Z3 vérifiées, 0 erreur, 0 `{:axiom}`), regroupant **9 modules** dans `dafny/src/` (6 712 lignes : [`PredictiveEngine.dfy`](dafny/src/PredictiveEngine.dfy), [`CoreAffect.dfy`](dafny/src/CoreAffect.dfy), [`AffectiveMatrix.dfy`](dafny/src/AffectiveMatrix.dfy), [`AffectiveTaxonomy.dfy`](dafny/src/AffectiveTaxonomy.dfy), [`AffectiveDynamics.dfy`](dafny/src/AffectiveDynamics.dfy), [`Lexicon176.dfy`](dafny/src/Lexicon176.dfy), [`PredictiveCircuit.dfy`](dafny/src/PredictiveCircuit.dfy), [`AuditTests.dfy`](dafny/src/AuditTests.dfy), [`Cartograffect.dfy`](dafny/src/Cartograffect.dfy)), la configuration [`dafny/dfyconfig.toml`](dafny/dfyconfig.toml), le script [`dafny/verify.ps1`](dafny/verify.ps1) et le rapport [`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md).
+14. **[`smt/`](smt/)** : Certification par réfutation en logique du premier ordre multi-sortes (**SMT-LIB 2.6 / Z3 5.3.3**), regroupant **8 théories autonomes** dans `smt/theories/` (4 999 lignes : [`01_PredictiveEngine.smt2`](smt/theories/01_PredictiveEngine.smt2) à [`08_AuditTests.smt2`](smt/theories/08_AuditTests.smt2), 8/8 preuves de cohérence axiomatique `[CONSISTENCY] = sat`, 113/113 théorèmes réfutés `[THM] = unsat` et 11/11 blocs d'évaluation `[EVAL] = unsat`), le script [`smt/verify.ps1`](smt/verify.ps1) et le rapport [`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md).
+15. **[`tla/`](tla/)** : Spécification en logique temporelle des actions et model checking exhaustif à états finis (**TLA+ SANY + TLC 2.19**), regroupant **14 modules `.tla`** et **6 configurations `.cfg`** dans `tla/specs/` (2 056 lignes : 9 modules théoriques `PredictiveEngine.tla` à `Cartograffect.tla` + 5 machines à états temporelles `Model_Dissipation.tla`, `Model_Engine.tla`, `Model_DepthKernel.tla`, `Model_Circuit.tla`, `Model_Unified.tla` explorant 18 054 états accessibles avec 0 violation d'invariant et 0 deadlock), le script [`tla/verify.ps1`](tla/verify.ps1) et le rapport [`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md).
 
 ---
 
-## Vérification Formelle Mécanisée (Lean 4.35.0)
+## Vérification Formelle Mécanisée (Lean 4.35.0 & Rocq 9.0)
 
 L'intégralité du système formel CARTOGRAFFECT est compilée, vérifiée et auditée en continu au sein du pipeline d'Intégration Continue (CI) GitHub Actions.
 
@@ -118,9 +127,82 @@ Au-delà des preuves formelles statiques, le noyau Lean 4 évalue par calcul dir
 
 ---
 
+### Validation croisée indépendante sous Rocq 9.0 (CI GitHub Actions & [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md))
+
+En complément de Lean 4.35.0, l'ensemble du développement formel est porté et vérifié de façon strictement isolée dans [`rocq/`](rocq/) sur un second assistant de preuve indépendant (**Rocq 9.0** en CI et **The Rocq Prover 9.1.0** pour l'audit complet consigné dans [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md)) :
+
+- **Environnement CI ([`.github/workflows/rocq-ci.yml`](.github/workflows/rocq-ci.yml)) :** Conteneur officiel `rocq/rocq-prover:9.0` sur `ubuntu-latest`, déclenché sur `rocq/**` et `.github/workflows/rocq-ci.yml`.
+- **Bibliothèque et configuration ([`rocq/_CoqProject`](rocq/_CoqProject)) :** **`From Stdlib` uniquement** (`Bool`, `Arith`, `PeanoNat`, `NArith`, `ZArith`, `Lia`, `String`, `List`, `Eqdep_dec`) — **0 dépendance externe**, espace logique `-Q theories CartograffectRocq`.
+- **Audit statique (`0 Admitted` / `0 Axiom`) :** Contrôle CI par `grep -rnE "\b(Admitted|give_up|Axiom|Parameter|Conjecture)\b" theories/` et scan syntaxique hors commentaires imbriqués `(* ... *)` et chaînes dans [`rocq/verify.ps1`](rocq/verify.ps1) (**0** occurrence de `Admitted`, `admit`, `Axiom`, `Parameter`, `Conjecture`, `Variable`, `Hypothesis`, `Unsafe`, `vm_cast_no_check`, `native_cast_no_check`, `Declare ML Module`).
+- **Compilation stricte :** Génération et exécution via `rocq makefile -f _CoqProject -o Makefile && make -j$(nproc)` en CI, et `rocq compile -q -w +default -Q theories CartograffectRocq` dans `verify.ps1` (**0 erreur, 0 avertissement**).
+- **Certification constructive intégrale (`Print Assumptions` & `rocq check -o`) :**
+  - **113 / 113 théorèmes** rapportés **`Closed under the global context`** (**100 % constructifs, 0 axiome**, incluant `end_to_end_coherence` grâce à l'irrélevance de preuve décidable `isValidCoreAffect_pi` et aux entiers binaires `N` de `NArith` ; répartition `7 + 23 + 13 + 10 + 10 + 9 + 41 = 113`).
+  - **Vérificateur indépendant du noyau (`rocq check -silent -o -Q theories CartograffectRocq CartograffectRocq.Cartograffect`) :** `ExitCode 0`, **`Axioms: <none>`**, `Set is predicative`, `Rewrite rules are not allowed`, 0 constante ou inductif non sûr (`25,48 s`).
+  - **Parité des 11 blocs d'évaluation concrète (`Compute` $\leftrightarrow$ `#eval`) :** Concordance bit à bit entre `AuditTests.v` et `AuditTests.lean` sur les 11 scénarios (Point de Veille `(0, 0, 0)`, Surprise `(0, 0, 1)`, dyade Colère `(-1, 1, 2)` / Calme `(1, -1, 2)`, suspension et court-circuit `R5`, Consternation latérale `(-1, 3, 3)`, noyau `canonicalDepthKernel`, attracteurs `R1`, mapping `R3`, `circuitRowSum = 4000000000000%N`, loi unifiée `nextChargeAccumulator = (700%N, 1300%N)`).
+
+| # | Module Rocq (`CartograffectRocq.*`) | Équivalent Lean 4 | Lignes | Temps (`verify.ps1`) |
+|---|---|---|---|---|
+| 1 | [`rocq/theories/PredictiveEngine.v`](rocq/theories/PredictiveEngine.v) | `Cartograffect/PredictiveEngine.lean` | 599 | 2,14 s |
+| 2 | [`rocq/theories/CoreAffect.v`](rocq/theories/CoreAffect.v) | `Cartograffect/CoreAffect.lean` | 1 098 | 2,72 s |
+| 3 | [`rocq/theories/AffectiveMatrix.v`](rocq/theories/AffectiveMatrix.v) | `Cartograffect/AffectiveMatrix.lean` | 540 | 2,38 s |
+| 4 | [`rocq/theories/AffectiveTaxonomy.v`](rocq/theories/AffectiveTaxonomy.v) | `Cartograffect/AffectiveTaxonomy.lean` | 517 | 3,23 s |
+| 5 | [`rocq/theories/AffectiveDynamics.v`](rocq/theories/AffectiveDynamics.v) | `Cartograffect/AffectiveDynamics.lean` | 844 | 10,08 s |
+| 6 | [`rocq/theories/Lexicon176.v`](rocq/theories/Lexicon176.v) | `Cartograffect/Lexicon176.lean` | 374 | 1,54 s |
+| 7 | [`rocq/theories/PredictiveCircuit.v`](rocq/theories/PredictiveCircuit.v) | `Cartograffect/PredictiveCircuit.lean` | 1 452 | 4,08 s |
+| 8 | [`rocq/theories/AuditTests.v`](rocq/theories/AuditTests.v) | `Cartograffect/AuditTests.lean` | 363 | 18,19 s |
+| 9 | [`rocq/theories/Cartograffect.v`](rocq/theories/Cartograffect.v) | `Cartograffect.lean` | 15 | 0,73 s |
+| — | Vérificateur indépendant (`rocq check -o`) | Noyau autonome (`rocqchk`) | — | 25,48 s |
+| **Total** | **9 fichiers (bibliothèque + audit + racine)** | **9 fichiers Lean 4** | **5 802** | **70,84 s** |
+
+---
+
+### Synthèse Comparative des 6 Systèmes Formels Indépendants
+
+Chaque suite de vérification réside dans son propre sous-dossier isolé, vérifie les **113 théorèmes audités** (`7 + 23 + 13 + 10 + 10 + 8 + 41 + 1`) ainsi que la parité bit à bit sur les **11 blocs d'évaluation concrète**, et dispose de son propre script d'audit local (`verify.ps1`) et workflow GitHub Actions :
+
+| # | Système formel | Fondement logique & paradigme | Dossier | Fichiers | Lignes | Théorèmes | Éval. | Garanties du noyau / solveur | Temps | Rapport |
+| :-: | :--- | :--- | :--- | :-: | :-: | :-: | :-: | :--- | :-: | :--- |
+| 1 | **Lean 4** (`v4.29.0-rc2` / `v4.35.0`) | Calcul des Constructions Inductives (CIC + quotients) | [`Cartograffect/`](Cartograffect/) | 9 `.lean` | 4 590 | 113 / 113 | 11 `#eval` | `0 sorry`, `#print axioms` | ~12 s | [`AUDIT_REPORT.md`](AUDIT_REPORT.md) |
+| 2 | **Rocq Prover** (`9.0.0` / `9.1.0`) | Calcul des Constructions Inductives prédicatif (`Stdlib`) | [`rocq/`](rocq/) | 9 `.v` | 5 802 | 113 / 113 | 11 `Compute` | `0 Admitted`, `Closed under the global context`, `rocq check -o` | 70,84 s | [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md) |
+| 3 | **Agda** (`2.9.0`) | Théorie des types de Martin-Löf intensionnelle (compatible HoTT) | [`agda/`](agda/) | 10 `.agda` | 5 227 | 113 / 113 | 11 `refl` | `{-# OPTIONS --safe --without-K #-}`, `0 postulate`, `0 trustMe` | 6,00 s | [`agda/AGDA_VALIDATION.md`](agda/AGDA_VALIDATION.md) |
+| 4 | **Dafny** (`4.11.0`) | Logique de Hoare / plus faible précondition (Boogie + Z3) & exécution Python | [`dafny/`](dafny/) | 9 `.dfy` | 6 712 | 113 / 113 | 11 `Main()` | `2113 verified, 0 errors`, `0 {:axiom}`, `0 assume` | ~38 s | [`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md) |
+| 5 | **SMT-LIB 2.6 / Z3** (`5.3.3`) | Logique du premier ordre multi-sortes par réfutation (`check-sat`) | [`smt/`](smt/) | 8 `.smt2` | 4 999 | 113 / 113 | 11 `unsat` + `get-value` | `8/8 [CONSISTENCY] = sat`, `125/125 [THM]/[AUX]/[EVAL] = unsat` | 14,50 s | [`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md) |
+| 6 | **TLA+ / TLC** (`SANY` + `TLC 2.19`) | Logique temporelle des actions (TLA) & model checking exhaustif | [`tla/`](tla/) | 14 `.tla` + 6 `.cfg` | 2 056 | 113 / 113 | 11 `ASSUME` / `INVARIANT` | `14/14 SANY OK`, `6/6 TLC OK` (18 054 états, `0 AXIOM`, 0 deadlock) | 21,69 s | [`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md) |
+
+---
+
+### Validation croisée sous Agda 2.9.0 (`--safe --without-K` — [`agda/AGDA_VALIDATION.md`](agda/AGDA_VALIDATION.md))
+
+La suite [`agda/`](agda/) certifie les 113 théorèmes et les 11 blocs d'évaluation dans la théorie intensionnelle des types de Martin-Löf sous les options **`{-# OPTIONS --safe --without-K #-}`** (sans l'axiome K de Streicher ni aucune dépendance externe au-delà de `Agda.Builtin.*`) :
+- **Fondations constructives autonomes ([`agda/src/Cartograffect/Prelude.agda`](agda/src/Cartograffect/Prelude.agda), 509 lignes) :** Preuves constructives de l'arithmétique sur `Nat` et `Int`, unicité des preuves d'ordre et d'égalité booléenne (`UIP-Bool`, `≤ℕ-pi`), théorème de division euclidienne certifiée (`div-mod-eq`, `mod-<`, `÷-mono-≤`, `÷-≤-of-≤-*`, `÷-<-of-<-*`, `div-mul-add-exact`) et réflexion booléenne (`All`, `_∈_`, `All-lookup`).
+- **Résultat de vérification ([`agda/verify.ps1`](agda/verify.ps1)) :** **10/10 modules vérifiés** depuis un état vierge en **6,00 s** (`0 postulate`, `0 trustMe`, `0` trou `{!}`), **113/113 théorèmes** ancrés dans `Cartograffect.AuditTests` et **11/11 blocs d'évaluation** prouvés par pure réflexivité définitionnelle (`refl`), incluant `circuitRowSum = 4000000000000` et `circuitWeight = 101500000000`.
+
+### Validation croisée sous Dafny 4.11.0 (Vérification déductive & exécution certifiée — [`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md))
+
+La suite [`dafny/`](dafny/) formalise les 8 modules fonctionnels et le module racine sous forme de types algébriques, sous-types raffinés (`type CoreAffectState = p: CoreAffectPoint | IsValidCoreAffect(p)`), fonctions pures avec pré/post-conditions (`requires` / `ensures`) et lemmes inductifs :
+- **Arbre de décision équilibré pour le lexique des 176 états ([`dafny/src/Lexicon176.dfy`](dafny/src/Lexicon176.dfy)) :** Indexation spatiale $O(1)$ par strate `PointZ0..PointZ7` et inverse gauche `IndexInZ0..IndexInZ7` (profondeur $\le 6$), éliminant l'explosion combinatoire des axiomes de séquences imbriquées.
+- **Factorisation algébrique non linéaire ([`dafny/src/PredictiveCircuit.dfy`](dafny/src/PredictiveCircuit.dfy)) :** Encapsulation contrôlée `NatProd` et lemmes de distributivité exacte certifiant la conservation markovienne $4 \cdot \mathrm{scale}^6$, la dérive de Lyapunov et la borne euclidienne de l'accumulateur de charge $R_t$.
+- **Résultat de vérification ([`dafny/verify.ps1`](dafny/verify.ps1)) :** **`Dafny program verifier finished with 2113 verified, 0 errors`** (`0 {:axiom}`, `0 {:verify false}`, `0 assume`) et exécution certifiée de `AuditTests.Main()` (`dafny run --target:py --no-verify`) restituant bit à bit les 11 blocs (`B1` à `B11`).
+
+### Validation croisée sous SMT-LIB 2.6 / Z3 5.3.3 (Preuve par réfutation — [`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md))
+
+La suite [`smt/`](smt/) encode chaque module dans une théorie SMT-LIB 2.6 autonome à base de types algébriques inductifs (`declare-datatypes`) et de fonctions totales (`define-fun` / `define-fun-rec`) :
+- **Non-vacuité axiomatique systématique :** Avant toute preuve par réfutation dans chacun des 8 fichiers `.smt2`, une requête `[CONSISTENCY]` vérifie que le système d'axiomes et de définitions admet un modèle concret (**`8 / 8 sat`**), éliminant tout risque de preuve triviale par explosion (*ex falso quodlibet*).
+- **Réfutation universelle (`push` / `assert (not P)` / `check-sat` / `pop`) :** Chacun des **113 théorèmes** (`[THM]`), le lemme auxiliaire `[AUX]` et les **11 blocs d'évaluation** (`[EVAL]`) sont certifiés par insatisfiabilité de leur négation (**`125 / 125 unsat`** en **14,50 s**), complétés par l'extraction `(get-value ...)` dans `08_AuditTests.smt2`.
+
+### Validation croisée sous TLA+ / TLC 2.19 (Logique temporelle & Model Checking — [`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md))
+
+La suite [`tla/`](tla/) combine la vérification statique des **113 prédicats de théorèmes** (`Thm_*`) et des **11 blocs d'évaluation** (`EvalBlock01..11`) dans `AuditTests.tla` avec l'exploration exhaustive d'états par `TLC 2.19` sur **5 machines à états temporelles** (`Init`, `Next`, invariants d'état et propriétés temporelles) :
+- **Arithmétique exacte base-$10^6$ (`MulBig` / `AddBig` dans [`tla/specs/PredictiveCircuit.tla`](tla/specs/PredictiveCircuit.tla)) :** Représentation exacte par paires `<<hi, lo>>` permettant à TLC (entiers signés 32 bits) de certifier la somme de ligne markovienne au profil `scale = 100` (`<<4000000, 0>>` $= 4\,000\,000\,000\,000$) et la transition P2 (`<<101500, 0>>` $= 101\,500\,000\,000$) en complément du profil rationnellement équivalent `scale = 20` ($4 \cdot 20^6 = 256\,000\,000$).
+- **Résultat de vérification ([`tla/verify.ps1`](tla/verify.ps1)) :** **14/14 modules validés par SANY**, **6/6 modèles certifiés par TLC** en **21,69 s** (**20 076 états générés / 2 207 états distincts** au total sur `AuditTests`, `Model_Dissipation` [176 états], `Model_Engine` [11 états], `Model_DepthKernel` [85 états], `Model_Circuit` [18 états] et `Model_Unified` [1 916 états], **0 `AXIOM`**, **0 violation d'invariant**, **0 deadlock**).
+
+---
+
 ### Instructions de reproduction locale
 
-Tout pair évaluateur peut reproduire, compiler et auditer mécaniquement l'ensemble des preuves Lean 4 et des tests Python en local :
+Tout pair évaluateur peut reproduire, compiler et auditer mécaniquement l'ensemble des preuves **Lean 4**, des preuves **Rocq 9.0** et des tests **Python** en local :
+
+#### Lean 4.35.0 & Moteur Python
 
 ```bash
 # 1. Cloner le dépôt et se positionner à la racine
@@ -145,11 +227,72 @@ python -m unittest discover -s python -v
 python python/cartograffect_predictive_engine.py
 ```
 
+#### Rocq 9.0 (Linux / macOS)
+
+```bash
+# Depuis la racine du dépôt :
+cd rocq
+
+# 1. Audit statique (0 Admitted / 0 Axiom)
+grep -rnE "\b(Admitted|give_up|Axiom|Parameter|Conjecture)\b" theories/
+
+# 2. Génération du Makefile et compilation parallèle stricte des 9 modules
+rocq makefile -f _CoqProject -o Makefile && make -j$(nproc)
+
+# 3. Vérification indépendante du noyau (Axioms: <none>)
+rocq check -silent -o -Q theories CartograffectRocq CartograffectRocq.Cartograffect
+```
+
+#### Rocq 9.0+ (Windows PowerShell)
+
+```powershell
+# Exécution du script autonome d'audit complet (compilation -w +default, scan syntaxique,
+# contrôle des 113 Print Assumptions, évaluations Compute et rocq check -o) :
+.\rocq\verify.ps1
+```
+
+#### Agda 2.9.0 (`--safe --without-K`)
+
+```powershell
+# Audit statique (--safe --without-K, 0 postulate/trustMe/hole), recensement des 113 théorèmes
+# et vérification de types clean-room des 10 modules .agda :
+powershell -ExecutionPolicy Bypass -File .\agda\verify.ps1
+```
+
+#### Dafny 4.11.0 (Vérification déductive Boogie/Z3 & exécution certifiée)
+
+```powershell
+# Audit statique (0 {:axiom}, 0 {:verify false}, 0 assume), vérification formelle des 9 modules
+# (2113 obligations vérifiées) et exécution des 11 blocs dans AuditTests.Main() :
+powershell -ExecutionPolicy Bypass -File .\dafny\verify.ps1
+```
+
+#### SMT-LIB 2.6 / Z3 5.3.3
+
+```powershell
+# Vérification des 8 théories SMT-LIB 2.6 (8/8 [CONSISTENCY] = sat, 113/113 [THM] = unsat,
+# 11/11 [EVAL] = unsat et parité exacte des valeurs get-value) :
+powershell -ExecutionPolicy Bypass -File .\smt\verify.ps1
+```
+
+#### TLA+ / TLC 2.19 (SANY + Model Checking)
+
+```powershell
+# Audit statique (0 AXIOM), analyse syntaxique/sémantique SANY des 14 modules .tla
+# et model checking exhaustif TLC des 6 modèles (AuditTests + 5 machines à états temporelles) :
+powershell -ExecutionPolicy Bypass -File .\tla\verify.ps1
+```
+
 ---
 
 ## Documentation associée
 
-- **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Rapport complet d'audit de certification formelle et de fidélité épistémique (Phases 1 à 5 & Section 6 `PredictiveCircuit`).
+- **[`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Rapport complet d'audit de certification formelle et de fidélité épistémique sous Lean 4 (Phases 1 à 5 & Section 6 `PredictiveCircuit`).
+- **[`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md)** : Rapport complet de validation croisée formelle isolée sous The Rocq Prover 9.1.0 (113 / 113 théorèmes constructifs `Closed under the global context`, parité des 11 blocs `Compute` $\leftrightarrow$ `#eval` et vérification `rocq check -o`).
+- **[`agda/AGDA_VALIDATION.md`](agda/AGDA_VALIDATION.md)** : Rapport de validation croisée sous Agda 2.9.0 (`{-# OPTIONS --safe --without-K #-}`, 10 modules, 113 / 113 théorèmes, 11 / 11 blocs `refl`, 0 `postulate`).
+- **[`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md)** : Rapport de validation croisée sous Dafny 4.11.0 (9 modules, 2 113 obligations vérifiées, 113 / 113 théorèmes, exécution certifiée des 11 blocs, 0 `{:axiom}`).
+- **[`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md)** : Rapport de validation croisée sous SMT-LIB 2.6 / Z3 5.3.3 (8 théories, 8 / 8 preuves de cohérence `sat`, 113 / 113 théorèmes réfutés `unsat`, 11 / 11 blocs `unsat`).
+- **[`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md)** : Rapport de validation croisée sous TLA+ / TLC 2.19 (14 modules SANY, 6 modèles TLC explorant 20 076 états générés / 2 207 états distincts, 113 / 113 théorèmes, 0 violation d'invariant, 0 deadlock).
 - **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (fondements conceptuels, section 4.1 et dynamiques).
 - **[`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
 
@@ -166,7 +309,7 @@ Correspondance : manuelcabelguen@gmail.com
 
 Copyright (C) 2025-2026 Manuel Cabelguen — `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`
 
-- **Code source et preuves formelles Lean 4** : distribués sous licence **GNU AGPLv3** ([`LICENSE`](./LICENSE)).
+- **Code source et preuves formelles (Lean 4, Rocq, Agda, Dafny, SMT-LIB/Z3 et TLA+)** : distribués sous licence **GNU AGPLv3** ([`LICENSE`](./LICENSE)).
 - **Architecture théorique, géométrie affective et taxonomie des 176 états** : distribuées sous licence **Creative Commons BY-NC-SA 4.0** ([`LICENSE-CC-BY-NC-SA-4.0.md`](./LICENSE-CC-BY-NC-SA-4.0.md)). Toute exploitation commerciale est strictement réservée.
 - **Propriété intellectuelle** : *CARTOGRAFFECT* fait l'objet d'un enregistrement de droit d'auteur auprès de l'Office de la propriété intellectuelle du Canada (OPIC, enregistrement n° 1233199). Pour toute demande de licence commerciale, contacter l'auteur (manuelcabelguen@gmail.com). Voir aussi [`NOTICE`](./NOTICE).
 

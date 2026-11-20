@@ -206,7 +206,7 @@ module AffectiveMatrix {
   {
   }
 
-  lemma canonical_antagonist_examples()
+  lemma {:isolate_assertions} canonical_antagonist_examples()
     ensures AntagonistPoint(CoreAffectPoint(0, 2, 2)) == CoreAffectPoint(0, -2, 2)
     ensures AntagonistPoint(CoreAffectPoint(-2, 0, 2)) == CoreAffectPoint(2, 0, 2)
     ensures AntagonistPoint(CoreAffectPoint(-1, 1, 2)) == CoreAffectPoint(1, -1, 2)

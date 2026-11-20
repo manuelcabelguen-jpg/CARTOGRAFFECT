@@ -1,0 +1,68 @@
+name: Dafny Formal Verification CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'dafny/**'
+      - '.github/workflows/dafny-ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'dafny/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-dafny:
+    name: Verify Dafny 4.11 Specifications & Parity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Dafny 4.11.0
+        run: |
+          curl -sSL -o dafny.zip https://github.com/dafny-lang/dafny/releases/download/v4.11.0/dafny-4.11.0-x64-ubuntu-22.04.zip
+          unzip -q dafny.zip -d /tmp/dafny
+          echo "/tmp/dafny/dafny" >> $GITHUB_PATH
+
+      - name: Display Dafny version
+        run: dafny --version
+
+      - name: Static audit (0 assume / axiom / verify false / extern)
+        working-directory: ./dafny
+        run: |
+          python3 - <<'PY'
+          import glob, re, sys
+          for path in sorted(glob.glob("src/*.dfy")):
+              raw = open(path, encoding="utf-8").read()
+              cleaned = re.sub(r'/\*.*?\*/', ' ', raw, flags=re.S)
+              cleaned = re.sub(r'//.*', ' ', cleaned)
+              cleaned = re.sub(r'"(?:\\.|[^"\\])*"', '""', cleaned)
+              assert not re.search(r'\bassume\b', cleaned), f"assume in {path}"
+              assert not re.search(r'\{:(axiom|verify\s+false|extern)\b', cleaned), f"forbidden pragma in {path}"
+          print("Static audit OK")
+          PY
+
+      - name: Verify full Dafny suite
+        working-directory: ./dafny
+        run: dafny verify --verification-time-limit 60 dfyconfig.toml
+
+      - name: Execute 11 concrete evaluation blocks (--target:py)
+        working-directory: ./dafny
+        run: |
+          dafny run --target:py --no-verify src/AuditTests.dfy
+          rm -rf src/*-py

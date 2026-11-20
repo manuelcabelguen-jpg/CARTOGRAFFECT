@@ -1,0 +1,71 @@
+name: SMT Z3 Formal Verification CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'smt/**'
+      - '.github/workflows/smt-ci.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'smt/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-smt:
+    name: Verify SMT-LIB 2.6 Theories with Z3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Z3 5.3.3
+        run: |
+          curl -sSL -o z3.zip https://github.com/Z3Prover/z3/releases/download/z3-5.3.3/z3-5.3.3-x64-glibc-2.39.zip
+          unzip -q z3.zip -d /tmp/z3
+          echo "/tmp/z3/z3-5.3.3-x64-glibc-2.39/bin" >> $GITHUB_PATH
+
+      - name: Display Z3 version
+        run: z3 --version
+
+      - name: Run static integrity check & Z3 verification suite
+        working-directory: ./smt
+        run: |
+          python3 - <<'PY'
+          import glob, subprocess, sys
+
+          cons_count = 0
+          thm_count = 0
+          aux_count = 0
+          eval_count = 0
+
+          for path in sorted(glob.glob("theories/*.smt2")):
+              print(f"=== Running {path} ===")
+              res = subprocess.run(["z3", "-smt2", "-T:30", path], capture_output=True, text=True, check=False)
+              if res.returncode != 0:
+                  print(res.stdout)
+                  print(res.stderr)
+                  sys.exit(1)
+              lines = [l.strip() for l in res.stdout.splitlines()]
+              for i, ln in enumerate(lines):
+                  if ln == "[CONSISTENCY]":
+                      assert lines[i + 1] == "sat", f"{path}: CONSISTENCY was {lines[i+1]}"
+                      cons_count += 1
+                  elif ln.startswith("[THM] "):
+                      assert lines[i + 1] == "unsat", f"{path} {ln}: got {lines[i+1]}"
+                      thm_count += 1
+                  elif ln.startswith("[AUX] "):
+                      assert lines[i + 1] == "unsat", f"{path} {ln}: got {lines[i+1]}"
+                      aux_count += 1
+                  elif ln.startswith("[EVAL] "):
+                      assert lines[i + 1] == "unsat", f"{path} {ln}: got {lines[i+1]}"
+                      eval_count += 1
+              print(f"  OK ({path})")
+
+          print(f"Summary: CONSISTENCY={cons_count}/8 sat, THM={thm_count}/113 unsat, AUX={aux_count}/1 unsat, EVAL={eval_count}/11 unsat")
+          assert cons_count == 8 and thm_count == 113 and aux_count == 1 and eval_count == 11
+          PY
