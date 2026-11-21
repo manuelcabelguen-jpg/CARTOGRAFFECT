@@ -10,7 +10,7 @@
 #>
 
 param(
-    [string]$RocqBin = "C:\Rocq-Platform~9.1~2026.01\bin"
+    [string]$RocqBin = $(if ($env:ROCQ_BIN) { $env:ROCQ_BIN } elseif (Test-Path "$env:LOCALAPPDATA\Programs\Rocq\bin") { "$env:LOCALAPPDATA\Programs\Rocq\bin" } else { "C:\Rocq-Platform~9.1~2026.01\bin" })
 )
 
 $ErrorActionPreference = "Stop"

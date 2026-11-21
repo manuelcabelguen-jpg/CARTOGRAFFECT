@@ -1,0 +1,409 @@
+{
+  "project": "CARTOGRAFFECT® — Dictionnaire Vectoriel Complet Multi-Strates & Open-Data CNRS/Lexique/GLAWI",
+  "copyright_registration": "OPIC / CIPO Certificat n° 1233199 — Manuel Cabelguen",
+  "dual_license": {
+    "code_and_lean4_proofs": "GNU AGPLv3 (SPDX: AGPL-3.0-or-later)",
+    "theory_taxonomy_and_tables": "CC BY-NC-SA 4.0 (SPDX: CC-BY-NC-SA-4.0)"
+  },
+  "nomenclature_compliance": "100% ressources ouvertes ou sous licence de recherche équitable (Lexique 3.83 CC BY-SA 4.0, GLAWI CLLE-CNRS CC BY-SA, Morphalou 3.1 / TLFi CNRS ATILF Licence Ouverte, NRC-VAD Research License, DIMA art. 29 LDA Canada, Scherer GRID/CPM CISA Genève). 0 dictionnaire commercial utilisé.",
+  "total_entries": 16200,
+  "base_15037_entries": 15037,
+  "open_french_extension_entries": 1163,
+  "open_french_3d_unique_lemmas": 6674,
+  "unique_prototypes_176_covered": 176,
+  "unique_prototypes_176_covered_open_fr_3d": 176,
+  "unique_grid24_anchors_covered": 24,
+  "octahedral_l1_envelope_verified": true,
+  "open_data_pos_distribution_fr": {
+    "ADJ": 3293,
+    "NOM": 1949,
+    "LOC": 671,
+    "VER": 545,
+    "ADV": 216
+  },
+  "open_data_glawi_domain_distribution_fr": {
+    "《affectivité/sentiment》": 1562,
+    "《philosophie/axiologie》": 1375,
+    "《psychologie/émotion》": 1299,
+    "《éthique/morale》": 1245,
+    "《physiologie/somatique》": 682,
+    "《politique/droit/société》": 511
+  },
+  "open_data_badge_distribution_fr": {
+    "CNRS-GLAWI+Lexique3.83+NRC+DIMA": 5511,
+    "CNRS-GLAWI+Lexique3.83+Morphalou+DIMA": 960,
+    "CNRS-GLAWI+Lexique3.83+Morphalou-ATILF": 203
+  },
+  "octant_global_distribution": {
+    "V+_C+_E+": 3317,
+    "V-_C-_E-": 3315,
+    "V+_C+_E-": 3072,
+    "V-_C-_E+": 2852,
+    "V-_C+_E+": 1493,
+    "V+_C-_E-": 1215,
+    "V-_C+_E-": 508,
+    "V+_C-_E+": 383,
+    "OCT_0_ORIGIN": 45
+  },
+  "source_nomenclature_breakdown": {
+    "NRC_VAD_DIMA_15037": 15037,
+    "DIMA_AXIOLOGIE_OUVERTE_FR": 960,
+    "LEXIQUE383_MORPHALOU_OPEN_FR": 203
+  },
+  "strata_distribution": {
+    "STRATUM_1_AFFECTIVE_SOMATIC": {
+      "rank": 1,
+      "label_fr": "1. Affectif basal & somatique",
+      "glawi_domain_cnrs": "《physiologie/somatique》",
+      "z_regime": "Z- profond (Ratio_Z < 0.65)",
+      "theoretical_reference": "Damasio (1999) ; Panksepp (1998) ; Scherer (2005) — Bodily Symptoms & Motor Expression",
+      "ratio_z_bounds": [
+        0.0,
+        0.65
+      ],
+      "z_crown_target": 2,
+      "count": 1372,
+      "count_open_french_3d": 682,
+      "percentage": 8.47,
+      "ratio_z_mean": 0.4623,
+      "ratio_z_min_observed": 0.3571,
+      "ratio_z_max_observed": 0.613,
+      "valence_mean": -0.2854,
+      "coping_power_mean": 0.0286,
+      "arousal_energy_mean": 0.6899,
+      "octant_distribution": {
+        "V-_C-_E+": 522,
+        "V-_C+_E+": 389,
+        "V+_C+_E+": 349,
+        "V+_C-_E+": 46,
+        "V-_C-_E-": 45,
+        "V+_C+_E-": 13,
+        "V+_C-_E-": 7,
+        "V-_C+_E-": 1
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 272,
+        "NOM": 215,
+        "VER": 88,
+        "LOC": 81,
+        "ADV": 26
+      },
+      "top_5_grid24_anchors": {
+        "Dégoût": 422,
+        "Surprise": 238,
+        "Colère": 208,
+        "Peur": 158,
+        "Plaisir": 127
+      },
+      "sample_lemmas_fr": [
+        "chair de poule",
+        "harassé",
+        "syncope",
+        "vasodilatation",
+        "lipothymie",
+        "fourbu",
+        "asthénie",
+        "catalepsie",
+        "étourdissement",
+        "paresthésie",
+        "bradycardie",
+        "sudation"
+      ]
+    },
+    "STRATUM_2_EMOTIONAL_EPISODIC": {
+      "rank": 2,
+      "label_fr": "2. Émotif épisodique",
+      "glawi_domain_cnrs": "《psychologie/émotion》",
+      "z_regime": "Z- à Z_7 (0.65 <= Ratio_Z < 0.95)",
+      "theoretical_reference": "Scherer (2005) ; Fontaine, Scherer, Roesch, & Ellsworth (2007) — Épisodes émotionnels GRID",
+      "ratio_z_bounds": [
+        0.65,
+        0.95
+      ],
+      "z_crown_target": 3,
+      "count": 2888,
+      "count_open_french_3d": 1299,
+      "percentage": 17.83,
+      "ratio_z_mean": 0.7794,
+      "ratio_z_min_observed": 0.6978,
+      "ratio_z_max_observed": 0.872,
+      "valence_mean": -0.2086,
+      "coping_power_mean": 0.0079,
+      "arousal_energy_mean": 0.42,
+      "octant_distribution": {
+        "V-_C-_E+": 1243,
+        "V+_C+_E+": 880,
+        "V-_C+_E+": 521,
+        "V+_C-_E+": 134,
+        "V-_C-_E-": 51,
+        "V+_C-_E-": 39,
+        "V+_C+_E-": 18,
+        "V-_C+_E-": 2
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 587,
+        "NOM": 399,
+        "VER": 181,
+        "LOC": 93,
+        "ADV": 39
+      },
+      "top_5_grid24_anchors": {
+        "Dégoût": 886,
+        "Surprise": 571,
+        "Plaisir": 439,
+        "Jalousie": 217,
+        "Peur": 203
+      },
+      "sample_lemmas_fr": [
+        "esclandre",
+        "aversion aiguë",
+        "grogne",
+        "ébaudissement",
+        "Crainte",
+        "Défiance",
+        "Saisissement",
+        "Liesse",
+        "Enivrement",
+        "Éblouissement",
+        "hypnotisant",
+        "hypnotiser"
+      ]
+    },
+    "STRATUM_3_SENTIMENTAL_RELATIONAL": {
+      "rank": 3,
+      "label_fr": "3. Sentimental & relationnel durable",
+      "glawi_domain_cnrs": "《affectivité/sentiment》",
+      "z_regime": "Équateur Z_7 à Z+ bas (0.95 <= Ratio_Z < 1.25)",
+      "theoretical_reference": "Frijda (1986) ; Le Pesant (2023, DIMA Cat. II) ; Fontaine, Scherer, & Soriano (2013)",
+      "ratio_z_bounds": [
+        0.95,
+        1.25
+      ],
+      "z_crown_target": 4,
+      "count": 4304,
+      "count_open_french_3d": 1562,
+      "percentage": 26.57,
+      "ratio_z_mean": 1.1029,
+      "ratio_z_min_observed": 1.0243,
+      "ratio_z_max_observed": 1.2131,
+      "valence_mean": 0.0473,
+      "coping_power_mean": 0.0347,
+      "arousal_energy_mean": -0.0798,
+      "octant_distribution": {
+        "V+_C+_E+": 996,
+        "V+_C+_E-": 810,
+        "V+_C-_E-": 658,
+        "V-_C-_E+": 584,
+        "V-_C-_E-": 521,
+        "V-_C+_E+": 294,
+        "V-_C+_E-": 238,
+        "V+_C-_E+": 158,
+        "OCT_0_ORIGIN": 45
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 790,
+        "NOM": 414,
+        "VER": 161,
+        "LOC": 125,
+        "ADV": 72
+      },
+      "top_5_grid24_anchors": {
+        "Soulagement": 2169,
+        "Déception": 653,
+        "Amour": 268,
+        "Honte": 223,
+        "Fierté": 211
+      },
+      "sample_lemmas_fr": [
+        "complicité",
+        "connivence",
+        "éloignement affectif",
+        "vague à l'âme",
+        "fraternisation",
+        "mansuétude",
+        "attachement sécure",
+        "dévotion affective",
+        "Épanouissement",
+        "Affirmation",
+        "Fougue",
+        "Accablement"
+      ]
+    },
+    "STRATUM_4_ETHICAL_MORAL": {
+      "rank": 4,
+      "label_fr": "4. Éthique & moral",
+      "glawi_domain_cnrs": "《éthique/morale》",
+      "z_regime": "Z+ moyen (1.25 <= Ratio_Z < 1.60)",
+      "theoretical_reference": "Haidt (2003) — The Moral Emotions ; Tangney, Stuewig, & Mashek (2007)",
+      "ratio_z_bounds": [
+        1.25,
+        1.6
+      ],
+      "z_crown_target": 5,
+      "count": 3209,
+      "count_open_french_3d": 1245,
+      "percentage": 19.81,
+      "ratio_z_mean": 1.4721,
+      "ratio_z_min_observed": 1.3169,
+      "ratio_z_max_observed": 1.5586,
+      "valence_mean": -0.1221,
+      "coping_power_mean": -0.1075,
+      "arousal_energy_mean": -0.1852,
+      "octant_distribution": {
+        "V-_C-_E-": 1019,
+        "V+_C+_E-": 643,
+        "V-_C-_E+": 421,
+        "V+_C-_E-": 405,
+        "V+_C+_E+": 334,
+        "V-_C+_E+": 225,
+        "V-_C+_E-": 132,
+        "V+_C-_E+": 30
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 634,
+        "NOM": 357,
+        "LOC": 134,
+        "VER": 88,
+        "ADV": 32
+      },
+      "top_5_grid24_anchors": {
+        "Soulagement": 983,
+        "Solitude": 777,
+        "Déception": 468,
+        "Honte": 199,
+        "Fierté": 138
+      },
+      "sample_lemmas_fr": [
+        "concussion",
+        "opprobre",
+        "piété filiale",
+        "vénalité",
+        "parjure",
+        "franc-parler",
+        "rédemption",
+        "parricide",
+        "machiavélisme",
+        "infamie",
+        "impénitence",
+        "prévarication"
+      ]
+    },
+    "STRATUM_5_AXIOLOGICAL_VALUES": {
+      "rank": 5,
+      "label_fr": "5. Axiologique & Valeurs fondamentales",
+      "glawi_domain_cnrs": "《philosophie/axiologie》",
+      "z_regime": "Z+ élevé (1.60 <= Ratio_Z < 2.00)",
+      "theoretical_reference": "Schwartz (2012) — Theory of Basic Human Values ; Ricoeur (1990)",
+      "ratio_z_bounds": [
+        1.6,
+        2.0
+      ],
+      "z_crown_target": 6,
+      "count": 3287,
+      "count_open_french_3d": 1375,
+      "percentage": 20.29,
+      "ratio_z_mean": 1.8939,
+      "ratio_z_min_observed": 1.6732,
+      "ratio_z_max_observed": 1.9586,
+      "valence_mean": -0.0554,
+      "coping_power_mean": -0.1129,
+      "arousal_energy_mean": -0.3673,
+      "octant_distribution": {
+        "V-_C-_E-": 1672,
+        "V+_C+_E-": 870,
+        "V+_C+_E+": 502,
+        "V+_C-_E-": 104,
+        "V-_C+_E-": 59,
+        "V-_C-_E+": 37,
+        "V-_C+_E+": 28,
+        "V+_C-_E+": 15
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 752,
+        "NOM": 417,
+        "LOC": 151,
+        "ADV": 35,
+        "VER": 20
+      },
+      "top_5_grid24_anchors": {
+        "Solitude": 1486,
+        "Tendresse": 650,
+        "Espoir": 312,
+        "Fierté": 201,
+        "Satisfaction": 155
+      },
+      "sample_lemmas_fr": [
+        "objectivité",
+        "exemplarité axiologique",
+        "perfectibilité",
+        "inviolabilité",
+        "émancipation",
+        "réification",
+        "dignité humaine",
+        "utilitarisme réducteur",
+        "inaliénabilité",
+        "faillibilisme",
+        "érudition",
+        "affranchissement"
+      ]
+    },
+    "STRATUM_6_POLITICAL_CIVIC": {
+      "rank": 6,
+      "label_fr": "6. Politique, civique & social",
+      "glawi_domain_cnrs": "《politique/droit/société》",
+      "z_regime": "Z+ culminant (Ratio_Z >= 2.00)",
+      "theoretical_reference": "Nussbaum (2013) — Political Emotions ; Rawls (1971) ; Habermas (1992)",
+      "ratio_z_bounds": [
+        2.0,
+        99.0
+      ],
+      "z_crown_target": 7,
+      "count": 1140,
+      "count_open_french_3d": 511,
+      "percentage": 7.04,
+      "ratio_z_mean": 2.6287,
+      "ratio_z_min_observed": 2.1985,
+      "ratio_z_max_observed": 2.7136,
+      "valence_mean": 0.4934,
+      "coping_power_mean": 0.5624,
+      "arousal_energy_mean": -0.2763,
+      "octant_distribution": {
+        "V+_C+_E-": 718,
+        "V+_C+_E+": 256,
+        "V-_C+_E-": 76,
+        "V-_C-_E+": 45,
+        "V-_C+_E+": 36,
+        "V-_C-_E-": 7,
+        "V+_C-_E-": 2
+      },
+      "pos_cnrs_lexique_distribution": {
+        "ADJ": 258,
+        "NOM": 147,
+        "LOC": 87,
+        "ADV": 12,
+        "VER": 7
+      },
+      "top_5_grid24_anchors": {
+        "Satisfaction": 687,
+        "Espoir": 196,
+        "Tendresse": 87,
+        "Mépris": 78,
+        "Irritation": 29
+      },
+      "sample_lemmas_fr": [
+        "gouvernance",
+        "justice climatique",
+        "anomie sociale",
+        "plébiscite",
+        "bicamérisme",
+        "autoritarisme",
+        "népotisme",
+        "clientélisme",
+        "impérialisme",
+        "justice sociale",
+        "apartheid",
+        "libertés publiques"
+      ]
+    }
+  }
+}

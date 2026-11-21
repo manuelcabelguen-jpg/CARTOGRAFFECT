@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cartograffect-sim"
+version = "0.1.0"
+description = "Modèle génératif probabiliste inversible (POMDP hiérarchique sous inférence active) traduisant l'architecture formelle CARTOGRAFFECT® pour validation empirique in silico."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "jax",
+    "equinox",
+    "inferactively-pymdp",
+    "numpyro",
+    "arviz",
+    "matplotlib",
+    "seaborn",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+test = [
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+

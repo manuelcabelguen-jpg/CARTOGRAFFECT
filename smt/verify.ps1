@@ -9,7 +9,7 @@
 #>
 
 param(
-    [string]$Z3Bin = "C:\Users\drcab\.local\tools\z3\z3-5.3.3-x64-win\bin"
+    [string]$Z3Bin = "$env:USERPROFILE\.local\tools\z3\z3-5.3.3-x64-win\bin"
 )
 
 $ErrorActionPreference = "Stop"

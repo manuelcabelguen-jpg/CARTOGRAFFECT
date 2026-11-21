@@ -1,0 +1,116 @@
+% ==============================================================================
+% Projet CARTOGRAFFECT — Tables LaTeX APA 7 pour OSF, Zenodo et Manuscrits
+% Fichier : tables/table_validation_grid_apa7.tex
+% Licence Documentation & Tables : CC BY-NC-SA 4.0
+% Licence Code Générateur : GNU AGPLv3 (SPDX: AGPL-3.0-or-later)
+% Prérequis LaTeX : \usepackage{booktabs, threeparttable, amsmath, siunitx}
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% TABLE 1 (APA 7) : Synthèse de Validation Statistique Multi-Échelles (CCA & Procrustes)
+% ------------------------------------------------------------------------------
+\begin{table*}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Validation statistique multi-échelles entre la topologie octaédrique 3D de CARTOGRAFFECT et l'espace factoriel/componantiel du paradigme GRID (Scherer)}
+\label{tab:cartograffect_grid_multiscale_validation}
+\small
+\begin{tabular}{l r ccc c r c cc cccc}
+\toprule
+ & & \multicolumn{6}{c}{Analyse des Corrélations Canoniques (CCA)} & \multicolumn{2}{c}{Procrustes} & \multicolumn{4}{c}{Congruence de Tucker ($\phi$)} \\
+\cmidrule(lr){3-8} \cmidrule(lr){9-10} \cmidrule(l){11-14}
+Échelle d'analyse & $N$ & $\rho_1$ & $\rho_2$ & $\rho_3$ & $\Lambda_{\text{Wilks}}$ & $\chi^2_{(15)}$ & $\text{SL}_{R^2}$ & $R_{\text{Proc}}$ & $m_{12}^2$ & $\phi_X$ & $\phi_Y$ & $\phi_Z$ & $\phi_{\text{RMS}}$ \\
+\midrule
+24 Prototypes Canoniques GRID & 24 & 0.9502 & 0.8737 & 0.7616 & 0.0096 & 85.86$^{***}$ & 0.7791 & 0.8354$^{***}$ & 0.3021 & 0.7997 & 0.8294 & 0.8762 & 0.8357 \\
+176 Prototypes CARTOGRAFFECT 3D & 176 & 0.9309 & 0.8589 & 0.6274 & 0.0212 & 656.87$^{***}$ & 0.6698 & 0.6281$^{***}$ & 0.6055 & 0.6139 & 0.6360 & 0.6385 & 0.6296 \\
+Lexique Français (NRC-VAD + DIMA) & 15\,037 & 0.9104 & 0.8280 & 0.5772 & 0.0359 & 50023.82$^{***}$ & 0.6254 & 0.6637$^{***}$ & 0.5595 & 0.7932 & 0.7090 & 0.4534 & 0.6677 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para,flushleft]
+\footnotesize
+\textit{Note.} $\rho_1, \rho_2, \rho_3$ = corrélations canoniques de Hotelling ; $\Lambda_{\text{Wilks}}$ = lambda de Wilks ; $\chi^2_{(15)}$ = statistique de Bartlett ($ddl = 15$) ; $\text{SL}_{R^2}$ = indice de redondance de Stewart-Love (proportion de variance 3D expliquée par GRID) ; $R_{\text{Proc}}$ = corrélation procustéenne orthogonale (test PROTEST à $2\,000$ permutations) ; $m_{12}^2 = 1 - R_{\text{Proc}}^2$ = somme résiduelle des carrés procustéens ; $\phi_X, \phi_Y, \phi_Z, \phi_{\text{RMS}}$ = coefficients de congruence factorielle de Tucker (Lorenzo-Seva \& ten Berge, 2006). $^{***}p \le .002$ (tests de permutation exacts).
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+% ------------------------------------------------------------------------------
+% TABLE 2 (APA 7) : Alignement des 24 Prototypes Émotionnels Canoniques Français de GRID
+% ------------------------------------------------------------------------------
+\begin{table*}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Correspondance topologique 3D et profils componantiels CPM des 24 prototypes émotionnels canoniques français du paradigme GRID}
+\label{tab:cartograffect_grid24_correspondence}
+\footnotesize
+\begin{tabular}{r l l r l c r l l r}
+\toprule
+\# & Prototype GRID (FR) & Terme GRID (EN) & \texttt{id176} & Ancre CARTOGRAFFECT & $(X, Y, Z)$ & $R_{L_1}$ & Polarité \texttt{appraisalCoping} & Régime \texttt{ZStratumRegime} & $\text{Ratio\_Z}$ \\
+\midrule
+1 & Joie & \textit{joy} & 4 & Joie & $(+0, +2, 2)$ & 2 & Agie (+0.58) & \texttt{Z\_neg (Somatique)} & 0.4933 \\
+2 & Fierté & \textit{pride} & 46 & Fierté & $(+4, +2, 4)$ & 6 & Agie (+0.82) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.5918 \\
+3 & Plaisir & \textit{pleasure} & 18 & Euphorie & $(+1, +3, 3)$ & 4 & Agie (+0.46) & \texttt{Z\_neg (Somatique)} & 0.5455 \\
+4 & Soulagement & \textit{relief} & 19 & Soulagement & $(+1, -3, 3)$ & 4 & Agie (+0.24) & \texttt{Z\_7 (Équatorial)} & 0.9796 \\
+5 & Satisfaction & \textit{satisfaction} & 84 & Satisfaction & $(+4, -4, 5)$ & 8 & Agie (+0.64) & \texttt{Z\_pos (Cognitivo-Normatif)} & 2.3529 \\
+6 & Amour & \textit{love} & 36 & Amour & $(+1, +5, 4)$ & 6 & Agie (+0.52) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.3273 \\
+7 & Tendresse & \textit{tenderness} & 48 & Affection & $(+5, -1, 4)$ & 6 & Agie (+0.38) & \texttt{Z\_pos (Cognitivo-Normatif)} & 2.1389 \\
+8 & Espoir & \textit{hope} & 79 & Espoir & $(+7, +1, 5)$ & 8 & Agie (+0.36) & \texttt{Z\_pos (Cognitivo-Normatif)} & 2.4848 \\
+9 & Surprise & \textit{surprise} & 2 & Surprise & $(0, 0, 1)$ & 0 & Réflexive (-0.12) & \texttt{Z\_neg (Somatique)} & 0.2125 \\
+10 & Colère & \textit{anger} & 8 & Colère & $(-1, +1, 2)$ & 2 & Agie (+0.68) & \texttt{Z\_neg (Somatique)} & 0.4302 \\
+11 & Irritation & \textit{irritation} & 108 & Irritation & $(-6, +4, 6)$ & 10 & Agie (+0.42) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.6512 \\
+12 & Mépris & \textit{contempt} & 44 & Mépris & $(-5, -1, 4)$ & 6 & Agie (+0.56) & \texttt{Z\_pos (Cognitivo-Normatif)} & 2.1667 \\
+13 & Dégoût & \textit{disgust} & 11 & Dégoût & $(-1, -1, 2)$ & 2 & Réflexive (-0.18) & \texttt{Z\_neg (Somatique)} & 0.4177 \\
+14 & Haine & \textit{hate} & 35 & Haine & $(-1, +5, 4)$ & 6 & Agie (+0.48) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.2857 \\
+15 & Jalousie & \textit{jealousy} & 34 & Envie & $(-2, +4, 4)$ & 6 & Agie (+0.16) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.2830 \\
+16 & Peur & \textit{fear} & 6 & Peur & $(-2, +0, 2)$ & 2 & Réflexive (-0.74) & \texttt{Z\_neg (Somatique)} & 0.3372 \\
+17 & Angoisse & \textit{anxiety} & 93 & Angoisse & $(-3, +7, 6)$ & 10 & Réflexive (-0.52) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.6889 \\
+18 & Tristesse & \textit{sadness} & 5 & Tristesse & $(+0, -2, 2)$ & 2 & Réflexive (-0.68) & \texttt{Z\_neg (Somatique)} & 0.5286 \\
+19 & Désespoir & \textit{despair} & 70 & Désespoir & $(-1, -7, 5)$ & 8 & Réflexive (-0.86) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.7209 \\
+20 & Déception & \textit{disappointment} & 83 & Insatisfaction & $(-4, +4, 5)$ & 8 & Réflexive (-0.32) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.9744 \\
+21 & Solitude & \textit{loneliness} & 31 & Solitude & $(+0, -6, 4)$ & 6 & Réflexive (-0.58) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.8649 \\
+22 & Nostalgie & \textit{nostalgia} & 156 & Mélancolie & $(-8, -4, 7)$ & 12 & Réflexive (-0.44) & \texttt{Z\_pos (Cognitivo-Normatif)} & 3.0000 \\
+23 & Culpabilité & \textit{guilt} & 41 & Vide & $(-1, -5, 4)$ & 6 & Réflexive (-0.48) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.9556 \\
+24 & Honte & \textit{shame} & 40 & Honte & $(-2, -4, 4)$ & 6 & Réflexive (-0.66) & \texttt{Z\_pos (Cognitivo-Normatif)} & 1.5472 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para,flushleft]
+\footnotesize
+\textit{Note.} Les 24 prototypes émotionnels canoniques français proviennent de la matrice GRID (Fontaine et al., 2007, 2013). Chaque ancre vérifie l'invariant d'enveloppe octaédrique $|X| + |Y| = R_{L_1}(Z) = 2(Z - 1)$ pour $Z \ge 2$ (certifié sans \texttt{sorry} dans \texttt{Cartograffect/Validation/SchererGRID.lean} sous Lean 4.35.0). $\text{Ratio\_Z} = (\text{Score\_Appraisal\_Norms} + \text{Score\_Subjective\_Regulation}) / (\text{Score\_Bodily\_Symptoms} + \text{Score\_Motor\_Expression})$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+% ------------------------------------------------------------------------------
+% TABLE 3 (APA 7) : Comparatif Topologique et Psychométrique Diamant (L1) vs Sphère (L2)
+% ------------------------------------------------------------------------------
+\begin{table*}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Comparaison des propriétés mathématiques et psychométriques entre la topologie en Diamant ($L_1, p = 1.0$) et la topologie Sphérique riemannienne ($L_2, p = 2.0$) de la Sphère Octaédrique Duale CARTOGRAFFECT}
+\label{tab:cartograffect_l1_vs_l2_comparison}
+\footnotesize
+\begin{tabular}{l l r ccc cc cccc}
+\toprule
+ & & & \multicolumn{3}{c}{CCA (Hotelling)} & \multicolumn{2}{c}{Procrustes} & \multicolumn{4}{c}{Congruence de Tucker ($\phi$)} \\
+\cmidrule(lr){4-6} \cmidrule(lr){7-8} \cmidrule(l){9-12}
+Échelle d'analyse & Variété ($L_p$) & $N$ & $\rho_1$ & $\rho_2$ & $\rho_3$ & $R_{\text{Proc}}$ & $m_{12}^2$ & $\phi_X$ & $\phi_Y$ & $\phi_Z$ & $\phi_{\text{RMS}}$ \\
+\midrule
+24 Prototypes GRID & Diamant $L_1$ ($p=1.0$) & 24 & 0.9502 & 0.8737 & 0.7616 & 0.8354$^{***}$ & 0.3021 & 0.7997 & 0.8294 & 0.8762 & 0.8357 \\
+24 Prototypes GRID & Sphère $L_2$ ($p=2.0$) & 24 & 0.9095 & 0.7357 & 0.6516 & 0.8100$^{***}$ & 0.3439 & 0.8278 & 0.7388 & 0.8600 & 0.8105 \\
+\textit{Gain $\Delta(L_2 - L_1)$} & \textit{Homéomorphisme radial} & --- & -0.0407 & -0.1380 & -0.1100 & -0.0254 & +0.0418 & +0.0281 & -0.0906 & \textbf{-0.0162} & \textbf{-0.0252} \\
+\addlinespace[3pt]
+176 Prototypes 3D & Diamant $L_1$ ($p=1.0$) & 176 & 0.9309 & 0.8589 & 0.6274 & 0.6281$^{***}$ & 0.6055 & 0.6139 & 0.6360 & 0.6385 & 0.6296 \\
+176 Prototypes 3D & Sphère $L_2$ ($p=2.0$) & 176 & 0.9364 & 0.8829 & 0.8243 & 0.9134$^{***}$ & 0.1658 & 0.9114 & 0.9509 & 0.8770 & 0.9136 \\
+\textit{Gain $\Delta(L_2 - L_1)$} & \textit{Homéomorphisme radial} & --- & +0.0055 & +0.0240 & +0.1969 & +0.2853 & -0.4397 & +0.2975 & +0.3149 & \textbf{+0.2385} & \textbf{+0.2840} \\
+\addlinespace[3pt]
+Lexique FR (NRC-VAD + DIMA) & Diamant $L_1$ ($p=1.0$) & 15\,037 & 0.9104 & 0.8280 & 0.5772 & 0.6637$^{***}$ & 0.5595 & 0.7932 & 0.7090 & 0.4534 & 0.6677 \\
+Lexique FR (NRC-VAD + DIMA) & Sphère $L_2$ ($p=2.0$) & 15\,037 & 0.9046 & 0.8532 & 0.7775 & 0.7427$^{***}$ & 0.4484 & 0.7370 & 0.7014 & 0.7941 & 0.7451 \\
+\textit{Gain $\Delta(L_2 - L_1)$} & \textit{Homéomorphisme radial} & --- & -0.0058 & +0.0252 & +0.2003 & +0.0790 & -0.1111 & -0.0562 & -0.0076 & \textbf{+0.3407} & \textbf{+0.0774} \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para,flushleft]
+\footnotesize
+\textit{Note.} CARTOGRAFFECT\textsuperscript{\textregistered} (OPIC n\textsuperscript{o} 1233199 ; code sous licence GNU AGPLv3, théorie et taxonomie sous licence CC BY-NC-SA 4.0 ; attributions CISA/Scherer GRID, NRC-VAD v2.1 et DIMA). L'homéomorphisme radial $u_{L_p} = u \cdot (\|u\|_1 / \|u\|_p)$ conserve exactement le budget radial additif $B(Z) = \|u\|_1 = \|u_{L_2}\|_2$ et préserve strictement les 8 octants, les signes $(X, Y)$ et le régime vertical $Z$ (théorème \texttt{radial\_projection\_preserves\_octant} certifié sous Lean 4.35.0, zéro \texttt{sorry}). La levée de la contrainte d'écrasement diagonal $L_1$ sur la sphère riemannienne $L_2$ améliore significativement la congruence verticale $\phi_Z$ sur les 176 prototypes ($+0.2385$) et les $15\,037$ lemmes ($+0.3407$). $^{***}p \le .002$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

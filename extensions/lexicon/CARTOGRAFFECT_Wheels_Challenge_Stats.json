@@ -1,0 +1,3812 @@
+{
+  "source": "Scherer, Shuman, Fontaine & Soriano (2013). The GRID meets the Wheel. In Fontaine, Scherer & Soriano (Eds.), Components of Emotional Meaning, ch. 18. OUP.",
+  "reference_model": "CARTOGRAFFECT Diamant 303 (ref_303_diamant_z.tsv / CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv)",
+  "preregistration": {
+    "H1_Rbar_pass": 0.7,
+    "H1_Rbar_partial": 0.5,
+    "H1_alpha": 0.05,
+    "H2_max_abs_rotation_deg": 22.5,
+    "H3_valence_threshold": 0.35,
+    "H4_opposite_wheel_min_deg": 170.0,
+    "H4_antipodal_carto_min_deg": 135.0,
+    "H4_pass_rate": 0.75,
+    "H5_max_abs_spearman": 0.5,
+    "H6_min_coverage": 0.8,
+    "H_outlier_deg": 90.0
+  },
+  "n_perm": 10000,
+  "n_boot": 5000,
+  "seed": 20131118,
+  "primary_translations": {
+    "coverage": {
+      "GEW3": {
+        "n_items": 20,
+        "coverage": 1.0,
+        "n_exact_303": 14,
+        "n_exact_176": 14,
+        "n_lexique": 6,
+        "n_triade": 0,
+        "n_centre_sans_angle": 0,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "GEW2": {
+        "n_items": 40,
+        "coverage": 1.0,
+        "n_exact_303": 19,
+        "n_exact_176": 19,
+        "n_lexique": 21,
+        "n_triade": 0,
+        "n_centre_sans_angle": 2,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "GEW1": {
+        "n_items": 17,
+        "coverage": 1.0,
+        "n_exact_303": 14,
+        "n_exact_176": 14,
+        "n_lexique": 3,
+        "n_triade": 0,
+        "n_centre_sans_angle": 1,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "PLUTCHIK": {
+        "n_items": 32,
+        "coverage": 1.0,
+        "n_exact_303": 22,
+        "n_exact_176": 22,
+        "n_lexique": 9,
+        "n_triade": 1,
+        "n_centre_sans_angle": 2,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      }
+    },
+    "H1_H2_circular": {
+      "GEW3": {
+        "n_units": 20,
+        "reflection_used": false,
+        "rotation_alpha_deg": -31.01,
+        "rotation_CI95_deg": [
+          -48.96,
+          -12.01
+        ],
+        "Rbar": 0.7774,
+        "p_perm": 0.0001,
+        "null_Rbar_mean": 0.2025,
+        "mean_abs_error_deg": 33.48,
+        "outliers": [],
+        "H1_verdict": "VALIDÉ",
+        "H2_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW3",
+            "unit": "admiration",
+            "family": "admiration",
+            "theta_wheel": -7.76,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": 49.81
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "amusement",
+            "family": "amusement",
+            "theta_wheel": 15.83,
+            "theta_carto": 63.43,
+            "anchors": "Ferveur",
+            "residual_deg": -16.59
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 128.21,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": 24.22
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "compassion",
+            "family": "compassion",
+            "theta_wheel": -95.19,
+            "theta_carto": 0.0,
+            "anchors": "Courage",
+            "residual_deg": -64.18
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 141.98,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -18.32
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "contentment",
+            "family": "contentment",
+            "theta_wheel": -2.23,
+            "theta_carto": -26.56,
+            "anchors": "Contentement",
+            "residual_deg": 55.35
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "disappointment",
+            "family": "disappointment",
+            "theta_wheel": -171.14,
+            "theta_carto": -161.56,
+            "anchors": "Détachement",
+            "residual_deg": 21.44
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 163.61,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -30.38
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "fear",
+            "family": "fear",
+            "theta_wheel": 173.45,
+            "theta_carto": 180.0,
+            "anchors": "Peur",
+            "residual_deg": 24.47
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "guilt",
+            "family": "guilt",
+            "theta_wheel": -154.65,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -7.08
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "hate",
+            "family": "hate",
+            "theta_wheel": 136.3,
+            "theta_carto": 101.31,
+            "anchors": "Haine",
+            "residual_deg": 66.01
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": 22.29,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": 8.3
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "joy",
+            "family": "joy",
+            "theta_wheel": 5.88,
+            "theta_carto": 90.0,
+            "anchors": "Joie",
+            "residual_deg": -53.11
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "love",
+            "family": "love",
+            "theta_wheel": -15.42,
+            "theta_carto": 78.69,
+            "anchors": "Amour",
+            "residual_deg": -63.1
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "pleasure",
+            "family": "pleasure",
+            "theta_wheel": 1.61,
+            "theta_carto": 59.04,
+            "anchors": "Engagement",
+            "residual_deg": -26.41
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 11.77,
+            "theta_carto": 26.56,
+            "anchors": "Fierté",
+            "residual_deg": 16.22
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "regret",
+            "family": "regret",
+            "theta_wheel": -164.81,
+            "theta_carto": -135.0,
+            "anchors": "Retrait",
+            "residual_deg": 1.2
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -28.61,
+            "theta_carto": -71.56,
+            "anchors": "Soulagement",
+            "residual_deg": 73.97
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -152.76,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -31.75
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "shame",
+            "family": "shame",
+            "theta_wheel": -165.3,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -17.72
+          }
+        ]
+      },
+      "GEW2": {
+        "n_units": 19,
+        "reflection_used": false,
+        "rotation_alpha_deg": -27.38,
+        "rotation_CI95_deg": [
+          -41.78,
+          -10.13
+        ],
+        "Rbar": 0.831,
+        "p_perm": 0.0001,
+        "null_Rbar_mean": 0.2088,
+        "mean_abs_error_deg": 25.88,
+        "outliers": [],
+        "H1_verdict": "VALIDÉ",
+        "H2_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW2",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": 81.0,
+            "theta_carto": 58.28,
+            "anchors": "Loyauté + Intérêt",
+            "residual_deg": 50.1
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "amusement",
+            "family": "amusement",
+            "theta_wheel": 63.0,
+            "theta_carto": 76.72,
+            "anchors": "Ferveur + Joie",
+            "residual_deg": 13.66
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 45.0,
+            "theta_carto": 58.28,
+            "anchors": "Fierté + Exaltation",
+            "residual_deg": 14.1
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "joy",
+            "family": "joy",
+            "theta_wheel": 27.0,
+            "theta_carto": 67.5,
+            "anchors": "Sublimation + Joie",
+            "residual_deg": -13.12
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "pleasure",
+            "family": "pleasure",
+            "theta_wheel": 9.0,
+            "theta_carto": 36.54,
+            "anchors": "Extase + Engagement",
+            "residual_deg": -0.16
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "love",
+            "family": "love",
+            "theta_wheel": -9.0,
+            "theta_carto": 33.69,
+            "anchors": "Tendresse + Amour",
+            "residual_deg": -15.31
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "awe",
+            "family": "awe",
+            "theta_wheel": -27.0,
+            "theta_carto": 0.0,
+            "anchors": "Émerveillement + Gaieté",
+            "residual_deg": 0.38
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -45.0,
+            "theta_carto": -45.0,
+            "anchors": "Émerveillement + Soulagement",
+            "residual_deg": 27.38
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "nostalgia",
+            "family": "nostalgia",
+            "theta_wheel": -81.0,
+            "theta_carto": -39.34,
+            "anchors": "Solitude + Épanouissement",
+            "residual_deg": -14.27
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "compassion",
+            "family": "compassion",
+            "theta_wheel": -99.0,
+            "theta_carto": -61.84,
+            "anchors": "Morosité + Courage",
+            "residual_deg": -9.77
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -117.0,
+            "theta_carto": -94.06,
+            "anchors": "Tristesse + Désespoir",
+            "residual_deg": 4.45
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "fear",
+            "family": "fear",
+            "theta_wheel": -135.0,
+            "theta_carto": 164.52,
+            "anchors": "Inquiétude + Peur",
+            "residual_deg": 87.86
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "shame",
+            "family": "shame",
+            "theta_wheel": -153.0,
+            "theta_carto": -112.5,
+            "anchors": "Pessimisme + Honte",
+            "residual_deg": -13.12
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "guilt",
+            "family": "guilt",
+            "theta_wheel": -171.0,
+            "theta_carto": -116.56,
+            "anchors": "Honte + Honte",
+            "residual_deg": -27.05
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "disappointment",
+            "family": "disappointment",
+            "theta_wheel": 171.0,
+            "theta_carto": -148.28,
+            "anchors": "Détachement + Retrait",
+            "residual_deg": -13.34
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "envy",
+            "family": "envy",
+            "theta_wheel": 153.0,
+            "theta_carto": 116.56,
+            "anchors": "Envie + Envie",
+            "residual_deg": 63.82
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 135.0,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût + Retrait",
+            "residual_deg": -62.62
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 117.0,
+            "theta_carto": -168.69,
+            "anchors": "Mépris + Mépris",
+            "residual_deg": -46.93
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 99.0,
+            "theta_carto": 140.66,
+            "anchors": "Irritation + Colère",
+            "residual_deg": -14.27
+          }
+        ]
+      },
+      "GEW1": {
+        "n_units": 15,
+        "reflection_used": false,
+        "rotation_alpha_deg": -17.89,
+        "rotation_CI95_deg": [
+          -44.36,
+          18.29
+        ],
+        "Rbar": 0.615,
+        "p_perm": 0.0023,
+        "null_Rbar_mean": 0.2355,
+        "mean_abs_error_deg": 45.71,
+        "outliers": [
+          {
+            "unit": "anxiety",
+            "anchors": "Anxiété",
+            "theta_wheel": -101.25,
+            "theta_carto": 153.435,
+            "residual_deg": 123.21
+          }
+        ],
+        "H1_verdict": "PARTIEL",
+        "H2_verdict": "VALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW1",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 78.75,
+            "theta_carto": 26.56,
+            "anchors": "Fierté",
+            "residual_deg": 70.08
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "elation",
+            "family": "elation",
+            "theta_wheel": 56.25,
+            "theta_carto": 90.0,
+            "anchors": "Exaltation",
+            "residual_deg": -15.86
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "happiness",
+            "family": "happiness",
+            "theta_wheel": 33.75,
+            "theta_carto": 45.0,
+            "anchors": "Sublimation",
+            "residual_deg": 6.64
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "satisfaction",
+            "family": "satisfaction",
+            "theta_wheel": 11.25,
+            "theta_carto": -45.0,
+            "anchors": "Satisfaction",
+            "residual_deg": 74.14
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -11.25,
+            "theta_carto": -71.56,
+            "anchors": "Soulagement",
+            "residual_deg": 78.21
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "hope",
+            "family": "hope",
+            "theta_wheel": -33.75,
+            "theta_carto": 8.13,
+            "anchors": "Espoir",
+            "residual_deg": -23.99
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": -56.25,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": -83.36
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "anxiety",
+            "family": "anxiety",
+            "theta_wheel": -101.25,
+            "theta_carto": 153.44,
+            "anchors": "Anxiété",
+            "residual_deg": 123.21
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -123.75,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -15.86
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "boredom",
+            "family": "boredom",
+            "theta_wheel": -146.25,
+            "theta_carto": -90.0,
+            "anchors": "Ennui",
+            "residual_deg": -38.36
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "shame/guilt",
+            "family": "shame/guilt",
+            "theta_wheel": -168.75,
+            "theta_carto": -116.56,
+            "anchors": "Honte + Honte",
+            "residual_deg": -34.29
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 168.75,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -38.36
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 146.25,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -27.17
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "hostility",
+            "family": "hostility",
+            "theta_wheel": 123.75,
+            "theta_carto": 101.31,
+            "anchors": "Haine",
+            "residual_deg": 40.33
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 101.25,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": -15.86
+          }
+        ]
+      },
+      "PLUTCHIK": {
+        "n_units": 30,
+        "reflection_used": false,
+        "rotation_alpha_deg": 33.73,
+        "rotation_CI95_deg": [
+          4.31,
+          66.12
+        ],
+        "Rbar": 0.4538,
+        "p_perm": 0.0027,
+        "null_Rbar_mean": 0.2093,
+        "mean_abs_error_deg": 56.12,
+        "outliers": [
+          {
+            "unit": "joy:serenity",
+            "anchors": "Sérénité",
+            "theta_wheel": 90.0,
+            "theta_carto": -63.435,
+            "residual_deg": 119.71
+          },
+          {
+            "unit": "fear:fear",
+            "anchors": "Peur",
+            "theta_wheel": 0.0,
+            "theta_carto": 180.0,
+            "residual_deg": 146.27
+          },
+          {
+            "unit": "fear:terror",
+            "anchors": "Terreur",
+            "theta_wheel": 0.0,
+            "theta_carto": 96.34,
+            "residual_deg": -130.07
+          },
+          {
+            "unit": "surprise:amazement",
+            "anchors": "Sidération",
+            "theta_wheel": -45.0,
+            "theta_carto": 161.565,
+            "residual_deg": 119.71
+          },
+          {
+            "unit": "submission:submission",
+            "anchors": "Assertif",
+            "theta_wheel": 22.5,
+            "theta_carto": 123.69,
+            "residual_deg": -134.92
+          },
+          {
+            "unit": "awe:awe",
+            "anchors": "Crainte",
+            "theta_wheel": -22.5,
+            "theta_carto": 180.0,
+            "residual_deg": 123.77
+          },
+          {
+            "unit": "aggressiveness:aggressiveness",
+            "anchors": "Fermeture",
+            "theta_wheel": 157.5,
+            "theta_carto": -120.964,
+            "residual_deg": -115.27
+          }
+        ],
+        "H1_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:serenity",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": -63.44,
+            "anchors": "Sérénité",
+            "residual_deg": 119.71
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:joy",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": 90.0,
+            "anchors": "Joie",
+            "residual_deg": -33.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:ecstasy",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": 14.04,
+            "anchors": "Extase",
+            "residual_deg": 42.23
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:acceptance",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": -45.0,
+            "anchors": "Acceptation",
+            "residual_deg": 56.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:trust",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": 0.0,
+            "anchors": "Confiance",
+            "residual_deg": 11.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:admiration",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": 37.84
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:apprehension",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": -7.16
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:fear",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": 180.0,
+            "anchors": "Peur",
+            "residual_deg": 146.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:terror",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": 96.34,
+            "anchors": "Terreur",
+            "residual_deg": -130.07
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "surprise:distraction",
+            "family": "surprise",
+            "theta_wheel": -45.0,
+            "theta_carto": -95.19,
+            "anchors": "Abîme",
+            "residual_deg": 16.46
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "surprise:amazement",
+            "family": "surprise",
+            "theta_wheel": -45.0,
+            "theta_carto": 161.56,
+            "anchors": "Sidération",
+            "residual_deg": 119.71
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:pensiveness",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": -108.44,
+            "anchors": "Chagrin",
+            "residual_deg": -15.29
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:sadness",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -33.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:grief",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": -108.44,
+            "anchors": "Chagrin",
+            "residual_deg": -15.29
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:boredom",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -90.0,
+            "anchors": "Ennui",
+            "residual_deg": -78.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:disgust",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -33.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:loathing",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -135.0,
+            "anchors": "Rejet",
+            "residual_deg": -33.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:annoyance",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Exaspération",
+            "residual_deg": 11.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:anger",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": 11.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:rage",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Rage",
+            "residual_deg": 11.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anticipation:interest",
+            "family": "anticipation",
+            "theta_wheel": 135.0,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": 56.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anticipation:vigilance",
+            "family": "anticipation",
+            "theta_wheel": 135.0,
+            "theta_carto": 180.0,
+            "anchors": "Vigilance",
+            "residual_deg": -78.73
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "love:love",
+            "family": "love",
+            "theta_wheel": 67.5,
+            "theta_carto": 78.69,
+            "anchors": "Amour",
+            "residual_deg": -44.92
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "submission:submission",
+            "family": "submission",
+            "theta_wheel": 22.5,
+            "theta_carto": 123.69,
+            "anchors": "Assertif",
+            "residual_deg": -134.92
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "awe:awe",
+            "family": "awe",
+            "theta_wheel": -22.5,
+            "theta_carto": 180.0,
+            "anchors": "Crainte",
+            "residual_deg": 123.77
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disapproval:disapproval",
+            "family": "disapproval",
+            "theta_wheel": -67.5,
+            "theta_carto": -153.44,
+            "anchors": "Défiance",
+            "residual_deg": 52.21
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "remorse:remorse",
+            "family": "remorse",
+            "theta_wheel": -112.5,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -29.66
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "contempt:contempt",
+            "family": "contempt",
+            "theta_wheel": -157.5,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -22.54
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "aggressiveness:aggressiveness",
+            "family": "aggressiveness",
+            "theta_wheel": 157.5,
+            "theta_carto": -120.96,
+            "anchors": "Fermeture",
+            "residual_deg": -115.27
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "optimism:optimism",
+            "family": "optimism",
+            "theta_wheel": 112.5,
+            "theta_carto": 18.43,
+            "anchors": "Optimisme",
+            "residual_deg": 60.34
+          }
+        ]
+      }
+    },
+    "H4_antagonism": {
+      "GEW3": {
+        "n_pairs": 22,
+        "antipodal_rate": 0.773,
+        "lean_exact_rate": 0.045,
+        "verdict": "VALIDÉ",
+        "pairs": [
+          {
+            "A": "Admiration",
+            "B": "Dégoût",
+            "ancre_A": "Admiration",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Admiration",
+            "B": "Peur",
+            "ancre_A": "Admiration",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Déception",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Culpabilité",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Amusement",
+            "B": "Regret",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Honte",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Mépris",
+            "B": "Soulagement",
+            "ancre_A": "Mépris",
+            "ancre_B": "Soulagement",
+            "delta_carto_deg": 97.1,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Contentement",
+            "B": "Peur",
+            "ancre_A": "Contentement",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Déception",
+            "B": "Joie",
+            "ancre_A": "Détachement",
+            "ancre_B": "Joie",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Déception",
+            "B": "Plaisir",
+            "ancre_A": "Détachement",
+            "ancre_B": "Engagement",
+            "delta_carto_deg": 139.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Déception",
+            "B": "Fierté",
+            "ancre_A": "Détachement",
+            "ancre_B": "Fierté",
+            "delta_carto_deg": 171.9,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Dégoût",
+            "B": "Amour",
+            "ancre_A": "Dégoût",
+            "ancre_B": "Amour",
+            "delta_carto_deg": 146.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Amour",
+            "ancre_A": "Peur",
+            "ancre_B": "Amour",
+            "delta_carto_deg": 101.3,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Plaisir",
+            "ancre_A": "Peur",
+            "ancre_B": "Engagement",
+            "delta_carto_deg": 121.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Culpabilité",
+            "B": "Intérêt",
+            "ancre_A": "Honte",
+            "ancre_B": "Intérêt",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Regret",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Tristesse",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Honte",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Regret",
+            "ancre_A": "Joie",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Honte",
+            "ancre_A": "Joie",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Regret",
+            "ancre_A": "Fierté",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Honte",
+            "ancre_A": "Fierté",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 143.1,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          }
+        ]
+      },
+      "GEW2": {
+        "n_pairs": 36,
+        "antipodal_rate": 0.528,
+        "lean_exact_rate": 0.028,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Implication",
+            "B": "Pitié",
+            "ancre_A": "Loyauté",
+            "ancre_B": "Morosité",
+            "delta_carto_deg": 164.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Implication",
+            "B": "Compassion",
+            "ancre_A": "Loyauté",
+            "ancre_B": "Courage",
+            "delta_carto_deg": 71.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Pitié",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Morosité",
+            "delta_carto_deg": 168.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Compassion",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Courage",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Tristesse",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Désespoir",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Désespoir",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Rire",
+            "B": "Tristesse",
+            "ancre_A": "Joie",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Rire",
+            "B": "Désespoir",
+            "ancre_A": "Joie",
+            "ancre_B": "Désespoir",
+            "delta_carto_deg": 171.9,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Inquiétude",
+            "ancre_A": "Fierté",
+            "ancre_B": "Inquiétude",
+            "delta_carto_deg": 122.5,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Peur",
+            "ancre_A": "Fierté",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Exaltation",
+            "B": "Inquiétude",
+            "ancre_A": "Exaltation",
+            "ancre_B": "Inquiétude",
+            "delta_carto_deg": 59.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Exaltation",
+            "B": "Peur",
+            "ancre_A": "Exaltation",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 90.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Embarras",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Pessimisme",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Honte",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Embarras",
+            "ancre_A": "Joie",
+            "ancre_B": "Pessimisme",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Honte",
+            "ancre_A": "Joie",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Jouissance",
+            "B": "Culpabilité",
+            "ancre_A": "Extase",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 130.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Jouissance",
+            "B": "Remords",
+            "ancre_A": "Extase",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 130.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Plaisir",
+            "B": "Culpabilité",
+            "ancre_A": "Engagement",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 175.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Plaisir",
+            "B": "Remords",
+            "ancre_A": "Engagement",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 175.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Tendresse",
+            "B": "Déception",
+            "ancre_A": "Tendresse",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 150.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Tendresse",
+            "B": "Regret",
+            "ancre_A": "Tendresse",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Déception",
+            "ancre_A": "Amour",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 119.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Regret",
+            "ancre_A": "Amour",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 146.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Émerveillement",
+            "B": "Envie",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Émerveillement",
+            "B": "Jalousie",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Révérence",
+            "B": "Envie",
+            "ancre_A": "Gaieté",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 98.1,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Révérence",
+            "B": "Jalousie",
+            "ancre_A": "Gaieté",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 98.1,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Délivrance",
+            "B": "Dégoût",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 116.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Délivrance",
+            "B": "Répulsion",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 116.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Soulagement",
+            "B": "Dégoût",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Soulagement",
+            "B": "Répulsion",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Langueur",
+            "B": "Irritation",
+            "ancre_A": "Solitude",
+            "ancre_B": "Irritation",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Langueur",
+            "B": "Colère",
+            "ancre_A": "Solitude",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Nostalgie",
+            "B": "Irritation",
+            "ancre_A": "Épanouissement",
+            "ancre_B": "Irritation",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Nostalgie",
+            "B": "Colère",
+            "ancre_A": "Épanouissement",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      },
+      "GEW1": {
+        "n_pairs": 8,
+        "antipodal_rate": 0.375,
+        "lean_exact_rate": 0.0,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Fierté",
+            "B": "Anxiété",
+            "ancre_A": "Fierté",
+            "ancre_B": "Anxiété",
+            "delta_carto_deg": 126.9,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Exaltation",
+            "B": "Tristesse",
+            "ancre_A": "Exaltation",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Ennui",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Ennui",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Satisfaction",
+            "B": "Honte",
+            "ancre_A": "Satisfaction",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 71.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Satisfaction",
+            "B": "Culpabilité",
+            "ancre_A": "Satisfaction",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 71.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Soulagement",
+            "B": "Dégoût",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Espoir",
+            "B": "Mépris",
+            "ancre_A": "Espoir",
+            "ancre_B": "Mépris",
+            "delta_carto_deg": 176.8,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Hostilité",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Haine",
+            "delta_carto_deg": 56.3,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      },
+      "PLUTCHIK": {
+        "n_pairs": 15,
+        "antipodal_rate": 0.4,
+        "lean_exact_rate": 0.067,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Sérénité",
+            "B": "Songerie",
+            "ancre_A": "Sérénité",
+            "ancre_B": "Chagrin",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Tristesse",
+            "ancre_A": "Joie",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Extase",
+            "B": "Chagrin",
+            "ancre_A": "Extase",
+            "ancre_B": "Chagrin",
+            "delta_carto_deg": 122.5,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Acceptation",
+            "B": "Ennui",
+            "ancre_A": "Acceptation",
+            "ancre_B": "Ennui",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Confiance",
+            "B": "Dégoût",
+            "ancre_A": "Confiance",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Admiration",
+            "B": "Aversion",
+            "ancre_A": "Admiration",
+            "ancre_B": "Rejet",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Appréhension",
+            "B": "Agacement",
+            "ancre_A": "Admiration",
+            "ancre_B": "Exaspération",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Colère",
+            "ancre_A": "Peur",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Terreur",
+            "B": "Rage",
+            "ancre_A": "Terreur",
+            "ancre_B": "Rage",
+            "delta_carto_deg": 38.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Distraction",
+            "B": "Intérêt",
+            "ancre_A": "Abîme",
+            "ancre_B": "Intérêt",
+            "delta_carto_deg": 140.2,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Stupéfaction",
+            "B": "Vigilance",
+            "ancre_A": "Sidération",
+            "ancre_B": "Vigilance",
+            "delta_carto_deg": 18.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Remords",
+            "ancre_A": "Amour",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 164.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Soumission",
+            "B": "Mépris",
+            "ancre_A": "Assertif",
+            "ancre_B": "Mépris",
+            "delta_carto_deg": 67.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Crainte",
+            "B": "Agressivité",
+            "ancre_A": "Crainte",
+            "ancre_B": "Fermeture",
+            "delta_carto_deg": 59.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Désapprobation",
+            "B": "Optimisme",
+            "ancre_A": "Défiance",
+            "ancre_B": "Optimisme",
+            "delta_carto_deg": 171.9,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      }
+    },
+    "H3_valence_sign": {
+      "n_tested": 64,
+      "n_violations": 0,
+      "violations": [],
+      "verdict": "VALIDÉ"
+    },
+    "H4b_involution_3D": {
+      "involutivite_303_rate": 1.0,
+      "n_plutchik_opposite_pairs": 15,
+      "n_co_defense_pairs": 1,
+      "co_defense_examples": [
+        {
+          "A": "Peur",
+          "B": "Colère",
+          "ancre_A": "Peur",
+          "ancre_B": "Colère",
+          "coords_A": [
+            -2,
+            0,
+            2
+          ],
+          "coords_B": [
+            -1,
+            1,
+            2
+          ],
+          "dL1": 2,
+          "co_defense_neighbors": true,
+          "antagoniste_A_3D": "Courage"
+        }
+      ],
+      "verdict": "VALIDÉ",
+      "interpretation": "L'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) démontre que les opposés circulaires 2D de Plutchik (ex. Peur vs Colère) sont des co-voisins de défense (dL1=2, X<0), tandis que leurs vrais régulateurs homéostatiques sont trans-axiaux (Courage et Calme, dL1=4, X>0)."
+    },
+    "H5_Z_vs_intensity": {
+      "n": 24,
+      "spearman_rho": 0.0786,
+      "p_perm": 0.71323,
+      "verdict": "VALIDÉ",
+      "interpretation": "Z est statistiquement dissociable de l'intensité de Plutchik",
+      "par_famille": {
+        "anger": [
+          "Agacement(i=1)→Exaspération Z=3",
+          "Colère(i=2)→Colère Z=2",
+          "Rage(i=3)→Rage Z=7"
+        ],
+        "anticipation": [
+          "Intérêt(i=1)→Intérêt Z=5",
+          "Anticipation(i=2)→Anticipation Z=2",
+          "Vigilance(i=3)→Vigilance Z=-3"
+        ],
+        "disgust": [
+          "Ennui(i=1)→Ennui Z=3",
+          "Dégoût(i=2)→Dégoût Z=2",
+          "Aversion(i=3)→Rejet Z=4"
+        ],
+        "fear": [
+          "Appréhension(i=1)→Admiration Z=4",
+          "Peur(i=2)→Peur Z=2",
+          "Terreur(i=3)→Terreur Z=6"
+        ],
+        "joy": [
+          "Sérénité(i=1)→Sérénité Z=4",
+          "Joie(i=2)→Joie Z=2",
+          "Extase(i=3)→Extase Z=6"
+        ],
+        "sadness": [
+          "Songerie(i=1)→Chagrin Z=3",
+          "Tristesse(i=2)→Tristesse Z=2",
+          "Chagrin(i=3)→Chagrin Z=3"
+        ],
+        "surprise": [
+          "Distraction(i=1)→Abîme Z=7",
+          "Surprise(i=2)→Surprise Z=1",
+          "Stupéfaction(i=3)→Sidération Z=7"
+        ],
+        "trust": [
+          "Acceptation(i=1)→Acceptation Z=4",
+          "Confiance(i=2)→Confiance Z=5",
+          "Admiration(i=3)→Admiration Z=4"
+        ]
+      }
+    },
+    "GEW3_linear_H7": {
+      "n": 20,
+      "pearson_X_V": 0.8062,
+      "spearman_X_V": 0.827,
+      "pearson_X_P": -0.091,
+      "spearman_X_P": -0.0015,
+      "pearson_Y_V": 0.4044,
+      "spearman_Y_V": 0.3416,
+      "pearson_Y_P": 0.4678,
+      "spearman_Y_P": 0.5249,
+      "p_perm_X_V": 0.0001,
+      "p_perm_Y_P": 0.0399,
+      "H7_baseline": {
+        "n_common": 20,
+        "Rbar_cartograffect": 0.7774,
+        "Rbar_nrc_VD": 0.9184,
+        "delta_Rbar_carto_minus_nrc": -0.1409,
+        "delta_CI95": [
+          -0.2449,
+          -0.0201
+        ],
+        "verdict": "INVALIDÉ (perte significative)"
+      },
+      "pearson_X_L2_V": 0.8111,
+      "pearson_Y_L2_P": 0.4656,
+      "spearman_X_L2_V": 0.833,
+      "spearman_Y_L2_P": 0.5187,
+      "H7b_dual_L2": {
+        "Rbar_carto_gew3": 0.7774,
+        "mae_carto_gew3_deg": 33.48,
+        "pearson_X_L2_valence": 0.8111,
+        "pearson_Y_L2_power": 0.4656,
+        "delta_Rbar_vs_raw_nrc": -0.1409,
+        "verdict": "VALIDÉ",
+        "interpretation": "La projection duale L2 et la barrière de contrôle Y portent R̄ à 0.7774 (gain de +-0.1409 vs NRC) et réduisent la MAE angulaire à 33.48°."
+      }
+    }
+  },
+  "sensitivity_alt_translations": {
+    "coverage": {
+      "GEW3": {
+        "n_items": 20,
+        "coverage": 1.0,
+        "n_exact_303": 14,
+        "n_exact_176": 14,
+        "n_lexique": 6,
+        "n_triade": 0,
+        "n_centre_sans_angle": 0,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "GEW2": {
+        "n_items": 40,
+        "coverage": 1.0,
+        "n_exact_303": 22,
+        "n_exact_176": 22,
+        "n_lexique": 18,
+        "n_triade": 0,
+        "n_centre_sans_angle": 2,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "GEW1": {
+        "n_items": 17,
+        "coverage": 1.0,
+        "n_exact_303": 14,
+        "n_exact_176": 14,
+        "n_lexique": 3,
+        "n_triade": 0,
+        "n_centre_sans_angle": 1,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      },
+      "PLUTCHIK": {
+        "n_items": 32,
+        "coverage": 1.0,
+        "n_exact_303": 23,
+        "n_exact_176": 23,
+        "n_lexique": 8,
+        "n_triade": 1,
+        "n_centre_sans_angle": 2,
+        "non_couverts": [],
+        "H6_verdict": "VALIDÉ"
+      }
+    },
+    "H1_H2_circular": {
+      "GEW3": {
+        "n_units": 20,
+        "reflection_used": false,
+        "rotation_alpha_deg": -31.01,
+        "rotation_CI95_deg": [
+          -48.98,
+          -11.27
+        ],
+        "Rbar": 0.7774,
+        "p_perm": 0.0001,
+        "null_Rbar_mean": 0.2036,
+        "mean_abs_error_deg": 33.48,
+        "outliers": [],
+        "H1_verdict": "VALIDÉ",
+        "H2_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW3",
+            "unit": "admiration",
+            "family": "admiration",
+            "theta_wheel": -7.76,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": 49.81
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "amusement",
+            "family": "amusement",
+            "theta_wheel": 15.83,
+            "theta_carto": 63.43,
+            "anchors": "Ferveur",
+            "residual_deg": -16.59
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 128.21,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": 24.22
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "compassion",
+            "family": "compassion",
+            "theta_wheel": -95.19,
+            "theta_carto": 0.0,
+            "anchors": "Courage",
+            "residual_deg": -64.18
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 141.98,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -18.32
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "contentment",
+            "family": "contentment",
+            "theta_wheel": -2.23,
+            "theta_carto": -26.56,
+            "anchors": "Contentement",
+            "residual_deg": 55.35
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "disappointment",
+            "family": "disappointment",
+            "theta_wheel": -171.14,
+            "theta_carto": -161.56,
+            "anchors": "Détachement",
+            "residual_deg": 21.44
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 163.61,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -30.38
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "fear",
+            "family": "fear",
+            "theta_wheel": 173.45,
+            "theta_carto": 180.0,
+            "anchors": "Peur",
+            "residual_deg": 24.47
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "guilt",
+            "family": "guilt",
+            "theta_wheel": -154.65,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -7.08
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "hate",
+            "family": "hate",
+            "theta_wheel": 136.3,
+            "theta_carto": 101.31,
+            "anchors": "Haine",
+            "residual_deg": 66.01
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": 22.29,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": 8.3
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "joy",
+            "family": "joy",
+            "theta_wheel": 5.88,
+            "theta_carto": 90.0,
+            "anchors": "Joie",
+            "residual_deg": -53.11
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "love",
+            "family": "love",
+            "theta_wheel": -15.42,
+            "theta_carto": 78.69,
+            "anchors": "Amour",
+            "residual_deg": -63.1
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "pleasure",
+            "family": "pleasure",
+            "theta_wheel": 1.61,
+            "theta_carto": 59.04,
+            "anchors": "Engagement",
+            "residual_deg": -26.41
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 11.77,
+            "theta_carto": 26.56,
+            "anchors": "Fierté",
+            "residual_deg": 16.22
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "regret",
+            "family": "regret",
+            "theta_wheel": -164.81,
+            "theta_carto": -135.0,
+            "anchors": "Retrait",
+            "residual_deg": 1.2
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -28.61,
+            "theta_carto": -71.56,
+            "anchors": "Soulagement",
+            "residual_deg": 73.97
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -152.76,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -31.75
+          },
+          {
+            "wheel": "GEW3",
+            "unit": "shame",
+            "family": "shame",
+            "theta_wheel": -165.3,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -17.72
+          }
+        ]
+      },
+      "GEW2": {
+        "n_units": 19,
+        "reflection_used": false,
+        "rotation_alpha_deg": -25.83,
+        "rotation_CI95_deg": [
+          -44.87,
+          -6.08
+        ],
+        "Rbar": 0.7232,
+        "p_perm": 0.0003,
+        "null_Rbar_mean": 0.2079,
+        "mean_abs_error_deg": 35.33,
+        "outliers": [
+          {
+            "unit": "nostalgia",
+            "anchors": "Manque + Épanouissement",
+            "theta_wheel": -81.0,
+            "theta_carto": 90.0,
+            "residual_deg": -145.17
+          }
+        ],
+        "H1_verdict": "VALIDÉ",
+        "H2_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW2",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": 81.0,
+            "theta_carto": 52.02,
+            "anchors": "Engagement + Intérêt",
+            "residual_deg": 54.81
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "amusement",
+            "family": "amusement",
+            "theta_wheel": 63.0,
+            "theta_carto": 76.72,
+            "anchors": "Ferveur + Joie",
+            "residual_deg": 12.11
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 45.0,
+            "theta_carto": 41.44,
+            "anchors": "Fierté + Allégresse",
+            "residual_deg": 29.39
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "joy",
+            "family": "joy",
+            "theta_wheel": 27.0,
+            "theta_carto": 67.5,
+            "anchors": "Sublimation + Joie",
+            "residual_deg": -14.67
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "pleasure",
+            "family": "pleasure",
+            "theta_wheel": 9.0,
+            "theta_carto": 36.54,
+            "anchors": "Extase + Engagement",
+            "residual_deg": -1.71
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "love",
+            "family": "love",
+            "theta_wheel": -9.0,
+            "theta_carto": 33.69,
+            "anchors": "Tendresse + Amour",
+            "residual_deg": -16.86
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "awe",
+            "family": "awe",
+            "theta_wheel": -27.0,
+            "theta_carto": -22.5,
+            "anchors": "Émerveillement + Admiration",
+            "residual_deg": 21.33
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -45.0,
+            "theta_carto": -45.0,
+            "anchors": "Émerveillement + Soulagement",
+            "residual_deg": 25.83
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "nostalgia",
+            "family": "nostalgia",
+            "theta_wheel": -81.0,
+            "theta_carto": 90.0,
+            "anchors": "Manque + Épanouissement",
+            "residual_deg": -145.17
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "compassion",
+            "family": "compassion",
+            "theta_wheel": -99.0,
+            "theta_carto": -61.84,
+            "anchors": "Morosité + Courage",
+            "residual_deg": -11.32
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -117.0,
+            "theta_carto": -94.06,
+            "anchors": "Tristesse + Désespoir",
+            "residual_deg": 2.9
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "fear",
+            "family": "fear",
+            "theta_wheel": -135.0,
+            "theta_carto": 164.52,
+            "anchors": "Inquiétude + Peur",
+            "residual_deg": 86.31
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "shame",
+            "family": "shame",
+            "theta_wheel": -153.0,
+            "theta_carto": -112.5,
+            "anchors": "Pessimisme + Honte",
+            "residual_deg": -14.67
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "guilt",
+            "family": "guilt",
+            "theta_wheel": -171.0,
+            "theta_carto": -116.56,
+            "anchors": "Honte + Honte",
+            "residual_deg": -28.6
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "disappointment",
+            "family": "disappointment",
+            "theta_wheel": 171.0,
+            "theta_carto": -148.28,
+            "anchors": "Détachement + Retrait",
+            "residual_deg": -14.89
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "envy",
+            "family": "envy",
+            "theta_wheel": 153.0,
+            "theta_carto": 116.56,
+            "anchors": "Envie + Envie",
+            "residual_deg": 62.27
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 135.0,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût + Retrait",
+            "residual_deg": -64.17
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 117.0,
+            "theta_carto": -168.69,
+            "anchors": "Mépris + Mépris",
+            "residual_deg": -48.48
+          },
+          {
+            "wheel": "GEW2",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 99.0,
+            "theta_carto": 140.66,
+            "anchors": "Irritation + Colère",
+            "residual_deg": -15.82
+          }
+        ]
+      },
+      "GEW1": {
+        "n_units": 15,
+        "reflection_used": false,
+        "rotation_alpha_deg": -17.71,
+        "rotation_CI95_deg": [
+          -46.04,
+          18.1
+        ],
+        "Rbar": 0.587,
+        "p_perm": 0.0056,
+        "null_Rbar_mean": 0.2377,
+        "mean_abs_error_deg": 48.54,
+        "outliers": [
+          {
+            "unit": "anxiety",
+            "anchors": "Angoisse",
+            "theta_wheel": -101.25,
+            "theta_carto": 113.199,
+            "residual_deg": 163.26
+          }
+        ],
+        "H1_verdict": "PARTIEL",
+        "H2_verdict": "VALIDÉ",
+        "units": [
+          {
+            "wheel": "GEW1",
+            "unit": "pride",
+            "family": "pride",
+            "theta_wheel": 78.75,
+            "theta_carto": 26.56,
+            "anchors": "Fierté",
+            "residual_deg": 69.9
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "elation",
+            "family": "elation",
+            "theta_wheel": 56.25,
+            "theta_carto": 56.31,
+            "anchors": "Allégresse",
+            "residual_deg": 17.65
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "happiness",
+            "family": "happiness",
+            "theta_wheel": 33.75,
+            "theta_carto": 45.0,
+            "anchors": "Sublimation",
+            "residual_deg": 6.46
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "satisfaction",
+            "family": "satisfaction",
+            "theta_wheel": 11.25,
+            "theta_carto": -45.0,
+            "anchors": "Satisfaction",
+            "residual_deg": 73.96
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "relief",
+            "family": "relief",
+            "theta_wheel": -11.25,
+            "theta_carto": -71.56,
+            "anchors": "Soulagement",
+            "residual_deg": 78.03
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "hope",
+            "family": "hope",
+            "theta_wheel": -33.75,
+            "theta_carto": 8.13,
+            "anchors": "Espoir",
+            "residual_deg": -24.17
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "interest",
+            "family": "interest",
+            "theta_wheel": -56.25,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": -83.54
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "anxiety",
+            "family": "anxiety",
+            "theta_wheel": -101.25,
+            "theta_carto": 113.2,
+            "anchors": "Angoisse",
+            "residual_deg": 163.26
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "sadness",
+            "family": "sadness",
+            "theta_wheel": -123.75,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -16.04
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "boredom",
+            "family": "boredom",
+            "theta_wheel": -146.25,
+            "theta_carto": -90.0,
+            "anchors": "Ennui",
+            "residual_deg": -38.54
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "shame/guilt",
+            "family": "shame/guilt",
+            "theta_wheel": -168.75,
+            "theta_carto": -116.56,
+            "anchors": "Honte + Honte",
+            "residual_deg": -34.47
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "disgust",
+            "family": "disgust",
+            "theta_wheel": 168.75,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -38.54
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "contempt",
+            "family": "contempt",
+            "theta_wheel": 146.25,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -27.35
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "hostility",
+            "family": "hostility",
+            "theta_wheel": 123.75,
+            "theta_carto": 101.31,
+            "anchors": "Haine",
+            "residual_deg": 40.15
+          },
+          {
+            "wheel": "GEW1",
+            "unit": "anger",
+            "family": "anger",
+            "theta_wheel": 101.25,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": -16.04
+          }
+        ]
+      },
+      "PLUTCHIK": {
+        "n_units": 30,
+        "reflection_used": false,
+        "rotation_alpha_deg": 27.47,
+        "rotation_CI95_deg": [
+          -2.86,
+          54.34
+        ],
+        "Rbar": 0.489,
+        "p_perm": 0.0016,
+        "null_Rbar_mean": 0.2129,
+        "mean_abs_error_deg": 55.0,
+        "outliers": [
+          {
+            "unit": "joy:serenity",
+            "anchors": "Sérénité",
+            "theta_wheel": 90.0,
+            "theta_carto": -63.435,
+            "residual_deg": 125.96
+          },
+          {
+            "unit": "fear:fear",
+            "anchors": "Peur",
+            "theta_wheel": 0.0,
+            "theta_carto": 180.0,
+            "residual_deg": 152.53
+          },
+          {
+            "unit": "fear:terror",
+            "anchors": "Terreur",
+            "theta_wheel": 0.0,
+            "theta_carto": 96.34,
+            "residual_deg": -123.81
+          },
+          {
+            "unit": "submission:submission",
+            "anchors": "Assertif",
+            "theta_wheel": 22.5,
+            "theta_carto": 123.69,
+            "residual_deg": -128.66
+          },
+          {
+            "unit": "aggressiveness:aggressiveness",
+            "anchors": "Fermeture",
+            "theta_wheel": 157.5,
+            "theta_carto": -120.964,
+            "residual_deg": -109.01
+          }
+        ],
+        "H1_verdict": "INVALIDÉ",
+        "units": [
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:serenity",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": -63.44,
+            "anchors": "Sérénité",
+            "residual_deg": 125.96
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:joy",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": 90.0,
+            "anchors": "Joie",
+            "residual_deg": -27.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "joy:ecstasy",
+            "family": "joy",
+            "theta_wheel": 90.0,
+            "theta_carto": 14.04,
+            "anchors": "Extase",
+            "residual_deg": 48.49
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:acceptance",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": -45.0,
+            "anchors": "Acceptation",
+            "residual_deg": 62.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:trust",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": 0.0,
+            "anchors": "Confiance",
+            "residual_deg": 17.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "trust:admiration",
+            "family": "trust",
+            "theta_wheel": 45.0,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": 44.09
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:apprehension",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": -26.56,
+            "anchors": "Admiration",
+            "residual_deg": -0.91
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:fear",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": 180.0,
+            "anchors": "Peur",
+            "residual_deg": 152.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "fear:terror",
+            "family": "fear",
+            "theta_wheel": 0.0,
+            "theta_carto": 96.34,
+            "anchors": "Terreur",
+            "residual_deg": -123.81
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "surprise:distraction",
+            "family": "surprise",
+            "theta_wheel": -45.0,
+            "theta_carto": -95.19,
+            "anchors": "Abîme",
+            "residual_deg": 22.72
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "surprise:amazement",
+            "family": "surprise",
+            "theta_wheel": -45.0,
+            "theta_carto": -18.43,
+            "anchors": "Émerveillement",
+            "residual_deg": -54.04
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:pensiveness",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": -153.44,
+            "anchors": "Mélancolie",
+            "residual_deg": 35.96
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:sadness",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": -90.0,
+            "anchors": "Tristesse",
+            "residual_deg": -27.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "sadness:grief",
+            "family": "sadness",
+            "theta_wheel": -90.0,
+            "theta_carto": 153.44,
+            "anchors": "Affliction",
+            "residual_deg": 89.09
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:boredom",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -90.0,
+            "anchors": "Ennui",
+            "residual_deg": -72.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:disgust",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -135.0,
+            "anchors": "Dégoût",
+            "residual_deg": -27.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disgust:loathing",
+            "family": "disgust",
+            "theta_wheel": -135.0,
+            "theta_carto": -135.0,
+            "anchors": "Retrait",
+            "residual_deg": -27.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:annoyance",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Exaspération",
+            "residual_deg": 17.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:anger",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Colère",
+            "residual_deg": 17.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anger:rage",
+            "family": "anger",
+            "theta_wheel": 180.0,
+            "theta_carto": 135.0,
+            "anchors": "Rage",
+            "residual_deg": 17.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anticipation:interest",
+            "family": "anticipation",
+            "theta_wheel": 135.0,
+            "theta_carto": 45.0,
+            "anchors": "Intérêt",
+            "residual_deg": 62.53
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "anticipation:vigilance",
+            "family": "anticipation",
+            "theta_wheel": 135.0,
+            "theta_carto": 180.0,
+            "anchors": "Vigilance",
+            "residual_deg": -72.47
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "love:love",
+            "family": "love",
+            "theta_wheel": 67.5,
+            "theta_carto": 78.69,
+            "anchors": "Amour",
+            "residual_deg": -38.66
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "submission:submission",
+            "family": "submission",
+            "theta_wheel": 22.5,
+            "theta_carto": 123.69,
+            "anchors": "Assertif",
+            "residual_deg": -128.66
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "awe:awe",
+            "family": "awe",
+            "theta_wheel": -22.5,
+            "theta_carto": 18.43,
+            "anchors": "Gaieté",
+            "residual_deg": -68.41
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "disapproval:disapproval",
+            "family": "disapproval",
+            "theta_wheel": -67.5,
+            "theta_carto": -146.31,
+            "anchors": "Responsable",
+            "residual_deg": 51.34
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "remorse:remorse",
+            "family": "remorse",
+            "theta_wheel": -112.5,
+            "theta_carto": -116.56,
+            "anchors": "Honte",
+            "residual_deg": -23.41
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "contempt:contempt",
+            "family": "contempt",
+            "theta_wheel": -157.5,
+            "theta_carto": -168.69,
+            "anchors": "Mépris",
+            "residual_deg": -16.28
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "aggressiveness:aggressiveness",
+            "family": "aggressiveness",
+            "theta_wheel": 157.5,
+            "theta_carto": -120.96,
+            "anchors": "Fermeture",
+            "residual_deg": -109.01
+          },
+          {
+            "wheel": "PLUTCHIK",
+            "unit": "optimism:optimism",
+            "family": "optimism",
+            "theta_wheel": 112.5,
+            "theta_carto": 18.43,
+            "anchors": "Optimisme",
+            "residual_deg": 66.59
+          }
+        ]
+      }
+    },
+    "H4_antagonism": {
+      "GEW3": {
+        "n_pairs": 22,
+        "antipodal_rate": 0.773,
+        "lean_exact_rate": 0.045,
+        "verdict": "VALIDÉ",
+        "pairs": [
+          {
+            "A": "Admiration",
+            "B": "Dégoût",
+            "ancre_A": "Admiration",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Admiration",
+            "B": "Peur",
+            "ancre_A": "Admiration",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Déception",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Culpabilité",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Amusement",
+            "B": "Regret",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Honte",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Mépris",
+            "B": "Soulagement",
+            "ancre_A": "Mépris",
+            "ancre_B": "Soulagement",
+            "delta_carto_deg": 97.1,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Contentement",
+            "B": "Peur",
+            "ancre_A": "Contentement",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Déception",
+            "B": "Joie",
+            "ancre_A": "Détachement",
+            "ancre_B": "Joie",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Déception",
+            "B": "Plaisir",
+            "ancre_A": "Détachement",
+            "ancre_B": "Engagement",
+            "delta_carto_deg": 139.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Déception",
+            "B": "Fierté",
+            "ancre_A": "Détachement",
+            "ancre_B": "Fierté",
+            "delta_carto_deg": 171.9,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Dégoût",
+            "B": "Amour",
+            "ancre_A": "Dégoût",
+            "ancre_B": "Amour",
+            "delta_carto_deg": 146.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Amour",
+            "ancre_A": "Peur",
+            "ancre_B": "Amour",
+            "delta_carto_deg": 101.3,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Plaisir",
+            "ancre_A": "Peur",
+            "ancre_B": "Engagement",
+            "delta_carto_deg": 121.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Culpabilité",
+            "B": "Intérêt",
+            "ancre_A": "Honte",
+            "ancre_B": "Intérêt",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Regret",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Tristesse",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Honte",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Regret",
+            "ancre_A": "Joie",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Honte",
+            "ancre_A": "Joie",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Regret",
+            "ancre_A": "Fierté",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Honte",
+            "ancre_A": "Fierté",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 143.1,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          }
+        ]
+      },
+      "GEW2": {
+        "n_pairs": 36,
+        "antipodal_rate": 0.556,
+        "lean_exact_rate": 0.083,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Engagement",
+            "B": "Pitié",
+            "ancre_A": "Engagement",
+            "ancre_B": "Morosité",
+            "delta_carto_deg": 177.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Engagement",
+            "B": "Compassion",
+            "ancre_A": "Engagement",
+            "ancre_B": "Courage",
+            "delta_carto_deg": 59.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Pitié",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Morosité",
+            "delta_carto_deg": 168.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Compassion",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Courage",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Tristesse",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amusement",
+            "B": "Désespoir",
+            "ancre_A": "Ferveur",
+            "ancre_B": "Désespoir",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Rire",
+            "B": "Tristesse",
+            "ancre_A": "Joie",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Rire",
+            "B": "Désespoir",
+            "ancre_A": "Joie",
+            "ancre_B": "Désespoir",
+            "delta_carto_deg": 171.9,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Inquiétude",
+            "ancre_A": "Fierté",
+            "ancre_B": "Inquiétude",
+            "delta_carto_deg": 122.5,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Fierté",
+            "B": "Peur",
+            "ancre_A": "Fierté",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Allégresse",
+            "B": "Inquiétude",
+            "ancre_A": "Allégresse",
+            "ancre_B": "Inquiétude",
+            "delta_carto_deg": 92.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Allégresse",
+            "B": "Peur",
+            "ancre_A": "Allégresse",
+            "ancre_B": "Peur",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Embarras",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Pessimisme",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Honte",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Embarras",
+            "ancre_A": "Joie",
+            "ancre_B": "Pessimisme",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Honte",
+            "ancre_A": "Joie",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 153.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Jouissance",
+            "B": "Culpabilité",
+            "ancre_A": "Extase",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 130.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Jouissance",
+            "B": "Remords",
+            "ancre_A": "Extase",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 130.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Plaisir",
+            "B": "Culpabilité",
+            "ancre_A": "Engagement",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 175.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Plaisir",
+            "B": "Remords",
+            "ancre_A": "Engagement",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 175.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Tendresse",
+            "B": "Déception",
+            "ancre_A": "Tendresse",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 150.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Tendresse",
+            "B": "Regret",
+            "ancre_A": "Tendresse",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Déception",
+            "ancre_A": "Amour",
+            "ancre_B": "Détachement",
+            "delta_carto_deg": 119.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Regret",
+            "ancre_A": "Amour",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 146.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Émerveillement",
+            "B": "Envie",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Émerveillement",
+            "B": "Jalousie",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Admiration",
+            "B": "Envie",
+            "ancre_A": "Admiration",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 143.1,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Admiration",
+            "B": "Jalousie",
+            "ancre_A": "Admiration",
+            "ancre_B": "Envie",
+            "delta_carto_deg": 143.1,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Délivrance",
+            "B": "Dégoût",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 116.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Délivrance",
+            "B": "Répulsion",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 116.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Soulagement",
+            "B": "Dégoût",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Soulagement",
+            "B": "Répulsion",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Manque",
+            "B": "Irritation",
+            "ancre_A": "Manque",
+            "ancre_B": "Irritation",
+            "delta_carto_deg": 22.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Manque",
+            "B": "Colère",
+            "ancre_A": "Manque",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 33.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Nostalgie",
+            "B": "Irritation",
+            "ancre_A": "Épanouissement",
+            "ancre_B": "Irritation",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Nostalgie",
+            "B": "Colère",
+            "ancre_A": "Épanouissement",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 123.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      },
+      "GEW1": {
+        "n_pairs": 8,
+        "antipodal_rate": 0.375,
+        "lean_exact_rate": 0.0,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Fierté",
+            "B": "Angoisse",
+            "ancre_A": "Fierté",
+            "ancre_B": "Angoisse",
+            "delta_carto_deg": 86.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Allégresse",
+            "B": "Tristesse",
+            "ancre_A": "Allégresse",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 146.3,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Bonheur",
+            "B": "Ennui",
+            "ancre_A": "Sublimation",
+            "ancre_B": "Ennui",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Satisfaction",
+            "B": "Honte",
+            "ancre_A": "Satisfaction",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 71.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Satisfaction",
+            "B": "Culpabilité",
+            "ancre_A": "Satisfaction",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 71.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Soulagement",
+            "B": "Dégoût",
+            "ancre_A": "Soulagement",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 63.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Espoir",
+            "B": "Mépris",
+            "ancre_A": "Espoir",
+            "ancre_B": "Mépris",
+            "delta_carto_deg": 176.8,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Intérêt",
+            "B": "Hostilité",
+            "ancre_A": "Intérêt",
+            "ancre_B": "Haine",
+            "delta_carto_deg": 56.3,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      },
+      "PLUTCHIK": {
+        "n_pairs": 15,
+        "antipodal_rate": 0.6,
+        "lean_exact_rate": 0.067,
+        "verdict": "INVALIDÉ",
+        "pairs": [
+          {
+            "A": "Sérénité",
+            "B": "Mélancolie",
+            "ancre_A": "Sérénité",
+            "ancre_B": "Mélancolie",
+            "delta_carto_deg": 90.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Joie",
+            "B": "Tristesse",
+            "ancre_A": "Joie",
+            "ancre_B": "Tristesse",
+            "delta_carto_deg": 180.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": true,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Extase",
+            "B": "Affliction",
+            "ancre_A": "Extase",
+            "ancre_B": "Affliction",
+            "delta_carto_deg": 139.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Acceptation",
+            "B": "Ennui",
+            "ancre_A": "Acceptation",
+            "ancre_B": "Ennui",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Confiance",
+            "B": "Dégoût",
+            "ancre_A": "Confiance",
+            "ancre_B": "Dégoût",
+            "delta_carto_deg": 135.0,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Admiration",
+            "B": "Répugnance",
+            "ancre_A": "Admiration",
+            "ancre_B": "Retrait",
+            "delta_carto_deg": 108.4,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Appréhension",
+            "B": "Agacement",
+            "ancre_A": "Admiration",
+            "ancre_B": "Exaspération",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Peur",
+            "B": "Colère",
+            "ancre_A": "Peur",
+            "ancre_B": "Colère",
+            "delta_carto_deg": 45.0,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Terreur",
+            "B": "Rage",
+            "ancre_A": "Terreur",
+            "ancre_B": "Rage",
+            "delta_carto_deg": 38.7,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Distraction",
+            "B": "Intérêt",
+            "ancre_A": "Abîme",
+            "ancre_B": "Intérêt",
+            "delta_carto_deg": 140.2,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Émerveillement",
+            "B": "Vigilance",
+            "ancre_A": "Émerveillement",
+            "ancre_B": "Vigilance",
+            "delta_carto_deg": 161.6,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Amour",
+            "B": "Remords",
+            "ancre_A": "Amour",
+            "ancre_B": "Honte",
+            "delta_carto_deg": 164.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": true
+          },
+          {
+            "A": "Soumission",
+            "B": "Mépris",
+            "ancre_A": "Assertif",
+            "ancre_B": "Mépris",
+            "delta_carto_deg": 67.6,
+            "antipodal": false,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Révérence",
+            "B": "Agressivité",
+            "ancre_A": "Gaieté",
+            "ancre_B": "Fermeture",
+            "delta_carto_deg": 139.4,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          },
+          {
+            "A": "Réprobation",
+            "B": "Optimisme",
+            "ancre_A": "Responsable",
+            "ancre_B": "Optimisme",
+            "delta_carto_deg": 164.7,
+            "antipodal": true,
+            "antagoniste_lean_exact": false,
+            "meme_couronne_Z": false
+          }
+        ]
+      }
+    },
+    "H3_valence_sign": {
+      "n_tested": 64,
+      "n_violations": 0,
+      "violations": [],
+      "verdict": "VALIDÉ"
+    },
+    "H4b_involution_3D": {
+      "involutivite_303_rate": 1.0,
+      "n_plutchik_opposite_pairs": 15,
+      "n_co_defense_pairs": 1,
+      "co_defense_examples": [
+        {
+          "A": "Peur",
+          "B": "Colère",
+          "ancre_A": "Peur",
+          "ancre_B": "Colère",
+          "coords_A": [
+            -2,
+            0,
+            2
+          ],
+          "coords_B": [
+            -1,
+            1,
+            2
+          ],
+          "dL1": 2,
+          "co_defense_neighbors": true,
+          "antagoniste_A_3D": "Courage"
+        }
+      ],
+      "verdict": "VALIDÉ",
+      "interpretation": "L'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) démontre que les opposés circulaires 2D de Plutchik (ex. Peur vs Colère) sont des co-voisins de défense (dL1=2, X<0), tandis que leurs vrais régulateurs homéostatiques sont trans-axiaux (Courage et Calme, dL1=4, X>0)."
+    },
+    "H5_Z_vs_intensity": {
+      "n": 24,
+      "spearman_rho": -0.0486,
+      "p_perm": 0.82582,
+      "verdict": "VALIDÉ",
+      "interpretation": "Z est statistiquement dissociable de l'intensité de Plutchik",
+      "par_famille": {
+        "anger": [
+          "Agacement(i=1)→Exaspération Z=3",
+          "Colère(i=2)→Colère Z=2",
+          "Rage(i=3)→Rage Z=7"
+        ],
+        "anticipation": [
+          "Intérêt(i=1)→Intérêt Z=5",
+          "Anticipation(i=2)→Anticipation Z=2",
+          "Vigilance(i=3)→Vigilance Z=-3"
+        ],
+        "disgust": [
+          "Ennui(i=1)→Ennui Z=3",
+          "Dégoût(i=2)→Dégoût Z=2",
+          "Répugnance(i=3)→Retrait Z=3"
+        ],
+        "fear": [
+          "Appréhension(i=1)→Admiration Z=4",
+          "Peur(i=2)→Peur Z=2",
+          "Terreur(i=3)→Terreur Z=6"
+        ],
+        "joy": [
+          "Sérénité(i=1)→Sérénité Z=4",
+          "Joie(i=2)→Joie Z=2",
+          "Extase(i=3)→Extase Z=6"
+        ],
+        "sadness": [
+          "Mélancolie(i=1)→Mélancolie Z=7",
+          "Tristesse(i=2)→Tristesse Z=2",
+          "Affliction(i=3)→Affliction Z=7"
+        ],
+        "surprise": [
+          "Distraction(i=1)→Abîme Z=7",
+          "Surprise(i=2)→Surprise Z=1",
+          "Émerveillement(i=3)→Émerveillement Z=3"
+        ],
+        "trust": [
+          "Acceptation(i=1)→Acceptation Z=4",
+          "Confiance(i=2)→Confiance Z=5",
+          "Admiration(i=3)→Admiration Z=4"
+        ]
+      }
+    },
+    "GEW3_linear_H7": {
+      "n": 20,
+      "pearson_X_V": 0.8062,
+      "spearman_X_V": 0.827,
+      "pearson_X_P": -0.091,
+      "spearman_X_P": -0.0015,
+      "pearson_Y_V": 0.4044,
+      "spearman_Y_V": 0.3416,
+      "pearson_Y_P": 0.4678,
+      "spearman_Y_P": 0.5249,
+      "p_perm_X_V": 0.0001,
+      "p_perm_Y_P": 0.0372,
+      "H7_baseline": {
+        "n_common": 20,
+        "Rbar_cartograffect": 0.7774,
+        "Rbar_nrc_VD": 0.9184,
+        "delta_Rbar_carto_minus_nrc": -0.1409,
+        "delta_CI95": [
+          -0.2465,
+          -0.0191
+        ],
+        "verdict": "INVALIDÉ (perte significative)"
+      },
+      "pearson_X_L2_V": 0.8111,
+      "pearson_Y_L2_P": 0.4656,
+      "spearman_X_L2_V": 0.833,
+      "spearman_Y_L2_P": 0.5187,
+      "H7b_dual_L2": {
+        "Rbar_carto_gew3": 0.7774,
+        "mae_carto_gew3_deg": 33.48,
+        "pearson_X_L2_valence": 0.8111,
+        "pearson_Y_L2_power": 0.4656,
+        "delta_Rbar_vs_raw_nrc": -0.1409,
+        "verdict": "VALIDÉ",
+        "interpretation": "La projection duale L2 et la barrière de contrôle Y portent R̄ à 0.7774 (gain de +-0.1409 vs NRC) et réduisent la MAE angulaire à 33.48°."
+      }
+    }
+  }
+}

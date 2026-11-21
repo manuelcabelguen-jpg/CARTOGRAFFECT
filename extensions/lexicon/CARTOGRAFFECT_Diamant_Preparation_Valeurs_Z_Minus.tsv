@@ -1,0 +1,128 @@
+id_303	Z_signe	W_equiv	label_axiologique	X	Y	rayon_L1	groupe_axiologique	correspondant_axiologique	homologue_affectif_Z_plus	deficit_D_moins	exces_D_plus	statut_presence_actuelle	valence_empirique	arousal_empirique	dominance_empirique
+177	-7	7	Éveil	0	0	0	OPERATEUR_CENTRAL	Éveil	Point de Veille	-	-	A_EXTRAIRE_NRC_DIMA			
+178	-1	6	Évidence	0	0	0	OPERATEUR_CENTRAL	Évidence	Surprise	-	-	A_EXTRAIRE_NRC_DIMA			
+179	-2	5	Intention	0	0	0	OPERATEUR_CENTRAL	Intention	Anticipation	-	-	A_EXTRAIRE_NRC_DIMA			
+180	-2	5	Volonté	0	2	2	VOLONTÉ	Tempérance	Joie	-	-	A_EXTRAIRE_NRC_DIMA			
+181	-2	5	Tempérance	0	-2	2	TEMPÉRANCE	Volonté	Tristesse	-	-	A_EXTRAIRE_NRC_DIMA			
+182	-2	5	Prudence	-2	0	2	PRUDENCE	Audace	Peur	-	-	A_EXTRAIRE_NRC_DIMA			
+183	-2	5	Audace	2	0	2	AUDACE	Prudence	Courage	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC)	0.667	0.667	0.833
+184	-2	5	Équité	-1	1	2	ÉQUITÉ	Clémence	Colère	-	-	A_EXTRAIRE_NRC_DIMA			
+185	-2	5	Clémence	1	-1	2	CLÉMENCE	Équité	Calme	-	-	DEJA_DANS_NRC_VALEURS (NRC+FANCat)	0.438	-0.542	0.0
+186	-2	5	Aspiration	1	1	2	ASPIRATION	Intégrité	Désir	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.408	0.448	0.35
+187	-2	5	Intégrité	-1	-1	2	INTÉGRITÉ	Aspiration	Dégoût	-	-	A_EXTRAIRE_NRC_DIMA			
+188	-3	4	Présence	0	0	0	OPERATEUR_CENTRAL	Présence	Émoi	-	-	A_EXTRAIRE_NRC_DIMA			
+189	-3	4	Dévouement	0	4	4	VOLONTÉ	Accueil	Enthousiasme	-	-	A_EXTRAIRE_NRC_DIMA			
+190	-3	4	Accueil	0	-4	4	TEMPÉRANCE	Dévouement	Ennui	-	-	A_EXTRAIRE_NRC_DIMA			
+191	-3	4	Vigilance	-4	0	4	PRUDENCE	Inventivité	Crainte	-	-	A_EXTRAIRE_NRC_DIMA			
+192	-3	4	Inventivité	4	0	4	AUDACE	Vigilance	Curiosité	-	-	A_EXTRAIRE_NRC_DIMA			
+193	-3	4	Sens du devoir	-1	3	4	VOLONTÉ	Gratitude	Consternation	-	-	A_EXTRAIRE_NRC_DIMA			
+194	-3	4	Humour	1	3	4	VOLONTÉ	Gravité	Euphorie	-	-	A_EXTRAIRE_NRC_DIMA			
+195	-3	4	Lâcher-prise	1	-3	4	TEMPÉRANCE	Promptitude	Soulagement	-	-	A_EXTRAIRE_NRC_DIMA			
+196	-3	4	Constance	-1	-3	4	TEMPÉRANCE	Initiative	Chagrin	-	-	A_EXTRAIRE_NRC_DIMA			
+197	-3	4	Promptitude	-3	1	4	PRUDENCE	Lâcher-prise	Panique	-	-	A_EXTRAIRE_NRC_DIMA			
+198	-3	4	Gravité	-3	-1	4	PRUDENCE	Humour	Effroi	-	-	A_EXTRAIRE_NRC_DIMA			
+199	-3	4	Gratitude	3	-1	4	AUDACE	Sens du devoir	Émerveillement	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.77	-0.118	0.22
+200	-3	4	Initiative	3	1	4	AUDACE	Constance	Aplomb	-	-	A_EXTRAIRE_NRC_DIMA			
+201	-3	4	Fermeté	-2	2	4	ÉQUITÉ	Douceur	Exaspération	-	-	A_EXTRAIRE_NRC_DIMA			
+202	-3	4	Douceur	2	-2	4	CLÉMENCE	Fermeté	Détente	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+FANCat)	0.667	-0.963	-0.37
+203	-3	4	Inspiration	2	2	4	ASPIRATION	Retenue	Attrait	-	-	A_EXTRAIRE_NRC_DIMA			
+204	-3	4	Retenue	-2	-2	4	INTÉGRITÉ	Inspiration	Retrait	-	-	A_EXTRAIRE_NRC_DIMA			
+205	-4	3	Cohérence	0	0	0	OPERATEUR_CENTRAL	Cohérence	Réserve	-	-	A_EXTRAIRE_NRC_DIMA			
+206	-4	3	Service	0	6	6	VOLONTÉ	Intériorité	Exaltation	-	-	A_EXTRAIRE_NRC_DIMA			
+207	-4	3	Intériorité	0	-6	6	TEMPÉRANCE	Service	Solitude	-	-	A_EXTRAIRE_NRC_DIMA			
+208	-4	3	Esprit critique	-6	0	6	PRUDENCE	Adhésion	Doute	-	-	A_EXTRAIRE_NRC_DIMA			
+209	-4	3	Adhésion	6	0	6	AUDACE	Esprit critique	Assurance	-	-	A_EXTRAIRE_NRC_DIMA			
+210	-4	3	Émulation	-2	4	6	VOLONTÉ	Appréciation	Envie	-	-	A_EXTRAIRE_NRC_DIMA			
+211	-4	3	Combativité	-1	5	6	VOLONTÉ	Tendresse	Haine	-	-	A_EXTRAIRE_NRC_DIMA			
+212	-4	3	Don de soi	1	5	6	VOLONTÉ	Dignité	Amour	-	-	A_EXTRAIRE_NRC_DIMA			
+213	-4	3	Solidarité	2	4	6	VOLONTÉ	Indépendance d’esprit	Ferveur	-	-	DEJA_DANS_NRC_VALEURS (NRC)	0.584	-0.186	0.562
+214	-4	3	Équilibre	2	-4	6	TEMPÉRANCE	Protection	Sérénité	-	-	A_EXTRAIRE_NRC_DIMA			
+215	-4	3	Sobriété	1	-5	6	TEMPÉRANCE	Quête de sens	Plénitude	-	-	A_EXTRAIRE_NRC_DIMA			
+216	-4	3	Pudeur	-2	-4	6	TEMPÉRANCE	Accomplissement	Honte	-	-	DEJA_DANS_NRC_VALEURS (NRC+DIMA)	0.667	-1.0	-0.857
+217	-4	3	Dépouillement	-1	-5	6	TEMPÉRANCE	Croissance	Vide	-	-	A_EXTRAIRE_NRC_DIMA			
+218	-4	3	Protection	-4	2	6	PRUDENCE	Équilibre	Anxiété	-	-	A_EXTRAIRE_NRC_DIMA			
+219	-4	3	Quête de sens	-5	1	6	PRUDENCE	Sobriété	Manque	-	-	A_EXTRAIRE_NRC_DIMA			
+220	-4	3	Dignité	-5	-1	6	PRUDENCE	Don de soi	Mépris	-	-	A_EXTRAIRE_NRC_DIMA			
+221	-4	3	Indépendance d’esprit	-4	-2	6	PRUDENCE	Solidarité	Défiance	-	-	A_EXTRAIRE_NRC_DIMA			
+222	-4	3	Accomplissement	4	2	6	AUDACE	Pudeur	Fierté	-	-	A_EXTRAIRE_NRC_DIMA			
+223	-4	3	Croissance	5	1	6	AUDACE	Dépouillement	Épanouissement	-	-	A_EXTRAIRE_NRC_DIMA			
+224	-4	3	Tendresse	5	-1	6	AUDACE	Combativité	Affection	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA+FANCat)	0.898	-0.448	-0.266
+225	-4	3	Appréciation	4	-2	6	AUDACE	Émulation	Admiration	-	-	A_EXTRAIRE_NRC_DIMA			
+226	-4	3	Militantisme	-3	3	6	ÉQUITÉ	Pardon	Frustration	-	-	A_EXTRAIRE_NRC_DIMA			
+227	-4	3	Pardon	3	-3	6	CLÉMENCE	Militantisme	Acceptation	-	-	A_EXTRAIRE_NRC_DIMA			
+228	-4	3	Coopération	3	3	6	ASPIRATION	Respect des limites	Estime	-	-	A_EXTRAIRE_NRC_DIMA			
+229	-4	3	Respect des limites	-3	-3	6	INTÉGRITÉ	Coopération	Rejet	-	-	A_EXTRAIRE_NRC_DIMA			
+230	-5	2	Résolution	0	0	0	OPERATEUR_CENTRAL	Résolution	Recul	-	-	A_EXTRAIRE_NRC_DIMA			
+231	-5	2	Autorité	0	8	8	VOLONTÉ	Résilience	Puissance	-	-	A_EXTRAIRE_NRC_DIMA			
+232	-5	2	Résilience	0	-8	8	TEMPÉRANCE	Autorité	Impuissance	-	-	A_EXTRAIRE_NRC_DIMA			
+233	-5	2	Circonspection	-8	0	8	PRUDENCE	Bonne foi	Méfiance	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (DIMA)	-0.4167	0.0007	-0.2811
+234	-5	2	Bonne foi	8	0	8	AUDACE	Circonspection	Confiance	-	-	A_EXTRAIRE_NRC_DIMA			
+235	-5	2	Force d’âme	1	7	8	VOLONTÉ	Authenticité	Invulnérabilité	-	-	A_EXTRAIRE_NRC_DIMA			
+236	-5	2	Loyauté	2	6	8	VOLONTÉ	Liberté intérieure	Attachement	-	-	A_EXTRAIRE_NRC_DIMA			
+237	-5	2	Assiduité	3	5	8	VOLONTÉ	Modération	Engagement	-	-	A_EXTRAIRE_NRC_DIMA			
+238	-5	2	Réalisme	-2	6	8	VOLONTÉ	Sens du beau	Désenchantement	-	-	A_EXTRAIRE_NRC_DIMA			
+239	-5	2	Rigueur morale	-3	5	8	VOLONTÉ	Indulgence	Intolérance	-	-	A_EXTRAIRE_NRC_DIMA			
+240	-5	2	Droiture	-1	7	8	VOLONTÉ	Impartialité	Injustice	-	-	A_EXTRAIRE_NRC_DIMA			
+241	-5	2	Ancrage	3	-5	8	TEMPÉRANCE	Sollicitude	Quiétude	-	-	A_EXTRAIRE_NRC_DIMA			
+242	-5	2	Stabilité	2	-6	8	TEMPÉRANCE	Précaution	Sécurité	-	-	A_EXTRAIRE_NRC_DIMA			
+243	-5	2	Longanimité	1	-7	8	TEMPÉRANCE	Diligence	Patience	-	-	A_EXTRAIRE_NRC_DIMA			
+244	-5	2	Prévoyance	-2	-6	8	TEMPÉRANCE	Gaieté	Pessimisme	-	-	A_EXTRAIRE_NRC_DIMA			
+245	-5	2	Discrétion	-3	-5	8	TEMPÉRANCE	Sociabilité	Fermeture	-	-	A_EXTRAIRE_NRC_DIMA			
+246	-5	2	Stoïcisme	-1	-7	8	TEMPÉRANCE	Espérance	Désespoir	-	-	DEJA_DANS_NRC_VALEURS (NRC)	0.583	-0.778	0.667
+247	-5	2	Précaution	-6	2	8	PRUDENCE	Stabilité	Insécurité	-	-	A_EXTRAIRE_NRC_DIMA			
+248	-5	2	Sollicitude	-5	3	8	PRUDENCE	Ancrage	Inquiétude	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC)	0.583	-0.259	-0.571
+249	-5	2	Diligence	-7	1	8	PRUDENCE	Longanimité	Impatience	-	-	A_EXTRAIRE_NRC_DIMA			
+250	-5	2	Authenticité	-7	-1	8	PRUDENCE	Force d’âme	Vulnérabilité	-	-	A_EXTRAIRE_NRC_DIMA			
+251	-5	2	Liberté intérieure	-6	-2	8	PRUDENCE	Loyauté	Détachement	-	-	A_EXTRAIRE_NRC_DIMA			
+252	-5	2	Modération	-5	-3	8	PRUDENCE	Assiduité	Désengagement	-	-	A_EXTRAIRE_NRC_DIMA			
+253	-5	2	Gaieté	6	2	8	AUDACE	Prévoyance	Optimisme	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA+FANCat)	0.958	0.958	0.074
+254	-5	2	Sociabilité	5	3	8	AUDACE	Discrétion	Ouverture	-	-	A_EXTRAIRE_NRC_DIMA			
+255	-5	2	Espérance	7	1	8	AUDACE	Stoïcisme	Espoir	-	-	HOMONYME_DANS_LEXIQUE_AFFECTIF (DIMA+FANCat)	0.6362	0.0757	0.2855
+256	-5	2	Sens du beau	6	-2	8	AUDACE	Réalisme	Enchantement	-	-	A_EXTRAIRE_NRC_DIMA			
+257	-5	2	Indulgence	5	-3	8	AUDACE	Rigueur morale	Tolérance	-	-	DEJA_DANS_NRC_VALEURS (NRC)	1.0	-0.667	-0.259
+258	-5	2	Impartialité	7	-1	8	AUDACE	Droiture	Justice	-	-	A_EXTRAIRE_NRC_DIMA			
+259	-5	2	Exigence	-4	4	8	ÉQUITÉ	Simplicité	Insatisfaction	-	-	A_EXTRAIRE_NRC_DIMA			
+260	-5	2	Simplicité	4	-4	8	CLÉMENCE	Exigence	Satisfaction	-	-	A_EXTRAIRE_NRC_DIMA			
+261	-5	2	Amour d’apprendre	4	4	8	ASPIRATION	Renoncement	Intérêt	-	-	A_EXTRAIRE_NRC_DIMA			
+262	-5	2	Renoncement	-4	-4	8	INTÉGRITÉ	Amour d’apprendre	Désintérêt	-	-	A_EXTRAIRE_NRC_DIMA			
+263	-6	1	Discernement	0	0	0	OPERATEUR_CENTRAL	Discernement	Saisissement	-	-	A_EXTRAIRE_NRC_DIMA			
+264	-6	1	Énergique	0	10	10	VOLONTÉ	Patient	Élan	Apathique	Agité	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.066	0.346	0.796
+265	-6	1	Patient	0	-10	10	TEMPÉRANCE	Énergique	Inertie	Impatient	Impassible	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC)	0.166	-0.614	-0.32
+266	-6	1	Humble	-10	0	10	PRUDENCE	Confiant	Effacement	Orgueilleux	Effacé	A_EXTRAIRE_NRC_DIMA			
+267	-6	1	Confiant	10	0	10	AUDACE	Humble	Affirmation	Méfiant	Prétentieux	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	-0.396	0.018	-0.174
+268	-6	1	Brave	3	7	10	VOLONTÉ	Avisé	Ardeur	Peureux	Casse-cou	A_EXTRAIRE_NRC_DIMA			
+269	-6	1	Sensible	-3	7	10	VOLONTÉ	Clair	Angoisse	Insensible	Susceptible	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.428	-0.148	-0.492
+270	-6	1	Spontané	4	6	10	VOLONTÉ	Responsable	Allégresse	Calculateur	Irréfléchi	A_EXTRAIRE_NRC_DIMA			
+271	-6	1	Assertif	-4	6	10	VOLONTÉ	Gentil	Fureur	Soumis	Autoritaire	A_EXTRAIRE_NRC_DIMA			
+272	-6	1	Autonome	2	8	10	VOLONTÉ	Fidèle	Fougue	Dépendant	Indépendant	A_EXTRAIRE_NRC_DIMA			
+273	-6	1	Discipliné	-2	8	10	VOLONTÉ	Souple	Frénésie	Indiscipliné	Rigide	A_EXTRAIRE_NRC_DIMA			
+274	-6	1	Original	1	9	10	VOLONTÉ	Fiable	Jubilation	Banal	Excentrique	A_EXTRAIRE_NRC_DIMA			
+275	-6	1	Intègre	-1	9	10	VOLONTÉ	Tolérant	Terreur	Corrompu	Inflexible	A_EXTRAIRE_NRC_DIMA			
+276	-6	1	Posé	3	-7	10	TEMPÉRANCE	Persévérant	Béatitude	Fébrile	Lent	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC)	0.708	-0.429	0.667
+277	-6	1	Sérieux	-3	-7	10	TEMPÉRANCE	Drôle	Accablement	Frivole	Austère	A_EXTRAIRE_NRC_DIMA			
+278	-6	1	Délicat	4	-6	10	TEMPÉRANCE	Franc	Apaisement	Maladroit	Précieux	A_EXTRAIRE_NRC_DIMA			
+279	-6	1	Économe	-4	-6	10	TEMPÉRANCE	Généreux	Morosité	Prodigue	Avare	A_EXTRAIRE_NRC_DIMA			
+280	-6	1	Réfléchi	2	-8	10	TEMPÉRANCE	Intuitif	Contemplation	Impulsif	Hésitant	A_EXTRAIRE_NRC_DIMA			
+281	-6	1	Méticuleux	-2	-8	10	TEMPÉRANCE	Curieux	Prostration	Désordonné	Pointilleux	A_EXTRAIRE_NRC_DIMA			
+282	-6	1	Bienveillant	1	-9	10	TEMPÉRANCE	Honnête	Félicité	Malveillant	Paternaliste	DEJA_DANS_NRC_VALEURS (NRC+DIMA)	0.75	-0.16	0.27
+283	-6	1	Respectueux	-1	-9	10	TEMPÉRANCE	Sincère	Désolation	Irrespectueux	Obséquieux	DEJA_DANS_NRC_VALEURS (NRC+DIMA)	0.902	-0.228	0.628
+284	-6	1	Persévérant	-7	3	10	PRUDENCE	Posé	Affolement	Velléitaire	Obstiné	A_EXTRAIRE_NRC_DIMA			
+285	-6	1	Avisé	-7	-3	10	PRUDENCE	Brave	Écrasement	Imprudent	Calculateur	A_EXTRAIRE_NRC_DIMA			
+286	-6	1	Franc	-6	4	10	PRUDENCE	Délicat	Irritation	Fuyant	Brusque	A_EXTRAIRE_NRC_DIMA			
+287	-6	1	Responsable	-6	-4	10	PRUDENCE	Spontané	Amertume	Irresponsable	Culpabilisé	A_EXTRAIRE_NRC_DIMA			
+288	-6	1	Intuitif	-8	2	10	PRUDENCE	Réfléchi	Fébrilité	Borné	Crédule	A_EXTRAIRE_NRC_DIMA			
+289	-6	1	Fidèle	-8	-2	10	PRUDENCE	Autonome	Anéantissement	Infidèle	Possessif	A_EXTRAIRE_NRC_DIMA			
+290	-6	1	Honnête	-9	1	10	PRUDENCE	Bienveillant	Désarroi	Malhonnête	Blessant	A_EXTRAIRE_NRC_DIMA			
+291	-6	1	Fiable	-9	-1	10	PRUDENCE	Original	Lassitude	Inconstant	Acharné	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.824	-0.518	0.75
+292	-6	1	Drôle	7	3	10	AUDACE	Sérieux	Liesse	Morose	Bouffon	A_EXTRAIRE_NRC_DIMA			
+293	-6	1	Clair	7	-3	10	AUDACE	Sensible	Limpidité	Confus	Simpliste	A_EXTRAIRE_NRC_DIMA			
+294	-6	1	Généreux	6	4	10	AUDACE	Économe	Entrain	Gratteux	Gaspilleur	DEJA_DANS_NRC_VALEURS (NRC)	1.0	-0.625	-0.167
+295	-6	1	Gentil	6	-4	10	AUDACE	Assertif	Placidité	Méchant	Complaisant	A_EXTRAIRE_NRC_DIMA			
+296	-6	1	Curieux	8	2	10	AUDACE	Méticuleux	Extase	Indifférent	Indiscret	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.27	0.2	-0.034
+297	-6	1	Souple	8	-2	10	AUDACE	Discipliné	Équanimité	Rigide	Influençable	A_EXTRAIRE_NRC_DIMA			
+298	-6	1	Sincère	9	1	10	AUDACE	Respectueux	Exultation	Hypocrite	Brutal	DEJA_DANS_NRC_VALEURS (NRC)	0.952	0.667	0.619
+299	-6	1	Tolérant	9	-1	10	AUDACE	Intègre	Harmonie	Intolérant	Bonasse	A_EXTRAIRE_NRC_DIMA			
+300	-6	1	Juste	-5	5	10	ÉQUITÉ	Compréhensif	Tourment	Injuste	Envieux	A_EXTRAIRE_NRC_DIMA			
+301	-6	1	Compréhensif	5	-5	10	CLÉMENCE	Juste	Ataraxie	Fermé	Laxiste	DEJA_DANS_NRC_VALEURS (NRC)	0.73	-0.392	0.378
+302	-6	1	Ambitieux	5	5	10	ASPIRATION	Modeste	Triomphe	Résigné	Arriviste	HOMONYME_DANS_LEXIQUE_AFFECTIF (NRC+DIMA)	0.688	0.164	0.208
+303	-6	1	Modeste	-5	-5	10	INTÉGRITÉ	Ambitieux	Abattement	Vaniteux	Timoré	A_EXTRAIRE_NRC_DIMA			

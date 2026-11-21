@@ -1,0 +1,304 @@
+id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	Z_sphere_index	rayon_L1	budget_radial_3D_L1	X_L2	Y_L2	Z_rel_L2	Z_L2	contrepoids_id_303	contrepoids_label	homologue_id_303	homologue_label
+1	AFFECTIF_Z_PLUS	Veille	OPERATEUR_CENTRAL	Centre	0	0	0	-7	0	0	14	0.0	0.0	-14.0	0.0	1	Veille	177	Éveil
+2	AFFECTIF_Z_PLUS	Surprise	OPERATEUR_CENTRAL	Centre	0	0	1	-6	1	0	12	0.0	0.0	-12.0	1.0	2	Surprise	178	Évidence
+3	AFFECTIF_Z_PLUS	Anticipation	OPERATEUR_CENTRAL	Centre	0	0	2	-5	2	0	10	0.0	0.0	-10.0	2.0	3	Anticipation	179	Intention
+4	AFFECTIF_Z_PLUS	Joie	JOIE	Axiale	0	2	2	-5	2	2	12	0.0	2.3534	-11.767	1.1165	5	Tristesse	180	Volonté
+5	AFFECTIF_Z_PLUS	Tristesse	TRISTESSE	Axiale	0	-2	2	-5	2	2	12	0.0	-2.3534	-11.767	1.1165	4	Joie	181	Tempérance
+6	AFFECTIF_Z_PLUS	Peur	PEUR	Axiale	-2	0	2	-5	2	2	12	-2.3534	0.0	-11.767	1.1165	7	Courage	182	Prudence
+7	AFFECTIF_Z_PLUS	Courage	COURAGE	Axiale	2	0	2	-5	2	2	12	2.3534	0.0	-11.767	1.1165	6	Peur	183	Audace
+8	AFFECTIF_Z_PLUS	Colère	COLERE	Diagonale	-1	1	2	-5	2	2	12	-1.1882	1.1882	-11.8818	1.0591	9	Calme	184	Équité
+9	AFFECTIF_Z_PLUS	Calme	CALME	Diagonale	1	-1	2	-5	2	2	12	1.1882	-1.1882	-11.8818	1.0591	8	Colère	185	Clémence
+10	AFFECTIF_Z_PLUS	Désir	DESIR	Diagonale	1	1	2	-5	2	2	12	1.1882	1.1882	-11.8818	1.0591	11	Dégoût	186	Aspiration
+11	AFFECTIF_Z_PLUS	Dégoût	DEGOUT	Diagonale	-1	-1	2	-5	2	2	12	-1.1882	-1.1882	-11.8818	1.0591	10	Désir	187	Intégrité
+12	AFFECTIF_Z_PLUS	Émoi	OPERATEUR_CENTRAL	Centre	0	0	3	-4	3	0	8	0.0	0.0	-8.0	3.0	12	Émoi	188	Présence
+13	AFFECTIF_Z_PLUS	Enthousiasme	JOIE	Axiale	0	4	3	-4	3	4	12	0.0	5.3666	-10.7331	1.6334	14	Ennui	189	Dévouement
+14	AFFECTIF_Z_PLUS	Ennui	TRISTESSE	Axiale	0	-4	3	-4	3	4	12	0.0	-5.3666	-10.7331	1.6334	13	Enthousiasme	190	Accueil
+15	AFFECTIF_Z_PLUS	Crainte	PEUR	Axiale	-4	0	3	-4	3	4	12	-5.3666	0.0	-10.7331	1.6334	16	Curiosité	191	Vigilance
+16	AFFECTIF_Z_PLUS	Curiosité	COURAGE	Axiale	4	0	3	-4	3	4	12	5.3666	0.0	-10.7331	1.6334	15	Crainte	192	Inventivité
+17	AFFECTIF_Z_PLUS	Consternation	JOIE	Laterale	-1	3	3	-4	3	4	12	-1.395	4.1849	-11.1598	1.4201	23	Émerveillement	193	Sens du devoir
+18	AFFECTIF_Z_PLUS	Euphorie	JOIE	Laterale	1	3	3	-4	3	4	12	1.395	4.1849	-11.1598	1.4201	22	Effroi	194	Humour
+19	AFFECTIF_Z_PLUS	Soulagement	TRISTESSE	Laterale	1	-3	3	-4	3	4	12	1.395	-4.1849	-11.1598	1.4201	21	Panique	195	Lâcher-prise
+20	AFFECTIF_Z_PLUS	Chagrin	TRISTESSE	Laterale	-1	-3	3	-4	3	4	12	-1.395	-4.1849	-11.1598	1.4201	24	Aplomb	196	Constance
+21	AFFECTIF_Z_PLUS	Panique	PEUR	Laterale	-3	1	3	-4	3	4	12	-4.1849	1.395	-11.1598	1.4201	19	Soulagement	197	Promptitude
+22	AFFECTIF_Z_PLUS	Effroi	PEUR	Laterale	-3	-1	3	-4	3	4	12	-4.1849	-1.395	-11.1598	1.4201	18	Euphorie	198	Gravité
+23	AFFECTIF_Z_PLUS	Émerveillement	COURAGE	Laterale	3	-1	3	-4	3	4	12	4.1849	-1.395	-11.1598	1.4201	17	Consternation	199	Gratitude
+24	AFFECTIF_Z_PLUS	Aplomb	COURAGE	Laterale	3	1	3	-4	3	4	12	4.1849	1.395	-11.1598	1.4201	20	Chagrin	200	Initiative
+25	AFFECTIF_Z_PLUS	Exaspération	COLERE	Diagonale	-2	2	3	-4	3	4	12	-2.8284	2.8284	-11.3137	1.3431	26	Détente	201	Fermeté
+26	AFFECTIF_Z_PLUS	Détente	CALME	Diagonale	2	-2	3	-4	3	4	12	2.8284	-2.8284	-11.3137	1.3431	25	Exaspération	202	Douceur
+27	AFFECTIF_Z_PLUS	Attrait	DESIR	Diagonale	2	2	3	-4	3	4	12	2.8284	2.8284	-11.3137	1.3431	28	Retrait	203	Inspiration
+28	AFFECTIF_Z_PLUS	Retrait	DEGOUT	Diagonale	-2	-2	3	-4	3	4	12	-2.8284	-2.8284	-11.3137	1.3431	27	Attrait	204	Retenue
+29	AFFECTIF_Z_PLUS	Réserve	OPERATEUR_CENTRAL	Centre	0	0	4	-3	4	0	6	0.0	0.0	-6.0	4.0	29	Réserve	205	Cohérence
+30	AFFECTIF_Z_PLUS	Exaltation	JOIE	Axiale	0	6	4	-3	4	6	12	0.0	8.4853	-8.4853	2.7573	31	Solitude	206	Service
+31	AFFECTIF_Z_PLUS	Solitude	TRISTESSE	Axiale	0	-6	4	-3	4	6	12	0.0	-8.4853	-8.4853	2.7573	30	Exaltation	207	Intériorité
+32	AFFECTIF_Z_PLUS	Doute	PEUR	Axiale	-6	0	4	-3	4	6	12	-8.4853	0.0	-8.4853	2.7573	33	Assurance	208	Esprit critique
+33	AFFECTIF_Z_PLUS	Assurance	COURAGE	Axiale	6	0	4	-3	4	6	12	8.4853	0.0	-8.4853	2.7573	32	Doute	209	Adhésion
+34	AFFECTIF_Z_PLUS	Envie	JOIE	Laterale	-2	4	4	-3	4	6	12	-3.2071	6.4143	-9.6214	2.1893	49	Admiration	210	Émulation
+35	AFFECTIF_Z_PLUS	Haine	JOIE	Laterale	-1	5	4	-3	4	6	12	-1.524	7.62	-9.144	2.428	48	Affection	211	Combativité
+36	AFFECTIF_Z_PLUS	Amour	JOIE	Laterale	1	5	4	-3	4	6	12	1.524	7.62	-9.144	2.428	44	Mépris	212	Don de soi
+37	AFFECTIF_Z_PLUS	Ferveur	JOIE	Laterale	2	4	4	-3	4	6	12	3.2071	6.4143	-9.6214	2.1893	45	Défiance	213	Solidarité
+38	AFFECTIF_Z_PLUS	Sérénité	TRISTESSE	Laterale	2	-4	4	-3	4	6	12	3.2071	-6.4143	-9.6214	2.1893	42	Anxiété	214	Équilibre
+39	AFFECTIF_Z_PLUS	Plénitude	TRISTESSE	Laterale	1	-5	4	-3	4	6	12	1.524	-7.62	-9.144	2.428	43	Manque	215	Sobriété
+40	AFFECTIF_Z_PLUS	Honte	TRISTESSE	Laterale	-2	-4	4	-3	4	6	12	-3.2071	-6.4143	-9.6214	2.1893	46	Fierté	216	Pudeur
+41	AFFECTIF_Z_PLUS	Vide	TRISTESSE	Laterale	-1	-5	4	-3	4	6	12	-1.524	-7.62	-9.144	2.428	47	Épanouissement	217	Dépouillement
+42	AFFECTIF_Z_PLUS	Anxiété	PEUR	Laterale	-4	2	4	-3	4	6	12	-6.4143	3.2071	-9.6214	2.1893	38	Sérénité	218	Protection
+43	AFFECTIF_Z_PLUS	Manque	PEUR	Laterale	-5	1	4	-3	4	6	12	-7.62	1.524	-9.144	2.428	39	Plénitude	219	Quête de sens
+44	AFFECTIF_Z_PLUS	Mépris	PEUR	Laterale	-5	-1	4	-3	4	6	12	-7.62	-1.524	-9.144	2.428	36	Amour	220	Dignité
+45	AFFECTIF_Z_PLUS	Défiance	PEUR	Laterale	-4	-2	4	-3	4	6	12	-6.4143	-3.2071	-9.6214	2.1893	37	Ferveur	221	Indépendance d’esprit
+46	AFFECTIF_Z_PLUS	Fierté	COURAGE	Laterale	4	2	4	-3	4	6	12	6.4143	3.2071	-9.6214	2.1893	40	Honte	222	Accomplissement
+47	AFFECTIF_Z_PLUS	Épanouissement	COURAGE	Laterale	5	1	4	-3	4	6	12	7.62	1.524	-9.144	2.428	41	Vide	223	Croissance
+48	AFFECTIF_Z_PLUS	Affection	COURAGE	Laterale	5	-1	4	-3	4	6	12	7.62	-1.524	-9.144	2.428	35	Haine	224	Tendresse
+49	AFFECTIF_Z_PLUS	Admiration	COURAGE	Laterale	4	-2	4	-3	4	6	12	6.4143	-3.2071	-9.6214	2.1893	34	Envie	225	Appréciation
+50	AFFECTIF_Z_PLUS	Frustration	COLERE	Diagonale	-3	3	4	-3	4	6	12	-4.899	4.899	-9.798	2.101	51	Acceptation	226	Militantisme
+51	AFFECTIF_Z_PLUS	Acceptation	CALME	Diagonale	3	-3	4	-3	4	6	12	4.899	-4.899	-9.798	2.101	50	Frustration	227	Pardon
+52	AFFECTIF_Z_PLUS	Estime	DESIR	Diagonale	3	3	4	-3	4	6	12	4.899	4.899	-9.798	2.101	53	Rejet	228	Coopération
+53	AFFECTIF_Z_PLUS	Rejet	DEGOUT	Diagonale	-3	-3	4	-3	4	6	12	-4.899	-4.899	-9.798	2.101	52	Estime	229	Respect des limites
+54	AFFECTIF_Z_PLUS	Recul	OPERATEUR_CENTRAL	Centre	0	0	5	-2	5	0	4	0.0	0.0	-4.0	5.0	54	Recul	230	Résolution
+55	AFFECTIF_Z_PLUS	Puissance	JOIE	Axiale	0	8	5	-2	5	8	12	0.0	10.7331	-5.3666	4.3167	56	Impuissance	231	Autorité
+56	AFFECTIF_Z_PLUS	Impuissance	TRISTESSE	Axiale	0	-8	5	-2	5	8	12	0.0	-10.7331	-5.3666	4.3167	55	Puissance	232	Résilience
+57	AFFECTIF_Z_PLUS	Méfiance	PEUR	Axiale	-8	0	5	-2	5	8	12	-10.7331	0.0	-5.3666	4.3167	58	Confiance	233	Circonspection
+58	AFFECTIF_Z_PLUS	Confiance	COURAGE	Axiale	8	0	5	-2	5	8	12	10.7331	0.0	-5.3666	4.3167	57	Méfiance	234	Bonne foi
+59	AFFECTIF_Z_PLUS	Invulnérabilité	JOIE	Laterale	1	7	5	-2	5	8	12	1.4771	10.3397	-5.9084	4.0458	74	Vulnérabilité	235	Force d’âme
+60	AFFECTIF_Z_PLUS	Attachement	JOIE	Laterale	2	6	5	-2	5	8	12	3.2071	9.6214	-6.4143	3.7929	75	Détachement	236	Loyauté
+61	AFFECTIF_Z_PLUS	Engagement	JOIE	Laterale	3	5	5	-2	5	8	12	5.0912	8.4853	-6.7882	3.6059	76	Désengagement	237	Assiduité
+62	AFFECTIF_Z_PLUS	Désenchantement	JOIE	Laterale	-2	6	5	-2	5	8	12	-3.2071	9.6214	-6.4143	3.7929	80	Enchantement	238	Réalisme
+63	AFFECTIF_Z_PLUS	Intolérance	JOIE	Laterale	-3	5	5	-2	5	8	12	-5.0912	8.4853	-6.7882	3.6059	81	Tolérance	239	Rigueur morale
+64	AFFECTIF_Z_PLUS	Injustice	JOIE	Laterale	-1	7	5	-2	5	8	12	-1.4771	10.3397	-5.9084	4.0458	82	Justice	240	Droiture
+65	AFFECTIF_Z_PLUS	Quiétude	TRISTESSE	Laterale	3	-5	5	-2	5	8	12	5.0912	-8.4853	-6.7882	3.6059	72	Inquiétude	241	Ancrage
+66	AFFECTIF_Z_PLUS	Sécurité	TRISTESSE	Laterale	2	-6	5	-2	5	8	12	3.2071	-9.6214	-6.4143	3.7929	71	Insécurité	242	Stabilité
+67	AFFECTIF_Z_PLUS	Patience	TRISTESSE	Laterale	1	-7	5	-2	5	8	12	1.4771	-10.3397	-5.9084	4.0458	73	Impatience	243	Longanimité
+68	AFFECTIF_Z_PLUS	Pessimisme	TRISTESSE	Laterale	-2	-6	5	-2	5	8	12	-3.2071	-9.6214	-6.4143	3.7929	77	Optimisme	244	Prévoyance
+69	AFFECTIF_Z_PLUS	Fermeture	TRISTESSE	Laterale	-3	-5	5	-2	5	8	12	-5.0912	-8.4853	-6.7882	3.6059	78	Ouverture	245	Discrétion
+70	AFFECTIF_Z_PLUS	Désespoir	TRISTESSE	Laterale	-1	-7	5	-2	5	8	12	-1.4771	-10.3397	-5.9084	4.0458	79	Espoir	246	Stoïcisme
+71	AFFECTIF_Z_PLUS	Insécurité	PEUR	Laterale	-6	2	5	-2	5	8	12	-9.6214	3.2071	-6.4143	3.7929	66	Sécurité	247	Précaution
+72	AFFECTIF_Z_PLUS	Inquiétude	PEUR	Laterale	-5	3	5	-2	5	8	12	-8.4853	5.0912	-6.7882	3.6059	65	Quiétude	248	Sollicitude
+73	AFFECTIF_Z_PLUS	Impatience	PEUR	Laterale	-7	1	5	-2	5	8	12	-10.3397	1.4771	-5.9084	4.0458	67	Patience	249	Diligence
+74	AFFECTIF_Z_PLUS	Vulnérabilité	PEUR	Laterale	-7	-1	5	-2	5	8	12	-10.3397	-1.4771	-5.9084	4.0458	59	Invulnérabilité	250	Authenticité
+75	AFFECTIF_Z_PLUS	Détachement	PEUR	Laterale	-6	-2	5	-2	5	8	12	-9.6214	-3.2071	-6.4143	3.7929	60	Attachement	251	Liberté intérieure
+76	AFFECTIF_Z_PLUS	Désengagement	PEUR	Laterale	-5	-3	5	-2	5	8	12	-8.4853	-5.0912	-6.7882	3.6059	61	Engagement	252	Modération
+77	AFFECTIF_Z_PLUS	Optimisme	COURAGE	Laterale	6	2	5	-2	5	8	12	9.6214	3.2071	-6.4143	3.7929	68	Pessimisme	253	Gaieté
+78	AFFECTIF_Z_PLUS	Ouverture	COURAGE	Laterale	5	3	5	-2	5	8	12	8.4853	5.0912	-6.7882	3.6059	69	Fermeture	254	Sociabilité
+79	AFFECTIF_Z_PLUS	Espoir	COURAGE	Laterale	7	1	5	-2	5	8	12	10.3397	1.4771	-5.9084	4.0458	70	Désespoir	255	Espérance
+80	AFFECTIF_Z_PLUS	Enchantement	COURAGE	Laterale	6	-2	5	-2	5	8	12	9.6214	-3.2071	-6.4143	3.7929	62	Désenchantement	256	Sens du beau
+81	AFFECTIF_Z_PLUS	Tolérance	COURAGE	Laterale	5	-3	5	-2	5	8	12	8.4853	-5.0912	-6.7882	3.6059	63	Intolérance	257	Indulgence
+82	AFFECTIF_Z_PLUS	Justice	COURAGE	Laterale	7	-1	5	-2	5	8	12	10.3397	-1.4771	-5.9084	4.0458	64	Injustice	258	Impartialité
+83	AFFECTIF_Z_PLUS	Insatisfaction	COLERE	Diagonale	-4	4	5	-2	5	8	12	-6.9282	6.9282	-6.9282	3.5359	84	Satisfaction	259	Exigence
+84	AFFECTIF_Z_PLUS	Satisfaction	CALME	Diagonale	4	-4	5	-2	5	8	12	6.9282	-6.9282	-6.9282	3.5359	83	Insatisfaction	260	Simplicité
+85	AFFECTIF_Z_PLUS	Intérêt	DESIR	Diagonale	4	4	5	-2	5	8	12	6.9282	6.9282	-6.9282	3.5359	86	Désintérêt	261	Amour d’apprendre
+86	AFFECTIF_Z_PLUS	Désintérêt	DEGOUT	Diagonale	-4	-4	5	-2	5	8	12	-6.9282	-6.9282	-6.9282	3.5359	85	Intérêt	262	Renoncement
+87	AFFECTIF_Z_PLUS	Saisissement	OPERATEUR_CENTRAL	Centre	0	0	6	-1	6	0	2	0.0	0.0	-2.0	6.0	87	Saisissement	263	Discernement
+88	AFFECTIF_Z_PLUS	Élan	JOIE	Axiale	0	10	6	-1	6	10	12	0.0	11.767	-2.3534	5.8233	89	Inertie	264	Énergique
+89	AFFECTIF_Z_PLUS	Inertie	TRISTESSE	Axiale	0	-10	6	-1	6	10	12	0.0	-11.767	-2.3534	5.8233	88	Élan	265	Patient
+90	AFFECTIF_Z_PLUS	Effacement	PEUR	Axiale	-10	0	6	-1	6	10	12	-11.767	0.0	-2.3534	5.8233	91	Affirmation	266	Humble
+91	AFFECTIF_Z_PLUS	Affirmation	COURAGE	Axiale	10	0	6	-1	6	10	12	11.767	0.0	-2.3534	5.8233	90	Effacement	267	Confiant
+92	AFFECTIF_Z_PLUS	Ardeur	JOIE	Laterale	3	7	6	-1	6	10	12	4.572	10.668	-3.048	5.476	111	Écrasement	268	Brave
+93	AFFECTIF_Z_PLUS	Angoisse	JOIE	Laterale	-3	7	6	-1	6	10	12	-4.572	10.668	-3.048	5.476	119	Limpidité	269	Sensible
+94	AFFECTIF_Z_PLUS	Allégresse	JOIE	Laterale	4	6	6	-1	6	10	12	6.4143	9.6214	-3.2071	5.3964	109	Amertume	270	Spontané
+95	AFFECTIF_Z_PLUS	Fureur	JOIE	Laterale	-4	6	6	-1	6	10	12	-6.4143	9.6214	-3.2071	5.3964	117	Placidité	271	Assertif
+96	AFFECTIF_Z_PLUS	Fougue	JOIE	Laterale	2	8	6	-1	6	10	12	2.8284	11.3137	-2.8284	5.5858	113	Anéantissement	272	Autonome
+97	AFFECTIF_Z_PLUS	Frénésie	JOIE	Laterale	-2	8	6	-1	6	10	12	-2.8284	11.3137	-2.8284	5.5858	121	Équanimité	273	Discipliné
+98	AFFECTIF_Z_PLUS	Jubilation	JOIE	Laterale	1	9	6	-1	6	10	12	1.294	11.6459	-2.588	5.706	115	Lassitude	274	Original
+99	AFFECTIF_Z_PLUS	Terreur	JOIE	Laterale	-1	9	6	-1	6	10	12	-1.294	11.6459	-2.588	5.706	123	Harmonie	275	Intègre
+100	AFFECTIF_Z_PLUS	Béatitude	TRISTESSE	Laterale	3	-7	6	-1	6	10	12	4.572	-10.668	-3.048	5.476	110	Affolement	276	Posé
+101	AFFECTIF_Z_PLUS	Accablement	TRISTESSE	Laterale	-3	-7	6	-1	6	10	12	-4.572	-10.668	-3.048	5.476	118	Liesse	277	Sérieux
+102	AFFECTIF_Z_PLUS	Apaisement	TRISTESSE	Laterale	4	-6	6	-1	6	10	12	6.4143	-9.6214	-3.2071	5.3964	108	Irritation	278	Délicat
+103	AFFECTIF_Z_PLUS	Morosité	TRISTESSE	Laterale	-4	-6	6	-1	6	10	12	-6.4143	-9.6214	-3.2071	5.3964	116	Entrain	279	Économe
+104	AFFECTIF_Z_PLUS	Contemplation	TRISTESSE	Laterale	2	-8	6	-1	6	10	12	2.8284	-11.3137	-2.8284	5.5858	112	Fébrilité	280	Réfléchi
+105	AFFECTIF_Z_PLUS	Prostration	TRISTESSE	Laterale	-2	-8	6	-1	6	10	12	-2.8284	-11.3137	-2.8284	5.5858	120	Extase	281	Méticuleux
+106	AFFECTIF_Z_PLUS	Félicité	TRISTESSE	Laterale	1	-9	6	-1	6	10	12	1.294	-11.6459	-2.588	5.706	114	Désarroi	282	Bienveillant
+107	AFFECTIF_Z_PLUS	Désolation	TRISTESSE	Laterale	-1	-9	6	-1	6	10	12	-1.294	-11.6459	-2.588	5.706	122	Exultation	283	Respectueux
+108	AFFECTIF_Z_PLUS	Irritation	PEUR	Laterale	-6	4	6	-1	6	10	12	-9.6214	6.4143	-3.2071	5.3964	102	Apaisement	286	Franc
+109	AFFECTIF_Z_PLUS	Amertume	PEUR	Laterale	-6	-4	6	-1	6	10	12	-9.6214	-6.4143	-3.2071	5.3964	94	Allégresse	287	Responsable
+110	AFFECTIF_Z_PLUS	Affolement	PEUR	Laterale	-7	3	6	-1	6	10	12	-10.668	4.572	-3.048	5.476	100	Béatitude	284	Persévérant
+111	AFFECTIF_Z_PLUS	Écrasement	PEUR	Laterale	-7	-3	6	-1	6	10	12	-10.668	-4.572	-3.048	5.476	92	Ardeur	285	Avisé
+112	AFFECTIF_Z_PLUS	Fébrilité	PEUR	Laterale	-8	2	6	-1	6	10	12	-11.3137	2.8284	-2.8284	5.5858	104	Contemplation	288	Intuitif
+113	AFFECTIF_Z_PLUS	Anéantissement	PEUR	Laterale	-8	-2	6	-1	6	10	12	-11.3137	-2.8284	-2.8284	5.5858	96	Fougue	289	Fidèle
+114	AFFECTIF_Z_PLUS	Désarroi	PEUR	Laterale	-9	1	6	-1	6	10	12	-11.6459	1.294	-2.588	5.706	106	Félicité	290	Honnête
+115	AFFECTIF_Z_PLUS	Lassitude	PEUR	Laterale	-9	-1	6	-1	6	10	12	-11.6459	-1.294	-2.588	5.706	98	Jubilation	291	Fiable
+116	AFFECTIF_Z_PLUS	Entrain	COURAGE	Laterale	6	4	6	-1	6	10	12	9.6214	6.4143	-3.2071	5.3964	103	Morosité	294	Généreux
+117	AFFECTIF_Z_PLUS	Placidité	COURAGE	Laterale	6	-4	6	-1	6	10	12	9.6214	-6.4143	-3.2071	5.3964	95	Fureur	295	Gentil
+118	AFFECTIF_Z_PLUS	Liesse	COURAGE	Laterale	7	3	6	-1	6	10	12	10.668	4.572	-3.048	5.476	101	Accablement	292	Drôle
+119	AFFECTIF_Z_PLUS	Limpidité	COURAGE	Laterale	7	-3	6	-1	6	10	12	10.668	-4.572	-3.048	5.476	93	Angoisse	293	Clair
+120	AFFECTIF_Z_PLUS	Extase	COURAGE	Laterale	8	2	6	-1	6	10	12	11.3137	2.8284	-2.8284	5.5858	105	Prostration	296	Curieux
+121	AFFECTIF_Z_PLUS	Équanimité	COURAGE	Laterale	8	-2	6	-1	6	10	12	11.3137	-2.8284	-2.8284	5.5858	97	Frénésie	297	Souple
+122	AFFECTIF_Z_PLUS	Exultation	COURAGE	Laterale	9	1	6	-1	6	10	12	11.6459	1.294	-2.588	5.706	107	Désolation	298	Sincère
+123	AFFECTIF_Z_PLUS	Harmonie	COURAGE	Laterale	9	-1	6	-1	6	10	12	11.6459	-1.294	-2.588	5.706	99	Terreur	299	Tolérant
+124	AFFECTIF_Z_PLUS	Tourment	COLERE	Diagonale	-5	5	6	-1	6	10	12	-8.165	8.165	-3.266	5.367	125	Ataraxie	300	Juste
+125	AFFECTIF_Z_PLUS	Ataraxie	CALME	Diagonale	5	-5	6	-1	6	10	12	8.165	-8.165	-3.266	5.367	124	Tourment	301	Compréhensif
+126	AFFECTIF_Z_PLUS	Triomphe	DESIR	Diagonale	5	5	6	-1	6	10	12	8.165	8.165	-3.266	5.367	127	Abattement	302	Ambitieux
+127	AFFECTIF_Z_PLUS	Abattement	DEGOUT	Diagonale	-5	-5	6	-1	6	10	12	-8.165	-8.165	-3.266	5.367	126	Triomphe	303	Modeste
+128	EQUATEUR_SUSPENSION	Suspension	OPERATEUR_CENTRAL	Centre	0	0	7	0	7	0	0	0.0	0.0	0.0	7.0	128	Suspension	128	Suspension (Plan médian)
+129	EQUATEUR_SUSPENSION	Infini	JOIE	Axiale	0	12	7	0	7	12	12	0.0	12.0	0.0	7.0	130	Néant	129	Infini (Plan médian)
+130	EQUATEUR_SUSPENSION	Néant	TRISTESSE	Axiale	0	-12	7	0	7	12	12	0.0	-12.0	0.0	7.0	129	Infini	130	Néant (Plan médian)
+131	EQUATEUR_SUSPENSION	Déréliction	PEUR	Axiale	-12	0	7	0	7	12	12	-12.0	0.0	0.0	7.0	132	Communion	131	Déréliction (Plan médian)
+132	EQUATEUR_SUSPENSION	Communion	COURAGE	Axiale	12	0	7	0	7	12	12	12.0	0.0	0.0	7.0	131	Déréliction	132	Communion (Plan médian)
+133	EQUATEUR_SUSPENSION	Transcendance	JOIE	Laterale	2	10	7	0	7	12	12	2.3534	11.767	0.0	7.0	154	Isolement	133	Transcendance (Plan médian)
+134	EQUATEUR_SUSPENSION	Déchirement	JOIE	Laterale	-2	10	7	0	7	12	12	-2.3534	11.767	0.0	7.0	164	Recueillement	134	Déchirement (Plan médian)
+135	EQUATEUR_SUSPENSION	Exubérance	JOIE	Laterale	4	8	7	0	7	12	12	5.3666	10.7331	0.0	7.0	156	Mélancolie	135	Exubérance (Plan médian)
+136	EQUATEUR_SUSPENSION	Horreur	JOIE	Laterale	-4	8	7	0	7	12	12	-5.3666	10.7331	0.0	7.0	166	Contentement	136	Horreur (Plan médian)
+137	EQUATEUR_SUSPENSION	Renaissance	JOIE	Laterale	1	11	7	0	7	12	12	1.0864	11.9507	0.0	7.0	158	Déchéance	137	Renaissance (Plan médian)
+138	EQUATEUR_SUSPENSION	Vertige	JOIE	Laterale	-1	11	7	0	7	12	12	-1.0864	11.9507	0.0	7.0	168	Épiphanie	138	Vertige (Plan médian)
+139	EQUATEUR_SUSPENSION	Élévation	JOIE	Laterale	3	9	7	0	7	12	12	3.7947	11.3842	0.0	7.0	160	Engloutissement	139	Élévation (Plan médian)
+140	EQUATEUR_SUSPENSION	Détresse	JOIE	Laterale	-3	9	7	0	7	12	12	-3.7947	11.3842	0.0	7.0	170	Lucidité	140	Détresse (Plan médian)
+141	EQUATEUR_SUSPENSION	Enivrement	JOIE	Laterale	5	7	7	0	7	12	12	6.9749	9.7648	0.0	7.0	162	Pétrification	141	Enivrement (Plan médian)
+142	EQUATEUR_SUSPENSION	Révolte	JOIE	Laterale	-5	7	7	0	7	12	12	-6.9749	9.7648	0.0	7.0	172	Consentement	142	Révolte (Plan médian)
+143	EQUATEUR_SUSPENSION	Nirvana	TRISTESSE	Laterale	2	-10	7	0	7	12	12	2.3534	-11.767	0.0	7.0	153	Hantise	143	Nirvana (Plan médian)
+144	EQUATEUR_SUSPENSION	Perdition	TRISTESSE	Laterale	-2	-10	7	0	7	12	12	-2.3534	-11.767	0.0	7.0	163	Éblouissement	144	Perdition (Plan médian)
+145	EQUATEUR_SUSPENSION	Paix	TRISTESSE	Laterale	4	-8	7	0	7	12	12	5.3666	-10.7331	0.0	7.0	155	Affliction	145	Paix (Plan médian)
+146	EQUATEUR_SUSPENSION	Oppression	TRISTESSE	Laterale	-4	-8	7	0	7	12	12	-5.3666	-10.7331	0.0	7.0	165	Rayonnement	146	Oppression (Plan médian)
+147	EQUATEUR_SUSPENSION	Pérennité	TRISTESSE	Laterale	1	-11	7	0	7	12	12	1.0864	-11.9507	0.0	7.0	157	Précarité	147	Pérennité (Plan médian)
+148	EQUATEUR_SUSPENSION	Abîme	TRISTESSE	Laterale	-1	-11	7	0	7	12	12	-1.0864	-11.9507	0.0	7.0	167	Ravissement	148	Abîme (Plan médian)
+149	EQUATEUR_SUSPENSION	Abandon	TRISTESSE	Laterale	3	-9	7	0	7	12	12	3.7947	-11.3842	0.0	7.0	159	Sidération	149	Abandon (Plan médian)
+150	EQUATEUR_SUSPENSION	Damnation	TRISTESSE	Laterale	-3	-9	7	0	7	12	12	-3.7947	-11.3842	0.0	7.0	169	Louange	150	Damnation (Plan médian)
+151	EQUATEUR_SUSPENSION	Silence	TRISTESSE	Laterale	5	-7	7	0	7	12	12	6.9749	-9.7648	0.0	7.0	161	Tumulte	151	Silence (Plan médian)
+152	EQUATEUR_SUSPENSION	Résignation	TRISTESSE	Laterale	-5	-7	7	0	7	12	12	-6.9749	-9.7648	0.0	7.0	171	Effusion	152	Résignation (Plan médian)
+153	EQUATEUR_SUSPENSION	Hantise	PEUR	Laterale	-10	2	7	0	7	12	12	-11.767	2.3534	0.0	7.0	143	Nirvana	153	Hantise (Plan médian)
+154	EQUATEUR_SUSPENSION	Isolement	PEUR	Laterale	-10	-2	7	0	7	12	12	-11.767	-2.3534	0.0	7.0	133	Transcendance	154	Isolement (Plan médian)
+155	EQUATEUR_SUSPENSION	Affliction	PEUR	Laterale	-8	4	7	0	7	12	12	-10.7331	5.3666	0.0	7.0	145	Paix	155	Affliction (Plan médian)
+156	EQUATEUR_SUSPENSION	Mélancolie	PEUR	Laterale	-8	-4	7	0	7	12	12	-10.7331	-5.3666	0.0	7.0	135	Exubérance	156	Mélancolie (Plan médian)
+157	EQUATEUR_SUSPENSION	Précarité	PEUR	Laterale	-11	1	7	0	7	12	12	-11.9507	1.0864	0.0	7.0	147	Pérennité	157	Précarité (Plan médian)
+158	EQUATEUR_SUSPENSION	Déchéance	PEUR	Laterale	-11	-1	7	0	7	12	12	-11.9507	-1.0864	0.0	7.0	137	Renaissance	158	Déchéance (Plan médian)
+159	EQUATEUR_SUSPENSION	Sidération	PEUR	Laterale	-9	3	7	0	7	12	12	-11.3842	3.7947	0.0	7.0	149	Abandon	159	Sidération (Plan médian)
+160	EQUATEUR_SUSPENSION	Engloutissement	PEUR	Laterale	-9	-3	7	0	7	12	12	-11.3842	-3.7947	0.0	7.0	139	Élévation	160	Engloutissement (Plan médian)
+161	EQUATEUR_SUSPENSION	Tumulte	PEUR	Laterale	-7	5	7	0	7	12	12	-9.7648	6.9749	0.0	7.0	151	Silence	161	Tumulte (Plan médian)
+162	EQUATEUR_SUSPENSION	Pétrification	PEUR	Laterale	-7	-5	7	0	7	12	12	-9.7648	-6.9749	0.0	7.0	141	Enivrement	162	Pétrification (Plan médian)
+163	EQUATEUR_SUSPENSION	Éblouissement	COURAGE	Laterale	10	2	7	0	7	12	12	11.767	2.3534	0.0	7.0	144	Perdition	163	Éblouissement (Plan médian)
+164	EQUATEUR_SUSPENSION	Recueillement	COURAGE	Laterale	10	-2	7	0	7	12	12	11.767	-2.3534	0.0	7.0	134	Déchirement	164	Recueillement (Plan médian)
+165	EQUATEUR_SUSPENSION	Rayonnement	COURAGE	Laterale	8	4	7	0	7	12	12	10.7331	5.3666	0.0	7.0	146	Oppression	165	Rayonnement (Plan médian)
+166	EQUATEUR_SUSPENSION	Contentement	COURAGE	Laterale	8	-4	7	0	7	12	12	10.7331	-5.3666	0.0	7.0	136	Horreur	166	Contentement (Plan médian)
+167	EQUATEUR_SUSPENSION	Ravissement	COURAGE	Laterale	11	1	7	0	7	12	12	11.9507	1.0864	0.0	7.0	148	Abîme	167	Ravissement (Plan médian)
+168	EQUATEUR_SUSPENSION	Épiphanie	COURAGE	Laterale	11	-1	7	0	7	12	12	11.9507	-1.0864	0.0	7.0	138	Vertige	168	Épiphanie (Plan médian)
+169	EQUATEUR_SUSPENSION	Louange	COURAGE	Laterale	9	3	7	0	7	12	12	11.3842	3.7947	0.0	7.0	150	Damnation	169	Louange (Plan médian)
+170	EQUATEUR_SUSPENSION	Lucidité	COURAGE	Laterale	9	-3	7	0	7	12	12	11.3842	-3.7947	0.0	7.0	140	Détresse	170	Lucidité (Plan médian)
+171	EQUATEUR_SUSPENSION	Effusion	COURAGE	Laterale	7	5	7	0	7	12	12	9.7648	6.9749	0.0	7.0	152	Résignation	171	Effusion (Plan médian)
+172	EQUATEUR_SUSPENSION	Consentement	COURAGE	Laterale	7	-5	7	0	7	12	12	9.7648	-6.9749	0.0	7.0	142	Révolte	172	Consentement (Plan médian)
+173	EQUATEUR_SUSPENSION	Rage	COLERE	Diagonale	-6	6	7	0	7	12	12	-8.4853	8.4853	0.0	7.0	174	Impassibilité	173	Rage (Plan médian)
+174	EQUATEUR_SUSPENSION	Impassibilité	CALME	Diagonale	6	-6	7	0	7	12	12	8.4853	-8.4853	0.0	7.0	173	Rage	174	Impassibilité (Plan médian)
+175	EQUATEUR_SUSPENSION	Sublimation	DESIR	Diagonale	6	6	7	0	7	12	12	8.4853	8.4853	0.0	7.0	176	Dissolution	175	Sublimation (Plan médian)
+176	EQUATEUR_SUSPENSION	Dissolution	DEGOUT	Diagonale	-6	-6	7	0	7	12	12	-8.4853	-8.4853	0.0	7.0	175	Sublimation	176	Dissolution (Plan médian)
+177	AXIOLOGIQUE_Z_MOINS	Éveil	OPERATEUR_CENTRAL	Centre	0	0	-7	7	14	0	14	0.0	0.0	14.0	14.0	177	Éveil	1	Veille
+178	AXIOLOGIQUE_Z_MOINS	Évidence	OPERATEUR_CENTRAL	Centre	0	0	-1	6	13	0	12	0.0	0.0	12.0	13.0	178	Évidence	2	Surprise
+179	AXIOLOGIQUE_Z_MOINS	Intention	OPERATEUR_CENTRAL	Centre	0	0	-2	5	12	0	10	0.0	0.0	10.0	12.0	179	Intention	3	Anticipation
+180	AXIOLOGIQUE_Z_MOINS	Volonté	VOLONTÉ	Axiale	0	2	-2	5	12	2	12	0.0	2.3534	11.767	12.8835	181	Tempérance	4	Joie
+181	AXIOLOGIQUE_Z_MOINS	Tempérance	TEMPÉRANCE	Axiale	0	-2	-2	5	12	2	12	0.0	-2.3534	11.767	12.8835	180	Volonté	5	Tristesse
+182	AXIOLOGIQUE_Z_MOINS	Prudence	PRUDENCE	Axiale	-2	0	-2	5	12	2	12	-2.3534	0.0	11.767	12.8835	183	Audace	6	Peur
+183	AXIOLOGIQUE_Z_MOINS	Audace	AUDACE	Axiale	2	0	-2	5	12	2	12	2.3534	0.0	11.767	12.8835	182	Prudence	7	Courage
+184	AXIOLOGIQUE_Z_MOINS	Équité	ÉQUITÉ	Diagonale	-1	1	-2	5	12	2	12	-1.1882	1.1882	11.8818	12.9409	185	Clémence	8	Colère
+185	AXIOLOGIQUE_Z_MOINS	Clémence	CLÉMENCE	Diagonale	1	-1	-2	5	12	2	12	1.1882	-1.1882	11.8818	12.9409	184	Équité	9	Calme
+186	AXIOLOGIQUE_Z_MOINS	Aspiration	ASPIRATION	Diagonale	1	1	-2	5	12	2	12	1.1882	1.1882	11.8818	12.9409	187	Intégrité	10	Désir
+187	AXIOLOGIQUE_Z_MOINS	Intégrité	INTÉGRITÉ	Diagonale	-1	-1	-2	5	12	2	12	-1.1882	-1.1882	11.8818	12.9409	186	Aspiration	11	Dégoût
+188	AXIOLOGIQUE_Z_MOINS	Présence	OPERATEUR_CENTRAL	Centre	0	0	-3	4	11	0	8	0.0	0.0	8.0	11.0	188	Présence	12	Émoi
+189	AXIOLOGIQUE_Z_MOINS	Dévouement	VOLONTÉ	Axiale	0	4	-3	4	11	4	12	0.0	5.3666	10.7331	12.3666	190	Accueil	13	Enthousiasme
+190	AXIOLOGIQUE_Z_MOINS	Accueil	TEMPÉRANCE	Axiale	0	-4	-3	4	11	4	12	0.0	-5.3666	10.7331	12.3666	189	Dévouement	14	Ennui
+191	AXIOLOGIQUE_Z_MOINS	Vigilance	PRUDENCE	Axiale	-4	0	-3	4	11	4	12	-5.3666	0.0	10.7331	12.3666	192	Inventivité	15	Crainte
+192	AXIOLOGIQUE_Z_MOINS	Inventivité	AUDACE	Axiale	4	0	-3	4	11	4	12	5.3666	0.0	10.7331	12.3666	191	Vigilance	16	Curiosité
+193	AXIOLOGIQUE_Z_MOINS	Sens du devoir	VOLONTÉ	Laterale	-1	3	-3	4	11	4	12	-1.395	4.1849	11.1598	12.5799	199	Gratitude	17	Consternation
+194	AXIOLOGIQUE_Z_MOINS	Humour	VOLONTÉ	Laterale	1	3	-3	4	11	4	12	1.395	4.1849	11.1598	12.5799	198	Gravité	18	Euphorie
+195	AXIOLOGIQUE_Z_MOINS	Lâcher-prise	TEMPÉRANCE	Laterale	1	-3	-3	4	11	4	12	1.395	-4.1849	11.1598	12.5799	197	Promptitude	19	Soulagement
+196	AXIOLOGIQUE_Z_MOINS	Constance	TEMPÉRANCE	Laterale	-1	-3	-3	4	11	4	12	-1.395	-4.1849	11.1598	12.5799	200	Initiative	20	Chagrin
+197	AXIOLOGIQUE_Z_MOINS	Promptitude	PRUDENCE	Laterale	-3	1	-3	4	11	4	12	-4.1849	1.395	11.1598	12.5799	195	Lâcher-prise	21	Panique
+198	AXIOLOGIQUE_Z_MOINS	Gravité	PRUDENCE	Laterale	-3	-1	-3	4	11	4	12	-4.1849	-1.395	11.1598	12.5799	194	Humour	22	Effroi
+199	AXIOLOGIQUE_Z_MOINS	Gratitude	AUDACE	Laterale	3	-1	-3	4	11	4	12	4.1849	-1.395	11.1598	12.5799	193	Sens du devoir	23	Émerveillement
+200	AXIOLOGIQUE_Z_MOINS	Initiative	AUDACE	Laterale	3	1	-3	4	11	4	12	4.1849	1.395	11.1598	12.5799	196	Constance	24	Aplomb
+201	AXIOLOGIQUE_Z_MOINS	Fermeté	ÉQUITÉ	Diagonale	-2	2	-3	4	11	4	12	-2.8284	2.8284	11.3137	12.6569	202	Douceur	25	Exaspération
+202	AXIOLOGIQUE_Z_MOINS	Douceur	CLÉMENCE	Diagonale	2	-2	-3	4	11	4	12	2.8284	-2.8284	11.3137	12.6569	201	Fermeté	26	Détente
+203	AXIOLOGIQUE_Z_MOINS	Inspiration	ASPIRATION	Diagonale	2	2	-3	4	11	4	12	2.8284	2.8284	11.3137	12.6569	204	Retenue	27	Attrait
+204	AXIOLOGIQUE_Z_MOINS	Retenue	INTÉGRITÉ	Diagonale	-2	-2	-3	4	11	4	12	-2.8284	-2.8284	11.3137	12.6569	203	Inspiration	28	Retrait
+205	AXIOLOGIQUE_Z_MOINS	Cohérence	OPERATEUR_CENTRAL	Centre	0	0	-4	3	10	0	6	0.0	0.0	6.0	10.0	205	Cohérence	29	Réserve
+206	AXIOLOGIQUE_Z_MOINS	Service	VOLONTÉ	Axiale	0	6	-4	3	10	6	12	0.0	8.4853	8.4853	11.2427	207	Intériorité	30	Exaltation
+207	AXIOLOGIQUE_Z_MOINS	Intériorité	TEMPÉRANCE	Axiale	0	-6	-4	3	10	6	12	0.0	-8.4853	8.4853	11.2427	206	Service	31	Solitude
+208	AXIOLOGIQUE_Z_MOINS	Esprit critique	PRUDENCE	Axiale	-6	0	-4	3	10	6	12	-8.4853	0.0	8.4853	11.2427	209	Adhésion	32	Doute
+209	AXIOLOGIQUE_Z_MOINS	Adhésion	AUDACE	Axiale	6	0	-4	3	10	6	12	8.4853	0.0	8.4853	11.2427	208	Esprit critique	33	Assurance
+210	AXIOLOGIQUE_Z_MOINS	Émulation	VOLONTÉ	Laterale	-2	4	-4	3	10	6	12	-3.2071	6.4143	9.6214	11.8107	225	Appréciation	34	Envie
+211	AXIOLOGIQUE_Z_MOINS	Combativité	VOLONTÉ	Laterale	-1	5	-4	3	10	6	12	-1.524	7.62	9.144	11.572	224	Tendresse	35	Haine
+212	AXIOLOGIQUE_Z_MOINS	Don de soi	VOLONTÉ	Laterale	1	5	-4	3	10	6	12	1.524	7.62	9.144	11.572	220	Dignité	36	Amour
+213	AXIOLOGIQUE_Z_MOINS	Solidarité	VOLONTÉ	Laterale	2	4	-4	3	10	6	12	3.2071	6.4143	9.6214	11.8107	221	Indépendance d’esprit	37	Ferveur
+214	AXIOLOGIQUE_Z_MOINS	Équilibre	TEMPÉRANCE	Laterale	2	-4	-4	3	10	6	12	3.2071	-6.4143	9.6214	11.8107	218	Protection	38	Sérénité
+215	AXIOLOGIQUE_Z_MOINS	Sobriété	TEMPÉRANCE	Laterale	1	-5	-4	3	10	6	12	1.524	-7.62	9.144	11.572	219	Quête de sens	39	Plénitude
+216	AXIOLOGIQUE_Z_MOINS	Pudeur	TEMPÉRANCE	Laterale	-2	-4	-4	3	10	6	12	-3.2071	-6.4143	9.6214	11.8107	222	Accomplissement	40	Honte
+217	AXIOLOGIQUE_Z_MOINS	Dépouillement	TEMPÉRANCE	Laterale	-1	-5	-4	3	10	6	12	-1.524	-7.62	9.144	11.572	223	Croissance	41	Vide
+218	AXIOLOGIQUE_Z_MOINS	Protection	PRUDENCE	Laterale	-4	2	-4	3	10	6	12	-6.4143	3.2071	9.6214	11.8107	214	Équilibre	42	Anxiété
+219	AXIOLOGIQUE_Z_MOINS	Quête de sens	PRUDENCE	Laterale	-5	1	-4	3	10	6	12	-7.62	1.524	9.144	11.572	215	Sobriété	43	Manque
+220	AXIOLOGIQUE_Z_MOINS	Dignité	PRUDENCE	Laterale	-5	-1	-4	3	10	6	12	-7.62	-1.524	9.144	11.572	212	Don de soi	44	Mépris
+221	AXIOLOGIQUE_Z_MOINS	Indépendance d’esprit	PRUDENCE	Laterale	-4	-2	-4	3	10	6	12	-6.4143	-3.2071	9.6214	11.8107	213	Solidarité	45	Défiance
+222	AXIOLOGIQUE_Z_MOINS	Accomplissement	AUDACE	Laterale	4	2	-4	3	10	6	12	6.4143	3.2071	9.6214	11.8107	216	Pudeur	46	Fierté
+223	AXIOLOGIQUE_Z_MOINS	Croissance	AUDACE	Laterale	5	1	-4	3	10	6	12	7.62	1.524	9.144	11.572	217	Dépouillement	47	Épanouissement
+224	AXIOLOGIQUE_Z_MOINS	Tendresse	AUDACE	Laterale	5	-1	-4	3	10	6	12	7.62	-1.524	9.144	11.572	211	Combativité	48	Affection
+225	AXIOLOGIQUE_Z_MOINS	Appréciation	AUDACE	Laterale	4	-2	-4	3	10	6	12	6.4143	-3.2071	9.6214	11.8107	210	Émulation	49	Admiration
+226	AXIOLOGIQUE_Z_MOINS	Militantisme	ÉQUITÉ	Diagonale	-3	3	-4	3	10	6	12	-4.899	4.899	9.798	11.899	227	Pardon	50	Frustration
+227	AXIOLOGIQUE_Z_MOINS	Pardon	CLÉMENCE	Diagonale	3	-3	-4	3	10	6	12	4.899	-4.899	9.798	11.899	226	Militantisme	51	Acceptation
+228	AXIOLOGIQUE_Z_MOINS	Coopération	ASPIRATION	Diagonale	3	3	-4	3	10	6	12	4.899	4.899	9.798	11.899	229	Respect des limites	52	Estime
+229	AXIOLOGIQUE_Z_MOINS	Respect des limites	INTÉGRITÉ	Diagonale	-3	-3	-4	3	10	6	12	-4.899	-4.899	9.798	11.899	228	Coopération	53	Rejet
+230	AXIOLOGIQUE_Z_MOINS	Résolution	OPERATEUR_CENTRAL	Centre	0	0	-5	2	9	0	4	0.0	0.0	4.0	9.0	230	Résolution	54	Recul
+231	AXIOLOGIQUE_Z_MOINS	Autorité	VOLONTÉ	Axiale	0	8	-5	2	9	8	12	0.0	10.7331	5.3666	9.6833	232	Résilience	55	Puissance
+232	AXIOLOGIQUE_Z_MOINS	Résilience	TEMPÉRANCE	Axiale	0	-8	-5	2	9	8	12	0.0	-10.7331	5.3666	9.6833	231	Autorité	56	Impuissance
+233	AXIOLOGIQUE_Z_MOINS	Circonspection	PRUDENCE	Axiale	-8	0	-5	2	9	8	12	-10.7331	0.0	5.3666	9.6833	234	Bonne foi	57	Méfiance
+234	AXIOLOGIQUE_Z_MOINS	Bonne foi	AUDACE	Axiale	8	0	-5	2	9	8	12	10.7331	0.0	5.3666	9.6833	233	Circonspection	58	Confiance
+235	AXIOLOGIQUE_Z_MOINS	Force d’âme	VOLONTÉ	Laterale	1	7	-5	2	9	8	12	1.4771	10.3397	5.9084	9.9542	250	Authenticité	59	Invulnérabilité
+236	AXIOLOGIQUE_Z_MOINS	Loyauté	VOLONTÉ	Laterale	2	6	-5	2	9	8	12	3.2071	9.6214	6.4143	10.2072	251	Liberté intérieure	60	Attachement
+237	AXIOLOGIQUE_Z_MOINS	Assiduité	VOLONTÉ	Laterale	3	5	-5	2	9	8	12	5.0912	8.4853	6.7882	10.3941	252	Modération	61	Engagement
+238	AXIOLOGIQUE_Z_MOINS	Réalisme	VOLONTÉ	Laterale	-2	6	-5	2	9	8	12	-3.2071	9.6214	6.4143	10.2072	256	Sens du beau	62	Désenchantement
+239	AXIOLOGIQUE_Z_MOINS	Rigueur morale	VOLONTÉ	Laterale	-3	5	-5	2	9	8	12	-5.0912	8.4853	6.7882	10.3941	257	Indulgence	63	Intolérance
+240	AXIOLOGIQUE_Z_MOINS	Droiture	VOLONTÉ	Laterale	-1	7	-5	2	9	8	12	-1.4771	10.3397	5.9084	9.9542	258	Impartialité	64	Injustice
+241	AXIOLOGIQUE_Z_MOINS	Ancrage	TEMPÉRANCE	Laterale	3	-5	-5	2	9	8	12	5.0912	-8.4853	6.7882	10.3941	248	Sollicitude	65	Quiétude
+242	AXIOLOGIQUE_Z_MOINS	Stabilité	TEMPÉRANCE	Laterale	2	-6	-5	2	9	8	12	3.2071	-9.6214	6.4143	10.2072	247	Précaution	66	Sécurité
+243	AXIOLOGIQUE_Z_MOINS	Longanimité	TEMPÉRANCE	Laterale	1	-7	-5	2	9	8	12	1.4771	-10.3397	5.9084	9.9542	249	Diligence	67	Patience
+244	AXIOLOGIQUE_Z_MOINS	Prévoyance	TEMPÉRANCE	Laterale	-2	-6	-5	2	9	8	12	-3.2071	-9.6214	6.4143	10.2072	253	Gaieté	68	Pessimisme
+245	AXIOLOGIQUE_Z_MOINS	Discrétion	TEMPÉRANCE	Laterale	-3	-5	-5	2	9	8	12	-5.0912	-8.4853	6.7882	10.3941	254	Sociabilité	69	Fermeture
+246	AXIOLOGIQUE_Z_MOINS	Stoïcisme	TEMPÉRANCE	Laterale	-1	-7	-5	2	9	8	12	-1.4771	-10.3397	5.9084	9.9542	255	Espérance	70	Désespoir
+247	AXIOLOGIQUE_Z_MOINS	Précaution	PRUDENCE	Laterale	-6	2	-5	2	9	8	12	-9.6214	3.2071	6.4143	10.2072	242	Stabilité	71	Insécurité
+248	AXIOLOGIQUE_Z_MOINS	Sollicitude	PRUDENCE	Laterale	-5	3	-5	2	9	8	12	-8.4853	5.0912	6.7882	10.3941	241	Ancrage	72	Inquiétude
+249	AXIOLOGIQUE_Z_MOINS	Diligence	PRUDENCE	Laterale	-7	1	-5	2	9	8	12	-10.3397	1.4771	5.9084	9.9542	243	Longanimité	73	Impatience
+250	AXIOLOGIQUE_Z_MOINS	Authenticité	PRUDENCE	Laterale	-7	-1	-5	2	9	8	12	-10.3397	-1.4771	5.9084	9.9542	235	Force d’âme	74	Vulnérabilité
+251	AXIOLOGIQUE_Z_MOINS	Liberté intérieure	PRUDENCE	Laterale	-6	-2	-5	2	9	8	12	-9.6214	-3.2071	6.4143	10.2072	236	Loyauté	75	Détachement
+252	AXIOLOGIQUE_Z_MOINS	Modération	PRUDENCE	Laterale	-5	-3	-5	2	9	8	12	-8.4853	-5.0912	6.7882	10.3941	237	Assiduité	76	Désengagement
+253	AXIOLOGIQUE_Z_MOINS	Gaieté	AUDACE	Laterale	6	2	-5	2	9	8	12	9.6214	3.2071	6.4143	10.2072	244	Prévoyance	77	Optimisme
+254	AXIOLOGIQUE_Z_MOINS	Sociabilité	AUDACE	Laterale	5	3	-5	2	9	8	12	8.4853	5.0912	6.7882	10.3941	245	Discrétion	78	Ouverture
+255	AXIOLOGIQUE_Z_MOINS	Espérance	AUDACE	Laterale	7	1	-5	2	9	8	12	10.3397	1.4771	5.9084	9.9542	246	Stoïcisme	79	Espoir
+256	AXIOLOGIQUE_Z_MOINS	Sens du beau	AUDACE	Laterale	6	-2	-5	2	9	8	12	9.6214	-3.2071	6.4143	10.2072	238	Réalisme	80	Enchantement
+257	AXIOLOGIQUE_Z_MOINS	Indulgence	AUDACE	Laterale	5	-3	-5	2	9	8	12	8.4853	-5.0912	6.7882	10.3941	239	Rigueur morale	81	Tolérance
+258	AXIOLOGIQUE_Z_MOINS	Impartialité	AUDACE	Laterale	7	-1	-5	2	9	8	12	10.3397	-1.4771	5.9084	9.9542	240	Droiture	82	Justice
+259	AXIOLOGIQUE_Z_MOINS	Exigence	ÉQUITÉ	Diagonale	-4	4	-5	2	9	8	12	-6.9282	6.9282	6.9282	10.4641	260	Simplicité	83	Insatisfaction
+260	AXIOLOGIQUE_Z_MOINS	Simplicité	CLÉMENCE	Diagonale	4	-4	-5	2	9	8	12	6.9282	-6.9282	6.9282	10.4641	259	Exigence	84	Satisfaction
+261	AXIOLOGIQUE_Z_MOINS	Amour d’apprendre	ASPIRATION	Diagonale	4	4	-5	2	9	8	12	6.9282	6.9282	6.9282	10.4641	262	Renoncement	85	Intérêt
+262	AXIOLOGIQUE_Z_MOINS	Renoncement	INTÉGRITÉ	Diagonale	-4	-4	-5	2	9	8	12	-6.9282	-6.9282	6.9282	10.4641	261	Amour d’apprendre	86	Désintérêt
+263	AXIOLOGIQUE_Z_MOINS	Discernement	OPERATEUR_CENTRAL	Centre	0	0	-6	1	8	0	2	0.0	0.0	2.0	8.0	263	Discernement	87	Saisissement
+264	AXIOLOGIQUE_Z_MOINS	Énergique	VOLONTÉ	Axiale	0	10	-6	1	8	10	12	0.0	11.767	2.3534	8.1767	265	Patient	88	Élan
+265	AXIOLOGIQUE_Z_MOINS	Patient	TEMPÉRANCE	Axiale	0	-10	-6	1	8	10	12	0.0	-11.767	2.3534	8.1767	264	Énergique	89	Inertie
+266	AXIOLOGIQUE_Z_MOINS	Humble	PRUDENCE	Axiale	-10	0	-6	1	8	10	12	-11.767	0.0	2.3534	8.1767	267	Confiant	90	Effacement
+267	AXIOLOGIQUE_Z_MOINS	Confiant	AUDACE	Axiale	10	0	-6	1	8	10	12	11.767	0.0	2.3534	8.1767	266	Humble	91	Affirmation
+268	AXIOLOGIQUE_Z_MOINS	Brave	VOLONTÉ	Laterale	3	7	-6	1	8	10	12	4.572	10.668	3.048	8.524	285	Avisé	92	Ardeur
+269	AXIOLOGIQUE_Z_MOINS	Sensible	VOLONTÉ	Laterale	-3	7	-6	1	8	10	12	-4.572	10.668	3.048	8.524	293	Clair	93	Angoisse
+270	AXIOLOGIQUE_Z_MOINS	Spontané	VOLONTÉ	Laterale	4	6	-6	1	8	10	12	6.4143	9.6214	3.2071	8.6036	287	Responsable	94	Allégresse
+271	AXIOLOGIQUE_Z_MOINS	Assertif	VOLONTÉ	Laterale	-4	6	-6	1	8	10	12	-6.4143	9.6214	3.2071	8.6036	295	Gentil	95	Fureur
+272	AXIOLOGIQUE_Z_MOINS	Autonome	VOLONTÉ	Laterale	2	8	-6	1	8	10	12	2.8284	11.3137	2.8284	8.4142	289	Fidèle	96	Fougue
+273	AXIOLOGIQUE_Z_MOINS	Discipliné	VOLONTÉ	Laterale	-2	8	-6	1	8	10	12	-2.8284	11.3137	2.8284	8.4142	297	Souple	97	Frénésie
+274	AXIOLOGIQUE_Z_MOINS	Original	VOLONTÉ	Laterale	1	9	-6	1	8	10	12	1.294	11.6459	2.588	8.294	291	Fiable	98	Jubilation
+275	AXIOLOGIQUE_Z_MOINS	Intègre	VOLONTÉ	Laterale	-1	9	-6	1	8	10	12	-1.294	11.6459	2.588	8.294	299	Tolérant	99	Terreur
+276	AXIOLOGIQUE_Z_MOINS	Posé	TEMPÉRANCE	Laterale	3	-7	-6	1	8	10	12	4.572	-10.668	3.048	8.524	284	Persévérant	100	Béatitude
+277	AXIOLOGIQUE_Z_MOINS	Sérieux	TEMPÉRANCE	Laterale	-3	-7	-6	1	8	10	12	-4.572	-10.668	3.048	8.524	292	Drôle	101	Accablement
+278	AXIOLOGIQUE_Z_MOINS	Délicat	TEMPÉRANCE	Laterale	4	-6	-6	1	8	10	12	6.4143	-9.6214	3.2071	8.6036	286	Franc	102	Apaisement
+279	AXIOLOGIQUE_Z_MOINS	Économe	TEMPÉRANCE	Laterale	-4	-6	-6	1	8	10	12	-6.4143	-9.6214	3.2071	8.6036	294	Généreux	103	Morosité
+280	AXIOLOGIQUE_Z_MOINS	Réfléchi	TEMPÉRANCE	Laterale	2	-8	-6	1	8	10	12	2.8284	-11.3137	2.8284	8.4142	288	Intuitif	104	Contemplation
+281	AXIOLOGIQUE_Z_MOINS	Méticuleux	TEMPÉRANCE	Laterale	-2	-8	-6	1	8	10	12	-2.8284	-11.3137	2.8284	8.4142	296	Curieux	105	Prostration
+282	AXIOLOGIQUE_Z_MOINS	Bienveillant	TEMPÉRANCE	Laterale	1	-9	-6	1	8	10	12	1.294	-11.6459	2.588	8.294	290	Honnête	106	Félicité
+283	AXIOLOGIQUE_Z_MOINS	Respectueux	TEMPÉRANCE	Laterale	-1	-9	-6	1	8	10	12	-1.294	-11.6459	2.588	8.294	298	Sincère	107	Désolation
+284	AXIOLOGIQUE_Z_MOINS	Persévérant	PRUDENCE	Laterale	-7	3	-6	1	8	10	12	-10.668	4.572	3.048	8.524	276	Posé	110	Affolement
+285	AXIOLOGIQUE_Z_MOINS	Avisé	PRUDENCE	Laterale	-7	-3	-6	1	8	10	12	-10.668	-4.572	3.048	8.524	268	Brave	111	Écrasement
+286	AXIOLOGIQUE_Z_MOINS	Franc	PRUDENCE	Laterale	-6	4	-6	1	8	10	12	-9.6214	6.4143	3.2071	8.6036	278	Délicat	108	Irritation
+287	AXIOLOGIQUE_Z_MOINS	Responsable	PRUDENCE	Laterale	-6	-4	-6	1	8	10	12	-9.6214	-6.4143	3.2071	8.6036	270	Spontané	109	Amertume
+288	AXIOLOGIQUE_Z_MOINS	Intuitif	PRUDENCE	Laterale	-8	2	-6	1	8	10	12	-11.3137	2.8284	2.8284	8.4142	280	Réfléchi	112	Fébrilité
+289	AXIOLOGIQUE_Z_MOINS	Fidèle	PRUDENCE	Laterale	-8	-2	-6	1	8	10	12	-11.3137	-2.8284	2.8284	8.4142	272	Autonome	113	Anéantissement
+290	AXIOLOGIQUE_Z_MOINS	Honnête	PRUDENCE	Laterale	-9	1	-6	1	8	10	12	-11.6459	1.294	2.588	8.294	282	Bienveillant	114	Désarroi
+291	AXIOLOGIQUE_Z_MOINS	Fiable	PRUDENCE	Laterale	-9	-1	-6	1	8	10	12	-11.6459	-1.294	2.588	8.294	274	Original	115	Lassitude
+292	AXIOLOGIQUE_Z_MOINS	Drôle	AUDACE	Laterale	7	3	-6	1	8	10	12	10.668	4.572	3.048	8.524	277	Sérieux	118	Liesse
+293	AXIOLOGIQUE_Z_MOINS	Clair	AUDACE	Laterale	7	-3	-6	1	8	10	12	10.668	-4.572	3.048	8.524	269	Sensible	119	Limpidité
+294	AXIOLOGIQUE_Z_MOINS	Généreux	AUDACE	Laterale	6	4	-6	1	8	10	12	9.6214	6.4143	3.2071	8.6036	279	Économe	116	Entrain
+295	AXIOLOGIQUE_Z_MOINS	Gentil	AUDACE	Laterale	6	-4	-6	1	8	10	12	9.6214	-6.4143	3.2071	8.6036	271	Assertif	117	Placidité
+296	AXIOLOGIQUE_Z_MOINS	Curieux	AUDACE	Laterale	8	2	-6	1	8	10	12	11.3137	2.8284	2.8284	8.4142	281	Méticuleux	120	Extase
+297	AXIOLOGIQUE_Z_MOINS	Souple	AUDACE	Laterale	8	-2	-6	1	8	10	12	11.3137	-2.8284	2.8284	8.4142	273	Discipliné	121	Équanimité
+298	AXIOLOGIQUE_Z_MOINS	Sincère	AUDACE	Laterale	9	1	-6	1	8	10	12	11.6459	1.294	2.588	8.294	283	Respectueux	122	Exultation
+299	AXIOLOGIQUE_Z_MOINS	Tolérant	AUDACE	Laterale	9	-1	-6	1	8	10	12	11.6459	-1.294	2.588	8.294	275	Intègre	123	Harmonie
+300	AXIOLOGIQUE_Z_MOINS	Juste	ÉQUITÉ	Diagonale	-5	5	-6	1	8	10	12	-8.165	8.165	3.266	8.633	301	Compréhensif	124	Tourment
+301	AXIOLOGIQUE_Z_MOINS	Compréhensif	CLÉMENCE	Diagonale	5	-5	-6	1	8	10	12	8.165	-8.165	3.266	8.633	300	Juste	125	Ataraxie
+302	AXIOLOGIQUE_Z_MOINS	Ambitieux	ASPIRATION	Diagonale	5	5	-6	1	8	10	12	8.165	8.165	3.266	8.633	303	Modeste	126	Triomphe
+303	AXIOLOGIQUE_Z_MOINS	Modeste	INTÉGRITÉ	Diagonale	-5	-5	-6	1	8	10	12	-8.165	-8.165	3.266	8.633	302	Ambitieux	127	Abattement

@@ -1,0 +1,705 @@
+{
+  "num_seeds_per_profile": 20,
+  "pure_theta_only": true,
+  "theta_profiles": {
+    "a_normothymic": {
+      "tau_A": 0.24,
+      "tau_C": 0.24,
+      "lambda": 0.75,
+      "alpha_0": 0.8,
+      "gamma_alpha": 0.35,
+      "eta_diss": 0.45,
+      "beta_X": 2.2,
+      "beta_Y": 1.1
+    },
+    "b_inhibited": {
+      "tau_A": 0.25,
+      "tau_C": 0.12,
+      "lambda": 0.85,
+      "alpha_0": 3.5,
+      "gamma_alpha": 0.75,
+      "eta_diss": 0.03,
+      "beta_X": 1.8,
+      "beta_Y": 1.4
+    },
+    "c_agitated": {
+      "tau_A": 0.14,
+      "tau_C": 0.09,
+      "lambda": 0.68,
+      "alpha_0": 2.5,
+      "gamma_alpha": 0.58,
+      "eta_diss": 0.08,
+      "beta_X": 2.9,
+      "beta_Y": 1.0
+    },
+    "d_rigid_bias": {
+      "tau_A": 0.95,
+      "tau_C": 0.12,
+      "lambda": 0.8,
+      "alpha_0": 1.8,
+      "gamma_alpha": 0.45,
+      "eta_diss": 0.3,
+      "beta_X": 2.0,
+      "beta_Y": 1.2
+    }
+  },
+  "unified_cohort": {
+    "a_normothymic": {
+      "mean_z_stress": {
+        "mean": 2.719285714285714,
+        "sd": 0.27515350661391436,
+        "median": 2.757142857142857,
+        "iqr": 0.3732142857142855
+      },
+      "mean_z_remission": {
+        "mean": 1.0525,
+        "sd": 0.5395892687474135,
+        "median": 0.79,
+        "iqr": 0.5949999999999999
+      },
+      "end_z_remission_final": {
+        "mean": 3.3091570467692576e-09,
+        "sd": 1.4741755087465167e-08,
+        "median": 1.2913970046308476e-15,
+        "iqr": 2.68500053801802e-13
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.7305,
+        "sd": 0.12584347002275653,
+        "median": 0.785,
+        "iqr": 0.11250000000000004
+      },
+      "p_homeostasis_remission": {
+        "mean": 0.7200666014288435,
+        "sd": 0.12282435271952306,
+        "median": 0.78068296263961,
+        "iqr": 0.12430085681757574
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7035714285714286,
+        "sd": 0.12590168875330657,
+        "median": 0.7285714285714285,
+        "iqr": 0.13571428571428568
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.3628571428571428,
+        "sd": 0.11204571723065311,
+        "median": 0.35,
+        "iqr": 0.15714285714285714
+      },
+      "x_zero_lock_fraction": {
+        "mean": 0.5657692307692308,
+        "sd": 0.06399329418310061,
+        "median": 0.5557692307692308,
+        "iqr": 0.09134615384615385
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.23964285714285713,
+        "sd": 0.09477416766789808,
+        "median": 0.21071428571428572,
+        "iqr": 0.13749999999999998
+      },
+      "oscillation_rate_neg_pos": {
+        "mean": 0.07779922779922781,
+        "sd": 0.022696418889079313,
+        "median": 0.07722007722007722,
+        "iqr": 0.02316602316602316
+      }
+    },
+    "b_inhibited": {
+      "mean_z_stress": {
+        "mean": 5.01,
+        "sd": 0.8803908662271536,
+        "median": 5.3,
+        "iqr": 0.7607142857142861
+      },
+      "mean_z_remission": {
+        "mean": 5.5365,
+        "sd": 0.3620304581545301,
+        "median": 5.625,
+        "iqr": 0.23249999999999993
+      },
+      "end_z_remission_final": {
+        "mean": 2.1363879386271556,
+        "sd": 0.819581556941972,
+        "median": 2.0008695290753167,
+        "iqr": 0.8511028179741928
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "median": 0.0,
+        "iqr": 0.0
+      },
+      "p_homeostasis_remission": {
+        "mean": 3.674125044299397e-05,
+        "sd": 0.00015673204670241613,
+        "median": 1.8200835528577918e-09,
+        "iqr": 1.794177988212301e-07
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7971428571428573,
+        "sd": 0.10107903342892573,
+        "median": 0.8142857142857143,
+        "iqr": 0.06785714285714284
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.395,
+        "sd": 0.17753987767052593,
+        "median": 0.42142857142857143,
+        "iqr": 0.18928571428571428
+      },
+      "x_zero_lock_fraction": {
+        "mean": 0.24673076923076925,
+        "sd": 0.06683058199286332,
+        "median": 0.22692307692307692,
+        "iqr": 0.05288461538461542
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.14607142857142857,
+        "sd": 0.06515597249584798,
+        "median": 0.12857142857142856,
+        "iqr": 0.06607142857142857
+      },
+      "oscillation_rate_neg_pos": {
+        "mean": 0.18185328185328184,
+        "sd": 0.0544431088422263,
+        "median": 0.19498069498069498,
+        "iqr": 0.07915057915057916
+      }
+    },
+    "c_agitated": {
+      "mean_z_stress": {
+        "mean": 3.5371428571428574,
+        "sd": 0.7585870748708531,
+        "median": 3.5107142857142857,
+        "iqr": 1.0750000000000002
+      },
+      "mean_z_remission": {
+        "mean": 2.9964999999999997,
+        "sd": 0.37471778854576887,
+        "median": 3.075,
+        "iqr": 0.5
+      },
+      "end_z_remission_final": {
+        "mean": 0.17801606351530805,
+        "sd": 0.44516898740968697,
+        "median": 0.009275466878320373,
+        "iqr": 0.15754196093744635
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.179,
+        "sd": 0.08005918863072825,
+        "median": 0.175,
+        "iqr": 0.1125
+      },
+      "p_homeostasis_remission": {
+        "mean": 0.1813593092446008,
+        "sd": 0.0773245125385821,
+        "median": 0.17315103726128273,
+        "iqr": 0.10670208008799209
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7714285714285715,
+        "sd": 0.1440551272924644,
+        "median": 0.8428571428571429,
+        "iqr": 0.1785714285714286
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.7157142857142857,
+        "sd": 0.10588484513680672,
+        "median": 0.7285714285714285,
+        "iqr": 0.1071428571428571
+      },
+      "x_zero_lock_fraction": {
+        "mean": 0.3932692307692307,
+        "sd": 0.05377199925685976,
+        "median": 0.37884615384615383,
+        "iqr": 0.0903846153846154
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.15392857142857141,
+        "sd": 0.06373932378326595,
+        "median": 0.14285714285714285,
+        "iqr": 0.05714285714285715
+      },
+      "oscillation_rate_neg_pos": {
+        "mean": 0.10945945945945948,
+        "sd": 0.03333798828627824,
+        "median": 0.10617760617760619,
+        "iqr": 0.04826254826254826
+      }
+    },
+    "d_rigid_bias": {
+      "mean_z_stress": {
+        "mean": 3.065714285714286,
+        "sd": 0.29203166257128027,
+        "median": 3.1357142857142857,
+        "iqr": 0.23571428571428577
+      },
+      "mean_z_remission": {
+        "mean": 0.622,
+        "sd": 0.14816775698689075,
+        "median": 0.63,
+        "iqr": 0.2875
+      },
+      "end_z_remission_final": {
+        "mean": 2.238192428970477e-12,
+        "sd": 9.216294336591599e-12,
+        "median": 4.134622668742246e-16,
+        "iqr": 1.5635458454117378e-16
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.825,
+        "sd": 0.04784844495080823,
+        "median": 0.84,
+        "iqr": 0.07499999999999996
+      },
+      "p_homeostasis_remission": {
+        "mean": 0.8190276161780098,
+        "sd": 0.045577430179277796,
+        "median": 0.8297015735381241,
+        "iqr": 0.0688926965397787
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.28,
+        "sd": 0.1914050035991554,
+        "median": 0.24285714285714285,
+        "iqr": 0.16428571428571426
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.14000000000000004,
+        "sd": 0.05910176190212567,
+        "median": 0.11428571428571428,
+        "iqr": 0.06428571428571428
+      },
+      "x_zero_lock_fraction": {
+        "mean": 0.7882692307692308,
+        "sd": 0.05411262866008743,
+        "median": 0.7961538461538462,
+        "iqr": 0.060576923076923084
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.6653571428571428,
+        "sd": 0.08668854209036483,
+        "median": 0.6821428571428572,
+        "iqr": 0.09107142857142858
+      },
+      "oscillation_rate_neg_pos": {
+        "mean": 0.07277992277992279,
+        "sd": 0.02702049446410196,
+        "median": 0.06563706563706564,
+        "iqr": 0.03281853281853281
+      }
+    }
+  },
+  "clinical_probes": {
+    "a_normothymic": {
+      "mean_z_remission": {
+        "mean": 1.0525,
+        "sd": 0.5395892687474135,
+        "median": 0.79,
+        "iqr": 0.5949999999999999
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.7305,
+        "sd": 0.12584347002275653,
+        "median": 0.785,
+        "iqr": 0.11250000000000004
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7035714285714286,
+        "sd": 0.12590168875330657,
+        "median": 0.7285714285714285,
+        "iqr": 0.13571428571428568
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.3628571428571428,
+        "sd": 0.11204571723065311,
+        "median": 0.35,
+        "iqr": 0.15714285714285714
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.23964285714285713,
+        "sd": 0.09477416766789808,
+        "median": 0.21071428571428572,
+        "iqr": 0.13749999999999998
+      },
+      "seeds_reaching_z5_neg_neg": 15,
+      "seeds_reaching_desespoir": 8,
+      "seeds_reaching_z5_neg_pos": 0,
+      "seeds_reaching_z6_neg_pos": 0,
+      "seeds_reaching_tourment": 0,
+      "total_infini_visits": 0,
+      "median_representative_seed": 1011,
+      "top_labels_pooled": [
+        [
+          "Colère",
+          506
+        ],
+        [
+          "Peur",
+          462
+        ],
+        [
+          "Rejet",
+          251
+        ],
+        [
+          "Joie",
+          251
+        ],
+        [
+          "Réserve",
+          176
+        ],
+        [
+          "Retrait",
+          161
+        ],
+        [
+          "Dégoût",
+          130
+        ],
+        [
+          "Recul",
+          113
+        ]
+      ]
+    },
+    "b_inhibited": {
+      "mean_z_remission": {
+        "mean": 5.5365,
+        "sd": 0.3620304581545301,
+        "median": 5.625,
+        "iqr": 0.23249999999999993
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "median": 0.0,
+        "iqr": 0.0
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7971428571428573,
+        "sd": 0.10107903342892573,
+        "median": 0.8142857142857143,
+        "iqr": 0.06785714285714284
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.395,
+        "sd": 0.17753987767052593,
+        "median": 0.42142857142857143,
+        "iqr": 0.18928571428571428
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.14607142857142857,
+        "sd": 0.06515597249584798,
+        "median": 0.12857142857142856,
+        "iqr": 0.06607142857142857
+      },
+      "seeds_reaching_z5_neg_neg": 20,
+      "seeds_reaching_desespoir": 12,
+      "seeds_reaching_z5_neg_pos": 20,
+      "seeds_reaching_z6_neg_pos": 19,
+      "seeds_reaching_tourment": 4,
+      "total_infini_visits": 41,
+      "median_representative_seed": 1003,
+      "top_labels_pooled": [
+        [
+          "Dissolution",
+          913
+        ],
+        [
+          "Déréliction",
+          315
+        ],
+        [
+          "Méfiance",
+          255
+        ],
+        [
+          "Sidération",
+          243
+        ],
+        [
+          "Dégoût",
+          235
+        ],
+        [
+          "Néant",
+          180
+        ],
+        [
+          "Insécurité",
+          144
+        ],
+        [
+          "Peur",
+          139
+        ]
+      ]
+    },
+    "c_agitated": {
+      "mean_z_remission": {
+        "mean": 2.9964999999999997,
+        "sd": 0.37471778854576887,
+        "median": 3.075,
+        "iqr": 0.5
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.179,
+        "sd": 0.08005918863072825,
+        "median": 0.175,
+        "iqr": 0.1125
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.7714285714285715,
+        "sd": 0.1440551272924644,
+        "median": 0.8428571428571429,
+        "iqr": 0.1785714285714286
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.7157142857142857,
+        "sd": 0.10588484513680672,
+        "median": 0.7285714285714285,
+        "iqr": 0.1071428571428571
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.15392857142857141,
+        "sd": 0.06373932378326595,
+        "median": 0.14285714285714285,
+        "iqr": 0.05714285714285715
+      },
+      "seeds_reaching_z5_neg_neg": 19,
+      "seeds_reaching_desespoir": 3,
+      "seeds_reaching_z5_neg_pos": 17,
+      "seeds_reaching_z6_neg_pos": 10,
+      "seeds_reaching_tourment": 5,
+      "total_infini_visits": 6,
+      "median_representative_seed": 1001,
+      "top_labels_pooled": [
+        [
+          "Colère",
+          565
+        ],
+        [
+          "Dégoût",
+          323
+        ],
+        [
+          "Dissolution",
+          319
+        ],
+        [
+          "Tristesse",
+          229
+        ],
+        [
+          "Peur",
+          195
+        ],
+        [
+          "Surprise",
+          182
+        ],
+        [
+          "Joie",
+          181
+        ],
+        [
+          "Retrait",
+          171
+        ]
+      ]
+    },
+    "d_rigid_bias": {
+      "mean_z_remission": {
+        "mean": 0.622,
+        "sd": 0.14816775698689075,
+        "median": 0.63,
+        "iqr": 0.2875
+      },
+      "pdv_fraction_remission": {
+        "mean": 0.825,
+        "sd": 0.04784844495080823,
+        "median": 0.84,
+        "iqr": 0.07499999999999996
+      },
+      "quadrant_neg_neg_loss": {
+        "mean": 0.28,
+        "sd": 0.1914050035991554,
+        "median": 0.24285714285714285,
+        "iqr": 0.16428571428571426
+      },
+      "quadrant_neg_pos_threat": {
+        "mean": 0.14000000000000004,
+        "sd": 0.05910176190212567,
+        "median": 0.11428571428571428,
+        "iqr": 0.06428571428571428
+      },
+      "x_zero_lock_stress": {
+        "mean": 0.6653571428571428,
+        "sd": 0.08668854209036483,
+        "median": 0.6821428571428572,
+        "iqr": 0.09107142857142858
+      },
+      "seeds_reaching_z5_neg_neg": 20,
+      "seeds_reaching_desespoir": 13,
+      "seeds_reaching_z5_neg_pos": 0,
+      "seeds_reaching_z6_neg_pos": 0,
+      "seeds_reaching_tourment": 0,
+      "total_infini_visits": 0,
+      "median_representative_seed": 1002,
+      "top_labels_pooled": [
+        [
+          "Joie",
+          729
+        ],
+        [
+          "Impuissance",
+          368
+        ],
+        [
+          "Peur",
+          294
+        ],
+        [
+          "Inertie",
+          271
+        ],
+        [
+          "Colère",
+          214
+        ],
+        [
+          "Tristesse",
+          103
+        ],
+        [
+          "Langueur",
+          98
+        ],
+        [
+          "Surprise",
+          71
+        ]
+      ]
+    }
+  },
+  "hypothesis_tests": {
+    "inhibited_vs_normo_z_remission": {
+      "wilcoxon_w": 0.0,
+      "p_value": 1.9073486328125e-06,
+      "p_value_str": "1.91e-06",
+      "r_rb": 1.0,
+      "median_a": 5.625,
+      "median_b": 0.79,
+      "iqr_a": 0.23249999999999993,
+      "iqr_b": 0.5949999999999999,
+      "mean_a": 5.5365,
+      "mean_b": 1.0525,
+      "p_holm": 1.52587890625e-05,
+      "p_holm_str": "1.53e-05"
+    },
+    "inhibited_vs_normo_pdv_remission": {
+      "wilcoxon_w": 0.0,
+      "p_value": 8.70783521016157e-05,
+      "p_value_str": "8.71e-05",
+      "r_rb": 1.0,
+      "median_a": 0.785,
+      "median_b": 0.0,
+      "iqr_a": 0.11250000000000004,
+      "iqr_b": 0.0,
+      "mean_a": 0.7305,
+      "mean_b": 0.0,
+      "p_holm": 0.0005224701126096942,
+      "p_holm_str": "5.22e-04"
+    },
+    "inhibited_vs_normo_neg_neg_loss": {
+      "wilcoxon_w": 21.0,
+      "p_value": 0.0028821680192797467,
+      "p_value_str": "2.88e-03",
+      "r_rb": 0.7789473684210526,
+      "median_a": 0.8142857142857143,
+      "median_b": 0.7285714285714285,
+      "iqr_a": 0.06785714285714284,
+      "iqr_b": 0.13571428571428568,
+      "mean_a": 0.7971428571428573,
+      "mean_b": 0.7035714285714286,
+      "p_holm": 0.005764336038559493,
+      "p_holm_str": "5.76e-03"
+    },
+    "agitated_vs_normo_neg_pos_threat": {
+      "wilcoxon_w": 0.0,
+      "p_value": 8.832385863081277e-05,
+      "p_value_str": "8.83e-05",
+      "r_rb": 1.0,
+      "median_a": 0.7285714285714285,
+      "median_b": 0.35,
+      "iqr_a": 0.1071428571428571,
+      "iqr_b": 0.15714285714285714,
+      "mean_a": 0.7157142857142857,
+      "mean_b": 0.3628571428571428,
+      "p_holm": 0.0005224701126096942,
+      "p_holm_str": "5.22e-04"
+    },
+    "agitated_vs_inhibited_neg_pos_threat": {
+      "wilcoxon_w": 2.0,
+      "p_value": 0.0001202578206387046,
+      "p_value_str": "1.20e-04",
+      "r_rb": 0.9809523809523809,
+      "median_a": 0.7285714285714285,
+      "median_b": 0.42142857142857143,
+      "iqr_a": 0.1071428571428571,
+      "iqr_b": 0.18928571428571428,
+      "mean_a": 0.7157142857142857,
+      "mean_b": 0.395,
+      "p_holm": 0.0005224701126096942,
+      "p_holm_str": "5.22e-04"
+    },
+    "agitated_vs_normo_oscillation": {
+      "wilcoxon_w": 36.0,
+      "p_value": 0.009989902455487807,
+      "p_value_str": "9.99e-03",
+      "r_rb": 0.6571428571428571,
+      "median_a": 0.10617760617760619,
+      "median_b": 0.07722007722007722,
+      "iqr_a": 0.04826254826254826,
+      "iqr_b": 0.02316602316602316,
+      "mean_a": 0.10945945945945948,
+      "mean_b": 0.07779922779922781,
+      "p_holm": 0.009989902455487807,
+      "p_holm_str": "9.99e-03"
+    },
+    "rigid_vs_normo_x_zero_lock": {
+      "wilcoxon_w": 0.0,
+      "p_value": 8.832385863081277e-05,
+      "p_value_str": "8.83e-05",
+      "r_rb": 1.0,
+      "median_a": 0.7961538461538462,
+      "median_b": 0.5557692307692308,
+      "iqr_a": 0.060576923076923084,
+      "iqr_b": 0.09134615384615385,
+      "mean_a": 0.7882692307692308,
+      "mean_b": 0.5657692307692308,
+      "p_holm": 0.0005224701126096942,
+      "p_holm_str": "5.22e-04"
+    },
+    "rigid_vs_normo_x_zero_stress": {
+      "wilcoxon_w": 0.0,
+      "p_value": 1.9073486328125e-06,
+      "p_value_str": "1.91e-06",
+      "r_rb": 1.0,
+      "median_a": 0.6821428571428572,
+      "median_b": 0.21071428571428572,
+      "iqr_a": 0.09107142857142858,
+      "iqr_b": 0.13749999999999998,
+      "mean_a": 0.6653571428571428,
+      "mean_b": 0.23964285714285713,
+      "p_holm": 1.52587890625e-05,
+      "p_holm_str": "1.53e-05"
+    }
+  },
+  "figure_path": "results/fig2_clinical_phenotypes.png"
+}

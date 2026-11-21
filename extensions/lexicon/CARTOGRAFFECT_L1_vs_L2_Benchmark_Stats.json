@@ -1,0 +1,671 @@
+{
+  "metadata": {
+    "model": "CARTOGRAFFECT — Sphère Octaédrique Duale (Homéomorphisme Radial Lp)",
+    "opic_registration": "OPIC n° 1233199",
+    "license_code": "GNU AGPLv3 (SPDX: AGPL-3.0-or-later)",
+    "license_theory": "CC BY-NC-SA 4.0",
+    "homeomorphism_law": "u_Lp = u * (||u||_1 / ||u||_p), u = (X, Y, Z - Z_eq), Z_eq = 7.0",
+    "lean4_verification": "Cartograffect/Validation/SchererGRID.lean (Lean 4.35.0, Zero Sorry, DualSphereHomeomorphism)"
+  },
+  "scale_24_canonical_grid_prototypes": {
+    "L1_diamond_p1": {
+      "cca": {
+        "n_observations": 24,
+        "canonical_correlations": [
+          0.9502,
+          0.8737,
+          0.7616
+        ],
+        "canonical_r_squared": [
+          0.9029,
+          0.7634,
+          0.58
+        ],
+        "wilks_lambda": 0.009649,
+        "bartlett_chi2": 85.856,
+        "bartlett_df": 15,
+        "p_value_permutation_rho1": 0.0005,
+        "p_value_permutation_wilks": 0.0005,
+        "redundancy_carto_given_grid": 0.7791,
+        "redundancy_grid_given_carto": 0.7079,
+        "structure_loadings_carto": [
+          [
+            0.1173,
+            0.6767,
+            -0.7561
+          ],
+          [
+            -0.4343,
+            0.7071,
+            0.5957
+          ],
+          [
+            0.9101,
+            0.2682,
+            0.3784
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            -0.1202,
+            0.789,
+            -0.6143
+          ],
+          [
+            -0.2867,
+            0.7618,
+            0.0002
+          ],
+          [
+            -0.7051,
+            0.305,
+            0.6259
+          ],
+          [
+            -0.8576,
+            -0.1903,
+            0.068
+          ],
+          [
+            0.9584,
+            0.2257,
+            0.0987
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 24,
+        "procrustes_correlation_R": 0.8354,
+        "procrustes_r_squared": 0.6979,
+        "procrustes_residual_m12_sq": 0.3021,
+        "tucker_congruence_axes_XYZ": [
+          0.7997,
+          0.8294,
+          0.8762
+        ],
+        "tucker_congruence_mean": 0.8351,
+        "tucker_congruence_rms": 0.8357,
+        "protest_p_value": 0.0005,
+        "optimal_rotation_matrix": [
+          [
+            0.9817,
+            0.1004,
+            -0.1615
+          ],
+          [
+            -0.105,
+            0.9943,
+            -0.0197
+          ],
+          [
+            0.1586,
+            0.0363,
+            0.9867
+          ]
+        ]
+      }
+    },
+    "L2_sphere_p2": {
+      "cca": {
+        "n_observations": 24,
+        "canonical_correlations": [
+          0.9095,
+          0.7357,
+          0.6516
+        ],
+        "canonical_r_squared": [
+          0.8272,
+          0.5413,
+          0.4245
+        ],
+        "wilks_lambda": 0.04563,
+        "bartlett_chi2": 57.113,
+        "bartlett_df": 15,
+        "p_value_permutation_rho1": 0.0005,
+        "p_value_permutation_wilks": 0.0005,
+        "redundancy_carto_given_grid": 0.6119,
+        "redundancy_grid_given_carto": 0.5435,
+        "structure_loadings_carto": [
+          [
+            -0.0987,
+            0.7667,
+            -0.6678
+          ],
+          [
+            -0.3842,
+            0.5081,
+            0.7986
+          ],
+          [
+            0.9246,
+            0.0599,
+            0.43
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            -0.0505,
+            0.8869,
+            -0.4933
+          ],
+          [
+            -0.2854,
+            0.7415,
+            0.1204
+          ],
+          [
+            -0.6239,
+            0.2758,
+            0.6795
+          ],
+          [
+            -0.7349,
+            -0.0874,
+            0.0417
+          ],
+          [
+            0.977,
+            0.1417,
+            0.0984
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 24,
+        "procrustes_correlation_R": 0.81,
+        "procrustes_r_squared": 0.6561,
+        "procrustes_residual_m12_sq": 0.3439,
+        "tucker_congruence_axes_XYZ": [
+          0.8278,
+          0.7388,
+          0.86
+        ],
+        "tucker_congruence_mean": 0.8089,
+        "tucker_congruence_rms": 0.8105,
+        "protest_p_value": 0.0005,
+        "optimal_rotation_matrix": [
+          [
+            0.9849,
+            -0.1406,
+            -0.1014
+          ],
+          [
+            0.1389,
+            0.99,
+            -0.0239
+          ],
+          [
+            0.1038,
+            0.0095,
+            0.9946
+          ]
+        ]
+      }
+    },
+    "delta_L2_minus_L1": {
+      "delta_cca_rho1": -0.0407,
+      "delta_cca_rho2": -0.138,
+      "delta_cca_rho3": -0.11,
+      "delta_procrustes_R": -0.0254,
+      "delta_tucker_phi_X": 0.0281,
+      "delta_tucker_phi_Y": -0.0906,
+      "delta_tucker_phi_Z": -0.0162,
+      "delta_tucker_phi_RMS": -0.0252
+    }
+  },
+  "scale_176_cartograffect_prototypes": {
+    "L1_diamond_p1": {
+      "cca": {
+        "n_observations": 176,
+        "canonical_correlations": [
+          0.9309,
+          0.8589,
+          0.6274
+        ],
+        "canonical_r_squared": [
+          0.8666,
+          0.7377,
+          0.3937
+        ],
+        "wilks_lambda": 0.021224,
+        "bartlett_chi2": 656.8748,
+        "bartlett_df": 15,
+        "p_value_permutation_rho1": 0.0005,
+        "p_value_permutation_wilks": 0.0005,
+        "redundancy_carto_given_grid": 0.6698,
+        "redundancy_grid_given_carto": 0.6474,
+        "structure_loadings_carto": [
+          [
+            -0.543,
+            0.8042,
+            -0.2532
+          ],
+          [
+            -0.839,
+            -0.5451,
+            0.0679
+          ],
+          [
+            -0.0832,
+            0.2485,
+            0.968
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            -0.6361,
+            0.6993,
+            -0.3299
+          ],
+          [
+            -0.8473,
+            0.2976,
+            -0.2595
+          ],
+          [
+            -0.6002,
+            -0.7887,
+            -0.0914
+          ],
+          [
+            -0.1842,
+            -0.6402,
+            -0.583
+          ],
+          [
+            0.0917,
+            0.6568,
+            0.7195
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 176,
+        "procrustes_correlation_R": 0.6281,
+        "procrustes_r_squared": 0.3945,
+        "procrustes_residual_m12_sq": 0.6055,
+        "tucker_congruence_axes_XYZ": [
+          0.6139,
+          0.636,
+          0.6385
+        ],
+        "tucker_congruence_mean": 0.6295,
+        "tucker_congruence_rms": 0.6296,
+        "protest_p_value": 0.0005,
+        "optimal_rotation_matrix": [
+          [
+            0.9619,
+            -0.0353,
+            -0.2709
+          ],
+          [
+            0.0787,
+            0.9854,
+            0.1508
+          ],
+          [
+            0.2617,
+            -0.1664,
+            0.9507
+          ]
+        ]
+      }
+    },
+    "Superquadric_p1_5": {
+      "procrustes": {
+        "n_points": 176,
+        "procrustes_correlation_R": 0.8937,
+        "procrustes_r_squared": 0.7986,
+        "procrustes_residual_m12_sq": 0.2014,
+        "tucker_congruence_axes_XYZ": [
+          0.9152,
+          0.9469,
+          0.8153
+        ],
+        "tucker_congruence_mean": 0.8925,
+        "tucker_congruence_rms": 0.8942,
+        "protest_p_value": 0.001996,
+        "optimal_rotation_matrix": [
+          [
+            0.9938,
+            -0.0358,
+            -0.1052
+          ],
+          [
+            0.0469,
+            0.9933,
+            0.1053
+          ],
+          [
+            0.1007,
+            -0.1095,
+            0.9889
+          ]
+        ]
+      }
+    },
+    "L2_sphere_p2": {
+      "cca": {
+        "n_observations": 176,
+        "canonical_correlations": [
+          0.9364,
+          0.8829,
+          0.8243
+        ],
+        "canonical_r_squared": [
+          0.8769,
+          0.7795,
+          0.6794
+        ],
+        "wilks_lambda": 0.008704,
+        "bartlett_chi2": 806.4809,
+        "bartlett_df": 18,
+        "p_value_permutation_rho1": 0.0005,
+        "p_value_permutation_wilks": 0.0005,
+        "redundancy_carto_given_grid": 0.783,
+        "redundancy_grid_given_carto": 0.6105,
+        "structure_loadings_carto": [
+          [
+            0.0201,
+            0.5703,
+            -0.8247
+          ],
+          [
+            -0.067,
+            0.8238,
+            0.568
+          ],
+          [
+            1.0004,
+            0.0438,
+            0.0546
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            0.0036,
+            0.6438,
+            -0.7566
+          ],
+          [
+            -0.0703,
+            0.8634,
+            -0.3507
+          ],
+          [
+            -0.2218,
+            0.6191,
+            0.7252
+          ],
+          [
+            -0.4304,
+            0.238,
+            0.4419
+          ],
+          [
+            0.5774,
+            -0.1559,
+            -0.4552
+          ],
+          [
+            0.9384,
+            -0.0535,
+            -0.1573
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 176,
+        "procrustes_correlation_R": 0.9134,
+        "procrustes_r_squared": 0.8342,
+        "procrustes_residual_m12_sq": 0.1658,
+        "tucker_congruence_axes_XYZ": [
+          0.9114,
+          0.9509,
+          0.877
+        ],
+        "tucker_congruence_mean": 0.9131,
+        "tucker_congruence_rms": 0.9136,
+        "protest_p_value": 0.0005,
+        "optimal_rotation_matrix": [
+          [
+            0.9963,
+            -0.0352,
+            -0.0781
+          ],
+          [
+            0.0409,
+            0.9964,
+            0.0736
+          ],
+          [
+            0.0752,
+            -0.0766,
+            0.9942
+          ]
+        ]
+      }
+    },
+    "delta_L2_minus_L1": {
+      "delta_cca_rho1": 0.0055,
+      "delta_cca_rho2": 0.024,
+      "delta_cca_rho3": 0.1969,
+      "delta_procrustes_R": 0.2853,
+      "delta_tucker_phi_X": 0.2975,
+      "delta_tucker_phi_Y": 0.3149,
+      "delta_tucker_phi_Z": 0.2385,
+      "delta_tucker_phi_RMS": 0.284
+    }
+  },
+  "scale_15037_french_lexicon": {
+    "L1_diamond_p1": {
+      "cca": {
+        "n_observations": 15037,
+        "canonical_correlations": [
+          0.9104,
+          0.828,
+          0.5772
+        ],
+        "canonical_r_squared": [
+          0.8289,
+          0.6857,
+          0.3331
+        ],
+        "wilks_lambda": 0.035867,
+        "bartlett_chi2": 50023.8185,
+        "bartlett_df": 15,
+        "p_value_permutation_rho1": 0.001996,
+        "p_value_permutation_wilks": 0.001996,
+        "redundancy_carto_given_grid": 0.6254,
+        "redundancy_grid_given_carto": 0.631,
+        "structure_loadings_carto": [
+          [
+            -0.512,
+            0.8587,
+            0.0227
+          ],
+          [
+            -0.9506,
+            -0.3076,
+            -0.0429
+          ],
+          [
+            0.0138,
+            -0.125,
+            0.9921
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            -0.5393,
+            0.8301,
+            -0.0298
+          ],
+          [
+            -0.8392,
+            0.4721,
+            0.0155
+          ],
+          [
+            -0.7549,
+            -0.5998,
+            -0.248
+          ],
+          [
+            -0.4727,
+            -0.3594,
+            -0.7566
+          ],
+          [
+            0.432,
+            0.4708,
+            0.7633
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 15037,
+        "procrustes_correlation_R": 0.6637,
+        "procrustes_r_squared": 0.4405,
+        "procrustes_residual_m12_sq": 0.5595,
+        "tucker_congruence_axes_XYZ": [
+          0.7932,
+          0.709,
+          0.4534
+        ],
+        "tucker_congruence_mean": 0.6519,
+        "tucker_congruence_rms": 0.6677,
+        "protest_p_value": 0.001996,
+        "optimal_rotation_matrix": [
+          [
+            0.9643,
+            -0.0808,
+            -0.252
+          ],
+          [
+            0.1456,
+            0.9571,
+            0.2504
+          ],
+          [
+            0.221,
+            -0.2782,
+            0.9348
+          ]
+        ]
+      }
+    },
+    "L2_sphere_p2": {
+      "cca": {
+        "n_observations": 15037,
+        "canonical_correlations": [
+          0.9046,
+          0.8532,
+          0.7775
+        ],
+        "canonical_r_squared": [
+          0.8183,
+          0.728,
+          0.6045
+        ],
+        "wilks_lambda": 0.019551,
+        "bartlett_chi2": 59143.0472,
+        "bartlett_df": 18,
+        "p_value_permutation_rho1": 0.001996,
+        "p_value_permutation_wilks": 0.001996,
+        "redundancy_carto_given_grid": 0.7242,
+        "redundancy_grid_given_carto": 0.5306,
+        "structure_loadings_carto": [
+          [
+            -0.0533,
+            0.4653,
+            -0.8836
+          ],
+          [
+            0.1749,
+            0.9652,
+            0.1948
+          ],
+          [
+            0.98,
+            -0.1961,
+            -0.0342
+          ]
+        ],
+        "structure_loadings_grid": [
+          [
+            -0.0789,
+            0.4686,
+            -0.8709
+          ],
+          [
+            0.0498,
+            0.8059,
+            -0.5436
+          ],
+          [
+            0.1229,
+            0.7972,
+            0.5103
+          ],
+          [
+            -0.1601,
+            0.5292,
+            0.321
+          ],
+          [
+            0.1947,
+            -0.5255,
+            -0.4481
+          ],
+          [
+            0.7852,
+            -0.37,
+            -0.2214
+          ]
+        ]
+      },
+      "procrustes": {
+        "n_points": 15037,
+        "procrustes_correlation_R": 0.7427,
+        "procrustes_r_squared": 0.5516,
+        "procrustes_residual_m12_sq": 0.4484,
+        "tucker_congruence_axes_XYZ": [
+          0.737,
+          0.7014,
+          0.7941
+        ],
+        "tucker_congruence_mean": 0.7442,
+        "tucker_congruence_rms": 0.7451,
+        "protest_p_value": 0.001996,
+        "optimal_rotation_matrix": [
+          [
+            0.992,
+            -0.0963,
+            -0.0822
+          ],
+          [
+            0.1043,
+            0.9896,
+            0.0993
+          ],
+          [
+            0.0718,
+            -0.1071,
+            0.9917
+          ]
+        ]
+      }
+    },
+    "delta_L2_minus_L1": {
+      "delta_cca_rho1": -0.0058,
+      "delta_cca_rho2": 0.0252,
+      "delta_cca_rho3": 0.2003,
+      "delta_procrustes_R": 0.079,
+      "delta_tucker_phi_X": -0.0562,
+      "delta_tucker_phi_Y": -0.0076,
+      "delta_tucker_phi_Z": 0.3407,
+      "delta_tucker_phi_RMS": 0.0774
+    }
+  }
+}

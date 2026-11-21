@@ -1,0 +1,111 @@
+wheel	family	term_en	term_fr	term_fr_alt	theta_deg	valence	power	intensity	empirical	source
+GEW3	admiration	admiration	Admiration		-27	0.66	-0.09		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	amusement	amusement	Amusement		63	0.67	0.19		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	anger	anger	Colère		99	-0.37	0.47		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	compassion	compassion	Compassion		-81	-0.05	-0.55		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	contempt	contempt	Mépris		135	-0.55	0.43		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	contentment	contentment	Contentement		-9	0.77	-0.03		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	disappointment	disappointment	Déception		-171	-0.77	-0.12		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	disgust	disgust	Dégoût		153	-0.68	0.20		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	fear	fear	Peur		171	-0.61	0.07		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	guilt	guilt	Culpabilité		-117	-0.57	-0.27		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	hate	hate	Haine		117	-0.45	0.43		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	interest	interest	Intérêt		81	0.61	0.25		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	joy	joy	Joie		27	0.68	0.07		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	love	love	Amour		-45	0.58	-0.16		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	pleasure	pleasure	Plaisir		9	0.71	0.02		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	pride	pride	Fierté		45	0.72	0.15		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	regret	regret	Regret		-135	-0.70	-0.19		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	relief	relief	Soulagement		-63	0.66	-0.36		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	sadness	sadness	Tristesse		-99	-0.68	-0.35		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW3	shame	shame	Honte		-153	-0.61	-0.16		1	Scherer et al. 2013, Table 2 (p.24) + Fig. 6 (p.27)
+GEW2	interest	involvement	Implication	Engagement	81				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	interest	interest	Intérêt		81				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	amusement	amusement	Amusement		63				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	amusement	laughter	Rire		63				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	pride	pride	Fierté		45				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	pride	elation	Exaltation	Allégresse	45				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	joy	happiness	Bonheur		27				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	joy	joy	Joie		27				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	pleasure	enjoyment	Jouissance		9				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	pleasure	pleasure	Plaisir		9				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	love	tenderness	Tendresse		-9				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	love	feeling love	Amour		-9				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	awe	wonderment	Émerveillement		-27				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	awe	feeling awe	Révérence	Admiration	-27				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	relief	feeling disburdened	Délivrance		-45				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	relief	relief	Soulagement		-45				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	surprise	astonishment	Étonnement		-63				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	surprise	surprise	Surprise		-63				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	nostalgia	longing	Langueur	Manque	-81				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	nostalgia	nostalgia	Nostalgie		-81				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	compassion	pity	Pitié		-99				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	compassion	compassion	Compassion		-99				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	sadness	sadness	Tristesse		-117				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	sadness	despair	Désespoir		-117				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	fear	worry	Inquiétude		-135				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	fear	fear	Peur		-135				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	shame	embarrassment	Embarras		-153				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	shame	shame	Honte		-153				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	guilt	guilt	Culpabilité		-171				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	guilt	remorse	Remords		-171				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	disappointment	disappointment	Déception		171				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	disappointment	regret	Regret		171				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	envy	envy	Envie		153				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	envy	jealousy	Jalousie		153				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	disgust	disgust	Dégoût		135				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	disgust	repulsion	Répulsion		135				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	contempt	contempt	Mépris		117				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	contempt	scorn	Dédain		117				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	anger	irritation	Irritation		99				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW2	anger	anger	Colère		99				0	Scherer et al. 2013, Fig. 4 (p.13) ; rayon équidistant 18°
+GEW1	pride	pride	Fierté		78.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	elation	elation	Exaltation	Allégresse	56.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	happiness	happiness	Bonheur		33.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	satisfaction	satisfaction	Satisfaction		11.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	relief	relief	Soulagement		-11.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	hope	hope	Espoir		-33.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	interest	interest	Intérêt		-56.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	surprise	surprise	Surprise		-78.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	anxiety	anxiety	Anxiété	Angoisse	-101.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	sadness	sadness	Tristesse		-123.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	boredom	boredom	Ennui		-146.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	shame/guilt	shame	Honte		-168.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	shame/guilt	guilt	Culpabilité		-168.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	disgust	disgust	Dégoût		168.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	contempt	contempt	Mépris		146.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	hostility	hostility	Hostilité		123.75				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+GEW1	anger	anger	Colère		101.25				0	Scherer et al. 2013, Fig. 3 (p.11) ; rayon équidistant 22.5°
+PLUTCHIK	joy	serenity	Sérénité		90			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	joy	joy	Joie		90			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	joy	ecstasy	Extase		90			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	trust	acceptance	Acceptation		45			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	trust	trust	Confiance		45			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	trust	admiration	Admiration		45			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	fear	apprehension	Appréhension		0			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	fear	fear	Peur		0			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	fear	terror	Terreur		0			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	surprise	distraction	Distraction		-45			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	surprise	surprise	Surprise		-45			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	surprise	amazement	Stupéfaction	Émerveillement	-45			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	sadness	pensiveness	Songerie	Mélancolie	-90			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	sadness	sadness	Tristesse		-90			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	sadness	grief	Chagrin	Affliction	-90			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	disgust	boredom	Ennui		-135			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	disgust	disgust	Dégoût		-135			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	disgust	loathing	Aversion	Répugnance	-135			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anger	annoyance	Agacement		180			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anger	anger	Colère		180			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anger	rage	Rage		180			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anticipation	interest	Intérêt		135			1	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anticipation	anticipation	Anticipation		135			2	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	anticipation	vigilance	Vigilance		135			3	0	Plutchik 2001, reproduit Fig. 2 (p.10)
+PLUTCHIK	love	love	Amour		67.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	submission	submission	Soumission		22.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	awe	awe	Crainte	Révérence	-22.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	disapproval	disapproval	Désapprobation	Réprobation	-67.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	remorse	remorse	Remords		-112.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	contempt	contempt	Mépris		-157.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	aggressiveness	aggressiveness	Agressivité		157.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+PLUTCHIK	optimism	optimism	Optimisme		112.5				0	Plutchik 2001, reproduit Fig. 2 (p.10) ; dyade primaire
+

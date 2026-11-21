@@ -1,0 +1,190 @@
+lemme_dima	part_disc	type_peripherique	categ_dima	classe_dima	sous_classe_dima	antonymie_dima	motif_exclusion
+ombrageux	ADJ	CaractAffect	I	Blesser	ombrage	Flatter-Blesser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aise	NOM	ComportAffect	I	Désinhiber	aise	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+absence de complexes	NOM	ComportAffect	I	Désinhiber	décomplexer	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+désinhibition	NOM	ComportAffect	I	Désinhiber	désinhiber	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sans-gêne	NOM	ComportAffect	I	Désinhiber	sans-gêne	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+atrabilaire	ADJ	CaractAffect	I	Humeur mauvaise	atrabilaire	Humeurs bonne-mauvaise-songeuse	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+bourru	ADJ	CaractAffect	I	Humeur mauvaise	bourru	Humeurs bonne-mauvaise-songeuse	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+asticoter	VERB	ComportAffect	I	Importuner	asticoter	Détendre-Importuner	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+collant	ADJ	ComportAffect	I	Importuner	être collant	Détendre-Importuner	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+comme un fauve en cage	ADVERB	ComportAffect	I	Importuner	être comme un lion en cage	Détendre-Importuner	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+comme un lion en cage	ADVERB	ComportAffect	I	Importuner	être comme un lion en cage	Détendre-Importuner	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+comme un ours en cage	ADVERB	ComportAffect	I	Importuner	être comme un lion en cage	Détendre-Importuner	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+refoulé	ADJ	CaractAffect	I	Inhiber	refoulement	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+timide	ADJ	CaractAffect	I	Inhiber	timidité	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+timidité	NOM	CaractAffect	I	Inhiber	timidité	Désinhiber-Inhiber / Embarrasser	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+émotif	ADJ	CaractAffect	I	Troubler	émouvoir	Apaiser-Troubler	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+émotivité	NOM	CaractAffect	I	Troubler	émouvoir	Apaiser-Troubler	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sensible	ADJ	CaractAffect	I	Troubler	sensibilité	Apaiser-Troubler	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sensibilité	NOM	CaractAffect	I	Troubler	sensibilité	Apaiser-Troubler	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sensiblerie	NOM	CaractAffect	I	Troubler	sensibilité	Apaiser-Troubler	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+caractère	NOM	CaractAffect	I	Z Classifieurs			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+tempérament	NOM	CaractAffect	I	Z Classifieurs			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+comportement	NOM	ComportAffect	I	Z Classifieurs			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+transport	NOM	ComportAffect	I	Z Classifieurs			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir fait le tour de tout	VERB	CaractAffect	II	Absence de désir	en avoir assez	Désir / impatience & Absence de désir	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+affectueusement	ADVERB	ComportAffect	II	Affection	affection	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+affectueux	ADJ	ComportAffect	II	Affection	affection	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+tendre	ADJ	ComportAffect	II	Affection	tendresse	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aimable	ADJ	ComportAffect	II	Amitié	amabilité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aimablement	ADVERB	ComportAffect	II	Amitié	amabilité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+amabilité	NOM	ComportAffect	II	Amitié	amabilité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+amical	ADJ	ComportAffect	II	Amitié	amitié	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+faire ami-ami	VERB	ComportAffect	II	Amitié	amitié	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+lier amitié	VERB	ComportAffect	II	Amitié	amitié	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+convivialité	NOM	ComportAffect	II	Amitié	convivalité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+cordialité	NOM	ComportAffect	II	Amitié	cordialité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fraternel	ADJ	ComportAffect	II	Amitié	fraternité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fraterniser	VERB	ComportAffect	II	Amitié	fraternité	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vivre en harmonie	VERB	ComportAffect	II	Amitié	harmonie	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aimant	ADJ	ComportAffect	II	Amour	éros	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+libidineux	ADJ	CaractAffect	II	Amour	libido	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir d'yeux que	VERB	ComportAffect	II	Amour	n'avoir d'yeux	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+passionné	ADJ	CaractAffect	II	Amour	passion	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+guigner	VERB	ComportAffect	II	Amour	regard de convoitise	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+lorgner	VERB	ComportAffect	II	Amour	regard de convoitise	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+loucher	VERB	ComportAffect	II	Amour	regard de convoitise	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+reluquer	VERB	ComportAffect	II	Amour	regard de convoitise	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+rechigner	VERB	ComportAffect	II	Aversion	rétif	Goût-Aversion	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+renâcler	VERB	ComportAffect	II	Aversion	rétif	Goût-Aversion	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir la tête chaude	VERB	CaractAffect	II	Colère	avoir la tête chaude	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir la tête près du bonnet	VERB	CaractAffect	II	Colère	avoir la tête près du bonnet	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir le sang chaud	VERB	CaractAffect	II	Colère	avoir le sang chaud	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+cholérique	ADJ	CaractAffect	II	Colère	colère	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+coléreux	ADJ	CaractAffect	II	Colère	colère	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+colérique	ADJ	CaractAffect	II	Colère	colère	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se déchaîner	VERB	ComportAffect	II	Colère	déchaînement	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irascible	ADJ	CaractAffect	II	Colère	ire	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irritable	ADJ	CaractAffect	II	Colère	irritation	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+jeter feu et flamme	VERB	ComportAffect	II	Colère	jeter feu et flamme	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+mal embouché	ADJ	CaractAffect	II	Colère	mal embouché	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+coup de gueule	NOM	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fulminer	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+gueuler	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+hurler	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+maronner	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+maugréer	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pester	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+râler	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+récrimination	NOM	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+récriminer	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+rouspéter	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+tempêter	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+tonner	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vitupération	NOM	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vitupérer	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vociférer	VERB	ParoleAffect	II	Colère	parole	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+criser	VERB	ComportAffect	II	Colère	piquer une crise	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+faire sa crise	VERB	ComportAffect	II	Colère	piquer une crise	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+piquer une crise	VERB	ComportAffect	II	Colère	piquer une crise	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+prendre la mouche	VERB	ComportAffect	II	Colère	prendre le n	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+prendre le mors aux dents	VERB	ComportAffect	II	Colère	prendre le n	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se raidir	VERB	ComportAffect	II	Colère	se raidir	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se rebeller	VERB	ComportAffect	II	Colère	se rebeller	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se rebiffer	VERB	ComportAffect	II	Colère	se rebiffer	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+échauffer	VERB	ComportAffect	II	Colère	s'échauffer	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+s'emballer	VERB	ComportAffect	II	Colère	s'emballer	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+insurger	VERB	ComportAffect	II	Colère	s'insurger	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+soupe au lait	ADJ	CaractAffect	II	Colère	soupe au lait	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sécurisation	NOM	ComportAffect	II	Confiance_Sentiment de sécurité	sûreté	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+crédule	ADJ	CaractAffect	II	Croyance	crédulité	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+crédulité	NOM	CaractAffect	II	Croyance	crédulité	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+croire aux miracles	VERB	CaractAffect	II	Croyance	crédulité	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+croyant	ADJ	CaractAffect	II	Croyance relig	croyance relig	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+croyant	NOM	CaractAffect	II	Croyance relig	croyance relig	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+suspendu aux lèvres	ADJ	ComportAffect	II	Curiosité	suspendu aux lèvres	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+s'attirer les foudres	VERB	ComportAffect	II	Déplaire_A	s'attirer les foudres	Plaire-Déplaire	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+lamenter	VERB	ComportAffect	II	Déplorer	se plaindre	Apprécier-Déplorer	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+lamenter	VERB	ComportAffect	II	Déplorer	se plaindre de	Apprécier-Déplorer	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir un coeur de pierre	VERB	CaractAffect	II	Désintérêt	coeur de pierre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir une pierre à la place du coeur	VERB	CaractAffect	II	Désintérêt	coeur de pierre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+être comme une pierre	VERB	CaractAffect	II	Désintérêt	coeur de pierre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+ne pas avoir de coeur	VERB	CaractAffect	II	Désintérêt	coeur de pierre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+froideur	NOM	ComportAffect	II	Désintérêt	froideur	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+je m'en foutiste	ADJ	ComportAffect	II	Désintérêt	s'en foutre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+je m'enfoutisme	NOM	ComportAffect	II	Désintérêt	s'en foutre	Curiosité-Désintérêt	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+ambitieux	ADJ	CaractAffect	II	Désir	ambition	Désir / impatience & Absence de désir	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+lorgner	VERB	ComportAffect	II	Désir	lorgner	Désir / impatience & Absence de désir	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+loucher	VERB	ComportAffect	II	Désir	loucher	Désir / impatience & Absence de désir	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+prudence	NOM	ComportAffect	II	Doute	prudence	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+déférence	NOM	ComportAffect	II	Estime respect	déférence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+déférent	ADJ	ComportAffect	II	Estime respect	déférence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+révérencieusement	ADVERB	ComportAffect	II	Estime respect	révérence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+révérencieux	ADJ	ComportAffect	II	Estime respect	révérence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+haineux	ADJ	CaractAffect	II	Haine de qq	haine	Amour / Affection-Haine / Désamour	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+autodépréciation	NOM	ComportAffect	II	Honte	autodépréciation	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+s'autodéprécier	VERB	ComportAffect	II	Honte	autodépréciation	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+incrédule	ADJ	CaractAffect	II	Incrédulité relig	incroyance relig	Confiance / Croyance & Défiance / Doute	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+inamical	ADJ	ComportAffect	II	Inimitié	inimitié	Amitié-Inimitié	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrespect	NOM	ComportAffect	II	Irrespect	irrespect	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrespectueusement	ADVERB	ComportAffect	II	Irrespect	irrespect	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrespectueux	ADJ	ComportAffect	II	Irrespect	irrespect	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+manque de respect	NOM	ComportAffect	II	Irrespect	irrespect	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+manquer de respect	VERB	ComportAffect	II	Irrespect	irrespect	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrévérence	NOM	ComportAffect	II	Irrespect	irrévérence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrévérencieusement	ADVERB	ComportAffect	II	Irrespect	irrévérence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+irrévérencieux	ADJ	ComportAffect	II	Irrespect	irrévérence	Estime / Respect & Mésestime / Irrespect	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+battre sa coulpe	VERB	ComportAffect	II	Mauvaise conscience	culpabiliser	Bonne & Mauvaise conscience	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pénitent	ADJ	CaractAffect	II	Mauvaise conscience	pénitence	Bonne & Mauvaise conscience	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+scrupuleux	ADJ	CaractAffect	II	Mauvaise conscience scrupule	scrupule	Bonne & Mauvaise conscience	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+faire le coup du mépris	VERB	ComportAffect	II	Mépris	mépriser	Admiration-Mépris	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+méprisant	ADJ	ComportAffect	II	Mépris	mépriser	Admiration-Mépris	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+gloriole	NOM	CaractAffect	II	Orgueil	se faire gloire	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+impudemment	ADVERB	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+impudence	NOM	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+impudent	ADJ	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+impudent	NOM	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sans vergogne	ADJ	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+toute honte bue	ADVERB	ComportAffect	II	Orgueil impudence	impudence	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se pavaner	VERB	ComportAffect	II	Orgueil impudence	se pavaner	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sans vergogne	ADVERB	ComportAffect	II	Orgueil impudence	vergogne	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+faire l'important	VERB	ComportAffect	II	Orgueil surestimation de soi	faire l'important	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+faraud	ADJ	CaractAffect	II	Orgueil surestimation de soi	faraud	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fat	ADJ	CaractAffect	II	Orgueil surestimation de soi	fatuité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fatuité	NOM	CaractAffect	II	Orgueil surestimation de soi	fatuité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+infatuation	NOM	CaractAffect	II	Orgueil surestimation de soi	fatuité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+infatué de sa personne	ADJ	CaractAffect	II	Orgueil surestimation de soi	fatuité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+infatué de soi	ADJ	CaractAffect	II	Orgueil surestimation de soi	fatuité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+plein de soi-même	ADJ	CaractAffect	II	Orgueil surestimation de soi	plein de soi	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vanité	NOM	CaractAffect	II	Orgueil surestimation de soi	vanité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+vaniteux	ADJ	CaractAffect	II	Orgueil surestimation de soi	vanité	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+manquer de courage	VERB	ComportAffect	II	Peur	absence de courage		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+manquer d'estomac	VERB	ComportAffect	II	Peur	absence de courage		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+couard	ADJ	ComportAffect	II	Peur	couardise		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+couardise	NOM	ComportAffect	II	Peur	couardise		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+froussard	ADJ	ComportAffect	II	Peur	frousse		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pétochard	ADJ	ComportAffect	II	Peur	pétoche		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir peur de son ombre	VERB	CaractAffect	II	Peur	peur		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+peureusement	ADVERB	ComportAffect	II	Peur	peur		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+peureux	ADJ	ComportAffect	II	Peur	peur		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pleutre	ADJ	CaractAffect	II	Peur	pleutrerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pleutrement	ADVERB	ComportAffect	II	Peur	pleutrerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pleutrerie	NOM	ComportAffect	II	Peur	pleutrerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+poltron	ADJ	ComportAffect	II	Peur	poltronnerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+poltronnement	ADVERB	ComportAffect	II	Peur	poltronnerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+poltronnerie	NOM	ComportAffect	II	Peur	poltronnerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+n'avoir rien dans le ventre	VERB	CaractAffect	II	Peur	rien dans le ventre		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+dégonflé	ADJ	CaractAffect	II	Peur	se dégonfler		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+trouillard	ADJ	CaractAffect	II	Peur	trouille		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+veulerie	NOM	CaractAffect	II	Peur	veulerie		LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir du sang de navet	VERB	CaractAffect	II	Peur			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir du sang de poulet	VERB	CaractAffect	II	Peur			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avoir un coeur de poulet	VERB	CaractAffect	II	Peur			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aguichage	NOM	ComportAffect	II	Plaire_B	aguicher	Plaire-Déplaire	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+se faire bien voir	VERB	ComportAffect	II	Plaire_B	bien vu	Plaire-Déplaire	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+pudique	ADJ	ComportAffect	II	Pudeur	pudeur	Orgueil / Honte / Pudeur	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+fataliste	ADJ	CaractAffect	II	Résignation	fatalisme	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+résigné	ADJ	CaractAffect	II	Résignation	résignation	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+soumission	NOM	ComportAffect	II	Résignation	soumission	Résignation-Colère	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+acariâtre	ADJ	CaractAffect	II	Ressentiment	aigreur	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+acrimonie	NOM	ComportAffect	II	Ressentiment	aigreur	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+acrimonieusement	ADVERB	ComportAffect	II	Ressentiment	aigreur	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+aigri	ADJ	CaractAffect	II	Ressentiment	aigreur	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+avec acrimonie	ADVERB	ComportAffect	II	Ressentiment	aigreur	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+rancunier	ADJ	CaractAffect	II	Ressentiment	rancune	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+ingrat	ADJ	ComportAffect	II	Ressentiment	savoir mauvais gré	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+ingratitude	NOM	ComportAffect	II	Ressentiment	savoir mauvais gré	Gratitude-Ressentiment	LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sentimental	ADJ	CaractAffect	II	Sentiment			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sentimentalisme	NOM	CaractAffect	II	Sentiment			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
+sentimentalité	NOM	CaractAffect	II	Sentiment			LEXEME_PERIPHERIQUE_COMPORTEMENT_CARACTERE_PAROLE
