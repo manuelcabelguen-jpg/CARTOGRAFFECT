@@ -353,16 +353,4 @@ Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de cite
   url     = {https://doi.org/10.5281/zenodo.23833938},
   note    = {Version v2.0.0 (2026-11-21); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
 }
-
-@inproceedings{demoura2021lean4,
-  author = {de Moura, Leonardo and Ullrich, Sebastian},
-  title = {The {Lean} 4 Theorem Prover and Programming Language},
-  booktitle = {Automated Deduction -- CADE 28},
-  series = {Lecture Notes in Computer Science},
-  volume = {12699},
-  pages = {625--635},
-  publisher = {Springer},
-  year = {2021},
-  doi = {10.1007/978-3-030-79876-5_37}
-}
 ```
