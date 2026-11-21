@@ -18,6 +18,16 @@ Ce dépôt contient la sextuple certification formelle mécanisée sous **Lean 4
 
 ---
 
+## Déclaration relative à l’utilisation de l’intelligence artificielle générative et statut épistémique du matériel formel
+
+- **Paternité intégrale de l’auteur sur le modèle psychologique, conceptuel et taxonomique :** La conception théorique de **CARTOGRAFFECT®**, l’architecture hiérarchique du Moteur prédictif, du Noyau affectif et de la Matrice affective, la lecture critique des travaux cités, les hypothèses cliniques et le répertoire taxonomique des 176 états relèvent intégralement de **Manuel Cabelguen, Ph. D.** (psychologue clinicien et chercheur indépendant).
+- **Rôle d’assistance de l’IA générative :** Des outils d’intelligence artificielle générative ont été utilisés à titre d’assistance pour la rédaction et la clarification stylistique, la réalisation du site web vitrine ainsi que pour la **transposition exploratoire** des règles conceptuelles et taxonomiques vers les assistants de preuve formelle (Lean 4, Rocq, Agda, Dafny, SMT-LIB/Z3, TLA+) et les scripts compagnons hébergés dans ce dépôt GitHub.
+- **Portée et limites de vérification (transparence méthodologique) :** Psychologue de formation et **non mathématicien**, l’auteur **n’a pas vérifié manuellement chaque ligne de preuve mathématique ou de spécification formelle**. La validité technique des artefacts formels de ce dépôt repose sur la **vérification mécanique effectuée par les compilateurs, assistants de preuve et solveurs** exécutés dans l’intégration continue (0 `sorry`, 0 `Admitted`, 0 `postulate`, 0 `{:axiom}`). Ce matériel formel et algorithmique est distinct du manuscrit théorique de référence et est **partagé ouvertement sur GitHub afin d’inviter l’audit, l’examen critique et la vérification indépendante par des spécialistes** en mathématiques, logique formelle et sciences computationnelles.
+
+> **AI Transparency & Epistemic Notice (EN):** The psychological, conceptual, clinical, and taxonomic model of CARTOGRAFFECT® is authored entirely by Manuel Cabelguen, Ph. D. Generative AI tools served as an assistant for manuscript editing, website engineering, and exploratory translation of the model's rules into formal proof assistants and GitHub companion scripts. Being a psychologist and not a mathematician, the author has not manually verified every line of mathematical proof; formal soundness of these files relies on mechanical verification by the respective compilers and solvers, and the full codebase is shared openly on GitHub to invite independent audit by specialists.
+
+---
+
 ## Architecture des Modules Certifiés
 
 1. **[`Cartograffect/PredictiveEngine.lean`](Cartograffect/PredictiveEngine.lean)** : Formalisation de l'écart de prédiction saillant (avec hystérésis de résorption), des trois interfaces (Perceptive, Subjective, Attentionnelle), des régimes de charge/décharge et de la partition des 9 couplages $(A/C)$.
@@ -293,7 +303,7 @@ powershell -ExecutionPolicy Bypass -File .\tla\verify.ps1
 - **[`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md)** : Rapport de validation croisée sous Dafny 4.11.0 (9 modules, 2 113 obligations vérifiées, 113 / 113 théorèmes, exécution certifiée des 11 blocs, 0 `{:axiom}`).
 - **[`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md)** : Rapport de validation croisée sous SMT-LIB 2.6 / Z3 5.3.3 (8 théories, 8 / 8 preuves de cohérence `sat`, 113 / 113 théorèmes réfutés `unsat`, 11 / 11 blocs `unsat`).
 - **[`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md)** : Rapport de validation croisée sous TLA+ / TLC 2.19 (14 modules SANY, 6 modèles TLC explorant 20 076 états générés / 2 207 états distincts, 113 / 113 théorèmes, 0 violation d'invariant, 0 deadlock).
-- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (`v2.0.0` — fondements conceptuels, section 4.1, dynamiques et prédictions P1–P5).
+- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (architecture conceptuelle à 4 composantes, fondements et prédictions P1–P5 ; le matériel formel et computationnel approfondi est présenté dans ce compendium technique à titre d'annexe soumise à audit).
 - **[`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
 - **[`docs/CONVERGENCE_MATRIX.md`](docs/CONVERGENCE_MATRIX.md)** : Matrice de gouvernance épistémique et d'arbitrage entre la Strate 0 (Noyau) et la Strate 1 (satellites).
 - **[`extensions/lexicon/EPISTEMIC_STATUS.md`](extensions/lexicon/EPISTEMIC_STATUS.md)** : Charte épistémique du satellite lexical, triangulation GRID/CPM et clôture du prolongement exploratoire Diamant 303.
