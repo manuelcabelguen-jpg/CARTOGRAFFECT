@@ -147,3 +147,9 @@ L'option `--verify-only` exécute en continu 4 assertions mathématiques et sém
 2. **Assertion de non-contamination des pôles primaires** : Verrouillage de `disgust` $\in$ `DEGOUT`, `sex drive` $\in$ `DESIR`, `plucky` et `audaciousness` $\in$ `COURAGE`.
 3. **Diagnostic de couverture des 176 prototypes** : Contrôle d'équité des bassins d'attraction géométriques sur toutes les couronnes $Z = 0 \dots 7$ (176/176 couverts, 0 orphelin).
 4. **Assertion de pureté flottante** : Contrôle de l'absence d'artefacts d'arrondi IEEE 754 (précision $\le 4$ décimales sur toutes les colonnes numériques).
+
+---
+
+## 7. Citation et Licences (Source Unique)
+
+Ce module satellite (Strate 1) relève de la source de vérité et de citation unique située à la racine du compendium **CARTOGRAFFECT®** : voir [`../../CITATION.cff`](../../CITATION.cff), [`../../NOTICE`](../../NOTICE), [`EPISTEMIC_STATUS.md`](EPISTEMIC_STATUS.md) et `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`.

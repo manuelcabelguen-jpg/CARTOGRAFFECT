@@ -47,8 +47,8 @@ L'homomorphisme entre l'espace topologique 3D de CARTOGRAFFECT $(X, Y, Z)$ et l'
 | Échelle d'analyse | $N$ | $\rho_1$ | $\rho_2$ | $\rho_3$ | $\Lambda$ de Wilks | $\chi^2$ de Bartlett ($ddl=15$) | $p_{\text{perm}}$ (CCA) | Redondance Stewart-Love | $R_{\text{Procrustes}}$ ($R^2$) | $\phi_X$ | $\phi_Y$ | $\phi_Z$ | $\phi_{\text{RMS}}$ | $p_{\text{PROTEST}}$ |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **24 Prototypes Canoniques GRID** | 24 | **0.9502** | **0.8737** | **0.7616** | 0.0096 | 85.86 | 0.0005 | **0.7791** | **0.8354** (0.6979) | 0.7997 | 0.8294 | 0.8762 | **0.8357** | 0.0005 |
-| **176 Prototypes Octaédriques Cartograffect** | 176 | **0.9309** | **0.8589** | **0.6274** | 0.0212 | 656.87 | 0.0005 | **0.6698** | **0.6281** (0.3945) | 0.6139 | 0.6360 | 0.6385 | **0.6296** | 0.0005 |
-| **15 037 Lemmes du Lexique Français (NRC-VAD + DIMA)** | 15 037 | **0.9104** | **0.8280** | **0.5772** | 0.0359 | 50023.82 | 0.0020 | **0.6254** | **0.6637** (0.4405) | 0.7932 | 0.7090 | 0.4534 | **0.6677** | 0.0020 |
+| **176 Prototypes Octaédriques Cartograffect** | 176 | **0.9366** | **0.8787** | **0.6174** | 0.0173 | 691.65 | 0.0005 | **0.6807** | **0.5789** (0.3351) | 0.6314 | 0.5005 | 0.6162 | **0.5856** | 0.0005 |
+| **15 037 Lemmes du Lexique Français (NRC-VAD + DIMA)** | 15 037 | **0.9236** | **0.8260** | **0.6170** | 0.0289 | 53262.64 | 0.0020 | **0.6456** | **0.6803** (0.4628) | 0.7785 | 0.7332 | 0.5030 | **0.6823** | 0.0020 |
 
 > **Interprétation psychométrique (Lorenzo-Seva & ten Berge, 2006 ; Peres-Neto & Jackson, 2001)** :
 > - La première corrélation canonique dépasse $\rho_1 > 0.91$ sur les trois échelles ($\rho_1 = 0.9502$ sur les 24 prototypes GRID, $\rho_1 = 0.9309$ sur les 176 prototypes octaédriques, et $\rho_1 = 0.9104$ sur les 15 037 lemmes du lexique français), avec un $\Lambda$ de Wilks hautement significatif ($p \le 0.002$).
@@ -66,10 +66,10 @@ $$u_{L_p} = u \cdot \frac{\|u\|_1}{\|u\|_p}, \quad \|u\|_1 = |X| + |Y| + |Z - Z_
 | **Régularité différentielle** | Polyèdre $C^0$ (8 faces planes, 12 arêtes vives) | Variété riemannienne $C^\infty$ (8 octants de Riemann) | Flot géodésique FEP/SDE sans singularité d'arête |
 | **N = 24 Prototypes GRID** — CCA $\rho_1$ / $R_{\text{Proc}}$ | $\rho_1 = 0.9502$ / $R = 0.8354$ | **$\rho_1 = 0.9095$** / **$R = 0.8100$** | $\Delta\rho_1 = -0.0407$, $\Delta R = -0.0254$ |
 | **N = 24 Prototypes GRID** — Congruence Tucker $(\phi_X, \phi_Y, \phi_Z)$ | $(0.7997, 0.8294, 0.8762)$ ($\phi_{\text{RMS}}=0.8357$) | **$(0.8278, 0.7388, 0.8600)$** (**$\phi_{\text{RMS}}=0.8105$**) | **$\Delta\phi_Z = -0.0162$** ($\Delta\phi_{\text{RMS}} = -0.0252$) |
-| **N = 176 Prototypes 3D** — CCA $\rho_1$ / $R_{\text{Proc}}$ | $\rho_1 = 0.9309$ / $R = 0.6281$ | **$\rho_1 = 0.9364$** / **$R = 0.9134$** | $\Delta\rho_1 = +0.0055$, $\Delta R = +0.2853$ |
-| **N = 176 Prototypes 3D** — Congruence Tucker $(\phi_X, \phi_Y, \phi_Z)$ | $(0.6139, 0.6360, 0.6385)$ ($\phi_{\text{RMS}}=0.6296$) | **$(0.9114, 0.9509, 0.8770)$** (**$\phi_{\text{RMS}}=0.9136$**) | **$\Delta\phi_Z = +0.2385$** ($\Delta\phi_{\text{RMS}} = +0.2840$) |
-| **N = 15 037 Lemmes FR** — CCA $\rho_1$ / $R_{\text{Proc}}$ | $\rho_1 = 0.9104$ / $R = 0.6637$ | **$\rho_1 = 0.9046$** / **$R = 0.7427$** | $\Delta\rho_1 = -0.0058$, $\Delta R = +0.0790$ |
-| **N = 15 037 Lemmes FR** — Congruence Tucker $(\phi_X, \phi_Y, \phi_Z)$ | $(0.7932, 0.7090, 0.4534)$ ($\phi_{\text{RMS}}=0.6677$) | **$(0.7370, 0.7014, 0.7941)$** (**$\phi_{\text{RMS}}=0.7451$**) | **$\Delta\phi_Z = +0.3407$** ($\Delta\phi_{\text{RMS}} = +0.0774$) |
+| **N = 176 Prototypes 3D** — CCA $\rho_1$ / $R_{\text{Proc}}$ | $\rho_1 = 0.9366$ / $R = 0.5789$ | **$\rho_1 = 0.9392$** / **$R = 0.9121$** | $\Delta\rho_1 = +0.0026$, $\Delta R = +0.3332$ |
+| **N = 176 Prototypes 3D** — Congruence Tucker $(\phi_X, \phi_Y, \phi_Z)$ | $(0.6314, 0.5005, 0.6162)$ ($\phi_{\text{RMS}}=0.5856$) | **$(0.9118, 0.9439, 0.8796)$** (**$\phi_{\text{RMS}}=0.9121$**) | **$\Delta\phi_Z = +0.2634$** ($\Delta\phi_{\text{RMS}} = +0.3265$) |
+| **N = 15 037 Lemmes FR** — CCA $\rho_1$ / $R_{\text{Proc}}$ | $\rho_1 = 0.9236$ / $R = 0.6803$ | **$\rho_1 = 0.9065$** / **$R = 0.7450$** | $\Delta\rho_1 = -0.0171$, $\Delta R = +0.0647$ |
+| **N = 15 037 Lemmes FR** — Congruence Tucker $(\phi_X, \phi_Y, \phi_Z)$ | $(0.7785, 0.7332, 0.5030)$ ($\phi_{\text{RMS}}=0.6823$) | **$(0.7276, 0.7096, 0.8030)$** (**$\phi_{\text{RMS}}=0.7478$**) | **$\Delta\phi_Z = +0.3000$** ($\Delta\phi_{\text{RMS}} = +0.0655$) |
 
 > **Levée de la contrainte d'écrasement diagonal $L_1$** : Sur l'octaèdre $L_1$, le facteur d'anisotropie angulaire $|\cos\theta| + |\sin\theta| \in [1, \sqrt{2}]$ compresse les émotions diagonales d'un facteur $1/\sqrt{2} \approx 0.7071$. Le passage à la sphère $L_2$ ($\cos^2\theta + \sin^2\theta = 1$) restaure l'isotropie angulaire et porte la congruence verticale $\phi_Z$ de **$0.6385 \to 0.8770$** ($+0.2385$) sur les 176 prototypes et de **$0.4534 \to 0.7941$** ($+0.3407$) sur les 15 037 lemmes français.
 
@@ -89,7 +89,7 @@ $$u_{L_p} = u \cdot \frac{\|u\|_1}{\|u\|_p}, \quad \|u\|_1 = |X| + |Y| + |Z - Z_
 | 8 | **Espoir** | *hope* | `79` | **Espoir** | `(+7, +1, 5)` | 8 | Espoir (II) | Agie (+0.36) | `Z_pos (Cognitivo-Normatif)` | **2.4848** |
 | 9 | **Surprise** | *surprise* | `2` | **Surprise** | `(0, 0, 1)` | 0 | Surprendre (I) | Réflexive (-0.12) | `Z_neg (Somatique)` | **0.2125** |
 | 10 | **Colère** | *anger* | `8` | **Colère** | `(-1, +1, 2)` | 2 | Colère (II) | Agie (+0.68) | `Z_neg (Somatique)` | **0.4302** |
-| 11 | **Irritation** | *irritation* | `108` | **Irritation** | `(-6, +4, 6)` | 10 | Importuner (I) | Agie (+0.42) | `Z_pos (Cognitivo-Normatif)` | **1.6512** |
+| 11 | **Irritation** | *irritation* | `108` | **Rancœur** | `(-6, +4, 6)` | 10 | Importuner (I) | Agie (+0.42) | `Z_pos (Cognitivo-Normatif)` | **1.6512** |
 | 12 | **Mépris** | *contempt* | `44` | **Mépris** | `(-5, -1, 4)` | 6 | Mépris (II) | Agie (+0.56) | `Z_pos (Cognitivo-Normatif)` | **2.1667** |
 | 13 | **Dégoût** | *disgust* | `11` | **Dégoût** | `(-1, -1, 2)` | 2 | Déplaire_A (II) | Réflexive (-0.18) | `Z_neg (Somatique)` | **0.4177** |
 | 14 | **Haine** | *hate* | `35` | **Haine** | `(-1, +5, 4)` | 6 | Haine de qq (II) | Agie (+0.48) | `Z_pos (Cognitivo-Normatif)` | **1.2857** |
@@ -99,7 +99,7 @@ $$u_{L_p} = u \cdot \frac{\|u\|_1}{\|u\|_p}, \quad \|u\|_1 = |X| + |Y| + |Z - Z_
 | 18 | **Tristesse** | *sadness* | `5` | **Tristesse** | `(+0, -2, 2)` | 2 | Attrister (I) | Réflexive (-0.68) | `Z_neg (Somatique)` | **0.5286** |
 | 19 | **Désespoir** | *despair* | `70` | **Désespoir** | `(-1, -7, 5)` | 8 | Désespérer de (II) | Réflexive (-0.86) | `Z_pos (Cognitivo-Normatif)` | **1.7209** |
 | 20 | **Déception** | *disappointment* | `83` | **Insatisfaction** | `(-4, +4, 5)` | 8 | Décevoir (I) | Réflexive (-0.32) | `Z_pos (Cognitivo-Normatif)` | **1.9744** |
-| 21 | **Solitude** | *loneliness* | `31` | **Solitude** | `(+0, -6, 4)` | 6 | Apathie (I) | Réflexive (-0.58) | `Z_pos (Cognitivo-Normatif)` | **1.8649** |
+| 21 | **Solitude** | *loneliness* | `31` | **Langueur** | `(+0, -6, 4)` | 6 | Apathie (I) | Réflexive (-0.58) | `Z_pos (Cognitivo-Normatif)` | **1.8649** |
 | 22 | **Nostalgie** | *nostalgia* | `156` | **Mélancolie** | `(-8, -4, 7)` | 12 | Nostalgie (II) | Réflexive (-0.44) | `Z_pos (Cognitivo-Normatif)` | **3.0000** |
 | 23 | **Culpabilité** | *guilt* | `41` | **Vide** | `(-1, -5, 4)` | 6 | Mauvaise conscience (II) | Réflexive (-0.48) | `Z_pos (Cognitivo-Normatif)` | **1.9556** |
 | 24 | **Honte** | *shame* | `40` | **Honte** | `(-2, -4, 4)` | 6 | Honte (II) | Réflexive (-0.66) | `Z_pos (Cognitivo-Normatif)` | **1.5472** |

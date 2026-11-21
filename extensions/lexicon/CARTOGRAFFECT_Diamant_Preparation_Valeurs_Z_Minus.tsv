@@ -29,7 +29,7 @@ id_303	Z_signe	W_equiv	label_axiologique	X	Y	rayon_L1	groupe_axiologique	corresp
 204	-3	4	Retenue	-2	-2	4	INTÉGRITÉ	Inspiration	Retrait	-	-	A_EXTRAIRE_NRC_DIMA			
 205	-4	3	Cohérence	0	0	0	OPERATEUR_CENTRAL	Cohérence	Réserve	-	-	A_EXTRAIRE_NRC_DIMA			
 206	-4	3	Service	0	6	6	VOLONTÉ	Intériorité	Exaltation	-	-	A_EXTRAIRE_NRC_DIMA			
-207	-4	3	Intériorité	0	-6	6	TEMPÉRANCE	Service	Solitude	-	-	A_EXTRAIRE_NRC_DIMA			
+207	-4	3	Intériorité	0	-6	6	TEMPÉRANCE	Service	Langueur	-	-	A_EXTRAIRE_NRC_DIMA			
 208	-4	3	Esprit critique	-6	0	6	PRUDENCE	Adhésion	Doute	-	-	A_EXTRAIRE_NRC_DIMA			
 209	-4	3	Adhésion	6	0	6	AUDACE	Esprit critique	Assurance	-	-	A_EXTRAIRE_NRC_DIMA			
 210	-4	3	Émulation	-2	4	6	VOLONTÉ	Appréciation	Envie	-	-	A_EXTRAIRE_NRC_DIMA			
@@ -108,7 +108,7 @@ id_303	Z_signe	W_equiv	label_axiologique	X	Y	rayon_L1	groupe_axiologique	corresp
 283	-6	1	Respectueux	-1	-9	10	TEMPÉRANCE	Sincère	Désolation	Irrespectueux	Obséquieux	DEJA_DANS_NRC_VALEURS (NRC+DIMA)	0.902	-0.228	0.628
 284	-6	1	Persévérant	-7	3	10	PRUDENCE	Posé	Affolement	Velléitaire	Obstiné	A_EXTRAIRE_NRC_DIMA			
 285	-6	1	Avisé	-7	-3	10	PRUDENCE	Brave	Écrasement	Imprudent	Calculateur	A_EXTRAIRE_NRC_DIMA			
-286	-6	1	Franc	-6	4	10	PRUDENCE	Délicat	Irritation	Fuyant	Brusque	A_EXTRAIRE_NRC_DIMA			
+286	-6	1	Franc	-6	4	10	PRUDENCE	Délicat	Rancœur	Fuyant	Brusque	A_EXTRAIRE_NRC_DIMA			
 287	-6	1	Responsable	-6	-4	10	PRUDENCE	Spontané	Amertume	Irresponsable	Culpabilisé	A_EXTRAIRE_NRC_DIMA			
 288	-6	1	Intuitif	-8	2	10	PRUDENCE	Réfléchi	Fébrilité	Borné	Crédule	A_EXTRAIRE_NRC_DIMA			
 289	-6	1	Fidèle	-8	-2	10	PRUDENCE	Autonome	Anéantissement	Infidèle	Possessif	A_EXTRAIRE_NRC_DIMA			

@@ -42,4 +42,10 @@ Les modules suivants constituent des **opérationnalisations empiriques, interpo
 - **Fichiers :** [`01b_prepare_diamond_z_minus.py`](01b_prepare_diamond_z_minus.py), [`02b_audit_and_consolidate_databases.py`](02b_audit_and_consolidate_databases.py), [`08_project_diamond_303_lexicon.py`](08_project_diamond_303_lexicon.py), [`ref_303_diamant_z.tsv`](ref_303_diamant_z.tsv).
 - **Statut épistémique :**
   - L'hémisphère supérieur à profondeur négative $Z \in \{-7, \dots, -1\}$ (127 pôles axiologiques de valeurs, forces et engagements, complétant les 176 états $Z \ge 0$ pour former un octaèdre de $303$ pôles recollé à l'équateur $Z = +7$) ainsi que la **structure triadique aristotélicienne à $Z = -6$** ($D_-$ déficit / $V$ valeur centrale / $D_+$ excès) constituent un **programme d'extension théorique de Strate 1**, non intégré à l'article canonique `v1.0.2` ni aux 113 théorèmes du Noyau Hexa-Prover.
-  - **Note de divergence lexicale documentée :** Dans le Diamant 303 (`01b_prepare_diamond_z_minus.py`), deux libellés de $Z > 0$ ont été substitués localement (`(0, -6, 4)` *Langueur* $\to$ *Solitude* ; `(-6, 4, 6)` *Rancœur* $\to$ *Irritation*). Le Noyau formel (`Cartograffect/Lexicon176.lean`) conserve l'autorité exclusive avec **`Langueur`** et **`Rancœur`**.
+  - **Note d'alignement descendant (Arbitrage A1 — v2.0.0) :** À l'Étape 2, `01b_prepare_diamond_z_minus.py`, `SchererGRID.lean` et `grid_cpm_integration.py` substituaient localement deux libellés de $Z > 0$ (`(0, -6, 4)` *Langueur* $\to$ *Solitude* ; `(-6, 4, 6)` *Rancœur* $\to$ *Irritation*). Conformément à l'**Arbitrage A1 (v2.0.0)**, la Strate 0 (`Cartograffect/Lexicon176.lean`) exerce désormais son autorité descendante sur tout `extensions/lexicon/` : les noms de prototypes canoniques sont **`Langueur`** et **`Rancœur`** dans l'ensemble des scripts et tables dérivées, tandis que `Solitude (SADNESS)` et `Irritation (IRRITATION)` sont conservés exclusivement dans la colonne de métadonnées `grid_anchor_alias` (et comme `grid_label_fr` / lemmes empiriques rattachés).
+
+---
+
+## 3. Source de citation unique
+
+Conformément à la gouvernance FAIR de la version `v2.0.0`, le fichier de citation unique du compendium se trouve à la racine du dépôt : [`../../CITATION.cff`](../../CITATION.cff) (`SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`).

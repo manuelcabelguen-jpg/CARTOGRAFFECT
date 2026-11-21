@@ -63,9 +63,7 @@ def locate_paths():
     ])
 
     out_dirs = [
-        os.path.join(parent_dir, "output_diamond_303"),
         os.path.join(script_dir, "output_diamond_303"),
-        os.path.join(cwd, "output_diamond_303"),
     ]
     for d in out_dirs:
         os.makedirs(d, exist_ok=True)

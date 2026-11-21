@@ -78,11 +78,9 @@ def locate_paths():
     except FileNotFoundError:
         val_opp_path = None
 
-    # Répertoires cibles pour le rapport de preuve
+    # Répertoire cible pour le rapport de preuve (restreint à extensions/lexicon/output_diamond_303)
     out_dirs = [
-        os.path.join(parent_dir, "output_diamond_303"),
         os.path.join(script_dir, "output_diamond_303"),
-        os.path.join(cwd, "output_diamond_303"),
     ]
     for d in out_dirs:
         os.makedirs(d, exist_ok=True)

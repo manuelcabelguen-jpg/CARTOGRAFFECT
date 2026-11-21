@@ -1,18 +1,18 @@
 id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_mots	nb_termes	mean_valence	mean_arousal	mean_dominance	mean_dist_L1	top5_mots_fideles
-1	Veille	0	0	0	0	Centre	OPERATEUR_CENTRAL	Veille	4	4	-0.0085	-0.0655	-0.0905	0.0001	veille, vigile, neutre, neutralité
+1	Point de Veille	0	0	0	0	Centre	OPERATEUR_CENTRAL	Point de Veille	4	4	-0.0085	-0.0655	-0.0905	0.0	veille, neutre, neutralité, vigile
 2	Surprise	0	0	1	0	Centre	OPERATEUR_CENTRAL	Surprise	26	26	0.2661	0.5569	0.1013	0.0	étonné, étonnement, sursaut, choc, choqué
 3	Anticipation	0	0	2	0	Centre	OPERATEUR_CENTRAL	Anticipation	7	7	0.3015	0.3388	0.365	0.0	anticipation, électriser, pressentiment, incroyable, escompter
 4	Joie	0	2	2	2	Axiale	JOIE	Tristesse	11	11	0.8545	0.5367	0.3384	0.0601	joie, excitable, stimulant, gai, égayer
 5	Tristesse	0	-2	2	2	Axiale	TRISTESSE	Joie	4	4	-0.6892	-0.6149	-0.6427	0.0378	tristesse, tristement, tristounet, triste
 6	Peur	-2	0	2	2	Axiale	PEUR	Courage	17	17	-0.727	0.3199	-0.5143	0.0301	peur, effrayé, baliser, taffer, pétoche
 7	Courage	2	0	2	2	Axiale	COURAGE	Peur	8	8	0.6624	0.19	0.5284	0.0361	courage, charmé, affectionner, compassion, sympa
-8	Colère	-1	1	2	2	Diagonale	COLERE	Calme	20	20	-0.6193	0.5908	0.0232	0.0542	colère, colérique, vexation, courroucer, irrite
+8	Colère	-1	1	2	2	Diagonale	COLERE	Calme	21	21	-0.6335	0.6093	0.037	0.0527	colère, rageant, colérique, vexation, courroucer
 9	Calme	1	-1	2	2	Diagonale	CALME	Colère	4	4	0.584	-0.881	-0.167	0.0369	calme, calmant, calmement, calmer
 10	Désir	1	1	2	2	Diagonale	DESIR	Dégoût	20	20	0.4473	0.3678	0.1956	0.0705	désir, désiré, désirant, désirs, désireux
 11	Dégoût	-1	-1	2	2	Diagonale	DEGOUT	Désir	19	19	-0.6599	0.21	-0.3405	0.0612	dégoût, dégoûté, écœurer, débecqueter, dégueulatoire
-12	Émoi	0	0	3	0	Centre	OPERATEUR_CENTRAL	Émoi	27	27	0.1218	0.3789	-0.0079	0.0001	affect, émotion, émotif, émotivité, humeurs
+12	Émoi	0	0	3	0	Centre	OPERATEUR_CENTRAL	Émoi	27	27	0.1218	0.3789	-0.0079	0.0	affect, émotion, émotif, émotivité, humeurs
 13	Enthousiasme	0	4	3	4	Axiale	JOIE	Ennui	11	11	0.673	0.5972	0.4014	0.0523	enthousiasme, enthousiaste, enthousiasmer, emballant, emballer
-14	Ennui	0	-4	3	4	Axiale	TRISTESSE	Enthousiasme	12	12	-0.5274	-0.4012	-0.5646	0.055	ennui, ennuyé, contrister, barbifiant, embêtement
+14	Ennui	0	-4	3	4	Axiale	TRISTESSE	Enthousiasme	13	13	-0.5317	-0.4125	-0.543	0.0559	ennui, ennuyé, contrister, barbifiant, barbifier
 15	Crainte	-4	0	3	4	Axiale	PEUR	Curiosité	17	17	-0.696	0.1974	-0.2508	0.0341	crainte, craintif, craintivement, craindre, redouté
 16	Curiosité	4	0	3	4	Axiale	COURAGE	Crainte	14	14	0.4605	0.4116	0.0776	0.0605	curiosité, enchanté, bluffant, ébahir, ébahissant
 17	Consternation	-1	3	3	4	Laterale	JOIE	Émerveillement	10	10	-0.6946	0.5757	0.1678	0.0518	consternation, consterner, consternant, atterrant, catastropher
@@ -20,7 +20,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 19	Soulagement	1	-3	3	4	Laterale	TRISTESSE	Panique	7	7	0.5478	-0.3236	0.0395	0.0654	soulagement, soulagé, assouvir, soulager, libre
 20	Chagrin	-1	-3	3	4	Laterale	TRISTESSE	Aplomb	17	17	-0.5953	-0.0227	-0.5002	0.0662	chagrin, chagriner, larmoyant, apitoyer, piteux
 21	Panique	-3	1	3	4	Laterale	PEUR	Soulagement	16	16	-0.5877	0.6	-0.233	0.0512	panique, paniqué, troubler, animadversion, bloqué
-22	Effroi	-3	-1	3	4	Laterale	PEUR	Euphorie	10	10	-0.7548	0.5649	-0.3206	0.033	effroi, cauchemardesque, épouvante, épouvantablement, épouvanter
+22	Effroi	-3	-1	3	4	Laterale	PEUR	Euphorie	9	9	-0.7415	0.5623	-0.3296	0.0336	effroi, cauchemardesque, épouvante, épouvanter, effrayant
 23	Émerveillement	3	-1	3	4	Laterale	COURAGE	Consternation	11	11	0.6209	-0.0504	0.1512	0.0527	émerveillement, romantique, cher, attendrir, délivrance
 24	Aplomb	3	1	3	4	Laterale	COURAGE	Chagrin	14	14	0.58	0.2231	0.2865	0.0517	aplomb, amuser, gratification, aguicher, aller
 25	Exaspération	-2	2	3	4	Diagonale	COLERE	Détente	20	20	-0.6156	0.5884	-0.1379	0.0543	exaspération, exaspérer, irritabilité, exaspérant, agacement
@@ -28,8 +28,8 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 27	Attrait	2	2	3	4	Diagonale	DESIR	Retrait	19	19	0.5495	0.2127	0.2868	0.0648	attrait, attirer, attirant, séduisant, désirable
 28	Retrait	-2	-2	3	4	Diagonale	DEGOUT	Attrait	16	16	-0.7237	0.1279	-0.3993	0.0558	décourageant, vexer, dépit, déplaisant, récœurant
 29	Réserve	0	0	4	0	Centre	OPERATEUR_CENTRAL	Réserve	12	12	-0.1726	-0.244	-0.0798	0.0	timide, méfiant, inhibition, réserve, réservé
-30	Exaltation	0	6	4	6	Axiale	JOIE	Solitude	4	4	0.2755	0.654	0.4115	0.0414	exaltation, exalté, exaltant, exalter
-31	Solitude	0	-6	4	6	Axiale	TRISTESSE	Exaltation	9	9	-0.5746	-0.4219	-0.428	0.0609	solitude, attrister, attristant, barber, languide
+30	Exaltation	0	6	4	6	Axiale	JOIE	Langueur	4	4	0.2755	0.654	0.4115	0.0414	exaltation, exalté, exaltant, exalter
+31	Langueur	0	-6	4	6	Axiale	TRISTESSE	Exaltation	7	7	-0.5481	-0.3748	-0.4186	0.0605	langueur, attrister, barber, languide, alanguissement
 32	Doute	-6	0	4	6	Axiale	PEUR	Assurance	21	21	-0.5462	0.0811	-0.2835	0.0499	doute, déculotter, incertitude, épouvantable, effarant
 33	Assurance	6	0	4	6	Axiale	COURAGE	Doute	10	10	0.7254	0.0457	0.5816	0.0314	assurance, amicalement, assurer, admirateur, ensorcellement
 34	Envie	-2	4	4	6	Laterale	JOIE	Admiration	14	14	-0.5959	0.533	-0.0881	0.0603	envie, convoitise, jaloux, envieux, jalousie
@@ -39,11 +39,11 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 38	Sérénité	2	-4	4	6	Laterale	TRISTESSE	Anxiété	5	5	0.6513	-0.5021	-0.0253	0.0468	sérénité, tranquille, tranquilliser, libérateur, poignant
 39	Plénitude	1	-5	4	6	Laterale	TRISTESSE	Manque	5	5	0.6979	-0.6376	0.1427	0.048	plénitude, rasséréner, consolant, débordant, comblé
 40	Honte	-2	-4	4	6	Laterale	TRISTESSE	Fierté	15	15	-0.5833	0.1698	-0.4758	0.0647	honte, vexant, embarrassant, remords, mortifiant
-41	Vide	-1	-5	4	6	Laterale	TRISTESSE	Épanouissement	7	7	-0.6202	-0.1194	-0.651	0.0402	vide, suicidaire, blessé, désœuvré, mièvrerie
-42	Anxiété	-4	2	4	6	Laterale	PEUR	Sérénité	20	20	-0.5702	0.6222	-0.141	0.0546	anxiété, stresser, stress, stressant, anxieusement
+41	Vide	-1	-5	4	6	Laterale	TRISTESSE	Épanouissement	6	6	-0.6124	-0.0281	-0.6483	0.0403	vide, suicidaire, blessé, mièvrerie, pitoyablement
+42	Anxiété	-4	2	4	6	Laterale	PEUR	Sérénité	20	20	-0.5884	0.6359	-0.1419	0.0528	anxiété, irritant, stresser, stress, stressant
 43	Manque	-5	1	4	6	Laterale	PEUR	Plénitude	16	16	-0.651	0.4342	-0.2037	0.0423	manque, menaçant, obséder, virulence, redoutant
 44	Mépris	-5	-1	4	6	Laterale	PEUR	Amour	17	17	-0.5935	0.1681	-0.2312	0.0517	mépris, pathétique, mépriser, méprisable, dédain
-45	Défiance	-4	-2	4	6	Laterale	PEUR	Ferveur	18	18	-0.545	0.1141	-0.3981	0.0554	défiance, rancœur, humilier, démotiver, douloureusement
+45	Défiance	-4	-2	4	6	Laterale	PEUR	Ferveur	19	19	-0.5161	0.1232	-0.369	0.058	défiance, humilier, épouvantablement, démotiver, douloureusement
 46	Fierté	4	2	4	6	Laterale	COURAGE	Honte	14	14	0.5954	0.2861	0.5111	0.0503	fierté, stupéfiant, fier, accompli, impressionner
 47	Épanouissement	5	1	4	6	Laterale	COURAGE	Vide	12	12	0.7071	0.1287	0.2909	0.0402	épanouissement, positivité, enchanteur, copain, éprendre
 48	Affection	5	-1	4	6	Laterale	COURAGE	Haine	12	12	0.602	-0.1872	0.0473	0.0518	affection, tendrement, affectueux, chérir, sympathique
@@ -54,7 +54,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 53	Rejet	-3	-3	4	6	Diagonale	DEGOUT	Estime	18	18	-0.7304	-0.0622	-0.5322	0.0546	rejet, impopularité, antipathique, impopulaire, méprisé
 54	Recul	0	0	5	0	Centre	OPERATEUR_CENTRAL	Recul	4	4	-0.0842	-0.1321	-0.2701	0.0	séduction, désinvolture, désinvolte, fièvre
 55	Puissance	0	8	5	8	Axiale	JOIE	Impuissance	8	8	0.4077	0.5597	0.421	0.0509	puissance, excitation, vibrant, égayant, doper
-56	Impuissance	0	-8	5	8	Axiale	TRISTESSE	Puissance	4	4	-0.6986	-0.4021	-0.6863	0.0459	impuissance, confusion, embêtant, impuissant
+56	Impuissance	0	-8	5	8	Axiale	TRISTESSE	Puissance	5	5	-0.7092	-0.4468	-0.6766	0.0456	impuissance, confusion, attristant, embêtant, impuissant
 57	Méfiance	-8	0	5	8	Axiale	PEUR	Confiance	14	14	-0.6576	0.3536	-0.269	0.0382	méfiance, mouiller, soupçonner, soupçonneux, désorientation
 58	Confiance	8	0	5	8	Axiale	COURAGE	Méfiance	9	9	0.7377	-0.0207	0.4873	0.0288	confiance, réconforter, content, compter, croire
 59	Invulnérabilité	1	7	5	8	Laterale	JOIE	Vulnérabilité	7	7	0.4454	0.243	0.4212	0.0446	invulnérabilité, inébranlé, griserie, ardemment, chavirer
@@ -72,7 +72,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 71	Insécurité	-6	2	5	8	Laterale	PEUR	Sécurité	15	15	-0.7182	0.6172	-0.3883	0.0371	insécurité, supplicier, odieusement, claustrophobie, frayeurs
 72	Inquiétude	-5	3	5	8	Laterale	PEUR	Quiétude	17	17	-0.5809	0.5679	-0.2616	0.0518	inquiétude, inquiétant, agité, névrosisme, inquiéter
 73	Impatience	-7	1	5	8	Laterale	PEUR	Patience	17	17	-0.4008	0.3486	-0.1268	0.0652	impatience, terroriser, indisposer, déplaisir, désappointer
-74	Vulnérabilité	-7	-1	5	8	Laterale	PEUR	Invulnérabilité	14	14	-0.572	0.2224	-0.3833	0.0497	vulnérabilité, écœurement, atrabilaire, hypersensibilité, contempteur
+74	Vulnérabilité	-7	-1	5	8	Laterale	PEUR	Invulnérabilité	13	13	-0.6095	0.22	-0.3919	0.0464	vulnérabilité, écœurement, atrabilaire, hypersensibilité, contempteur
 75	Détachement	-6	-2	5	8	Laterale	PEUR	Attachement	15	15	-0.6259	-0.0082	-0.4085	0.0499	détachement, insensibiliser, embarrasser, dépité, démolir
 76	Désengagement	-5	-3	5	8	Laterale	PEUR	Engagement	14	14	-0.6981	-0.2509	-0.5557	0.0457	désaffectionner, désenchanté, bilieux, peureux, désaffection
 77	Optimisme	6	2	5	8	Laterale	COURAGE	Pessimisme	9	9	0.7695	0.2759	0.4691	0.0369	optimisme, jovialement, optimiste, positif, divertissement
@@ -100,17 +100,17 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 99	Terreur	-1	9	6	10	Laterale	JOIE	Harmonie	10	10	-0.6181	0.69	0.0379	0.0451	terreur, halluciner, exécrablement, volcanique, épris
 100	Béatitude	3	-7	6	10	Laterale	TRISTESSE	Affolement	4	4	0.8645	-0.9375	0.1693	0.0249	béatitude, béat, béatement, tranquillité
 101	Accablement	-3	-7	6	10	Laterale	TRISTESSE	Liesse	6	6	-0.797	-0.1377	-0.5907	0.0394	accablement, accablant, accabler, meurtri, accablé
-102	Apaisement	4	-6	6	10	Laterale	TRISTESSE	Irritation	4	4	0.4803	-0.7275	-0.135	0.0451	apaisement, apaisant, apaisé, apaiser
+102	Apaisement	4	-6	6	10	Laterale	TRISTESSE	Rancœur	4	4	0.4803	-0.7275	-0.135	0.0451	apaisement, apaisant, apaisé, apaiser
 103	Morosité	-4	-6	6	10	Laterale	TRISTESSE	Entrain	11	11	-0.5527	-0.3364	-0.5112	0.0575	morosité, maussaderie, insensibilité, revêche, pitié
 104	Contemplation	2	-8	6	10	Laterale	TRISTESSE	Fébrilité	5	5	0.3154	-0.6678	-0.0614	0.0423	contemplation, rassurant, distrayant, réconfort, pensivement
 105	Prostration	-2	-8	6	10	Laterale	TRISTESSE	Extase	7	7	-0.4981	-0.2867	-0.5509	0.0543	prostration, larmoiement, lamentable, déprimer, nostalgique
 106	Félicité	1	-9	6	10	Laterale	TRISTESSE	Désarroi	5	5	0.7519	-0.1784	0.0553	0.0537	félicité, consoler, féliciter, bienheureux, exaucer
 107	Désolation	-1	-9	6	10	Laterale	TRISTESSE	Exultation	4	4	-0.797	-0.819	-0.8228	0.0207	désolation, désolant, désoler, désolé
-108	Irritation	-6	4	6	10	Laterale	PEUR	Apaisement	14	14	-0.6567	0.6252	-0.0383	0.0467	irritation, menace, irritant, irritable, discorde
+108	Rancœur	-6	4	6	10	Laterale	PEUR	Apaisement	14	14	-0.6309	0.6549	-0.1111	0.0447	irritation, rancœur, hystérique, menace, irritable
 109	Amertume	-6	-4	6	10	Laterale	PEUR	Allégresse	13	13	-0.6108	-0.383	-0.4315	0.0502	amertume, amèrement, aigrir, aigreur, grincheux
-110	Affolement	-7	3	6	10	Laterale	PEUR	Béatitude	14	14	-0.6099	0.7389	-0.2441	0.0451	affolement, hystérique, affolant, affoler, soucis
+110	Affolement	-7	3	6	10	Laterale	PEUR	Béatitude	13	13	-0.6056	0.7188	-0.2116	0.046	affolement, affoler, affolant, soucis, déstabiliser
 111	Écrasement	-7	-3	6	10	Laterale	PEUR	Ardeur	12	12	-0.6623	-0.0784	-0.434	0.0502	humiliant, sidérer, déprimant, coupable, sanglot
-112	Fébrilité	-8	2	6	10	Laterale	PEUR	Contemplation	16	16	-0.4914	0.5988	-0.2417	0.0574	fébrilité, agitation, rétif, farouche, submerger
+112	Fébrilité	-8	2	6	10	Laterale	PEUR	Contemplation	17	17	-0.5078	0.5809	-0.2376	0.0564	fébrilité, agitation, rétif, farouche, rancune
 113	Anéantissement	-8	-2	6	10	Laterale	PEUR	Fougue	15	15	-0.6412	0.1704	-0.5325	0.0465	anéantissement, déprime, nervosité, répulsif, anéantir
 114	Désarroi	-9	1	6	10	Laterale	PEUR	Félicité	11	11	-0.7066	0.4332	-0.1632	0.0313	désarroi, acrimonieux, menacé, contrariété, déconcerter
 115	Lassitude	-9	-1	6	10	Laterale	PEUR	Jubilation	13	13	-0.6676	0.0472	-0.4604	0.041	lassitude, désobligeant, cauchemar, rougir, étouffant
@@ -146,7 +146,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 145	Paix	4	-8	7	12	Laterale	TRISTESSE	Affliction	4	4	0.7637	-0.8027	-0.026	0.0342	paix, consolateur, réconciliation, insouciance
 146	Oppression	-4	-8	7	12	Laterale	TRISTESSE	Rayonnement	5	5	-0.785	0.1984	-0.034	0.0504	oppression, oppressé, oppressant, oppresser, refoulé
 147	Pérennité	1	-11	7	12	Laterale	TRISTESSE	Précarité	3	3	0.5147	-0.9087	-0.0933	0.0268	pérennité, langoureux, reposant
-148	Abîme	-1	-11	7	12	Laterale	TRISTESSE	Ravissement	7	7	-0.4783	-0.4319	-0.423	0.061	abjection, suffocant, distraction, consolation, assombrir
+148	Abîme	-1	-11	7	12	Laterale	TRISTESSE	Ravissement	8	8	-0.5019	-0.4612	-0.4535	0.0584	abjection, suffocant, désœuvré, distraction, consolation
 149	Abandon	3	-9	7	12	Laterale	TRISTESSE	Sidération	4	4	0.5814	-0.5805	-0.3712	0.0359	abandon, paisible, évasion, zen
 150	Damnation	-3	-9	7	12	Laterale	TRISTESSE	Louange	5	5	-0.7229	0.0042	-0.5393	0.033	damnation, dévaster, assiégé, assommer, enfer
 151	Silence	5	-7	7	12	Laterale	TRISTESSE	Tumulte	5	5	0.6471	-0.7053	0.0659	0.0437	silence, sereinement, paisiblement, rassurer, insouciant
@@ -159,7 +159,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 158	Déchéance	-11	-1	7	12	Laterale	PEUR	Renaissance	10	10	-0.6732	0.1946	-0.4772	0.038	déchéance, désobliger, arachnophobie, endeuillé, souffrant
 159	Sidération	-9	3	7	12	Laterale	PEUR	Abandon	8	8	-0.6741	0.3944	-0.4102	0.0391	sidération, acariâtre, torturant, brouille, terrorisant
 160	Engloutissement	-9	-3	7	12	Laterale	PEUR	Élévation	11	11	-0.7166	0.0814	-0.5044	0.0449	hypocondrie, dépressif, faiblesse, claustrophobe, déçu
-161	Tumulte	-7	5	7	12	Laterale	PEUR	Silence	9	9	-0.6221	0.7481	0.0191	0.0424	tumulte, inapaisable, déstabilisation, bouleverser, effusif
+161	Tumulte	-7	5	7	12	Laterale	PEUR	Silence	10	10	-0.6455	0.7305	0.0048	0.0422	tumulte, inapaisable, ulcérer, déstabilisation, bouleverser
 162	Pétrification	-7	-5	7	12	Laterale	PEUR	Enivrement	12	12	-0.6158	-0.3916	-0.5541	0.0485	stupéfait, hébétude, dépiter, déconcertement, compatir
 163	Éblouissement	10	2	7	12	Laterale	COURAGE	Perdition	6	6	0.664	0.6129	0.5589	0.0333	éblouissement, époustouflant, éblouissant, subjugation, subjuguer
 164	Recueillement	10	-2	7	12	Laterale	COURAGE	Déchirement	4	4	0.7637	-0.4418	0.0242	0.0357	camaraderie, recueilli, attendrissement, tenir
@@ -171,7 +171,7 @@ id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label	effectif_
 170	Lucidité	9	-3	7	12	Laterale	COURAGE	Détresse	5	5	0.7624	-0.266	0.2008	0.0385	lucidité, agréablement, aimé, rêveur, intime
 171	Effusion	7	5	7	12	Laterale	COURAGE	Résignation	10	10	0.7195	0.6573	0.5138	0.0396	jovial, époustoufler, enhardir, alerte, requinquer
 172	Consentement	7	-5	7	12	Laterale	COURAGE	Révolte	5	5	0.538	-0.4152	-0.0508	0.041	consentement, réconcilier, décontraction, amical, mièvre
-173	Rage	-6	6	7	12	Diagonale	COLERE	Impassibilité	14	14	-0.8103	0.8835	0.0611	0.0291	rage, supplice, dysphorie, rageant, rageur
+173	Rage	-6	6	7	12	Diagonale	COLERE	Impassibilité	13	13	-0.8021	0.876	0.0418	0.0296	rage, supplice, dysphorie, rageur, enrager
 174	Impassibilité	6	-6	7	12	Diagonale	CALME	Rage	5	5	0.6878	-0.6096	0.4812	0.0424	imperturbablement, impassible, satiété, heureusement, cool
 175	Sublimation	6	6	7	12	Diagonale	DESIR	Dissolution	7	7	0.702	0.3267	0.5377	0.0509	conquérir, bonheur, extatique, apprécier, remobilisateur
 176	Dissolution	-6	-6	7	12	Diagonale	DEGOUT	Sublimation	6	6	-0.8188	-0.6166	-0.6067	0.0341	découragement, dolent, détestable, casser, démotivation
