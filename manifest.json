@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "compendium": "CARTOGRAFFECT® Unified Research Compendium",
+  "version": "2.0.0",
+  "release_date": "2026-11-21",
+  "single_source_of_truth": {
+    "version_file": "VERSION",
+    "changelog": "CHANGELOG.md",
+    "citation": "CITATION.cff",
+    "zenodo": ".zenodo.json",
+    "convergence_matrix": "docs/CONVERGENCE_MATRIX.md",
+    "notice": "NOTICE"
+  },
+  "strate_0_core": {
+    "status": "normative_verified_core",
+    "theorems_verified": 113,
+    "sorry_count": 0,
+    "custom_axioms_count": 0,
+    "provers": [
+      {
+        "name": "Lean 4",
+        "version": "4.35.0",
+        "entrypoint": "Cartograffect.lean",
+        "directory": "Cartograffect"
+      },
+      {
+        "name": "Rocq",
+        "version": "9.0",
+        "entrypoint": "rocq/theories/Cartograffect.v",
+        "directory": "rocq"
+      },
+      {
+        "name": "Agda",
+        "version": "2.9.0",
+        "entrypoint": "agda/src/Cartograffect.agda",
+        "directory": "agda"
+      },
+      {
+        "name": "Dafny",
+        "version": "4.11.0",
+        "entrypoint": "dafny/src/Cartograffect.dfy",
+        "directory": "dafny"
+      },
+      {
+        "name": "SMT/Z3",
+        "version": "5.3.3",
+        "entrypoint": "smt/theories/08_AuditTests.smt2",
+        "directory": "smt"
+      },
+      {
+        "name": "TLA+/TLC",
+        "version": "2.19",
+        "entrypoint": "tla/specs/Cartograffect.tla",
+        "directory": "tla"
+      }
+    ],
+    "lean_files": [
+      "Cartograffect.lean",
+      "Cartograffect/PredictiveEngine.lean",
+      "Cartograffect/CoreAffect.lean",
+      "Cartograffect/AffectiveMatrix.lean",
+      "Cartograffect/AffectiveTaxonomy.lean",
+      "Cartograffect/AffectiveDynamics.lean",
+      "Cartograffect/Lexicon176.lean",
+      "Cartograffect/PredictiveCircuit.lean",
+      "Cartograffect/AuditTests.lean"
+    ],
+    "lexicon_176": {
+      "path": "Cartograffect/Lexicon176.lean",
+      "sha256": "e66dbd6b6630e11d72f786b00025dd909f80ad98331083f3c5f80802f1755b65",
+      "states_count": 176,
+      "strata_range": "Z in {0, ..., 7}"
+    },
+    "manuscript": {
+      "path": "docs/01-Article_Cartograffect.md",
+      "inventory_path": "docs/02-Inventaire_176.md",
+      "version": "2.0.0",
+      "predictions_count": 5,
+      "states_count": 176
+    },
+    "python_isomorphic_engine": {
+      "engine_path": "python/cartograffect_predictive_engine.py",
+      "tests_path": "python/test_predictive_engine.py"
+    }
+  },
+  "strate_1_extensions": {
+    "lexicon": {
+      "path": "extensions/lexicon",
+      "epistemic_status_file": "extensions/lexicon/EPISTEMIC_STATUS.md",
+      "status": "exploratory_subordinate",
+      "canonical_reference": "Cartograffect/Lexicon176.lean",
+      "lean_challenges": [
+        "extensions/lexicon/lean/EmotionWheelsChallenge.lean",
+        "extensions/lexicon/lean/SchererGRID.lean",
+        "extensions/lexicon/lean/PolarityAntipodal3D.lean",
+        "extensions/lexicon/lean/AuditGeometricLexicalPlacement.lean"
+      ],
+      "key_scripts": [
+        "extensions/lexicon/01_build_ref176.py",
+        "extensions/lexicon/01b_prepare_diamond_z_minus.py",
+        "extensions/lexicon/08_project_diamond_303_lexicon.py"
+      ]
+    },
+    "in_silico": {
+      "path": "extensions/in_silico",
+      "epistemic_status_file": "extensions/in_silico/EPISTEMIC_STATUS.md",
+      "status": "exploratory_subordinate",
+      "pyproject": "extensions/in_silico/pyproject.toml",
+      "runner": "extensions/in_silico/run_all_validations.py",
+      "predictions_tested": ["P1", "P2", "P3", "P4", "P5"],
+      "experiments": [
+        "extensions/in_silico/experiments/01_falsifiable_predictions.py",
+        "extensions/in_silico/experiments/02_clinical_phenotypes.py",
+        "extensions/in_silico/experiments/03_parameter_and_model_recovery.py",
+        "extensions/in_silico/experiments/04_dsm5_phenotyping.py",
+        "extensions/in_silico/experiments/05_dsm5_full_nosology.py"
+      ],
+      "results_summary": "extensions/in_silico/results/exp01_statistics.json"
+    }
+  },
+  "identifiers": {
+    "zenodo_code_doi": "10.5281/zenodo.23833938",
+    "zenodo_article_doi": "10.5281/zenodo.24022795",
+    "osf_url": "https://osf.io/z89sg",
+    "cipo_registration": "CIPO / OPIC No. 1233199",
+    "repository_url": "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
+  },
+  "licenses": {
+    "spdx_expression": "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0",
+    "code_and_proofs_license": "GNU AGPLv3 (AGPL-3.0-or-later) — LICENSE",
+    "theory_and_taxonomy_license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) — LICENSE-CC-BY-NC-SA-4.0.md",
+    "hybrid_separation_clause": "For hybrid files containing both executable/formal structures and the theoretical taxonomy/coordinates, the formal/software structure is licensed under AGPL-3.0-or-later while the nomenclature, coordinates, and 176-state/303-pole taxonomic architecture remain exclusively governed by CC BY-NC-SA 4.0 (commercial extraction of the taxonomy is strictly prohibited).",
+    "hybrid_files": [
+      "Cartograffect/Lexicon176.lean",
+      "rocq/theories/Lexicon176.v",
+      "agda/src/Cartograffect/Lexicon176.agda",
+      "dafny/src/Lexicon176.dfy",
+      "smt/theories/06_Lexicon176.smt2",
+      "tla/specs/Lexicon176.tla",
+      "extensions/in_silico/data/lexicon_176.json",
+      "extensions/lexicon/CARTOGRAFFECT_Interactive_3D_Explorer.html",
+      "extensions/lexicon/CARTOGRAFFECT_Diamond_303_Brut.html",
+      "extensions/lexicon/CARTOGRAFFECT_Diamond_303_Complet.html"
+    ]
+  }
+}

@@ -1,17 +1,52 @@
-cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+cff-version: "1.2.0"
+title: "CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation"
+message: "If you use this software, formal proofs, theoretical framework, or 176-state taxonomy, please cite both the compendium and the reference theoretical article as below."
+type: software
 authors:
   - family-names: "Cabelguen"
     given-names: "Manuel"
-title: "CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4"
-version: 1.0.1
+    email: "manuelcabelguen@gmail.com"
+version: "2.0.0"
+date-released: "2026-11-21"
 doi: "10.5281/zenodo.23833938"
-date-released: 2026-10-31
 url: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
-abstract: "Version formelle de CARTOGRAFFECT vérifiée sous Lean 4.35.0 (Lake 5.0.0), certifiant 113 théorèmes audités sans axiome ad hoc (étendant le noyau fondateur initial de 17 théorèmes) avec moteur prédictif isomorphe en Python."
+repository-code: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
+license: "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23833938"
+    description: "Zenodo software & formal compendium concept/version DOI"
+  - type: doi
+    value: "10.5281/zenodo.24022795"
+    description: "Zenodo theoretical reference manuscript DOI (v2.0.0)"
+  - type: url
+    value: "https://osf.io/z89sg"
+    description: "Open Science Framework (OSF) companion project"
+  - type: other
+    value: "CIPO / OPIC No. 1233199"
+    description: "Canadian Intellectual Property Office copyright registration for CARTOGRAFFECT"
 keywords:
-  - "Lean 4"
   - "formal verification"
-  - "affective neuroscience"
+  - "Lean 4"
+  - "Rocq"
+  - "Agda"
+  - "Dafny"
+  - "Z3"
+  - "TLA+"
   - "active inference"
-license: "AGPL-3.0"
+  - "affective neuroscience"
+  - "computational psychiatry"
+  - "L1 geometry"
+abstract: "CARTOGRAFFECT® v2.0.0 stratified Research Compendium: Strate 0 unites six-prover formal verification (Lean 4.35.0, Rocq 9.0, Agda 2.9.0, Dafny 4.11.0, SMT-LIB/Z3 5.3.3, TLA+/TLC 2.19; 113/113 verified theorems, 0 sorry, 0 custom axioms), an isomorphic exact Python predictive engine, and the canonical theoretical manuscript (176 affective states across Z in {0,...,7}, predictions P1-P5). Strate 1 provides subordinate exploratory extensions for computational lexical projection/GRID-CPM challenges (extensions/lexicon/) and in silico Active Inference pymdp/JAX/NumPyro simulations (extensions/in_silico/)."
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Cabelguen"
+      given-names: "Manuel"
+      email: "manuelcabelguen@gmail.com"
+  title: "Cartographie des affects : une architecture hiérarchique de l'expérience affective fondée sur le traitement prédictif"
+  year: 2026
+  version: "2.0.0"
+  doi: "10.5281/zenodo.24022795"
+  url: "https://doi.org/10.5281/zenodo.24022795"
+  notes: "Reference theoretical manuscript (docs/01-Article_Cartograffect.md); CIPO / OPIC Registration No. 1233199."
