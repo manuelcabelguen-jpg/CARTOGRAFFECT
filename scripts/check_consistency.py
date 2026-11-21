@@ -3,7 +3,7 @@
 Garde-fou automatisé de cohérence scientifique, formelle et d'archivage
 pour le compendium unifié CARTOGRAFFECT® (Strate 0 / Strate 1).
 
-Vérifie les 6 groupes d'invariants sans aucune dépendance externe
+Vérifie les 7 groupes d'invariants sans aucune dépendance externe
 (bibliothèque standard Python 3.10+ uniquement) :
   1. version_parity               — Parité stricte de VERSION à travers le compendium
   2. strate0_integrity            — SHA-256 de Lexicon176.lean, 9 fichiers Lean, 0 trou/axiome sur 6 suites
@@ -11,6 +11,7 @@ Vérifie les 6 groupes d'invariants sans aucune dépendance externe
   4. epistemic_compartmentalization — Chartes Strate 1, CONVERGENCE_MATRIX.md, garde A4-Sanctuaire
   5. zero_leak_zenodo_hygiene     — Zéro fuite locale, 0 .env, 0 brut tiers, <= 20 Mo, 0 filter=lfs
   6. tracked_results_json         — Validité JSON sous extensions/in_silico/results/ et 0 chemin Windows
+  7. site_payload_contract        — Exécution et cohérence de scripts/export_site_payload.py --check
 """
 
 from __future__ import annotations
@@ -971,8 +972,111 @@ def _check_tracked_results_json(
     return cat
 
 
+def _check_site_payload_contract(
+    root: Path,
+    version: str | None,
+    manifest_data: dict[str, Any] | None,
+) -> CategoryResult:
+    cat = CategoryResult(
+        "site_payload_contract",
+        "7. Contrat d'export web (scripts/export_site_payload.py)",
+    )
+
+    exporter = root / "scripts/export_site_payload.py"
+    if not exporter.is_file():
+        cat.fail("Script requis manquant : scripts/export_site_payload.py")
+        return cat
+    cat.ok("Présent : scripts/export_site_payload.py")
+
+    check_proc = subprocess.run(
+        [sys.executable, str(exporter), "--check", "--root", str(root)],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if check_proc.returncode != 0:
+        detail = (check_proc.stderr or check_proc.stdout).strip()
+        cat.fail(f"export_site_payload.py --check a échoué (code {check_proc.returncode}) : {detail}")
+        return cat
+    cat.ok("export_site_payload.py --check passe (code 0)")
+
+    emit_proc = subprocess.run(
+        [sys.executable, str(exporter), "--root", str(root)],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if emit_proc.returncode != 0:
+        detail = (emit_proc.stderr or emit_proc.stdout).strip()
+        cat.fail(f"export_site_payload.py a échoué à l'émission JSON : {detail}")
+        return cat
+
+    try:
+        payload = json.loads(emit_proc.stdout)
+    except json.JSONDecodeError as exc:
+        cat.fail(f"Sortie JSON invalide depuis export_site_payload.py : {exc}")
+        return cat
+
+    if not isinstance(payload, dict):
+        cat.fail("export_site_payload.py doit émettre un objet JSON racine.")
+        return cat
+
+    if manifest_data is None or version is None:
+        cat.fail("VERSION ou manifest.json indisponible pour comparer le payload web.")
+        return cat
+
+    rel = payload.get("release", {})
+    s0_pay = payload.get("strate_0_core", {})
+    s0_man = manifest_data.get("strate_0_core", {})
+    lic_pay = payload.get("licenses", {})
+    lic_man = manifest_data.get("licenses", {})
+
+    checks = [
+        (payload.get("schema_version") == "1.0", f"schema_version={payload.get('schema_version')!r} != '1.0'"),
+        (rel.get("version") == version, f"release.version={rel.get('version')!r} != '{version}'"),
+        (rel.get("tag") == f"v{version}", f"release.tag={rel.get('tag')!r} != 'v{version}'"),
+        (
+            rel.get("date") == manifest_data.get("release_date"),
+            f"release.date={rel.get('date')!r} != manifest.release_date={manifest_data.get('release_date')!r}",
+        ),
+        (
+            s0_pay.get("theorems_verified") == s0_man.get("theorems_verified"),
+            f"theorems_verified={s0_pay.get('theorems_verified')!r} != {s0_man.get('theorems_verified')!r}",
+        ),
+        (s0_pay.get("sorry_count") == 0, f"sorry_count={s0_pay.get('sorry_count')!r} != 0"),
+        (len(s0_pay.get("provers", [])) == 6, f"provers count={len(s0_pay.get('provers', []))} != 6"),
+        (s0_pay.get("lean_modules_count") == 9, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 9"),
+        (s0_pay.get("states_count") == 176, f"states_count={s0_pay.get('states_count')!r} != 176"),
+        (s0_pay.get("predictions_count") == 5, f"predictions_count={s0_pay.get('predictions_count')!r} != 5"),
+        (
+            s0_pay.get("lexicon176_sha256") == s0_man.get("lexicon_176", {}).get("sha256"),
+            "lexicon176_sha256 du payload != manifest.json",
+        ),
+        (
+            lic_pay.get("spdx_expression") == lic_man.get("spdx_expression"),
+            f"licenses.spdx_expression={lic_pay.get('spdx_expression')!r} != {lic_man.get('spdx_expression')!r}",
+        ),
+    ]
+    for ok_cond, err_msg in checks:
+        if not ok_cond:
+            cat.fail(err_msg)
+
+    if cat.passed:
+        cat.ok(
+            f"Payload web cohérent avec VERSION={version} et manifest.json "
+            f"({s0_pay.get('theorems_verified')} th., {len(s0_pay.get('provers', []))} prouveurs, "
+            f"{s0_pay.get('states_count')} états, {s0_pay.get('predictions_count')} prédictions)"
+        )
+
+    return cat
+
+
 def run_checks(root: Path, strict: bool = False) -> dict[str, Any]:
-    """Exécute les 6 groupes de contrôles sur `root` et retourne un rapport structuré."""
+    """Exécute les 7 groupes de contrôles sur `root` et retourne un rapport structuré."""
     t0 = time.perf_counter()
     resolved_root = root.resolve()
 
@@ -992,8 +1096,9 @@ def run_checks(root: Path, strict: bool = False) -> dict[str, Any]:
     cat4 = _check_epistemic_compartmentalization(resolved_root)
     cat5 = _check_zero_leak_zenodo_hygiene(resolved_root, tracked_files, git_error, strict=strict)
     cat6 = _check_tracked_results_json(resolved_root, tracked_files, git_error)
+    cat7 = _check_site_payload_contract(resolved_root, version, manifest_data)
 
-    categories = [cat1, cat2, cat3, cat4, cat5, cat6]
+    categories = [cat1, cat2, cat3, cat4, cat5, cat6, cat7]
     all_passed = all(c.passed for c in categories)
     elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
 
@@ -1039,7 +1144,7 @@ def _print_human_report(report: dict[str, Any]) -> None:
 def main(argv: list[str] | None = None) -> int:
     _configure_stdio()
     parser = argparse.ArgumentParser(
-        description="Vérifie les 6 groupes d'invariants du compendium CARTOGRAFFECT®."
+        description="Vérifie les 7 groupes d'invariants du compendium CARTOGRAFFECT®."
     )
     parser.add_argument(
         "--strict",

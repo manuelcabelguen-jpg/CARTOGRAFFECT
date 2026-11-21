@@ -18,6 +18,7 @@ import unittest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CHECK_SCRIPT = REPO_ROOT / "scripts" / "check_consistency.py"
 SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_metadata.py"
+EXPORT_SCRIPT = REPO_ROOT / "scripts" / "export_site_payload.py"
 
 # Sous-ensemble complet de fichiers légers (< 256 KiB) + fichiers obligatoires
 # permettant de reconstruire un dépôt temporaire fidèle et rapide (< 0.3s/test).
@@ -38,6 +39,7 @@ REQUIRED_COPY_PATHS = (
     "extensions/in_silico/data/lexicon_176.json",
     "scripts/check_consistency.py",
     "scripts/sync_metadata.py",
+    "scripts/export_site_payload.py",
 )
 
 REQUIRED_COPY_DIRS = (
@@ -120,7 +122,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, f"STDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}")
         report = json.loads(proc.stdout)
         self.assertEqual(report["status"], "PASS")
-        self.assertEqual(report["summary"]["categories_passed"], 6)
+        self.assertEqual(report["summary"]["categories_passed"], 7)
         self.assertEqual(report["summary"]["total_errors"], 0)
 
     def test_isolated_baseline_copy_passes(self) -> None:
@@ -231,6 +233,50 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             check_after = _run_script(SYNC_SCRIPT, "--check", "--root", str(repo))
             self.assertEqual(check_after.returncode, 0, check_after.stdout + check_after.stderr)
             self.assertIn("SYNC OK", check_after.stdout)
+
+    def test_export_site_payload_determinism_and_check(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_a = Path(tmp) / "a.json"
+            out_b = Path(tmp) / "b.json"
+
+            p1 = _run_script(EXPORT_SCRIPT, "--root", str(REPO_ROOT), "--output", str(out_a))
+            self.assertEqual(p1.returncode, 0, p1.stdout + p1.stderr)
+            p2 = _run_script(EXPORT_SCRIPT, "--root", str(REPO_ROOT), "--output", str(out_b))
+            self.assertEqual(p2.returncode, 0, p2.stdout + p2.stderr)
+
+            bytes_a = out_a.read_bytes()
+            bytes_b = out_b.read_bytes()
+            self.assertEqual(bytes_a, bytes_b)
+
+            chk = _run_script(EXPORT_SCRIPT, "--check", "--root", str(REPO_ROOT), "--output", str(out_a))
+            self.assertEqual(chk.returncode, 0, chk.stdout + chk.stderr)
+            self.assertIn("PAYLOAD CHECK OK", chk.stdout)
+
+            payload = json.loads(bytes_a.decode("utf-8"))
+            self.assertEqual(payload["schema_version"], "1.0")
+            self.assertEqual(payload["release"]["version"], "2.0.0")
+            self.assertEqual(payload["release"]["tag"], "v2.0.0")
+            self.assertEqual(payload["release"]["date"], "2026-11-21")
+            self.assertEqual(payload["identifiers"]["cipo_registration"], "1233199")
+            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 113)
+            self.assertEqual(payload["strate_0_core"]["sorry_count"], 0)
+            self.assertEqual(len(payload["strate_0_core"]["provers"]), 6)
+            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 9)
+            self.assertEqual(payload["strate_0_core"]["states_count"], 176)
+            self.assertEqual(payload["strate_0_core"]["predictions_count"], 5)
+            self.assertEqual(payload["licenses"]["spdx_expression"], "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
+
+    def test_fault_site_payload_manifest_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            mpath = repo / "manifest.json"
+            data = json.loads(mpath.read_text(encoding="utf-8"))
+            data["strate_0_core"]["theorems_verified"] = 68
+            mpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            exp_fail = _run_script(EXPORT_SCRIPT, "--check", "--root", str(repo))
+            self.assertEqual(exp_fail.returncode, 1)
+            self._assert_check_fails_on_category(repo, "site_payload_contract")
 
 
 if __name__ == "__main__":
