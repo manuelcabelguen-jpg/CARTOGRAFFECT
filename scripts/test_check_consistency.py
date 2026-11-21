@@ -24,6 +24,7 @@ EXPORT_SCRIPT = REPO_ROOT / "scripts" / "export_site_payload.py"
 # permettant de reconstruire un dépôt temporaire fidèle et rapide (< 0.3s/test).
 REQUIRED_COPY_PATHS = (
     "VERSION",
+    "README.md",
     "CITATION.cff",
     ".zenodo.json",
     "manifest.json",

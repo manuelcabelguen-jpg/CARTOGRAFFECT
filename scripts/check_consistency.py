@@ -830,6 +830,44 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
         else:
             cat.ok("Garde A4-Sanctuaire : 0 métrique PXP/min r dans le corps théorique")
 
+        # Garde d'intégrité éditoriale & transparence IA dans docs/01-Article_Cartograffect.md
+        if re.search(r"(?:49\s*\+|references-v2)", article_text, re.IGNORECASE):
+            cat.fail("docs/01-Article_Cartograffect.md contient un marqueur obsolète (49+ / references-v2).")
+        else:
+            cat.ok("0 marqueur obsolète (49+ / references-v2) dans docs/01-Article_Cartograffect.md")
+
+        art_low = article_text.lower()
+        has_art_ai_honesty = (
+            "non mathématicien" in art_low
+            and "vérification mécanique" in art_low
+            and "audit" in art_low
+        )
+        if not has_art_ai_honesty:
+            cat.fail(
+                "docs/01-Article_Cartograffect.md doit inclure la déclaration IA explicite "
+                "(non mathématicien, vérification mécanique des compilateurs, ouverture à l'audit)."
+            )
+        else:
+            cat.ok("Déclaration IA explicite vérifiée dans docs/01-Article_Cartograffect.md")
+
+    readme_path = root / "README.md"
+    if not readme_path.is_file():
+        cat.fail("README.md introuvable pour le contrôle de transparence IA.")
+    else:
+        readme_low = _read_text(readme_path).lower()
+        has_readme_ai_honesty = (
+            "non mathématicien" in readme_low
+            and "vérification mécanique" in readme_low
+            and "audit" in readme_low
+        )
+        if not has_readme_ai_honesty:
+            cat.fail(
+                "README.md doit inclure la déclaration IA explicite "
+                "(non mathématicien, vérification mécanique des compilateurs, ouverture à l'audit)."
+            )
+        else:
+            cat.ok("Déclaration IA explicite vérifiée dans README.md")
+
     return cat
 
 
