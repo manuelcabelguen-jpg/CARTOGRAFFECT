@@ -5,6 +5,16 @@ All notable changes to the **CARTOGRAFFECT®** Research Compendium are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-11-21
+
+### Changed
+- **Honesty & AI Transparency (`docs/01-Article_Cartograffect.md`, `README.md`, `data/site-payload.json`)**: explicit 3-point generative AI disclosure affirming full authorial ownership of the psychological/taxonomic model, AI technical assistance (writing, showcase website, translation, and exploratory formal-method transposition across Lean 4, Rocq, Agda, Dafny, Z3, TLA+), lack of manual line-by-line verification of generated formal code by a clinical psychologist who is not a formal mathematician, reliance on mechanical prover compilation and automated tests, and open GitHub publication for independent specialist audit.
+- **Editorial & Conceptual Alignment**: preserved conceptual psychological focus on Figure 1 and Data Availability synchronized to `v2.0.1`, unified APA 7 bibliography (`72` continuous A–Z entries without legacy `49+` web migration counters), and added structured `ai_disclosure` payload block alongside stricter guardrails in `scripts/export_site_payload.py`, `scripts/check_consistency.py`, and `scripts/test_check_consistency.py`.
+- **Showcase Web & OPQ Deontological Patch (`manuelcabelguen-jpg.github.io`)**: restored 100% native wheel scrolling across all pages (including 3D taxonomy camera zoom bounds), repaired `FR/EN` i18n switching with complete translation coverage and `sw.js` `2.0.1` cache invalidation, verified WCAG 2.1 opaque dropdown styling, aligned Figure 1 cross-references, and clarified independent researcher status & OPQ deontological notice in `mentions-legales.html`.
+
+### Verified
+- **Strate 0 Hexa-Prover Core untouched**: zero modifications inside `Cartograffect/`, `rocq/`, `agda/`, `dafny/`, `smt/`, or `tla/` relative to `v2.0.0`.
+
 ## [2.0.0] - 2026-11-21
 
 ### Added
@@ -32,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Lean 4 formalization of the CARTOGRAFFECT 176-state L1 affective taxonomy, core 17 founding theorems, and dual licensing (`AGPL-3.0-or-later` / `CC BY-NC-SA 4.0`).
 
+[2.0.1]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/releases/tag/v1.0.0

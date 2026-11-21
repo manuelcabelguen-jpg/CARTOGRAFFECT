@@ -20,11 +20,11 @@ Ce dépôt contient la sextuple certification formelle mécanisée sous **Lean 4
 
 ## Déclaration relative à l’utilisation de l’intelligence artificielle générative et statut épistémique du matériel formel
 
-- **Paternité intégrale de l’auteur sur le modèle psychologique, conceptuel et taxonomique :** La conception théorique de **CARTOGRAFFECT®**, l’architecture hiérarchique du Moteur prédictif, du Noyau affectif et de la Matrice affective, la lecture critique des travaux cités, les hypothèses cliniques et le répertoire taxonomique des 176 états relèvent intégralement de **Manuel Cabelguen, Ph. D.** (psychologue clinicien et chercheur indépendant).
-- **Rôle d’assistance de l’IA générative :** Des outils d’intelligence artificielle générative ont été utilisés à titre d’assistance pour la rédaction et la clarification stylistique, la réalisation du site web vitrine ainsi que pour la **transposition exploratoire** des règles conceptuelles et taxonomiques vers les assistants de preuve formelle (Lean 4, Rocq, Agda, Dafny, SMT-LIB/Z3, TLA+) et les scripts compagnons hébergés dans ce dépôt GitHub.
-- **Portée et limites de vérification (transparence méthodologique) :** Psychologue de formation et **non mathématicien**, l’auteur **n’a pas vérifié manuellement chaque ligne de preuve mathématique ou de spécification formelle**. La validité technique des artefacts formels de ce dépôt repose sur la **vérification mécanique effectuée par les compilateurs, assistants de preuve et solveurs** exécutés dans l’intégration continue (0 `sorry`, 0 `Admitted`, 0 `postulate`, 0 `{:axiom}`). Ce matériel formel et algorithmique est distinct du manuscrit théorique de référence et est **partagé ouvertement sur GitHub afin d’inviter l’audit, l’examen critique et la vérification indépendante par des spécialistes** en mathématiques, logique formelle et sciences computationnelles.
+- **Paternité intégrale de l’auteur sur le modèle psychologique, conceptuel et taxonomique :** L’architecture conceptuelle, la psychologie affective, la taxonomie des 176 états et l’orientation théorique de **CARTOGRAFFECT®** sont entièrement conçues et assumées par **Manuel Cabelguen, Ph. D.** (psychologue clinicien et chercheur indépendant), qui assume l’entière responsabilité des hypothèses cliniques et de la lecture critique des travaux cités.
+- **Rôle d’assistance technique de l’IA générative :** Des outils d’intelligence artificielle générative ont servi d’**assistants techniques** pour la rédaction, la réalisation du site web vitrine, la traduction et la **transposition exploratoire** de propriétés du modèle vers des assistants de preuve formelle (Lean 4, Rocq, Agda, Dafny, Z3, TLA+) et des scripts compagnons hébergés sur GitHub.
+- **Portée et limites de vérification (transparence méthodologique) :** Psychologue clinicien et **non mathématicien formel**, l’auteur **n’a pas vérifié manuellement ligne par ligne** le code mathématique et formel généré. La validité technique de ces artefacts repose sur la **compilation et vérification mécanique** par les prouveurs et solveurs exécutés en intégration continue (0 `sorry`, 0 `Admitted`, 0 `postulate`, 0 `{:axiom}`) ainsi que sur les **tests automatisés**. Ce matériel formel et algorithmique est distinct du manuscrit théorique et est **publié en accès libre sur GitHub précisément pour inviter l’audit indépendant de mathématiciens et de spécialistes des méthodes formelles**.
 
-> **AI Transparency & Epistemic Notice (EN):** The psychological, conceptual, clinical, and taxonomic model of CARTOGRAFFECT® is authored entirely by Manuel Cabelguen, Ph. D. Generative AI tools served as an assistant for manuscript editing, website engineering, and exploratory translation of the model's rules into formal proof assistants and GitHub companion scripts. Being a psychologist and not a mathematician, the author has not manually verified every line of mathematical proof; formal soundness of these files relies on mechanical verification by the respective compilers and solvers, and the full codebase is shared openly on GitHub to invite independent audit by specialists.
+> **AI Transparency & Epistemic Notice (EN):** The conceptual architecture, affective psychology, 176-state taxonomy, and theoretical orientation of CARTOGRAFFECT® are entirely conceived and owned by Manuel Cabelguen, Ph. D. Generative AI tools served as technical assistants for writing, website engineering, translation, and exploratory transposition of model properties into formal proof assistants (Lean 4, Rocq, Agda, Dafny, Z3, TLA+) and GitHub scripts. As a clinical psychologist and not a formal mathematician, the author has not manually verified the generated mathematical/formal code line by line; technical validity rests on mechanical compilation by the respective provers/solvers and automated tests, and all formal material is published open-access on GitHub precisely to invite independent audit by mathematicians and formal-methods specialists.
 
 ---
 
@@ -308,7 +308,7 @@ powershell -ExecutionPolicy Bypass -File .\tla\verify.ps1
 - **[`docs/CONVERGENCE_MATRIX.md`](docs/CONVERGENCE_MATRIX.md)** : Matrice de gouvernance épistémique et d'arbitrage entre la Strate 0 (Noyau) et la Strate 1 (satellites).
 - **[`extensions/lexicon/EPISTEMIC_STATUS.md`](extensions/lexicon/EPISTEMIC_STATUS.md)** : Charte épistémique du satellite lexical, triangulation GRID/CPM et clôture du prolongement exploratoire Diamant 303.
 - **[`extensions/in_silico/EPISTEMIC_STATUS.md`](extensions/in_silico/EPISTEMIC_STATUS.md)** : Charte épistémique du banc de simulation Active Inference (`pymdp`/JAX/NumPyro, P1–P5 et phénotypage DSM-5/HiTOP).
-- **[`CHANGELOG.md`](CHANGELOG.md)** & **[`manifest.json`](manifest.json)** : Historique sémantique (`2.0.0`) et carte de traçabilité structurée du Research Compendium.
+- **[`CHANGELOG.md`](CHANGELOG.md)** & **[`manifest.json`](manifest.json)** : Historique sémantique (`2.0.1`) et carte de traçabilité structurée du Research Compendium.
 
 ---
 
@@ -335,10 +335,10 @@ Copyright (C) 2025-2026 Manuel Cabelguen — `SPDX-License-Identifier: AGPL-3.0-
 
 Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de citer l'article théorique de référence ainsi que le compendium formel (source unique : [`CITATION.cff`](CITATION.cff)) :
 
-- **Modèle théorique (`v2.0.0`) :**  
-  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif* (version `v2.0.0`). Zenodo. https://doi.org/10.5281/zenodo.24022795
-- **Compendium & vérification formelle (`v2.0.0`) :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation* (version `v2.0.0`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938 · OSF : https://osf.io/z89sg
+- **Modèle théorique (`v2.0.1`) :**  
+  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif* (version `v2.0.1`). Zenodo. https://doi.org/10.5281/zenodo.24022795
+- **Compendium & vérification formelle (`v2.0.1`) :**  
+  Cabelguen, M. (2026). *CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation* (version `v2.0.1`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938 · OSF : https://osf.io/z89sg
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
@@ -347,10 +347,10 @@ Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de cite
   author  = {Cabelguen, Manuel},
   title   = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
   year    = {2026},
-  version = {2.0.0},
+  version = {2.0.1},
   doi     = {10.5281/zenodo.24022795},
   url     = {https://doi.org/10.5281/zenodo.24022795},
-  note    = {Manuscrit th{\'e}orique de r{\'e}f{\'e}rence v2.0.0 (docs/01-Article_Cartograffect.md), enregistrement CIPO / OPIC n° 1233199}
+  note    = {Manuscrit th{\'e}orique de r{\'e}f{\'e}rence v2.0.1 (docs/01-Article_Cartograffect.md), enregistrement CIPO / OPIC n° 1233199}
 }
 
 @software{cabelguen2026cartograffect,
@@ -358,9 +358,9 @@ Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de cite
   title   = {{CARTOGRAFFECT}{\textregistered}: Unified Research Compendium --- Hexa-Prover Formal Verification, Theory, Lexicon \& Active Inference Simulation},
   year    = {2026},
   publisher = {Zenodo},
-  version = {2.0.0},
+  version = {2.0.1},
   doi     = {10.5281/zenodo.23833938},
   url     = {https://doi.org/10.5281/zenodo.23833938},
-  note    = {Version v2.0.0 (2026-11-21); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
+  note    = {Version v2.0.1 (2026-11-21); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
 }
 ```
