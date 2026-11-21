@@ -1,5 +1,5 @@
 id_176	label_fr	X	Y	Z	rayon_L1	type_geom	groupe_geom	antagoniste_label
-1	Veille	0	0	0	0	Centre	OPERATEUR_CENTRAL	Veille
+1	Point de Veille	0	0	0	0	Centre	OPERATEUR_CENTRAL	Point de Veille
 2	Surprise	0	0	1	0	Centre	OPERATEUR_CENTRAL	Surprise
 3	Anticipation	0	0	2	0	Centre	OPERATEUR_CENTRAL	Anticipation
 4	Joie	0	2	2	2	Axiale	JOIE	Tristesse

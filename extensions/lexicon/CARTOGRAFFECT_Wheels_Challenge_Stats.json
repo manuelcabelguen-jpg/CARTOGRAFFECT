@@ -357,7 +357,7 @@
             "family": "nostalgia",
             "theta_wheel": -81.0,
             "theta_carto": -39.34,
-            "anchors": "Solitude + Épanouissement",
+            "anchors": "Langueur + Épanouissement",
             "residual_deg": -14.27
           },
           {
@@ -447,7 +447,7 @@
             "family": "anger",
             "theta_wheel": 99.0,
             "theta_carto": 140.66,
-            "anchors": "Irritation + Colère",
+            "anchors": "Rancœur + Colère",
             "residual_deg": -14.27
           }
         ]
@@ -1509,8 +1509,8 @@
           {
             "A": "Langueur",
             "B": "Irritation",
-            "ancre_A": "Solitude",
-            "ancre_B": "Irritation",
+            "ancre_A": "Langueur",
+            "ancre_B": "Rancœur",
             "delta_carto_deg": 123.7,
             "antipodal": false,
             "antagoniste_lean_exact": false,
@@ -1519,7 +1519,7 @@
           {
             "A": "Langueur",
             "B": "Colère",
-            "ancre_A": "Solitude",
+            "ancre_A": "Langueur",
             "ancre_B": "Colère",
             "delta_carto_deg": 135.0,
             "antipodal": true,
@@ -1530,7 +1530,7 @@
             "A": "Nostalgie",
             "B": "Irritation",
             "ancre_A": "Épanouissement",
-            "ancre_B": "Irritation",
+            "ancre_B": "Rancœur",
             "delta_carto_deg": 135.0,
             "antipodal": true,
             "antagoniste_lean_exact": false,
@@ -1932,9 +1932,9 @@
       "GEW2": {
         "n_items": 40,
         "coverage": 1.0,
-        "n_exact_303": 22,
-        "n_exact_176": 22,
-        "n_lexique": 18,
+        "n_exact_303": 21,
+        "n_exact_176": 21,
+        "n_lexique": 19,
         "n_triade": 0,
         "n_centre_sans_angle": 2,
         "non_couverts": [],
@@ -2354,7 +2354,7 @@
             "family": "anger",
             "theta_wheel": 99.0,
             "theta_carto": 140.66,
-            "anchors": "Irritation + Colère",
+            "anchors": "Rancœur + Colère",
             "residual_deg": -15.82
           }
         ]
@@ -3403,7 +3403,7 @@
             "A": "Manque",
             "B": "Irritation",
             "ancre_A": "Manque",
-            "ancre_B": "Irritation",
+            "ancre_B": "Rancœur",
             "delta_carto_deg": 22.4,
             "antipodal": false,
             "antagoniste_lean_exact": false,
@@ -3423,7 +3423,7 @@
             "A": "Nostalgie",
             "B": "Irritation",
             "ancre_A": "Épanouissement",
-            "ancre_B": "Irritation",
+            "ancre_B": "Rancœur",
             "delta_carto_deg": 135.0,
             "antipodal": true,
             "antagoniste_lean_exact": false,

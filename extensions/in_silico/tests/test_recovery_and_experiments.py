@@ -219,6 +219,10 @@ def test_exp02_pure_theta_and_experiments_smoke(tmp_path) -> None:
     assert (tmp_path / "exp02_phenotypes.json").exists()
     assert (tmp_path / "fig2_clinical_phenotypes.png").exists()
     assert r2["pure_theta_only"] is True
+    fig_rel = str(r1["figure_path"])
+    assert not Path(fig_rel).is_absolute()
+    assert "\\" not in fig_rel and ":" not in fig_rel
+    assert fig_rel in {"fig1_falsifiable_predictions.png", "results/fig1_falsifiable_predictions.png"}
 
     dummy_report = {
         "generated_at_utc": "2026-11-19T00:00:00+00:00",
@@ -267,3 +271,56 @@ def test_exp02_pure_theta_and_experiments_smoke(tmp_path) -> None:
     md_text = md_out.read_text(encoding="utf-8")
     assert "max R-hat = 1.010" in md_text
     assert "0.00e+00" not in md_text
+    assert "P4 — Lexicographie" in md_text
+    assert "P5 — Peur" in md_text
+
+
+def test_p4_lexicographic_valence_and_parametric_limit() -> None:
+    """P4 sous pymdp pur : dissociation transitoire vs J&C et limite paramétrique."""
+    exp01 = _load_mod("exp01_p4_test", "experiments/01_falsifiable_predictions.py")
+    res_p4 = exp01.run_prediction_4_lexicographic_valence(num_trajectories=20, seed=414)
+
+    assert res_p4["b_prior_symmetric"] is True
+    assert float(res_p4["b_prior_sym_diff"]) < 1e-12
+
+    arm_a = res_p4["arm_a_loss_resolution"]
+    arm_b = res_p4["arm_b_uncertainty_onset"]
+    assert int(arm_a["n_dissociation_trials"]) > 0
+    assert int(arm_b["n_dissociation_trials"]) > 0
+    assert abs(float(res_p4["carto_negative_rate_arm_a"]) - 1.0) < 1e-9
+    assert abs(float(res_p4["jc_positive_rate_arm_a"]) - 1.0) < 1e-9
+    assert abs(float(res_p4["carto_positive_rate_arm_b"]) - 1.0) < 1e-9
+    assert abs(float(res_p4["jc_negative_rate_arm_b"]) - 1.0) < 1e-9
+
+    lim = res_p4["parametric_limitation"]
+    assert float(lim["crossover_rate_in_block1"]) > 0.5
+    assert "TaskInferenceEngine" in str(lim["note"])
+
+
+def test_p5_fear_control_mediation_noncircular() -> None:
+    """P5 sous pymdp pur : bifurcation Peur -> Colère vs Dégoût médiée par p_hat_ctrl."""
+    exp01 = _load_mod("exp01_p5_test", "experiments/01_falsifiable_predictions.py")
+    res_p5 = exp01.run_prediction_5_fear_control_mediation(num_trajectories=20, seed=515)
+
+    assert res_p5["b_prior_symmetric"] is True
+    assert float(res_p5["b_prior_sym_diff"]) < 1e-12
+    assert (
+        abs(float(res_p5["b_prior_peur_to_colere"]) - float(res_p5["b_prior_peur_to_degout"]))
+        < 1e-12
+    )
+
+    c010 = res_p5["conditions"]["0.10"]
+    c050 = res_p5["conditions"]["0.50"]
+    c090 = res_p5["conditions"]["0.90"]
+    assert float(c090["p_ctrl_hat_mean"]) > float(c050["p_ctrl_hat_mean"]) > float(c010["p_ctrl_hat_mean"])
+    assert float(c090["p_colere_mean"]) > float(c010["p_colere_mean"])
+    assert float(c010["p_degout_mean"]) > float(c090["p_degout_mean"])
+    assert float(c090["bifurcation_index_mean"]) > float(c010["bifurcation_index_mean"])
+
+    med = res_p5["mediation"]
+    assert float(med["indirect_ab"]) > 0.0
+    assert float(med["spearman_rho_p_hat_vs_bifurcation"]) > 0.5
+
+    hv = res_p5["high_volatility_boundary"]
+    assert float(hv["p_ctrl_090"]["p_ctrl_hat_mean"]) < 0.50
+    assert "FPI" in str(hv["note"])

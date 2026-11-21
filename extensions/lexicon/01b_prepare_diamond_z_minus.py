@@ -497,15 +497,17 @@ def get_diamond_height_3d(z_signed):
 
 
 def main():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
+
     df_176 = pd.read_csv("ref_176_cartograffect.tsv", sep="\t", encoding="utf-8")
 
-    label_updates = {
-        (0, -6, 4): "Solitude",
-        (-6, 4, 6): "Irritation",
-    }
-    antag_updates = {
-        "Langueur": "Solitude",
-        "Rancœur": "Irritation",
+    # Alignement descendant (Arbitrage A1 / v2.0.0) : Langueur et Rancœur restent
+    # les libellés canoniques de Strate 0 ; les ancres GRID associées sont conservées
+    # exclusivement dans la métadonnée dédiée `grid_anchor_alias`.
+    grid_anchor_aliases = {
+        (0, -6, 4): "Solitude (SADNESS)",
+        (-6, 4, 6): "Irritation (IRRITATION)",
     }
 
     affect_rows = []
@@ -513,8 +515,8 @@ def main():
 
     for r in df_176.itertuples():
         x, y, z = int(r.X), int(r.Y), int(r.Z)
-        lbl = label_updates.get((x, y, z), str(r.label_fr))
-        ant_lbl = antag_updates.get(str(r.antagoniste_label), str(r.antagoniste_label))
+        lbl = str(r.label_fr)
+        ant_lbl = str(r.antagoniste_label)
         h_3d = get_diamond_height_3d(z)
         _, ant_rule = get_antagonist_xy_and_rule(x, y)
         comp_attrs = get_computational_engine_attributes(x, y, z)
@@ -525,6 +527,7 @@ def main():
             "id_hemisphere": int(r.id_176),
             "label_fr": lbl,
             "label_legacy_176": str(r.label_fr),
+            "grid_anchor_alias": grid_anchor_aliases.get((x, y, z), "-"),
             "X": x,
             "Y": y,
             "Z_signe": z,
@@ -577,6 +580,7 @@ def main():
             "id_hemisphere": num_w,
             "label_fr": lbl,
             "label_legacy_176": "-",
+            "grid_anchor_alias": "-",
             "X": x,
             "Y": y,
             "Z_signe": z_m,

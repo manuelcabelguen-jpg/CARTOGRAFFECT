@@ -390,7 +390,7 @@ def grid24CanonicalAnchors : List GRIDCanonicalAnchor := [
   ⟨"Espoir",      "hope",           79,  "Espoir",         ⟨7,   1,  5⟩, ⟨80,  70,  36, 32, 34,  68, 84⟩⟩,
   ⟨"Surprise",    "surprise",       2,   "Surprise",       ⟨0,   0,  1⟩, ⟨16,  18, -12, 74, 86,   0, 18⟩⟩,
   ⟨"Colère",      "anger",          8,   "Colère",         ⟨-1,  1,  2⟩, ⟨46, -76,  68, 84, 88,  84, 28⟩⟩,
-  ⟨"Irritation",  "irritation",     108, "Irritation",     ⟨-6,  4,  6⟩, ⟨74, -68,  42, 42, 44,  52, 68⟩⟩,
+  ⟨"Irritation",  "irritation",     108, "Rancœur",        ⟨-6,  4,  6⟩, ⟨74, -68,  42, 42, 44,  52, 68⟩⟩,
   ⟨"Mépris",      "contempt",       44,  "Mépris",         ⟨-5, -1,  4⟩, ⟨84, -72,  56, 30, 42,  20, 72⟩⟩,
   ⟨"Dégoût",      "disgust",        11,  "Dégoût",         ⟨-1, -1,  2⟩, ⟨36, -82, -18, 78, 80, -68, 30⟩⟩,
   ⟨"Haine",       "hate",           35,  "Haine",          ⟨-1,  5,  4⟩, ⟨80, -92,  48, 54, 58,  66, 64⟩⟩,
@@ -400,7 +400,7 @@ def grid24CanonicalAnchors : List GRIDCanonicalAnchor := [
   ⟨"Tristesse",   "sadness",        5,   "Tristesse",      ⟨0,  -2,  2⟩, ⟨38, -80, -68, 68, 72, -66, 36⟩⟩,
   ⟨"Désespoir",   "despair",        70,  "Désespoir",      ⟨-1, -7,  5⟩, ⟨76, -90, -86, 44, 42, -78, 72⟩⟩,
   ⟨"Déception",   "disappointment", 83,  "Insatisfaction", ⟨-4,  4,  5⟩, ⟨78, -70, -32, 38, 40, -38, 76⟩⟩,
-  ⟨"Solitude",    "loneliness",     31,  "Solitude",       ⟨0,  -6,  4⟩, ⟨68, -66, -58, 38, 36, -50, 70⟩⟩,
+  ⟨"Solitude",    "loneliness",     31,  "Langueur",       ⟨0,  -6,  4⟩, ⟨68, -66, -58, 38, 36, -50, 70⟩⟩,
   ⟨"Nostalgie",   "nostalgia",      156, "Mélancolie",     ⟨-8, -4,  7⟩, ⟨86, -38, -44, 28, 30, -10, 88⟩⟩,
   ⟨"Culpabilité", "guilt",          41,  "Vide",           ⟨-1, -5,  4⟩, ⟨92, -72, -48, 46, 44,  36, 84⟩⟩,
   ⟨"Honte",       "shame",          40,  "Honte",          ⟨-2, -4,  4⟩, ⟨88, -78, -66, 54, 52, -72, 76⟩⟩

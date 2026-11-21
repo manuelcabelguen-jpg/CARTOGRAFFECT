@@ -100,95 +100,95 @@
     "cca": {
       "n_observations": 176,
       "canonical_correlations": [
-        0.9309,
-        0.8589,
-        0.6274
+        0.9366,
+        0.8787,
+        0.6174
       ],
       "canonical_r_squared": [
-        0.8666,
-        0.7377,
-        0.3937
+        0.8772,
+        0.7721,
+        0.3812
       ],
-      "wilks_lambda": 0.021224,
-      "bartlett_chi2": 656.8748,
+      "wilks_lambda": 0.017308,
+      "bartlett_chi2": 691.6452,
       "bartlett_df": 15,
       "p_value_permutation_rho1": 0.0005,
       "p_value_permutation_wilks": 0.0005,
-      "redundancy_carto_given_grid": 0.6698,
-      "redundancy_grid_given_carto": 0.6474,
+      "redundancy_carto_given_grid": 0.6807,
+      "redundancy_grid_given_carto": 0.6654,
       "structure_loadings_carto": [
         [
-          -0.543,
-          0.8042,
-          -0.2532
+          -0.4344,
+          0.865,
+          -0.2622
         ],
         [
-          -0.839,
-          -0.5451,
-          0.0679
+          -0.8996,
+          -0.4421,
+          0.032
         ],
         [
-          -0.0832,
-          0.2485,
-          0.968
+          -0.088,
+          0.249,
+          0.9674
         ]
       ],
       "structure_loadings_grid": [
         [
-          -0.6361,
-          0.6993,
-          -0.3299
+          -0.547,
+          0.7559,
+          -0.3584
         ],
         [
-          -0.8473,
-          0.2976,
-          -0.2595
+          -0.8141,
+          0.3778,
+          -0.2754
         ],
         [
-          -0.6002,
-          -0.7887,
-          -0.0914
+          -0.6772,
+          -0.726,
+          -0.0672
         ],
         [
-          -0.1842,
-          -0.6402,
-          -0.583
+          -0.2436,
+          -0.6365,
+          -0.5639
         ],
         [
-          0.0917,
-          0.6568,
-          0.7195
+          0.1576,
+          0.67,
+          0.7036
         ]
       ]
     },
     "procrustes": {
       "n_points": 176,
-      "procrustes_correlation_R": 0.6281,
-      "procrustes_r_squared": 0.3945,
-      "procrustes_residual_m12_sq": 0.6055,
+      "procrustes_correlation_R": 0.5789,
+      "procrustes_r_squared": 0.3351,
+      "procrustes_residual_m12_sq": 0.6649,
       "tucker_congruence_axes_XYZ": [
-        0.6139,
-        0.636,
-        0.6385
+        0.6314,
+        0.5005,
+        0.6162
       ],
-      "tucker_congruence_mean": 0.6295,
-      "tucker_congruence_rms": 0.6296,
+      "tucker_congruence_mean": 0.5827,
+      "tucker_congruence_rms": 0.5856,
       "protest_p_value": 0.0005,
       "optimal_rotation_matrix": [
         [
-          0.9619,
-          -0.0353,
-          -0.2709
+          0.9569,
+          -0.0097,
+          -0.2902
         ],
         [
-          0.0787,
-          0.9854,
-          0.1508
+          0.0727,
+          0.9756,
+          0.2072
         ],
         [
-          0.2617,
-          -0.1664,
-          0.9507
+          0.2811,
+          -0.2194,
+          0.9343
         ]
       ]
     }
@@ -197,95 +197,95 @@
     "cca": {
       "n_observations": 15037,
       "canonical_correlations": [
-        0.9104,
-        0.828,
-        0.5772
+        0.9236,
+        0.826,
+        0.617
       ],
       "canonical_r_squared": [
-        0.8289,
-        0.6857,
-        0.3331
+        0.8531,
+        0.6822,
+        0.3807
       ],
-      "wilks_lambda": 0.035867,
-      "bartlett_chi2": 50023.8185,
+      "wilks_lambda": 0.028915,
+      "bartlett_chi2": 53262.6429,
       "bartlett_df": 15,
       "p_value_permutation_rho1": 0.001996,
       "p_value_permutation_wilks": 0.001996,
-      "redundancy_carto_given_grid": 0.6254,
-      "redundancy_grid_given_carto": 0.631,
+      "redundancy_carto_given_grid": 0.6456,
+      "redundancy_grid_given_carto": 0.6496,
       "structure_loadings_carto": [
         [
-          -0.512,
-          0.8587,
-          0.0227
+          -0.3462,
+          0.9379,
+          0.0228
         ],
         [
-          -0.9506,
-          -0.3076,
-          -0.0429
+          -0.99,
+          -0.1258,
+          -0.0641
         ],
         [
-          0.0138,
-          -0.125,
-          0.9921
+          -0.0353,
+          -0.1187,
+          0.9923
         ]
       ],
       "structure_loadings_grid": [
         [
-          -0.5393,
-          0.8301,
-          -0.0298
+          -0.3866,
+          0.9098,
+          -0.0397
         ],
         [
-          -0.8392,
-          0.4721,
-          0.0155
+          -0.7606,
+          0.6101,
+          -0.0125
         ],
         [
-          -0.7549,
-          -0.5998,
-          -0.248
+          -0.8502,
+          -0.4579,
+          -0.2307
         ],
         [
-          -0.4727,
-          -0.3594,
-          -0.7566
+          -0.5197,
+          -0.281,
+          -0.753
         ],
         [
-          0.432,
-          0.4708,
-          0.7633
+          0.4684,
+          0.3946,
+          0.7846
         ]
       ]
     },
     "procrustes": {
       "n_points": 15037,
-      "procrustes_correlation_R": 0.6637,
-      "procrustes_r_squared": 0.4405,
-      "procrustes_residual_m12_sq": 0.5595,
+      "procrustes_correlation_R": 0.6803,
+      "procrustes_r_squared": 0.4628,
+      "procrustes_residual_m12_sq": 0.5372,
       "tucker_congruence_axes_XYZ": [
-        0.7932,
-        0.709,
-        0.4534
+        0.7785,
+        0.7332,
+        0.503
       ],
-      "tucker_congruence_mean": 0.6519,
-      "tucker_congruence_rms": 0.6677,
+      "tucker_congruence_mean": 0.6716,
+      "tucker_congruence_rms": 0.6823,
       "protest_p_value": 0.001996,
       "optimal_rotation_matrix": [
         [
-          0.9643,
-          -0.0808,
-          -0.252
+          0.9727,
+          -0.0514,
+          -0.2262
         ],
         [
-          0.1456,
-          0.9571,
-          0.2504
+          0.1136,
+          0.9558,
+          0.2712
         ],
         [
-          0.221,
-          -0.2782,
-          0.9348
+          0.2022,
+          -0.2895,
+          0.9356
         ]
       ]
     }

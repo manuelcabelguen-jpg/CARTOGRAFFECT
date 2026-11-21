@@ -50,6 +50,8 @@ WHEELS_TSV = os.path.join(ROOT, "data", "emotion_wheels", "scherer2013_wheels.ts
 REF303_TSV = os.path.join(ROOT, "Pipeline_16200_OpenData", "data", "ref_303_diamant_z.tsv")
 if not os.path.exists(REF303_TSV):
     REF303_TSV = os.path.join(ROOT, "output_diamond_303", "ref_303_diamant_z.tsv")
+if not os.path.exists(REF303_TSV):
+    REF303_TSV = os.path.join(ROOT, "ref_303_diamant_z.tsv")
 LEXICON_TSV = os.path.join(ROOT, "output_diamond_303", "CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv")
 if not os.path.exists(LEXICON_TSV):
     LEXICON_TSV = os.path.join(ROOT, "Pipeline_16200_OpenData", "output_diamond_303", "CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv")

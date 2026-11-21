@@ -1,0 +1,70 @@
+name: Compendium Guardrails & Strate 0 Python CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  consistency-and-guardrails:
+    name: Consistency Guardrails & Metadata Parity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run consistency guardrails (--strict)
+        run: python scripts/check_consistency.py --strict
+
+      - name: Check metadata & SHA-256 synchronization
+        run: python scripts/sync_metadata.py --check
+
+      - name: Run adversarial guardrail unit tests
+        run: python -m unittest scripts/test_check_consistency.py -v
+
+  strate0-python-engine:
+    name: Strate 0 Exact Python Engine (12 unit tests)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install NumPy
+        run: python -m pip install --upgrade pip && pip install "numpy>=1.24"
+
+      - name: Run Strate 0 Markov engine tests
+        run: python -m unittest discover -s python -v
+
+  strate1-in-silico-suite:
+    name: Strate 1 In-Silico Active Inference Suite (manual / release tags)
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install in_silico package and test dependencies
+        working-directory: ./extensions/in_silico
+        run: python -m pip install --upgrade pip && pip install -e ".[test]"
+
+      - name: Run full Strate 1 pytest suite
+        working-directory: ./extensions/in_silico
+        run: pytest -v

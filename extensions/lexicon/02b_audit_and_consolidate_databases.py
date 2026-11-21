@@ -22,7 +22,7 @@ Opérations réalisées et certifiées :
    - Génération de `CARTOGRAFFECT_Valeurs_Consolidees.tsv` (unigrammes purs, 0 doublon, 0 expression composée).
 
 3. Purification du lexique affectif (Z+) et production de la Base de Données Unique :
-   - Mise à jour des 2 libellés affectifs canoniques (`Solitude` en (0,-6,+4) et `Irritation` en (-6,+4,+6)).
+   - Alignement sur les 2 libellés affectifs canoniques de Strate 0 (`Langueur` en (0,-6,+4) et `Rancœur` en (-6,+4,+6)).
    - Vérification de la disjonction stricte : Affectif (Z+) ∩ Valeurs (Z-) = ∅ (0 doublon inter-bases).
    - Génération de `CARTOGRAFFECT_Affectif_Purifie_Z_Plus.tsv` (176/176 prototypes couverts, 0 valeur, 0 doublon).
    - Génération de `CARTOGRAFFECT_Base_Unique_NRC_DIMA_FANCat.tsv` (base maîtresse unique réunissant Z+ et Z-).
@@ -238,8 +238,8 @@ def main():
     ref127 = pd.read_csv("ref_127_axiologie_z_minus.tsv", sep="\t")
     ref303 = pd.read_csv("ref_303_diamant_z.tsv", sep="\t")
 
-    # Mise à jour des 2 libellés affectifs canoniques dans ref176 (Solitude et Irritation)
-    z_plus_303 = ref303[ref303["hemisphere"] == "Z_PLUS"].set_index("id_hemisphere")
+    # Alignement sur les libellés affectifs canoniques de Strate 0 dans ref176 (Langueur et Rancœur)
+    z_plus_303 = ref303[ref303["Z_signe"] >= 0].set_index("id_hemisphere")
     id176_to_new_label = z_plus_303["label_fr"].to_dict()
 
     lex = pd.read_csv("CARTOGRAFFECT_NRC_Lexicon_Complet.tsv", sep="\t")
@@ -249,7 +249,7 @@ def main():
     df_dima_raw = load_dima_tables()
     df_fan = load_fancat_table()
 
-    # Mise à jour des libellés d'ancres affectives (Langueur -> Solitude, Rancœur -> Irritation)
+    # Synchronisation des libellés d'ancres affectives avec la Strate 0 (Langueur, Rancœur)
     lex["proto_fr_ancre"] = [
         id176_to_new_label.get(int(i), p) for i, p in zip(lex["id_176_ancre"], lex["proto_fr_ancre"])
     ]

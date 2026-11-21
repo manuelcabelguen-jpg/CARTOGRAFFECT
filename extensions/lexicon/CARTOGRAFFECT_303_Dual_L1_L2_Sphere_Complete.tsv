@@ -1,5 +1,5 @@
 id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	Z_sphere_index	rayon_L1	budget_radial_3D_L1	X_L2	Y_L2	Z_rel_L2	Z_L2	contrepoids_id_303	contrepoids_label	homologue_id_303	homologue_label
-1	AFFECTIF_Z_PLUS	Veille	OPERATEUR_CENTRAL	Centre	0	0	0	-7	0	0	14	0.0	0.0	-14.0	0.0	1	Veille	177	Éveil
+1	AFFECTIF_Z_PLUS	Point de Veille	OPERATEUR_CENTRAL	Centre	0	0	0	-7	0	0	14	0.0	0.0	-14.0	0.0	1	Point de Veille	177	Éveil
 2	AFFECTIF_Z_PLUS	Surprise	OPERATEUR_CENTRAL	Centre	0	0	1	-6	1	0	12	0.0	0.0	-12.0	1.0	2	Surprise	178	Évidence
 3	AFFECTIF_Z_PLUS	Anticipation	OPERATEUR_CENTRAL	Centre	0	0	2	-5	2	0	10	0.0	0.0	-10.0	2.0	3	Anticipation	179	Intention
 4	AFFECTIF_Z_PLUS	Joie	JOIE	Axiale	0	2	2	-5	2	2	12	0.0	2.3534	-11.767	1.1165	5	Tristesse	180	Volonté
@@ -28,8 +28,8 @@ id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	
 27	AFFECTIF_Z_PLUS	Attrait	DESIR	Diagonale	2	2	3	-4	3	4	12	2.8284	2.8284	-11.3137	1.3431	28	Retrait	203	Inspiration
 28	AFFECTIF_Z_PLUS	Retrait	DEGOUT	Diagonale	-2	-2	3	-4	3	4	12	-2.8284	-2.8284	-11.3137	1.3431	27	Attrait	204	Retenue
 29	AFFECTIF_Z_PLUS	Réserve	OPERATEUR_CENTRAL	Centre	0	0	4	-3	4	0	6	0.0	0.0	-6.0	4.0	29	Réserve	205	Cohérence
-30	AFFECTIF_Z_PLUS	Exaltation	JOIE	Axiale	0	6	4	-3	4	6	12	0.0	8.4853	-8.4853	2.7573	31	Solitude	206	Service
-31	AFFECTIF_Z_PLUS	Solitude	TRISTESSE	Axiale	0	-6	4	-3	4	6	12	0.0	-8.4853	-8.4853	2.7573	30	Exaltation	207	Intériorité
+30	AFFECTIF_Z_PLUS	Exaltation	JOIE	Axiale	0	6	4	-3	4	6	12	0.0	8.4853	-8.4853	2.7573	31	Langueur	206	Service
+31	AFFECTIF_Z_PLUS	Langueur	TRISTESSE	Axiale	0	-6	4	-3	4	6	12	0.0	-8.4853	-8.4853	2.7573	30	Exaltation	207	Intériorité
 32	AFFECTIF_Z_PLUS	Doute	PEUR	Axiale	-6	0	4	-3	4	6	12	-8.4853	0.0	-8.4853	2.7573	33	Assurance	208	Esprit critique
 33	AFFECTIF_Z_PLUS	Assurance	COURAGE	Axiale	6	0	4	-3	4	6	12	8.4853	0.0	-8.4853	2.7573	32	Doute	209	Adhésion
 34	AFFECTIF_Z_PLUS	Envie	JOIE	Laterale	-2	4	4	-3	4	6	12	-3.2071	6.4143	-9.6214	2.1893	49	Admiration	210	Émulation
@@ -100,13 +100,13 @@ id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	
 99	AFFECTIF_Z_PLUS	Terreur	JOIE	Laterale	-1	9	6	-1	6	10	12	-1.294	11.6459	-2.588	5.706	123	Harmonie	275	Intègre
 100	AFFECTIF_Z_PLUS	Béatitude	TRISTESSE	Laterale	3	-7	6	-1	6	10	12	4.572	-10.668	-3.048	5.476	110	Affolement	276	Posé
 101	AFFECTIF_Z_PLUS	Accablement	TRISTESSE	Laterale	-3	-7	6	-1	6	10	12	-4.572	-10.668	-3.048	5.476	118	Liesse	277	Sérieux
-102	AFFECTIF_Z_PLUS	Apaisement	TRISTESSE	Laterale	4	-6	6	-1	6	10	12	6.4143	-9.6214	-3.2071	5.3964	108	Irritation	278	Délicat
+102	AFFECTIF_Z_PLUS	Apaisement	TRISTESSE	Laterale	4	-6	6	-1	6	10	12	6.4143	-9.6214	-3.2071	5.3964	108	Rancœur	278	Délicat
 103	AFFECTIF_Z_PLUS	Morosité	TRISTESSE	Laterale	-4	-6	6	-1	6	10	12	-6.4143	-9.6214	-3.2071	5.3964	116	Entrain	279	Économe
 104	AFFECTIF_Z_PLUS	Contemplation	TRISTESSE	Laterale	2	-8	6	-1	6	10	12	2.8284	-11.3137	-2.8284	5.5858	112	Fébrilité	280	Réfléchi
 105	AFFECTIF_Z_PLUS	Prostration	TRISTESSE	Laterale	-2	-8	6	-1	6	10	12	-2.8284	-11.3137	-2.8284	5.5858	120	Extase	281	Méticuleux
 106	AFFECTIF_Z_PLUS	Félicité	TRISTESSE	Laterale	1	-9	6	-1	6	10	12	1.294	-11.6459	-2.588	5.706	114	Désarroi	282	Bienveillant
 107	AFFECTIF_Z_PLUS	Désolation	TRISTESSE	Laterale	-1	-9	6	-1	6	10	12	-1.294	-11.6459	-2.588	5.706	122	Exultation	283	Respectueux
-108	AFFECTIF_Z_PLUS	Irritation	PEUR	Laterale	-6	4	6	-1	6	10	12	-9.6214	6.4143	-3.2071	5.3964	102	Apaisement	286	Franc
+108	AFFECTIF_Z_PLUS	Rancœur	PEUR	Laterale	-6	4	6	-1	6	10	12	-9.6214	6.4143	-3.2071	5.3964	102	Apaisement	286	Franc
 109	AFFECTIF_Z_PLUS	Amertume	PEUR	Laterale	-6	-4	6	-1	6	10	12	-9.6214	-6.4143	-3.2071	5.3964	94	Allégresse	287	Responsable
 110	AFFECTIF_Z_PLUS	Affolement	PEUR	Laterale	-7	3	6	-1	6	10	12	-10.668	4.572	-3.048	5.476	100	Béatitude	284	Persévérant
 111	AFFECTIF_Z_PLUS	Écrasement	PEUR	Laterale	-7	-3	6	-1	6	10	12	-10.668	-4.572	-3.048	5.476	92	Ardeur	285	Avisé
@@ -175,7 +175,7 @@ id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	
 174	EQUATEUR_SUSPENSION	Impassibilité	CALME	Diagonale	6	-6	7	0	7	12	12	8.4853	-8.4853	0.0	7.0	173	Rage	174	Impassibilité (Plan médian)
 175	EQUATEUR_SUSPENSION	Sublimation	DESIR	Diagonale	6	6	7	0	7	12	12	8.4853	8.4853	0.0	7.0	176	Dissolution	175	Sublimation (Plan médian)
 176	EQUATEUR_SUSPENSION	Dissolution	DEGOUT	Diagonale	-6	-6	7	0	7	12	12	-8.4853	-8.4853	0.0	7.0	175	Sublimation	176	Dissolution (Plan médian)
-177	AXIOLOGIQUE_Z_MOINS	Éveil	OPERATEUR_CENTRAL	Centre	0	0	-7	7	14	0	14	0.0	0.0	14.0	14.0	177	Éveil	1	Veille
+177	AXIOLOGIQUE_Z_MOINS	Éveil	OPERATEUR_CENTRAL	Centre	0	0	-7	7	14	0	14	0.0	0.0	14.0	14.0	177	Éveil	1	Point de Veille
 178	AXIOLOGIQUE_Z_MOINS	Évidence	OPERATEUR_CENTRAL	Centre	0	0	-1	6	13	0	12	0.0	0.0	12.0	13.0	178	Évidence	2	Surprise
 179	AXIOLOGIQUE_Z_MOINS	Intention	OPERATEUR_CENTRAL	Centre	0	0	-2	5	12	0	10	0.0	0.0	10.0	12.0	179	Intention	3	Anticipation
 180	AXIOLOGIQUE_Z_MOINS	Volonté	VOLONTÉ	Axiale	0	2	-2	5	12	2	12	0.0	2.3534	11.767	12.8835	181	Tempérance	4	Joie
@@ -205,7 +205,7 @@ id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	
 204	AXIOLOGIQUE_Z_MOINS	Retenue	INTÉGRITÉ	Diagonale	-2	-2	-3	4	11	4	12	-2.8284	-2.8284	11.3137	12.6569	203	Inspiration	28	Retrait
 205	AXIOLOGIQUE_Z_MOINS	Cohérence	OPERATEUR_CENTRAL	Centre	0	0	-4	3	10	0	6	0.0	0.0	6.0	10.0	205	Cohérence	29	Réserve
 206	AXIOLOGIQUE_Z_MOINS	Service	VOLONTÉ	Axiale	0	6	-4	3	10	6	12	0.0	8.4853	8.4853	11.2427	207	Intériorité	30	Exaltation
-207	AXIOLOGIQUE_Z_MOINS	Intériorité	TEMPÉRANCE	Axiale	0	-6	-4	3	10	6	12	0.0	-8.4853	8.4853	11.2427	206	Service	31	Solitude
+207	AXIOLOGIQUE_Z_MOINS	Intériorité	TEMPÉRANCE	Axiale	0	-6	-4	3	10	6	12	0.0	-8.4853	8.4853	11.2427	206	Service	31	Langueur
 208	AXIOLOGIQUE_Z_MOINS	Esprit critique	PRUDENCE	Axiale	-6	0	-4	3	10	6	12	-8.4853	0.0	8.4853	11.2427	209	Adhésion	32	Doute
 209	AXIOLOGIQUE_Z_MOINS	Adhésion	AUDACE	Axiale	6	0	-4	3	10	6	12	8.4853	0.0	8.4853	11.2427	208	Esprit critique	33	Assurance
 210	AXIOLOGIQUE_Z_MOINS	Émulation	VOLONTÉ	Laterale	-2	4	-4	3	10	6	12	-3.2071	6.4143	9.6214	11.8107	225	Appréciation	34	Envie
@@ -284,7 +284,7 @@ id_303	hemisphere	label_fr	groupe_geom	type_geom	X_L1	Y_L1	Z_signe	h_diamant_3d	
 283	AXIOLOGIQUE_Z_MOINS	Respectueux	TEMPÉRANCE	Laterale	-1	-9	-6	1	8	10	12	-1.294	-11.6459	2.588	8.294	298	Sincère	107	Désolation
 284	AXIOLOGIQUE_Z_MOINS	Persévérant	PRUDENCE	Laterale	-7	3	-6	1	8	10	12	-10.668	4.572	3.048	8.524	276	Posé	110	Affolement
 285	AXIOLOGIQUE_Z_MOINS	Avisé	PRUDENCE	Laterale	-7	-3	-6	1	8	10	12	-10.668	-4.572	3.048	8.524	268	Brave	111	Écrasement
-286	AXIOLOGIQUE_Z_MOINS	Franc	PRUDENCE	Laterale	-6	4	-6	1	8	10	12	-9.6214	6.4143	3.2071	8.6036	278	Délicat	108	Irritation
+286	AXIOLOGIQUE_Z_MOINS	Franc	PRUDENCE	Laterale	-6	4	-6	1	8	10	12	-9.6214	6.4143	3.2071	8.6036	278	Délicat	108	Rancœur
 287	AXIOLOGIQUE_Z_MOINS	Responsable	PRUDENCE	Laterale	-6	-4	-6	1	8	10	12	-9.6214	-6.4143	3.2071	8.6036	270	Spontané	109	Amertume
 288	AXIOLOGIQUE_Z_MOINS	Intuitif	PRUDENCE	Laterale	-8	2	-6	1	8	10	12	-11.3137	2.8284	2.8284	8.4142	280	Réfléchi	112	Fébrilité
 289	AXIOLOGIQUE_Z_MOINS	Fidèle	PRUDENCE	Laterale	-8	-2	-6	1	8	10	12	-11.3137	-2.8284	2.8284	8.4142	272	Autonome	113	Anéantissement

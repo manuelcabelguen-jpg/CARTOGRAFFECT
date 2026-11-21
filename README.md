@@ -293,15 +293,20 @@ powershell -ExecutionPolicy Bypass -File .\tla\verify.ps1
 - **[`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md)** : Rapport de validation croisée sous Dafny 4.11.0 (9 modules, 2 113 obligations vérifiées, 113 / 113 théorèmes, exécution certifiée des 11 blocs, 0 `{:axiom}`).
 - **[`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md)** : Rapport de validation croisée sous SMT-LIB 2.6 / Z3 5.3.3 (8 théories, 8 / 8 preuves de cohérence `sat`, 113 / 113 théorèmes réfutés `unsat`, 11 / 11 blocs `unsat`).
 - **[`tla/TLA_VALIDATION.md`](tla/TLA_VALIDATION.md)** : Rapport de validation croisée sous TLA+ / TLC 2.19 (14 modules SANY, 6 modèles TLC explorant 20 076 états générés / 2 207 états distincts, 113 / 113 théorèmes, 0 violation d'invariant, 0 deadlock).
-- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (fondements conceptuels, section 4.1 et dynamiques).
+- **[`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md)** : Article théorique de référence (`v2.0.0` — fondements conceptuels, section 4.1, dynamiques et prédictions P1–P5).
 - **[`docs/02-Inventaire_176.md`](docs/02-Inventaire_176.md)** : Inventaire exhaustif des 176 positions affectives et relations antagonistes.
+- **[`docs/CONVERGENCE_MATRIX.md`](docs/CONVERGENCE_MATRIX.md)** : Matrice de gouvernance épistémique et d'arbitrage entre la Strate 0 (Noyau) et la Strate 1 (satellites).
+- **[`extensions/lexicon/EPISTEMIC_STATUS.md`](extensions/lexicon/EPISTEMIC_STATUS.md)** : Charte épistémique du satellite lexical, triangulation GRID/CPM et clôture du prolongement exploratoire Diamant 303.
+- **[`extensions/in_silico/EPISTEMIC_STATUS.md`](extensions/in_silico/EPISTEMIC_STATUS.md)** : Charte épistémique du banc de simulation Active Inference (`pymdp`/JAX/NumPyro, P1–P5 et phénotypage DSM-5/HiTOP).
+- **[`CHANGELOG.md`](CHANGELOG.md)** & **[`manifest.json`](manifest.json)** : Historique sémantique (`2.0.0`) et carte de traçabilité structurée du Research Compendium.
 
 ---
 
 ## Auteur et Correspondance
 
 Manuel Cabelguen, Ph. D.  
-Correspondance : manuelcabelguen@gmail.com
+Correspondance : `manuelcabelguen@gmail.com`  
+Identifiants persistants : Dépôt Zenodo [`10.5281/zenodo.23833938`](https://doi.org/10.5281/zenodo.23833938) · Article théorique [`10.5281/zenodo.24022795`](https://doi.org/10.5281/zenodo.24022795) · OSF [`https://osf.io/z89sg`](https://osf.io/z89sg)
 
 ---
 
@@ -309,51 +314,43 @@ Correspondance : manuelcabelguen@gmail.com
 
 Copyright (C) 2025-2026 Manuel Cabelguen — `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`
 
-- **Code source et preuves formelles (Lean 4, Rocq, Agda, Dafny, SMT-LIB/Z3 et TLA+)** : distribués sous licence **GNU AGPLv3** ([`LICENSE`](./LICENSE)).
-- **Architecture théorique, géométrie affective et taxonomie des 176 états** : distribuées sous licence **Creative Commons BY-NC-SA 4.0** ([`LICENSE-CC-BY-NC-SA-4.0.md`](./LICENSE-CC-BY-NC-SA-4.0.md)). Toute exploitation commerciale est strictement réservée.
-- **Propriété intellectuelle** : *CARTOGRAFFECT* fait l'objet d'un enregistrement de droit d'auteur auprès de l'Office de la propriété intellectuelle du Canada (OPIC, enregistrement n° 1233199). Pour toute demande de licence commerciale, contacter l'auteur (manuelcabelguen@gmail.com). Voir aussi [`NOTICE`](./NOTICE).
+- **Code source, scripts et preuves formelles (Lean 4, Rocq, Agda, Dafny, SMT-LIB/Z3, TLA+, Python et pipelines `extensions/lexicon/` & `extensions/in_silico/`)** : distribués sous licence **GNU AGPLv3** ([`LICENSE`](./LICENSE)).
+- **Architecture théorique, manuscrit, géométrie affective et taxonomie des 176 états** : distribués sous licence **Creative Commons BY-NC-SA 4.0** ([`LICENSE-CC-BY-NC-SA-4.0.md`](./LICENSE-CC-BY-NC-SA-4.0.md)). Toute exploitation commerciale est strictement réservée.
+- **Clause explicite sur les fichiers hybrides** : pour [`Cartograffect/Lexicon176.lean`](Cartograffect/Lexicon176.lean), [`rocq/theories/Lexicon176.v`](rocq/theories/Lexicon176.v), [`agda/src/Cartograffect/Lexicon176.agda`](agda/src/Cartograffect/Lexicon176.agda), [`dafny/src/Lexicon176.dfy`](dafny/src/Lexicon176.dfy), [`smt/theories/06_Lexicon176.smt2`](smt/theories/06_Lexicon176.smt2), [`tla/specs/Lexicon176.tla`](tla/specs/Lexicon176.tla), [`extensions/in_silico/data/lexicon_176.json`](extensions/in_silico/data/lexicon_176.json) et les explorateurs HTML 3D ([`CARTOGRAFFECT_Interactive_3D_Explorer.html`](extensions/lexicon/CARTOGRAFFECT_Interactive_3D_Explorer.html), [`CARTOGRAFFECT_Diamond_303_Brut.html`](extensions/lexicon/CARTOGRAFFECT_Diamond_303_Brut.html), [`CARTOGRAFFECT_Diamond_303_Complet.html`](extensions/lexicon/CARTOGRAFFECT_Diamond_303_Complet.html)), leur structure logicielle/formelle relève de **GNU AGPLv3**, tandis que la nomenclature, les coordonnées et l'architecture taxonomique embarquées relèvent exclusivement de **CC BY-NC-SA 4.0** (**toute extraction commerciale de la taxonomie est interdite**).
+- **Propriété intellectuelle** : *CARTOGRAFFECT®* fait l'objet d'un enregistrement de droit d'auteur auprès de l'Office de la propriété intellectuelle du Canada (CIPO / OPIC, enregistrement n° 1233199). Pour toute demande de licence commerciale, contacter l'auteur (`manuelcabelguen@gmail.com`). Voir aussi [`NOTICE`](./NOTICE).
 
 ---
 
 ## Citation
 
-Si vous utilisez ce modèle ou cette formalisation, merci de citer l'article théorique de référence ainsi que la bibliothèque formelle (voir aussi [`CITATION.cff`](CITATION.cff)) :
+Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de citer l'article théorique de référence ainsi que le compendium formel (source unique : [`CITATION.cff`](CITATION.cff)) :
 
-- **Modèle théorique :**  
-  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif*.
-- **Formalisation Lean 4 :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT: Architecture mathématique et taxonomique vérifiée sous Lean 4* (version taguée `v1.0.1`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938
+- **Modèle théorique (`v2.0.0`) :**  
+  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif* (version `v2.0.0`). Zenodo. https://doi.org/10.5281/zenodo.24022795
+- **Compendium & vérification formelle (`v2.0.0`) :**  
+  Cabelguen, M. (2026). *CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation* (version `v2.0.0`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938 · OSF : https://osf.io/z89sg
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
 ```bibtex
-@unpublished{cabelguen2026cartographie,
-  author = {Cabelguen, Manuel},
-  title = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
-  year = {2026},
-  note = {Manuscrit théorique de référence (docs/01-Article_Cartograffect.md), enregistrement OPIC n° 1233199}
+@article{cabelguen2026cartographie,
+  author  = {Cabelguen, Manuel},
+  title   = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
+  year    = {2026},
+  version = {2.0.0},
+  doi     = {10.5281/zenodo.24022795},
+  url     = {https://doi.org/10.5281/zenodo.24022795},
+  note    = {Manuscrit th{\'e}orique de r{\'e}f{\'e}rence v2.0.0 (docs/01-Article_Cartograffect.md), enregistrement CIPO / OPIC n° 1233199}
 }
 
 @software{cabelguen2026cartograffect,
-  author = {Cabelguen, Manuel},
-  title = {{CARTOGRAFFECT}: Architecture math{\'e}matique et taxonomique v{\'e}rifi{\'e}e sous {Lean} 4},
-  year = {2026},
+  author  = {Cabelguen, Manuel},
+  title   = {{CARTOGRAFFECT}{\textregistered}: Unified Research Compendium --- Hexa-Prover Formal Verification, Theory, Lexicon \& Active Inference Simulation},
+  year    = {2026},
   publisher = {Zenodo},
-  version = {1.0.1},
-  doi = {10.5281/zenodo.23833938},
-  url = {https://doi.org/10.5281/zenodo.23833938},
-  note = {Version v1.0.1, formal verification in Lean 4.35.0 (https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT)}
-}
-
-@inproceedings{demoura2021lean4,
-  author = {de Moura, Leonardo and Ullrich, Sebastian},
-  title = {The {Lean} 4 Theorem Prover and Programming Language},
-  booktitle = {Automated Deduction -- CADE 28},
-  series = {Lecture Notes in Computer Science},
-  volume = {12699},
-  pages = {625--635},
-  publisher = {Springer},
-  year = {2021},
-  doi = {10.1007/978-3-030-79876-5_37}
+  version = {2.0.0},
+  doi     = {10.5281/zenodo.23833938},
+  url     = {https://doi.org/10.5281/zenodo.23833938},
+  note    = {Version v2.0.0 (2026-11-21); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
 }
 ```

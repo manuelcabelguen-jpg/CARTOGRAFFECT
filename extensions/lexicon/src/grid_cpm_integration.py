@@ -376,8 +376,8 @@ _GRID_24_SPECS: List[Tuple[Any, ...]] = [
      -0.76, 0.68, 0.86, 0.32,
      0.46, 0.28, 0.84, 0.88, (0.28, 0.92, 0.08, 0.06, 0.08)),
 
-    # 11. Irritation (Irritation) — Identité/disposition d'agacement Z=6 (-6, +4, 6) : évaluation normative d'obstacle et contrôle contenu
-    ("Irritation", "irritation", 108, "Irritation", "I", "Importuner",
+    # 11. Irritation (Irritation) — Identité/disposition Z=6 (-6, +4, 6) : prototype canonique Rancœur
+    ("Irritation", "irritation", 108, "Rancœur", "I", "Importuner",
      -0.68, 0.42, 0.52, -0.18,
      0.74, 0.68, 0.42, 0.44, (0.20, 0.68, 0.16, 0.12, 0.14)),
 
@@ -426,8 +426,8 @@ _GRID_24_SPECS: List[Tuple[Any, ...]] = [
      -0.70, -0.32, 0.12, 0.16,
      0.78, 0.76, 0.38, 0.40, (0.14, 0.28, 0.52, 0.44, 0.26)),
 
-    # 21. Solitude (Loneliness/Being hurt) — Sentiment réflexif d'isolement Z=4 (0, -6, 4) : retrait relationnel et intériorisation
-    ("Solitude", "loneliness", 31, "Solitude", "I", "Apathie",
+    # 21. Solitude (Loneliness/Being hurt) — Sentiment réflexif Z=4 (0, -6, 4) : prototype canonique Langueur
+    ("Solitude", "loneliness", 31, "Langueur", "I", "Apathie",
      -0.66, -0.58, -0.52, -0.36,
      0.68, 0.70, 0.38, 0.36, (0.18, 0.06, 0.68, 0.62, 0.32)),
 
