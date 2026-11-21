@@ -838,14 +838,17 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
 
         art_low = article_text.lower()
         has_art_ai_honesty = (
-            "non mathématicien" in art_low
+            "non mathématicien formel" in art_low
+            and "traduction" in art_low
+            and "ligne par ligne" in art_low
             and "vérification mécanique" in art_low
+            and "tests automatisés" in art_low
             and "audit" in art_low
         )
         if not has_art_ai_honesty:
             cat.fail(
                 "docs/01-Article_Cartograffect.md doit inclure la déclaration IA explicite "
-                "(non mathématicien, vérification mécanique des compilateurs, ouverture à l'audit)."
+                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
             )
         else:
             cat.ok("Déclaration IA explicite vérifiée dans docs/01-Article_Cartograffect.md")
@@ -856,14 +859,17 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
     else:
         readme_low = _read_text(readme_path).lower()
         has_readme_ai_honesty = (
-            "non mathématicien" in readme_low
+            "non mathématicien formel" in readme_low
+            and "traduction" in readme_low
+            and "ligne par ligne" in readme_low
             and "vérification mécanique" in readme_low
+            and "tests automatisés" in readme_low
             and "audit" in readme_low
         )
         if not has_readme_ai_honesty:
             cat.fail(
                 "README.md doit inclure la déclaration IA explicite "
-                "(non mathématicien, vérification mécanique des compilateurs, ouverture à l'audit)."
+                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
             )
         else:
             cat.ok("Déclaration IA explicite vérifiée dans README.md")
@@ -1072,6 +1078,8 @@ def _check_site_payload_contract(
     s0_man = manifest_data.get("strate_0_core", {})
     lic_pay = payload.get("licenses", {})
     lic_man = manifest_data.get("licenses", {})
+    ai_pay = payload.get("ai_disclosure", {})
+    ai_verif = str(ai_pay.get("verification_and_audit_status", "")).lower()
 
     checks = [
         (payload.get("schema_version") == "1.0", f"schema_version={payload.get('schema_version')!r} != '1.0'"),
@@ -1097,6 +1105,15 @@ def _check_site_payload_contract(
         (
             lic_pay.get("spdx_expression") == lic_man.get("spdx_expression"),
             f"licenses.spdx_expression={lic_pay.get('spdx_expression')!r} != {lic_man.get('spdx_expression')!r}",
+        ),
+        (
+            bool(ai_pay.get("author_ownership"))
+            and bool(ai_pay.get("ai_assistance_scope"))
+            and "non mathématicien formel" in ai_verif
+            and "ligne par ligne" in ai_verif
+            and "tests automatisés" in ai_verif
+            and "audit" in ai_verif,
+            "Bloc ai_disclosure manquant ou incomplet dans le payload web.",
         ),
     ]
     for ok_cond, err_msg in checks:

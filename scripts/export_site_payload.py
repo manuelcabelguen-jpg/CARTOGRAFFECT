@@ -278,6 +278,12 @@ def build_site_payload(root: Path) -> dict[str, Any]:
         raise ValueError(f"manifest.json predictions_count={predictions_count} != 5.")
 
     author_affiliation = _extract_author_affiliation(article_text)
+    art_low = article_text.lower()
+    for marker in ("non mathématicien formel", "ligne par ligne", "vérification mécanique", "tests automatisés", "audit"):
+        if marker not in art_low:
+            raise ValueError(
+                f"Déclaration IA incomplète dans docs/01-Article_Cartograffect.md (marqueur absent : {marker!r})."
+            )
 
     # 5. Strate 1 Extensions (délimitation épistémique stricte)
     s1 = manifest.get("strate_1_extensions", {})
@@ -370,6 +376,31 @@ def build_site_payload(root: Path) -> dict[str, Any]:
             "author_affiliation": author_affiliation,
         },
         "strate_1_extensions": strate_1_extensions,
+        "ai_disclosure": {
+            "author_ownership": (
+                "L’architecture conceptuelle, la psychologie affective, la taxonomie des 176 états "
+                "et l’orientation théorique de CARTOGRAFFECT® sont entièrement conçues et assumées par l’auteur."
+            ),
+            "ai_assistance_scope": (
+                "Des outils d’IA générative ont servi d’assistants techniques pour la rédaction, le site web, "
+                "la traduction et la transposition exploratoire de propriétés du modèle vers des assistants de preuve "
+                "formelle (Lean 4, Rocq, Agda, Dafny, Z3, TLA+) et des scripts sur GitHub."
+            ),
+            "verification_and_audit_status": (
+                "Psychologue clinicien et non mathématicien formel, l’auteur n’a pas vérifié manuellement ligne par ligne "
+                "le code mathématique/formel généré ; la validité technique repose sur la compilation mécanique des prouveurs "
+                "et les tests automatisés. Ce matériel est publié en accès libre sur GitHub pour inviter l’audit indépendant "
+                "de mathématiciens et de spécialistes des méthodes formelles."
+            ),
+            "summary_en": (
+                "The conceptual architecture, affective psychology, taxonomy, and theoretical orientation of CARTOGRAFFECT® "
+                "are conceived and owned entirely by the author. Generative AI served as a technical assistant for writing, "
+                "website engineering, translation, and exploratory formal-method transposition (Lean 4, Rocq, Agda, Dafny, "
+                "Z3, TLA+) and GitHub scripts. As a clinical psychologist and not a formal mathematician, the author has not "
+                "manually verified generated formal code line by line; technical validity relies on mechanical prover compilation "
+                "and automated tests, and the code is open-sourced on GitHub to invite independent specialist audit."
+            ),
+        },
         "licenses": {
             "spdx_expression": spdx_expression,
             "code_license": "GNU AGPLv3",
