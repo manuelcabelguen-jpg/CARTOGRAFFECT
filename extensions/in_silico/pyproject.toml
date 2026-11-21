@@ -1,12 +1,17 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
+# Licences complètes, notice et source de citation unique à la racine du compendium :
+#   ../../LICENSE · ../../LICENSE-CC-BY-NC-SA-4.0.md · ../../NOTICE · ../../CITATION.cff
+
 [build-system]
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cartograffect-sim"
-version = "0.1.0"
+version = "2.0.0"
 description = "Modèle génératif probabiliste inversible (POMDP hiérarchique sous inférence active) traduisant l'architecture formelle CARTOGRAFFECT® pour validation empirique in silico."
 readme = "README.md"
+license = {text = "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"}
 requires-python = ">=3.10"
 dependencies = [
     "numpy",
@@ -28,6 +33,12 @@ dev = [
 test = [
     "pytest",
 ]
+
+[project.urls]
+Homepage = "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
+Repository = "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
+Documentation = "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/blob/main/NOTICE"
+OSF = "https://osf.io/z89sg"
 
 [tool.setuptools.packages.find]
 where = ["src"]
