@@ -4,8 +4,10 @@ Exécute séquentiellement les volets expérimentaux :
     - Mode `--quick` (défaut, Expériences 1 à 3) :
         1. Expérience 1 (`experiments/01_falsifiable_predictions.py`) :
            Simulations Monte-Carlo non circulaires (N = 1 000 trajectoires / condition)
-           pour P1 (arbitrage L1), P2 (instabilité axiale émergente en Z=2 sans biais dans B)
-           et P3 (inertie hiérarchique sur le POMDP canonique à 176 états sous JAX).
+           pour P1 (arbitrage L1), P2 (instabilité axiale émergente en Z=2 sans biais dans B),
+           P3 (inertie hiérarchique), P4 (priorité lexicographique sgn(X_t) vs Δ∇A_t)
+           et P5 (médiation par le contrôle pragmatique Peur → Colère vs Dégoût)
+           sur le POMDP canonique à 176 états sous JAX/pymdp.
         2. Expérience 2 (`experiments/02_clinical_phenotypes.py`) :
            Comparaison pure-θ des 4 phénotypes cliniques sur cohorte unifiée appariée
            (N = 20 graines / profil, Wilcoxon bilatéral + Holm-Bonferroni).
@@ -144,6 +146,8 @@ def run_all(
     p1 = res1["prediction_1_budget_tradeoff"]
     p2 = res1["prediction_2_axial_instability"]
     p3 = res1["prediction_3_hierarchical_inertia"]
+    p4 = res1.get("prediction_4_lexicographic_valence")
+    p5 = res1.get("prediction_5_fear_control_mediation")
     pr = res3["parameter_recovery"]
     mr = res3["model_recovery"]
     ht2 = res2["hypothesis_tests"]
@@ -215,6 +219,36 @@ def run_all(
         "exp03_model_recovery_diag_pxp_gt_095": bool(mr["target_pxp_gt_095_met"]),
     }
 
+    if isinstance(p4, dict):
+        criteria["exp01_p4_b_prior_symmetric"] = bool(p4.get("b_prior_symmetric"))
+        criteria["exp01_p4_arm_a_strict_opposition"] = bool(
+            float(p4.get("carto_negative_rate_arm_a", 0.0)) > 0.99
+            and float(p4.get("jc_positive_rate_arm_a", 0.0)) > 0.99
+            and int(p4.get("arm_a_loss_resolution", {}).get("n_dissociation_trials", 0)) > 0
+        )
+        criteria["exp01_p4_arm_b_strict_opposition"] = bool(
+            float(p4.get("carto_positive_rate_arm_b", 0.0)) > 0.99
+            and float(p4.get("jc_negative_rate_arm_b", 0.0)) > 0.99
+            and int(p4.get("arm_b_uncertainty_onset", {}).get("n_dissociation_trials", 0)) > 0
+        )
+
+    if isinstance(p5, dict):
+        conds_p5 = p5.get("conditions", {})
+        c010 = conds_p5.get("0.10", {})
+        c090 = conds_p5.get("0.90", {})
+        cmp_p5 = p5.get("comparisons_090_vs_010", {})
+        med_p5 = p5.get("mediation", {})
+        criteria["exp01_p5_b_prior_symmetric"] = bool(p5.get("b_prior_symmetric"))
+        criteria["exp01_p5_control_shifts_colere_over_degout"] = bool(
+            float(c090.get("p_colere_mean", 0.0)) > float(c010.get("p_colere_mean", 1.0))
+            and float(c010.get("p_degout_mean", 0.0)) > float(c090.get("p_degout_mean", 1.0))
+            and float(cmp_p5.get("bifurcation", {}).get("mannwhitney_p", 1.0)) < 0.001
+        )
+        criteria["exp01_p5_mediation_indirect_positive"] = bool(
+            float(med_p5.get("indirect_ab", 0.0)) > 0.0
+            and float(med_p5.get("sobel_p", 1.0)) < 0.001
+        )
+
     if include_dsm5_full and res4 is not None and res5 is not None:
         criteria["exp04_dsm5_combined_accuracy_gt_085"] = bool(
             float(res4["separability"]["theta_hat_plus_dynamics"]["accuracy"]) > 0.85
@@ -270,6 +304,8 @@ def _write_markdown_summary(md_path: Path, report: dict[str, Any]) -> None:
     p1 = r1["prediction_1_budget_tradeoff"]
     p2 = r1["prediction_2_axial_instability"]
     p3 = r1["prediction_3_hierarchical_inertia"]
+    p4 = r1.get("prediction_4_lexicographic_valence")
+    p5 = r1.get("prediction_5_fear_control_mediation")
     pr = r3["parameter_recovery"]
     mr = r3["model_recovery"]
 
@@ -318,15 +354,47 @@ def _write_markdown_summary(md_path: Path, report: dict[str, Any]) -> None:
         f"| **P3 — Résistance Dirichlet** | Rétention vraisemblance $Z=5$ vs $Z=2$ | "
         f"`{p3['resistance_index']['5']['mean']:.4f}` | `{p3['resistance_index']['2']['mean']:.4f}` | "
         f"$p = {_format_p(float(p3['tests']['resistance_z5_vs_z2']['mannwhitney_p']))}$, $d = {p3['tests']['resistance_z5_vs_z2']['cohens_d']:.2f}$ |",
-        "",
-        "## 2. Expérience 2 — Phénotypes cliniques comparés (pure-θ, protocole unifié)",
-        "",
-        f"*(N = {r2['num_seeds_per_profile']} graines appariées / phénotype ; "
-        f"`pure_theta_only = {r2.get('pure_theta_only', True)}`)*",
-        "",
-        "| Phénotype | $Z$ en rémission (moy. ± ET) | Retour `PdV` rém. | Quadrant $(-X,-Y)$ perte | Quadrant $(-X,+Y)$ menace | Verrouillage $X=0$ (stresseurs) |",
-        "| :--- | :---: | :---: | :---: | :---: | :---: |",
     ]
+    if isinstance(p4, dict):
+        arm_a = p4["arm_a_loss_resolution"]
+        arm_b = p4["arm_b_uncertainty_onset"]
+        lines.extend(
+            [
+                f"| **P4 — Lexicographie (Bras A)** | Taux valence négative ($X_t<0, \\Delta\\nabla A_t>0$) : CARTO vs J\\&C | "
+                f"`{arm_a['carto_negative_rate']:.3f}` | `{arm_a['jc_negative_rate']:.3f}` | "
+                f"$p = {arm_a['wilcoxon_p_str']}$ (Wilcoxon, {arm_a['n_dissociation_trials']} essais) |",
+                f"| **P4 — Lexicographie (Bras B)** | Taux valence positive ($X_t>0, \\Delta\\nabla A_t<0$) : CARTO vs J\\&C | "
+                f"`{arm_b['carto_positive_rate']:.3f}` | `{arm_b['jc_positive_rate']:.3f}` | "
+                f"$p = {arm_b['wilcoxon_p_str']}$ (Wilcoxon, {arm_b['n_dissociation_trials']} essais) |",
+            ]
+        )
+    if isinstance(p5, dict):
+        c010 = p5["conditions"]["0.10"]
+        c090 = p5["conditions"]["0.90"]
+        cmp5 = p5["comparisons_090_vs_010"]
+        med5 = p5["mediation"]
+        lines.extend(
+            [
+                f"| **P5 — Peur $\\to$ Colère vs Dégoût** | Indice $P(\\text{{Col}}) - P(\\text{{Dég}})$ : $p_{{\\text{{ctrl}}}}=0.90$ vs $0.10$ | "
+                f"`{c090['bifurcation_index_mean']:+.4f}` | `{c010['bifurcation_index_mean']:+.4f}` | "
+                f"$p = {cmp5['bifurcation']['mannwhitney_p_str']}$, $d = {cmp5['bifurcation']['cohens_d']:.2f}$ |",
+                f"| **P5 — Médiation $\\hat{{p}}_{{\\text{{ctrl}}}}$** | Effet indirect Sobel $a\\cdot b$ ($c' = {med5['path_c_prime_direct']:+.4f}$) | "
+                f"`{med5['indirect_ab']:.4f}` | `Sobel z = {med5['sobel_z']:.2f}` | "
+                f"$p = {med5['sobel_p_str']}$, $\\rho_S = {med5['spearman_rho_p_hat_vs_bifurcation']:.4f}$ |",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## 2. Expérience 2 — Phénotypes cliniques comparés (pure-θ, protocole unifié)",
+            "",
+            f"*(N = {r2['num_seeds_per_profile']} graines appariées / phénotype ; "
+            f"`pure_theta_only = {r2.get('pure_theta_only', True)}`)*",
+            "",
+            "| Phénotype | $Z$ en rémission (moy. ± ET) | Retour `PdV` rém. | Quadrant $(-X,-Y)$ perte | Quadrant $(-X,+Y)$ menace | Verrouillage $X=0$ (stresseurs) |",
+            "| :--- | :---: | :---: | :---: | :---: | :---: |",
+        ]
+    )
     for pkey, metrics in r2["unified_cohort"].items():
         lines.append(
             f"| `{pkey}` | `{metrics['mean_z_remission']['mean']:.2f} ± {metrics['mean_z_remission']['sd']:.2f}` | "

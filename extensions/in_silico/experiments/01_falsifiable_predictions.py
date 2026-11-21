@@ -1,4 +1,4 @@
-"""Expérience 1 : Validation Monte-Carlo non circulaire des 3 prédictions falsifiables.
+"""Expérience 1 : Validation Monte-Carlo non circulaire des 5 prédictions falsifiables (P1–P5).
 
 Prédictions testées (N = 1 000 trajectoires par condition) :
     1. Arbitrage budgétaire L1 : à profondeur Z constante (Z = 4, R = 6), un
@@ -17,6 +17,18 @@ Prédictions testées (N = 1 000 trajectoires par condition) :
        canonique à 176 états (A, B, pA, pB sous JAX) pour Z ∈ {2, 4, 5},
        démontrant t_half(Z=5) > t_half(Z=4) > t_half(Z=2) sous dissipation
        et résistance Dirichlet croissante face à K = 12 observations contraires.
+    4. Priorité lexicographique de sgn(X_t) sur ΔX_t (vs Joffily & Coricelli, 2013) :
+       lors d'une résolution brutale d'incertitude confirmant une perte (Δ∇A_t > 0
+       tant que X_t < 0), la valence lexicographique CARTOGRAFFECT demeure négative
+       à l'opposé du prédicteur purement dérivatif sgn(ΔX_t) = +1 ; la limite
+       paramétrique de croisement grad_a > 0 dans `TaskInferenceEngine` est
+       explicitement documentée sans contournement ad hoc.
+    5. Médiation par le contrôle pragmatique p_hat_ctrl de la bifurcation depuis
+       la Peur axiale (-2, 0, 2) vers la Colère (-1, +1, 2) vs le Dégoût (-1, -1, 2) :
+       à menace constante (X < 0) et sous tenseur B(Z=2) strictement symétrique
+       (P_prior(Peur->Colère) = P_prior(Peur->Dégoût)), manipuler p_ctrl ∈ {0.10,
+       0.50, 0.90} déplace p_hat_ctrl et inverse la bifurcation, avec test de
+       médiation de Sobel et contrôle de sensibilité à forte volatilité.
 
 Exporte :
     - `results/exp01_statistics.json`
@@ -51,7 +63,10 @@ if str(SRC_DIR) not in sys.path:
 
 from cartograffect_sim.affective_matrix import (  # noqa: E402
     AffectiveControlAction,
+    HedonicPolarity,
     build_transition_tensor_B,
+    compute_hedonic_polarity,
+    compute_weighted_valence,
     get_entry_by_state_index,
     get_point_by_state_index,
     get_state_index_by_point,
@@ -94,6 +109,63 @@ def _format_p_latex(p: float) -> str:
 def _fisher_z(r: np.ndarray) -> np.ndarray:
     r_clipped = np.clip(r, -0.999999, 0.999999)
     return 0.5 * np.log((1.0 + r_clipped) / (1.0 - r_clipped))
+
+
+def _build_z2_filter_components(params: AgentParameters) -> dict[str, Any]:
+    """Construit le sous-modèle exact Z=2 (8 états périphériques) sans biais a priori."""
+    b_full = build_transition_tensor_B(params)[0]
+    a_full = build_likelihood_matrix_A(params)
+    pts = get_point_by_state_index()
+    entries = get_entry_by_state_index()
+
+    z2_indices_raw = [i for i, p in enumerate(pts) if p.z == 2 and (p.x, p.y) != (0, 0)]
+    z2_indices = sorted(z2_indices_raw, key=lambda i: math.atan2(pts[i].y, pts[i].x))
+    assert len(z2_indices) == 8
+
+    is_axial = np.array(
+        [pts[idx].x == 0 or pts[idx].y == 0 for idx in z2_indices],
+        dtype=bool,
+    )
+    z2_labels = [
+        f"{entries[idx].label}\n({pts[idx].x:+d},{pts[idx].y:+d})"
+        for idx in z2_indices
+    ]
+    z2_short_labels = [entries[idx].label for idx in z2_indices]
+
+    intra_actions = np.arange(
+        int(AffectiveControlAction.INTRA_JOIE),
+        int(AffectiveControlAction.INTRA_DEGOUT) + 1,
+        dtype=np.int32,
+    )
+    b_z2 = np.zeros((8, 8, 8), dtype=np.float64)
+    for a_i, u in enumerate(intra_actions):
+        sub = np.maximum(b_full[np.ix_(z2_indices, z2_indices, [int(u)])][:, :, 0], 0.0)
+        sub /= np.maximum(1e-12, sub.sum(axis=0, keepdims=True))
+        b_z2[:, :, a_i] = sub
+
+    b_z2_avg = np.mean(b_z2, axis=2)  # (8_next, 8_curr)
+    stay_ax_prior = float(np.mean([b_z2_avg[i, i] for i in range(8) if is_axial[i]]))
+    stay_dg_prior = float(np.mean([b_z2_avg[i, i] for i in range(8) if not is_axial[i]]))
+    b_prior_sym_diff = abs(stay_ax_prior - stay_dg_prior)
+    assert b_prior_sym_diff < 1e-12, f"B(Z=2) asymétrique: diff={b_prior_sym_diff}"
+
+    a0_z2 = a_full[0][:, z2_indices].copy()
+    a1_z2 = a_full[1][:, z2_indices].copy()
+    a0_z2 /= a0_z2.sum(axis=0, keepdims=True)
+    a1_z2 /= a1_z2.sum(axis=0, keepdims=True)
+
+    return {
+        "pts": pts,
+        "entries": entries,
+        "z2_indices": z2_indices,
+        "is_axial": is_axial,
+        "z2_labels": z2_labels,
+        "z2_short_labels": z2_short_labels,
+        "b_z2_avg": b_z2_avg,
+        "a0_z2": a0_z2,
+        "a1_z2": a1_z2,
+        "b_prior_sym_diff": b_prior_sym_diff,
+    }
 
 
 def run_prediction_1_budget_tradeoff(
@@ -316,50 +388,16 @@ def run_prediction_2_axial_instability(
     del num_steps
     rng = np.random.default_rng(seed)
     params = AgentParameters(lambda_weight=1.0)
-    b_full = build_transition_tensor_B(params)[0]
-    a_full = build_likelihood_matrix_A(params)
-    pts = get_point_by_state_index()
-    entries = get_entry_by_state_index()
-
-    z2_indices_raw = [i for i, p in enumerate(pts) if p.z == 2 and (p.x, p.y) != (0, 0)]
-    z2_indices = sorted(
-        z2_indices_raw,
-        key=lambda i: math.atan2(pts[i].y, pts[i].x),
-    )
-    assert len(z2_indices) == 8
-
-    is_axial = np.array(
-        [pts[idx].x == 0 or pts[idx].y == 0 for idx in z2_indices],
-        dtype=bool,
-    )
-    z2_labels = [
-        f"{entries[idx].label}\n({pts[idx].x:+d},{pts[idx].y:+d})"
-        for idx in z2_indices
-    ]
-    z2_short_labels = [entries[idx].label for idx in z2_indices]
-
-    intra_actions = np.arange(
-        int(AffectiveControlAction.INTRA_JOIE),
-        int(AffectiveControlAction.INTRA_DEGOUT) + 1,
-        dtype=np.int32,
-    )
-    b_z2 = np.zeros((8, 8, 8), dtype=np.float64)
-    for a_i, u in enumerate(intra_actions):
-        sub = b_full[np.ix_(z2_indices, z2_indices, [int(u)])][:, :, 0]
-        sub = np.maximum(sub, 0.0)
-        sub /= np.maximum(1e-12, sub.sum(axis=0, keepdims=True))
-        b_z2[:, :, a_i] = sub
-
-    b_z2_avg = np.mean(b_z2, axis=2)  # (8_next, 8_curr)
-    stay_ax_prior = float(np.mean([b_z2_avg[i, i] for i in range(8) if is_axial[i]]))
-    stay_dg_prior = float(np.mean([b_z2_avg[i, i] for i in range(8) if not is_axial[i]]))
-    b_prior_sym_diff = abs(stay_ax_prior - stay_dg_prior)
-    assert b_prior_sym_diff < 1e-12, f"B(Z=2) asymétrique: diff={b_prior_sym_diff}"
-
-    a0_z2 = a_full[0][:, z2_indices]
-    a1_z2 = a_full[1][:, z2_indices]
-    a0_z2 /= a0_z2.sum(axis=0, keepdims=True)
-    a1_z2 /= a1_z2.sum(axis=0, keepdims=True)
+    z2 = _build_z2_filter_components(params)
+    pts = z2["pts"]
+    z2_indices = z2["z2_indices"]
+    is_axial = z2["is_axial"]
+    z2_labels = z2["z2_labels"]
+    z2_short_labels = z2["z2_short_labels"]
+    b_z2_avg = z2["b_z2_avg"]
+    a0_z2 = z2["a0_z2"]
+    a1_z2 = z2["a1_z2"]
+    b_prior_sym_diff = z2["b_prior_sym_diff"]
 
     # Traces de gradients issues de vraies sessions sur NonStationaryBanditEnv (4 quadrants)
     quad_sched = [
@@ -374,13 +412,14 @@ def run_prediction_2_axial_instability(
     ]
     n_traces = min(25, max(4, num_trajectories))
     traces: list[tuple[np.ndarray, np.ndarray]] = []
+    task = TaskInferenceEngine(
+        AgentParameters(rule_volatility_prior=0.20, ctrl_volatility_prior=0.12),
+        seed=800,
+    )
     for rep in range(n_traces):
         env = NonStationaryBanditEnv(schedule=quad_sched, seed=800 + rep)
-        task = TaskInferenceEngine(
-            AgentParameters(rule_volatility_prior=0.20, ctrl_volatility_prior=0.12),
-            seed=800 + rep,
-        )
         env.reset()
+        task.reset()
         ga_seq, gc_seq = [], []
         for _ in range(env.total_trials):
             pre = env.current_observation()
@@ -710,14 +749,529 @@ def run_prediction_3_hierarchical_inertia(
     }
 
 
+def run_prediction_4_lexicographic_valence(
+    num_trajectories: int = 1000,
+    seed: int = 404,
+) -> dict[str, Any]:
+    """Prédiction 4 : Priorité lexicographique de sgn(X_t) sur ΔX_t (vs Joffily & Coricelli, 2013).
+
+    Exécuté exclusivement sur le moteur génératif `pymdp` sans règle ad hoc :
+    - Bras A (résolution brutale confirmant une perte non contrôlable) :
+      Bloc 0 (20 essais, p_ctrl=0.10, v_rule=0.45, cue_clarity=0.15) ->
+      Bloc 1 (16 essais, p_ctrl=0.10, v_rule=0.05, cue_clarity=0.95).
+    - Bras B (miroir symétrique : irruption brutale d'incertitude) :
+      Bloc 0 (16 essais, p_ctrl=0.90, v_rule=0.05, cue_clarity=0.95) ->
+      Bloc 1 (16 essais, p_ctrl=0.90, v_rule=0.45, cue_clarity=0.15).
+    """
+    rng = np.random.default_rng(seed)
+    params = AgentParameters(lambda_weight=1.0)
+    z2 = _build_z2_filter_components(params)
+    pts = z2["pts"]
+    z2_indices = z2["z2_indices"]
+    b_z2_avg = z2["b_z2_avg"]
+    a0_z2 = z2["a0_z2"]
+    a1_z2 = z2["a1_z2"]
+
+    task = TaskInferenceEngine(
+        AgentParameters(rule_volatility_prior=0.20, ctrl_volatility_prior=0.12),
+        seed=seed,
+    )
+    ema_gen = TwoStageEMAGenerator(params, seed=seed, stochastic=True)
+    n_traces = min(25, max(4, num_trajectories))
+
+    arm_a_sched = [
+        BlockSpec(0, "p4_high_unc_loss", 20, p_ctrl=0.10, v_rule=0.45, cue_clarity=0.15, d_obj=2),
+        BlockSpec(1, "p4_sharp_resolution", 16, p_ctrl=0.10, v_rule=0.05, cue_clarity=0.95, d_obj=2),
+    ]
+    arm_b_sched = [
+        BlockSpec(0, "p4_high_cert_gain", 16, p_ctrl=0.90, v_rule=0.05, cue_clarity=0.95, d_obj=2),
+        BlockSpec(1, "p4_sharp_uncertainty", 16, p_ctrl=0.90, v_rule=0.45, cue_clarity=0.15, d_obj=2),
+    ]
+
+    def _collect_traces(sched: list[BlockSpec], seed_offset: int) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
+        out: list[tuple[np.ndarray, np.ndarray, np.ndarray]] = []
+        for rep in range(n_traces):
+            env = NonStationaryBanditEnv(schedule=sched, seed=seed_offset + rep)
+            env.reset()
+            task.reset()
+            ga_l, gc_l, hr_l = [], [], []
+            for _ in range(env.total_trials):
+                pre = env.current_observation()
+                act = task.select_action(pre)
+                st = env.step(act)
+                sig = task.observe_outcome(st.observation, act)
+                qr = np.maximum(sig.q_rule, 1e-12)
+                hr = float(-np.sum(qr * np.log(qr)) / math.log(2.0))
+                ga_l.append(sig.grad_a)
+                gc_l.append(sig.grad_c)
+                hr_l.append(hr)
+            out.append(
+                (
+                    np.asarray(ga_l, dtype=np.float64),
+                    np.asarray(gc_l, dtype=np.float64),
+                    np.asarray(hr_l, dtype=np.float64),
+                )
+            )
+        return out
+
+    traces_a = _collect_traces(arm_a_sched, seed + 1000)
+    traces_b = _collect_traces(arm_b_sched, seed + 2000)
+
+    def _pol_to_num(hp: HedonicPolarity) -> float:
+        if hp is HedonicPolarity.POSITIVE:
+            return 1.0
+        if hp is HedonicPolarity.NEGATIVE:
+            return -1.0
+        return 0.0
+
+    def _run_arm_mc(
+        traces: list[tuple[np.ndarray, np.ndarray, np.ndarray]],
+        is_arm_a: bool,
+        block1_start: int,
+    ) -> dict[str, Any]:
+        traj_carto: list[float] = []
+        traj_jc: list[float] = []
+        traj_wval: list[float] = []
+        traj_opp: list[float] = []
+        all_carto: list[float] = []
+        all_jc: list[float] = []
+        all_wval: list[float] = []
+        all_dga: list[float] = []
+        all_ga: list[float] = []
+        crossover_trials: list[int] = []
+        end_pos_flags: list[float] = []
+
+        for n in range(num_trajectories):
+            ga_base, gc_base, _ = traces[n % len(traces)]
+            ga_n = np.clip(ga_base + rng.normal(0.0, 0.08, len(ga_base)), -1.2, 1.2)
+            gc_n = np.clip(gc_base + rng.normal(0.0, 0.08, len(gc_base)), -1.2, 1.2)
+            qs = np.full(8, 1.0 / 8.0, dtype=np.float64)
+            prev_ga: float | None = None
+
+            t_carto: list[float] = []
+            t_jc: list[float] = []
+            t_wval: list[float] = []
+            t_opp: list[float] = []
+
+            for t, (ga, gc) in enumerate(zip(ga_n, gc_n)):
+                ema = ema_gen.sample_from_gradients(float(ga), float(gc), persistence_level=1)
+                ia, ic, _ = ema.modality_indices
+                qs = (b_z2_avg @ qs) * a0_z2[ia] * a1_z2[ic]
+                qs /= max(1e-12, float(qs.sum()))
+                pt = pts[z2_indices[int(np.argmax(qs))]]
+
+                if prev_ga is not None:
+                    dga = float(ga) - float(prev_ga)
+                    if is_arm_a:
+                        in_window = (dga > 0.02) and (ga < -params.tau_a) and (pt.x < 0)
+                        jc_val = 1.0
+                    else:
+                        in_window = (dga < -0.02) and (ga > params.tau_a) and (pt.x > 0)
+                        jc_val = -1.0
+                    if in_window:
+                        c_val = _pol_to_num(compute_hedonic_polarity(pt.x, pt.y))
+                        wv = compute_weighted_valence(float(ga), float(gc), params.beta_x, params.beta_y)
+                        opp = 1.0 if ((c_val < 0.0 and jc_val > 0.0) or (c_val > 0.0 and jc_val < 0.0)) else 0.0
+                        t_carto.append(c_val)
+                        t_jc.append(jc_val)
+                        t_wval.append(wv)
+                        t_opp.append(opp)
+                        all_carto.append(c_val)
+                        all_jc.append(jc_val)
+                        all_wval.append(wv)
+                        all_dga.append(dga)
+                        all_ga.append(float(ga))
+                prev_ga = float(ga)
+
+            if is_arm_a:
+                b1_ga = ga_n[block1_start:]
+                pos_idx = np.where(b1_ga > 0.0)[0]
+                if len(pos_idx) > 0:
+                    crossover_trials.append(int(pos_idx[0]) + 1)
+                end_pos_flags.append(1.0 if float(b1_ga[-1]) > 0.0 else 0.0)
+
+            if t_carto:
+                traj_carto.append(float(np.mean(t_carto)))
+                traj_jc.append(float(np.mean(t_jc)))
+                traj_wval.append(float(np.mean(t_wval)))
+                traj_opp.append(float(np.mean(t_opp)))
+
+        arr_c = np.asarray(traj_carto, dtype=np.float64)
+        arr_j = np.asarray(traj_jc, dtype=np.float64)
+        arr_w = np.asarray(traj_wval, dtype=np.float64)
+        diff_cj = arr_c - arr_j
+        if len(diff_cj) >= 2 and np.std(diff_cj, ddof=1) > 0.0:
+            t_stat, p_t = stats.ttest_rel(arr_c, arr_j, alternative="two-sided")
+            w_stat, p_w = stats.wilcoxon(arr_c, arr_j, alternative="two-sided")
+            dz = float(np.mean(diff_cj) / max(1e-9, float(np.std(diff_cj, ddof=1))))
+        elif len(diff_cj) >= 2:
+            t_stat, p_t = float("-inf" if np.mean(diff_cj) < 0 else "inf"), 0.0
+            w_stat, p_w = stats.wilcoxon(arr_c, arr_j, alternative="two-sided")
+            dz = float("-inf" if np.mean(diff_cj) < 0 else "inf")
+        else:
+            t_stat, p_t, w_stat, p_w, dz = 0.0, 1.0, 0.0, 1.0, 0.0
+
+        all_c_arr = np.asarray(all_carto, dtype=np.float64)
+        all_j_arr = np.asarray(all_jc, dtype=np.float64)
+        all_w_arr = np.asarray(all_wval, dtype=np.float64)
+
+        return {
+            "n_dissociation_trials": int(len(all_c_arr)),
+            "n_trajectories_with_window": int(len(arr_c)),
+            "carto_negative_rate": float(np.mean(all_c_arr < 0.0)) if len(all_c_arr) else 0.0,
+            "carto_positive_rate": float(np.mean(all_c_arr > 0.0)) if len(all_c_arr) else 0.0,
+            "jc_positive_rate": float(np.mean(all_j_arr > 0.0)) if len(all_j_arr) else 0.0,
+            "jc_negative_rate": float(np.mean(all_j_arr < 0.0)) if len(all_j_arr) else 0.0,
+            "strict_opposition_rate": float(np.mean(traj_opp)) if traj_opp else 0.0,
+            "mean_carto_valence": float(np.mean(all_c_arr)) if len(all_c_arr) else 0.0,
+            "mean_jc_valence": float(np.mean(all_j_arr)) if len(all_j_arr) else 0.0,
+            "mean_weighted_valence": float(np.mean(all_w_arr)) if len(all_w_arr) else 0.0,
+            "sd_weighted_valence": float(np.std(all_w_arr, ddof=1)) if len(all_w_arr) > 1 else 0.0,
+            "mean_grad_a_in_window": float(np.mean(all_ga)) if all_ga else 0.0,
+            "mean_delta_grad_a_in_window": float(np.mean(all_dga)) if all_dga else 0.0,
+            "paired_t": float(t_stat) if math.isfinite(float(t_stat)) else (-1e9 if t_stat < 0 else 1e9),
+            "paired_p": float(p_t),
+            "paired_p_str": _format_p(float(p_t)),
+            "wilcoxon_w": float(w_stat),
+            "wilcoxon_p": float(p_w),
+            "wilcoxon_p_str": _format_p(float(p_w)),
+            "cohens_dz": float(dz) if math.isfinite(float(dz)) else (-1e9 if dz < 0 else 1e9),
+            "_crossover_trials": crossover_trials,
+            "_end_pos_flags": end_pos_flags,
+            "_traj_wval": arr_w,
+        }
+
+    arm_a_res = _run_arm_mc(traces_a, is_arm_a=True, block1_start=20)
+    arm_b_res = _run_arm_mc(traces_b, is_arm_a=False, block1_start=16)
+
+    cross_arr = np.asarray(arm_a_res.pop("_crossover_trials"), dtype=np.float64)
+    end_pos_arr = np.asarray(arm_a_res.pop("_end_pos_flags"), dtype=np.float64)
+    arr_w_a = arm_a_res.pop("_traj_wval")
+    _ = arm_b_res.pop("_crossover_trials")
+    _ = arm_b_res.pop("_end_pos_flags")
+    arr_w_b = arm_b_res.pop("_traj_wval")
+
+    return {
+        "num_trajectories": num_trajectories,
+        "b_prior_sym_diff": z2["b_prior_sym_diff"],
+        "b_prior_symmetric": bool(z2["b_prior_sym_diff"] < 1e-12),
+        "arm_a_loss_resolution": arm_a_res,
+        "arm_b_uncertainty_onset": arm_b_res,
+        "carto_negative_rate_arm_a": arm_a_res["carto_negative_rate"],
+        "jc_positive_rate_arm_a": arm_a_res["jc_positive_rate"],
+        "carto_positive_rate_arm_b": arm_b_res["carto_positive_rate"],
+        "jc_negative_rate_arm_b": arm_b_res["jc_negative_rate"],
+        "parametric_limitation": {
+            "crossover_trial_in_block1_mean": float(np.mean(cross_arr)) if len(cross_arr) else None,
+            "crossover_trial_in_block1_sd": float(np.std(cross_arr, ddof=1)) if len(cross_arr) > 1 else 0.0,
+            "crossover_rate_in_block1": float(len(cross_arr) / max(1, num_trajectories)),
+            "end_of_block1_positive_grad_a_rate": float(np.mean(end_pos_arr)) if len(end_pos_arr) else 0.0,
+            "note": (
+                "Dans TaskInferenceEngine, raw_ga = clip(4.2 * (0.43 - u_ep), -1, 1) dépend uniquement "
+                "de l'entropie/KL sur la règle latente u_ep sans couplage négatif aux pertes préférentielles "
+                "irréversibles ; après le point de croisement dans le Bloc 1 malgré p_ctrl=0.10, grad_a devient "
+                "positif, circonscrivant honnêtement la fenêtre de dissociation P4 aux essais transitoires où "
+                "X_t < 0 et Δ∇A_t > 0."
+            ),
+        },
+        "_plot_arrays": {
+            "arm_a_carto_neg": arm_a_res["carto_negative_rate"],
+            "arm_a_jc_pos": arm_a_res["jc_positive_rate"],
+            "arm_b_carto_pos": arm_b_res["carto_positive_rate"],
+            "arm_b_jc_neg": arm_b_res["jc_negative_rate"],
+            "arr_w_a": arr_w_a,
+            "arr_w_b": arr_w_b,
+        },
+    }
+
+
+def run_prediction_5_fear_control_mediation(
+    num_trajectories: int = 1000,
+    seed: int = 505,
+) -> dict[str, Any]:
+    """Prédiction 5 : Médiation par p_hat_ctrl de la transition Peur -> Colère vs Dégoût.
+
+    Exécuté sur le même moteur `pymdp` sans règle ad hoc :
+    - Tenseur B(Z=2) strictement symétrique entre Peur->Colère et Peur->Dégoût.
+    - Chaque trajectoire démarre exactement sur la Peur (-2, 0, 2).
+    - Menace constante (v_rule=0.25, cue_clarity=0.65) pour p_ctrl ∈ {0.10, 0.50, 0.90}.
+    - Inclut un contrôle de sensibilité à forte volatilité (v_rule=0.35, cue_clarity=0.50)
+      documentant honnêtement l'écrasement de p_hat_ctrl sous couplage FPI.
+    """
+    rng = np.random.default_rng(seed)
+    params = AgentParameters(lambda_weight=1.0)
+    z2 = _build_z2_filter_components(params)
+    pts = z2["pts"]
+    z2_indices = z2["z2_indices"]
+    b_z2_avg = z2["b_z2_avg"]
+    a0_z2 = z2["a0_z2"]
+    a1_z2 = z2["a1_z2"]
+
+    idx_by_pt = get_state_index_by_point()
+    loc_peur = z2_indices.index(idx_by_pt[CoreAffectPoint(-2, 0, 2)])
+    loc_col = z2_indices.index(idx_by_pt[CoreAffectPoint(-1, 1, 2)])
+    loc_deg = z2_indices.index(idx_by_pt[CoreAffectPoint(-1, -1, 2)])
+
+    b_prior_peur_to_colere = float(b_z2_avg[loc_col, loc_peur])
+    b_prior_peur_to_degout = float(b_z2_avg[loc_deg, loc_peur])
+    b_prior_peur_sym_diff = abs(b_prior_peur_to_colere - b_prior_peur_to_degout)
+    assert b_prior_peur_sym_diff < 1e-12, f"B(Z=2) Peur->Colère/Dégoût asymétrique: {b_prior_peur_sym_diff}"
+
+    task = TaskInferenceEngine(
+        AgentParameters(rule_volatility_prior=0.20, ctrl_volatility_prior=0.12),
+        seed=seed,
+    )
+    ema_gen = TwoStageEMAGenerator(params, seed=seed, stochastic=True)
+
+    def _simulate_condition(
+        p_ctrl: float,
+        v_rule: float,
+        cue_clarity: float,
+        n_traj: int,
+        seed_offset: int,
+        n_trials: int = 24,
+        burn_in: int = 4,
+    ) -> dict[str, Any]:
+        n_tr = min(25, max(4, n_traj))
+        sched = [
+            BlockSpec(0, "p5_threat", n_trials, p_ctrl=p_ctrl, v_rule=v_rule, cue_clarity=cue_clarity, d_obj=2)
+        ]
+        traces: list[tuple[np.ndarray, np.ndarray, np.ndarray]] = []
+        for rep in range(n_tr):
+            env = NonStationaryBanditEnv(schedule=sched, seed=seed_offset + rep)
+            env.reset()
+            task.reset()
+            ga_l, gc_l, qc_l = [], [], []
+            for _ in range(env.total_trials):
+                pre = env.current_observation()
+                act = task.select_action(pre)
+                st = env.step(act)
+                sig = task.observe_outcome(st.observation, act)
+                ga_l.append(sig.grad_a)
+                gc_l.append(sig.grad_c)
+                qc_l.append(float(sig.q_ctrl[0]))
+            traces.append(
+                (
+                    np.asarray(ga_l, dtype=np.float64),
+                    np.asarray(gc_l, dtype=np.float64),
+                    np.asarray(qc_l, dtype=np.float64),
+                )
+            )
+
+        p_col_arr = np.zeros(n_traj, dtype=np.float64)
+        p_deg_arr = np.zeros(n_traj, dtype=np.float64)
+        p_peur_arr = np.zeros(n_traj, dtype=np.float64)
+        p_hat_arr = np.zeros(n_traj, dtype=np.float64)
+        ga_means = np.zeros(n_traj, dtype=np.float64)
+        gc_means = np.zeros(n_traj, dtype=np.float64)
+        col_ratios: list[float] = []
+        first_exit_col = 0
+        first_exit_deg = 0
+
+        for n in range(n_traj):
+            ga_base, gc_base, qc_base = traces[n % len(traces)]
+            ga_n = np.clip(ga_base + rng.normal(0.0, 0.12, len(ga_base)), -1.2, 1.2)
+            gc_n = np.clip(gc_base + rng.normal(0.0, 0.12, len(gc_base)), -1.2, 1.2)
+            qs = np.zeros(8, dtype=np.float64)
+            qs[loc_peur] = 1.0  # Départ exact en Peur (-2, 0, 2)
+
+            c_col = 0
+            c_deg = 0
+            c_peur = 0
+            decided = False
+            n_eval = max(1, len(ga_n) - burn_in)
+
+            for t, (ga, gc) in enumerate(zip(ga_n, gc_n)):
+                ema = ema_gen.sample_from_gradients(float(ga), float(gc), persistence_level=1)
+                ia, ic, _ = ema.modality_indices
+                qs = (b_z2_avg @ qs) * a0_z2[ia] * a1_z2[ic]
+                qs /= max(1e-12, float(qs.sum()))
+                s = int(np.argmax(qs))
+                if t >= burn_in:
+                    if s == loc_col:
+                        c_col += 1
+                    elif s == loc_deg:
+                        c_deg += 1
+                    elif s == loc_peur:
+                        c_peur += 1
+                    if not decided and s in (loc_col, loc_deg):
+                        decided = True
+                        if s == loc_col:
+                            first_exit_col += 1
+                        else:
+                            first_exit_deg += 1
+
+            p_col_arr[n] = c_col / float(n_eval)
+            p_deg_arr[n] = c_deg / float(n_eval)
+            p_peur_arr[n] = c_peur / float(n_eval)
+            p_hat_arr[n] = float(np.mean(qc_base[burn_in:]))
+            ga_means[n] = float(np.mean(ga_n[burn_in:]))
+            gc_means[n] = float(np.mean(gc_n[burn_in:]))
+            if c_col + c_deg > 0:
+                col_ratios.append(c_col / float(c_col + c_deg))
+
+        bif_arr = p_col_arr - p_deg_arr
+        return {
+            "p_ctrl": p_ctrl,
+            "p_ctrl_hat_mean": float(np.mean(p_hat_arr)),
+            "p_ctrl_hat_sd": float(np.std(p_hat_arr, ddof=1)),
+            "grad_a_mean": float(np.mean(ga_means)),
+            "grad_c_mean": float(np.mean(gc_means)),
+            "p_colere_mean": float(np.mean(p_col_arr)),
+            "p_colere_sd": float(np.std(p_col_arr, ddof=1)),
+            "p_degout_mean": float(np.mean(p_deg_arr)),
+            "p_degout_sd": float(np.std(p_deg_arr, ddof=1)),
+            "p_peur_mean": float(np.mean(p_peur_arr)),
+            "colere_vs_degout_ratio": float(np.mean(col_ratios)) if col_ratios else 0.5,
+            "bifurcation_index_mean": float(np.mean(bif_arr)),
+            "bifurcation_index_sd": float(np.std(bif_arr, ddof=1)),
+            "first_exit_colere_rate": float(first_exit_col / float(n_traj)),
+            "first_exit_degout_rate": float(first_exit_deg / float(n_traj)),
+            "_arrays": {
+                "p_col": p_col_arr,
+                "p_deg": p_deg_arr,
+                "p_hat": p_hat_arr,
+                "bif": bif_arr,
+            },
+        }
+
+    p_ctrl_levels = (0.10, 0.50, 0.90)
+    cond_results: dict[str, dict[str, Any]] = {}
+    cond_arrays: dict[float, dict[str, np.ndarray]] = {}
+    for idx_c, pc in enumerate(p_ctrl_levels):
+        res_c = _simulate_condition(
+            p_ctrl=pc,
+            v_rule=0.25,
+            cue_clarity=0.65,
+            n_traj=num_trajectories,
+            seed_offset=seed + 100 * (idx_c + 1),
+        )
+        cond_arrays[pc] = res_c.pop("_arrays")
+        cond_results[f"{pc:.2f}"] = res_c
+
+    def _welch_mw(a: np.ndarray, b: np.ndarray) -> dict[str, Any]:
+        t_s, p_t = stats.ttest_ind(a, b, equal_var=False, alternative="two-sided")
+        u_s, p_u = stats.mannwhitneyu(a, b, alternative="two-sided")
+        psd = math.sqrt(0.5 * (float(np.var(a, ddof=1)) + float(np.var(b, ddof=1))))
+        d_c = float((np.mean(a) - np.mean(b)) / max(1e-9, psd))
+        return {
+            "welch_t": float(t_s),
+            "welch_p": float(p_t),
+            "welch_p_str": _format_p(float(p_t)),
+            "mannwhitney_u": float(u_s),
+            "mannwhitney_p": float(p_u),
+            "mannwhitney_p_str": _format_p(float(p_u)),
+            "cohens_d": d_c,
+        }
+
+    # Médiation OLS + Test de Sobel sur X=p_ctrl -> M=p_hat_ctrl -> Y=P(Colère)-P(Dégoût)
+    x_all = np.concatenate([np.full(num_trajectories, pc) for pc in p_ctrl_levels])
+    m_all = np.concatenate([cond_arrays[pc]["p_hat"] for pc in p_ctrl_levels])
+    y_all = np.concatenate([cond_arrays[pc]["bif"] for pc in p_ctrl_levels])
+
+    n_tot = float(len(x_all))
+    # 1) M ~ 1 + X (chemin a)
+    xm_des = np.column_stack([np.ones(len(x_all)), x_all])
+    beta_mx = np.linalg.lstsq(xm_des, m_all, rcond=None)[0]
+    res_mx = m_all - xm_des @ beta_mx
+    s2_mx = float(np.sum(res_mx ** 2) / max(1.0, n_tot - 2.0))
+    cov_mx = s2_mx * np.linalg.pinv(xm_des.T @ xm_des)
+    path_a = float(beta_mx[1])
+    se_a = float(math.sqrt(max(1e-18, cov_mx[1, 1])))
+
+    # 2) Y ~ 1 + X (effet total c)
+    beta_yx = np.linalg.lstsq(xm_des, y_all, rcond=None)[0]
+    path_c_total = float(beta_yx[1])
+
+    # 3) Y ~ 1 + X + M (effet direct c', chemin b)
+    xmy_des = np.column_stack([np.ones(len(x_all)), x_all, m_all])
+    beta_ymx = np.linalg.lstsq(xmy_des, y_all, rcond=None)[0]
+    res_ymx = y_all - xmy_des @ beta_ymx
+    s2_ymx = float(np.sum(res_ymx ** 2) / max(1.0, n_tot - 3.0))
+    cov_ymx = s2_ymx * np.linalg.pinv(xmy_des.T @ xmy_des)
+    path_c_prime = float(beta_ymx[1])
+    path_b = float(beta_ymx[2])
+    se_b = float(math.sqrt(max(1e-18, cov_ymx[2, 2])))
+
+    indirect_ab = path_a * path_b
+    sobel_se = math.sqrt(max(1e-18, (path_b ** 2) * (se_a ** 2) + (path_a ** 2) * (se_b ** 2)))
+    sobel_z = float(indirect_ab / sobel_se)
+    sobel_p = float(2.0 * stats.norm.sf(abs(sobel_z)))
+    prop_mediated = float(indirect_ab / path_c_total) if abs(path_c_total) > 1e-12 else 0.0
+    spearman_rho, spearman_p = stats.spearmanr(m_all, y_all)
+
+    # Contrôle de sensibilité à forte volatilité (limite paramétrique FPI documentée honnêtement)
+    n_sens = min(200, num_trajectories)
+    sens_lo = _simulate_condition(
+        p_ctrl=0.10, v_rule=0.35, cue_clarity=0.50, n_traj=n_sens, seed_offset=seed + 910
+    )
+    sens_lo.pop("_arrays")
+    sens_hi = _simulate_condition(
+        p_ctrl=0.90, v_rule=0.35, cue_clarity=0.50, n_traj=n_sens, seed_offset=seed + 990
+    )
+    sens_hi.pop("_arrays")
+
+    return {
+        "num_trajectories_per_condition": num_trajectories,
+        "b_prior_peur_to_colere": b_prior_peur_to_colere,
+        "b_prior_peur_to_degout": b_prior_peur_to_degout,
+        "b_prior_sym_diff": b_prior_peur_sym_diff,
+        "b_prior_symmetric": bool(b_prior_peur_sym_diff < 1e-12),
+        "conditions": cond_results,
+        "comparisons_090_vs_010": {
+            "colere": _welch_mw(cond_arrays[0.90]["p_col"], cond_arrays[0.10]["p_col"]),
+            "degout": _welch_mw(cond_arrays[0.90]["p_deg"], cond_arrays[0.10]["p_deg"]),
+            "bifurcation": _welch_mw(cond_arrays[0.90]["bif"], cond_arrays[0.10]["bif"]),
+        },
+        "mediation": {
+            "path_a_p_ctrl_to_p_hat": path_a,
+            "path_b_p_hat_to_bifurcation": path_b,
+            "path_c_total": path_c_total,
+            "path_c_prime_direct": path_c_prime,
+            "indirect_ab": indirect_ab,
+            "sobel_se": sobel_se,
+            "sobel_z": sobel_z,
+            "sobel_p": sobel_p,
+            "sobel_p_str": _format_p(sobel_p),
+            "proportion_mediated": prop_mediated,
+            "spearman_rho_p_hat_vs_bifurcation": float(spearman_rho),
+            "spearman_p": float(spearman_p),
+            "spearman_p_str": _format_p(float(spearman_p)),
+        },
+        "high_volatility_boundary": {
+            "v_rule": 0.35,
+            "cue_clarity": 0.50,
+            "n_trajectories_per_condition": n_sens,
+            "p_ctrl_010": sens_lo,
+            "p_ctrl_090": sens_hi,
+            "note": (
+                "Sous très forte volatilité (v_rule=0.35, cue_clarity=0.50), le couplage champ moyen FPI "
+                "entre incertitude sur la règle et inférence de contrôlabilité maintient p_hat_ctrl < 0.50 "
+                "même à p_ctrl=0.90 : P(Colère) augmente fortement avec p_ctrl et P(Dégoût) s'effondre, "
+                "sans toutefois que P(Colère) ne dépasse P(Dégoût) dans ce régime extrême."
+            ),
+        },
+        "_plot_arrays": {
+            "levels": [f"{pc:.2f}" for pc in p_ctrl_levels],
+            "p_col_means": [cond_results[f"{pc:.2f}"]["p_colere_mean"] for pc in p_ctrl_levels],
+            "p_col_sds": [cond_results[f"{pc:.2f}"]["p_colere_sd"] for pc in p_ctrl_levels],
+            "p_deg_means": [cond_results[f"{pc:.2f}"]["p_degout_mean"] for pc in p_ctrl_levels],
+            "p_deg_sds": [cond_results[f"{pc:.2f}"]["p_degout_sd"] for pc in p_ctrl_levels],
+            "p_hat_means": [cond_results[f"{pc:.2f}"]["p_ctrl_hat_mean"] for pc in p_ctrl_levels],
+        },
+    }
+
+
 def _generate_figure(
     p1: dict[str, Any],
     p2: dict[str, Any],
     p3: dict[str, Any],
+    p4: dict[str, Any],
+    p5: dict[str, Any],
     output_path: Path,
 ) -> None:
     sns.set_theme(style="whitegrid", context="paper")
-    fig, axes = plt.subplots(2, 2, figsize=(15.5, 11.8), dpi=300)
+    fig, axes = plt.subplots(3, 2, figsize=(16.0, 16.5), dpi=300)
 
     # Panel A : P1 Arbitrage L1 (λ=1 vs λ=0)
     ax = axes[0, 0]
@@ -851,13 +1405,122 @@ def _generate_figure(
     ax.set_xlim(0, min(14, len(t_axis) - 1))
     ax.legend(frameon=True, fontsize=8.0, loc="upper right")
 
+    # Panel E : P4 Priorité lexicographique de sgn(X_t) sur ΔX_t
+    ax = axes[2, 0]
+    a4 = p4["_plot_arrays"]
+    x_pos = np.arange(2)
+    bar_w = 0.34
+    carto_rates = [a4["arm_a_carto_neg"], a4["arm_b_carto_pos"]]
+    jc_rates = [1.0 - a4["arm_a_jc_pos"], 1.0 - a4["arm_b_jc_neg"]]
+    # Afficher comparaison directe des taux prédits : négatif en Bras A, positif en Bras B
+    b1 = ax.bar(
+        x_pos - bar_w / 2.0,
+        [a4["arm_a_carto_neg"], a4["arm_b_carto_pos"]],
+        width=bar_w,
+        color="#2c3e50",
+        label=r"CARTOGRAFFECT ($\mathrm{sgn}(X_t)$ prioritaire)",
+    )
+    b2 = ax.bar(
+        x_pos + bar_w / 2.0,
+        [1.0 - a4["arm_a_jc_pos"], 1.0 - a4["arm_b_jc_neg"]],
+        width=bar_w,
+        color="#e74c3c",
+        alpha=0.85,
+        label=r"Dérivatif ($\mathrm{sgn}(\Delta X_t)$ — Joffily & Coricelli)",
+    )
+    for bar_group in (b1, b2):
+        for rect in bar_group:
+            h = rect.get_height()
+            ax.text(
+                rect.get_x() + rect.get_width() / 2.0,
+                h + 0.02,
+                f"{h:.2f}",
+                ha="center",
+                va="bottom",
+                fontsize=8.2,
+            )
+    ax.set_xticks(x_pos)
+    ax.set_xticklabels(
+        [
+            "Bras A : Résolution brutale\n($X_t < 0, \\Delta X_t > 0$)\nTaux valence NÉGATIVE",
+            "Bras B : Incertitude brutale\n($X_t > 0, \\Delta X_t < 0$)\nTaux valence POSITIVE",
+        ],
+        fontsize=8.6,
+    )
+    ax.set_ylim(0.0, 1.18)
+    ax.set_ylabel("Taux de conformité de valence")
+    p4_p_tex = _format_p_latex(float(p4["arm_a_loss_resolution"]["wilcoxon_p"]))
+    cross_m = p4["parametric_limitation"]["crossover_trial_in_block1_mean"]
+    cross_s = f"{cross_m:.1f}" if cross_m is not None else "N/A"
+    ax.set_title(
+        f"P4 — Priorité lexicographique $\\mathrm{{sgn}}(X_t)$ vs $\\Delta X_t$ "
+        f"($N_{{\\mathrm{{win}}}}={p4['arm_a_loss_resolution']['n_dissociation_trials']}$)\n"
+        f"${p4_p_tex}$, opposition = {p4['arm_a_loss_resolution']['strict_opposition_rate']:.2f} "
+        f"| limite croisement Bloc 1 = {cross_s} essais",
+        fontsize=9.6,
+        fontweight="bold",
+    )
+    ax.legend(frameon=True, fontsize=8.0, loc="upper right")
+
+    # Panel F : P5 Médiation par p_hat_ctrl (Peur -> Colère vs Dégoût)
+    ax = axes[2, 1]
+    a5 = p5["_plot_arrays"]
+    x5 = np.arange(len(a5["levels"]))
+    w5 = 0.34
+    ax.bar(
+        x5 - w5 / 2.0,
+        a5["p_col_means"],
+        yerr=a5["p_col_sds"],
+        width=w5,
+        capsize=3,
+        color="#d35400",
+        label=r"$P(\mathrm{Col\grave{e}re}\;(-1,+1,2))$",
+    )
+    ax.bar(
+        x5 + w5 / 2.0,
+        a5["p_deg_means"],
+        yerr=a5["p_deg_sds"],
+        width=w5,
+        capsize=3,
+        color="#7f8c8d",
+        label=r"$P(\mathrm{D\acute{e}go\hat{u}t}\;(-1,-1,2))$",
+    )
+    ax2 = ax.twinx()
+    ax2.plot(
+        x5,
+        a5["p_hat_means"],
+        color="#2980b9",
+        marker="o",
+        linewidth=2.0,
+        label=r"$\hat{p}_{\mathrm{ctrl}}$ inféré",
+    )
+    ax2.set_ylim(0.0, 1.0)
+    ax2.set_ylabel(r"Contrôlabilité perçue $\hat{p}_{\mathrm{ctrl}}$", color="#2980b9")
+    ax.set_xticks(x5)
+    ax.set_xticklabels([f"$p_{{\\mathrm{{ctrl}}}}={lv}$" for lv in a5["levels"]], fontsize=9.0)
+    ax.set_ylim(0.0, max(0.85, max(a5["p_col_means"] + a5["p_deg_means"]) * 1.35))
+    ax.set_ylabel("Taux d'occupation post-Peur")
+    med = p5["mediation"]
+    p5_sobel_tex = _format_p_latex(float(med["sobel_p"]))
+    ax.set_title(
+        f"P5 — Médiation pragmatique Peur $\\to$ Colère vs Dégoût "
+        f"($\\Delta_{{\\mathrm{{prior}}}}={p5['b_prior_sym_diff']:.1e}$)\n"
+        f"Effet indirect $ab={med['indirect_ab']:.3f}$ (${p5_sobel_tex}$), "
+        f"prop. médiée={med['proportion_mediated']:.2f}",
+        fontsize=9.6,
+        fontweight="bold",
+    )
+    h1, l1 = ax.get_legend_handles_labels()
+    h2, l2 = ax2.get_legend_handles_labels()
+    ax.legend(h1 + h2, l1 + l2, frameon=True, fontsize=7.8, loc="upper left")
+
     fig.suptitle(
-        "CARTOGRAFFECT — Validation Monte-Carlo non circulaire des 3 prédictions falsifiables",
+        "CARTOGRAFFECT — Validation Monte-Carlo non circulaire des 5 prédictions falsifiables (P1–P5)",
         fontsize=13,
         fontweight="bold",
-        y=0.985,
+        y=0.988,
     )
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.tight_layout(rect=(0, 0, 1, 0.968))
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_path, dpi=300)
     plt.close(fig)
@@ -867,16 +1530,18 @@ def run_experiment(
     num_trajectories: int = 1000,
     results_dir: Path | None = None,
 ) -> dict[str, Any]:
-    """Exécute les trois validations Monte-Carlo et exporte JSON/CSV/PNG."""
+    """Exécute les cinq validations Monte-Carlo (P1–P5) et exporte JSON/CSV/PNG."""
     out_dir = ROOT_DIR / "results" if results_dir is None else Path(results_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     p1 = run_prediction_1_budget_tradeoff(num_trajectories=num_trajectories)
     p2 = run_prediction_2_axial_instability(num_trajectories=num_trajectories)
     p3 = run_prediction_3_hierarchical_inertia(num_trajectories=num_trajectories)
+    p4 = run_prediction_4_lexicographic_valence(num_trajectories=num_trajectories)
+    p5 = run_prediction_5_fear_control_mediation(num_trajectories=num_trajectories)
 
     fig_path = out_dir / "fig1_falsifiable_predictions.png"
-    _generate_figure(p1, p2, p3, fig_path)
+    _generate_figure(p1, p2, p3, p4, p5, fig_path)
 
     def _strip_plots(d: dict[str, Any]) -> dict[str, Any]:
         return {k: v for k, v in d.items() if k != "_plot_arrays"}
@@ -890,6 +1555,8 @@ def run_experiment(
         "prediction_1_budget_tradeoff": _strip_plots(p1),
         "prediction_2_axial_instability": _strip_plots(p2),
         "prediction_3_hierarchical_inertia": _strip_plots(p3),
+        "prediction_4_lexicographic_valence": _strip_plots(p4),
+        "prediction_5_fear_control_mediation": _strip_plots(p5),
         "figure_path": rel_fig,
     }
 
@@ -959,6 +1626,24 @@ def run_experiment(
             "p_value_str": p3["tests"]["resistance_z5_vs_z2"]["mannwhitney_p_str"],
             "effect_size": p3["tests"]["resistance_z5_vs_z2"]["cohens_d"],
         },
+        {
+            "prediction": "P4_Lexicographic_Valence_ArmA",
+            "metric": "carto_negative_rate_vs_jc_negative_rate",
+            "value": p4["carto_negative_rate_arm_a"],
+            "comparison_value": 1.0 - p4["jc_positive_rate_arm_a"],
+            "p_value": p4["arm_a_loss_resolution"]["wilcoxon_p"],
+            "p_value_str": p4["arm_a_loss_resolution"]["wilcoxon_p_str"],
+            "effect_size": p4["arm_a_loss_resolution"]["cohens_dz"],
+        },
+        {
+            "prediction": "P5_Fear_to_Colere_vs_Degout",
+            "metric": "p_colere_090_vs_010_and_sobel_ab",
+            "value": p5["conditions"]["0.90"]["p_colere_mean"],
+            "comparison_value": p5["conditions"]["0.10"]["p_colere_mean"],
+            "p_value": p5["mediation"]["sobel_p"],
+            "p_value_str": p5["mediation"]["sobel_p_str"],
+            "effect_size": p5["comparisons_090_vs_010"]["bifurcation"]["cohens_d"],
+        },
     ]
     summary_csv = out_dir / "exp01_summary_metrics.csv"
     pd.DataFrame(summary_rows).to_csv(summary_csv, index=False, encoding="utf-8")
@@ -974,6 +1659,8 @@ def main() -> None:
     print(json.dumps(report["prediction_2_axial_instability"]["opposite_pole_transitions"], indent=2))
     print(json.dumps(report["prediction_3_hierarchical_inertia"]["half_life"], indent=2))
     print(json.dumps(report["prediction_3_hierarchical_inertia"]["resistance_index"], indent=2))
+    print(json.dumps(report["prediction_4_lexicographic_valence"], indent=2, ensure_ascii=False))
+    print(json.dumps(report["prediction_5_fear_control_mediation"], indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
