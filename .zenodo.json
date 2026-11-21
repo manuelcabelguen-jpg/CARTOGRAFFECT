@@ -7,6 +7,7 @@
   "creators": [
     {
       "name": "Cabelguen, Manuel"
+      "orcid": "0000-0002-4375-0886"
     }
   ],
   "description": "CARTOGRAFFECT® v2.0.0 stratified Research Compendium. Strate 0 integrates six independent formal proof suites (Lean 4.35.0, Rocq 9.0, Agda 2.9.0, Dafny 4.11.0, SMT-LIB 2.6 / Z3 5.3.3, TLA+/TLC 2.19) certifying 113/113 theorems with 0 sorry / 0 custom axioms, the isomorphic exact integer Python predictive engine, and the canonical theoretical manuscript (docs/01-Article_Cartograffect.md, 176 affective states on Z in {0,...,7}, predictions P1-P5). Strate 1 hosts subordinate exploratory extensions for affective lexical projection and psychometric benchmarks (extensions/lexicon/) and Active Inference pymdp/JAX/NumPyro generative simulations (extensions/in_silico/). Dual licensing (SPDX: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0): software source code, scripts, and formal proof implementations are licensed under GNU AGPLv3 (agpl-3.0-or-later), whereas the theoretical architecture, manuscript, coordinate geometry, and 176-state taxonomy (including taxonomic tables embedded in hybrid lexicon/JSON/HTML artifacts) are licensed under CC BY-NC-SA 4.0 and excluded from commercial exploitation. Registered trademark and copyright: CARTOGRAFFECT® (CIPO / OPIC n° 1233199).",
