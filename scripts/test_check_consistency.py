@@ -281,6 +281,24 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             self.assertEqual(exp_fail.returncode, 1)
             self._assert_check_fails_on_category(repo, "site_payload_contract")
 
+    def test_fault_removed_institutional_mention_in_tracked_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            chg_path = repo / "CHANGELOG.md"
+            text = chg_path.read_text(encoding="utf-8")
+            injected = "Ordre des psycho" + "logues du Québec (" + "OP" + "Q)\n"
+            chg_path.write_text(text + injected, encoding="utf-8")
+            self._assert_check_fails_on_category(repo, "zero_leak_zenodo_hygiene")
+
+    def test_fault_missing_cipo_registration_in_zenodo(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            zpath = repo / ".zenodo.json"
+            data = json.loads(zpath.read_text(encoding="utf-8"))
+            data["description"] = str(data["description"]).replace("1233199", "0000000")
+            zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            self._assert_check_fails_on_category(repo, "zenodo_cff_spdx")
+
 
 if __name__ == "__main__":
     unittest.main()

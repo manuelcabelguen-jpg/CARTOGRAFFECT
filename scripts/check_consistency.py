@@ -62,6 +62,11 @@ LEAK_SELF_EXEMPT = frozenset({
     "scripts/test_check_consistency.py",
 })
 
+FORBIDDEN_INSTITUTIONAL_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("institutional-removed-abbr", re.compile(r"\bop" + r"q\b", re.IGNORECASE)),
+    ("institutional-removed-full", re.compile(r"ordre\s+des\s+psycho" + r"logues\s+du\s+qu[eé]bec", re.IGNORECASE)),
+)
+
 WIN_ABS_PATH_RE = re.compile(r"(?<![A-Za-z0-9_])[A-Za-z]:[/\\]")
 FILE_DRIVE_URI_RE = re.compile(r"file:///+[A-Za-z]:[/\\]", re.IGNORECASE)
 UNC_PATH_RE = re.compile(r"\\\\[A-Za-z0-9_.-]+\\[A-Za-z0-9_.-]+")
@@ -895,6 +900,7 @@ def _check_zero_leak_zenodo_hygiene(
     cat.ok(f"{len(tracked_files)} fichiers suivis analysés")
 
     leak_hits: list[str] = []
+    institutional_hits: list[str] = []
     env_files: list[str] = []
     raw_third_party: list[str] = []
     oversized: list[str] = []
@@ -929,6 +935,11 @@ def _check_zero_leak_zenodo_hygiene(
                 for lineno, line in enumerate(text.splitlines(), 1):
                     if pattern.search(line):
                         leak_hits.append(f"{rel}:{lineno} ({label})")
+        for label, pattern in FORBIDDEN_INSTITUTIONAL_PATTERNS:
+            if pattern.search(text):
+                for lineno, line in enumerate(text.splitlines(), 1):
+                    if pattern.search(line):
+                        institutional_hits.append(f"{rel}:{lineno} ({label})")
 
     if missing_tracked:
         cat.warn(f"Fichiers suivis absents du répertoire de travail : {missing_tracked}", strict=strict)
@@ -937,6 +948,13 @@ def _check_zero_leak_zenodo_hygiene(
         cat.fail(f"Fuites locales détectées dans les fichiers suivis : {leak_hits[:20]}")
     else:
         cat.ok("Zéro-Fuite : 0 chemin utilisateur/local dans les fichiers texte suivis")
+
+    if institutional_hits:
+        cat.fail(
+            f"Mentions institutionnelles retirées détectées dans les fichiers suivis : {institutional_hits[:20]}"
+        )
+    else:
+        cat.ok("Zéro mention institutionnelle retirée dans les fichiers texte suivis")
 
     if env_files:
         cat.fail(f"Fichiers .env suivis interdits : {env_files}")
@@ -1074,6 +1092,7 @@ def _check_site_payload_contract(
         return cat
 
     rel = payload.get("release", {})
+    ids_pay = payload.get("identifiers", {})
     s0_pay = payload.get("strate_0_core", {})
     s0_man = manifest_data.get("strate_0_core", {})
     lic_pay = payload.get("licenses", {})
@@ -1083,6 +1102,10 @@ def _check_site_payload_contract(
 
     checks = [
         (payload.get("schema_version") == "1.0", f"schema_version={payload.get('schema_version')!r} != '1.0'"),
+        (
+            ids_pay.get("cipo_registration") == "1233199",
+            f"identifiers.cipo_registration={ids_pay.get('cipo_registration')!r} != '1233199'",
+        ),
         (rel.get("version") == version, f"release.version={rel.get('version')!r} != '{version}'"),
         (rel.get("tag") == f"v{version}", f"release.tag={rel.get('tag')!r} != 'v{version}'"),
         (
