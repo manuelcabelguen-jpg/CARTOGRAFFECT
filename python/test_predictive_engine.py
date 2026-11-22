@@ -12,7 +12,10 @@ from cartograffect_predictive_engine import (
     INDEX_PAR_AC,
     ORDRE_ATTENTE,
     ORDRE_CONTROLE,
+    AssemblageReponsesIsolees,
     CircuitCirculaireCartograffect,
+    DiagnosticRupturesErgodicite,
+    DomainePossiblesAttentionnel,
     EtatCircuitCirculaire,
     EtatCorpsEnvironnement,
     EtatLoiUnifiee,
@@ -22,12 +25,16 @@ from cartograffect_predictive_engine import (
     MoteurPredictifCartograffect,
     ParametresLoiUnifiee,
     ParametresMoteur,
+    ReponseIsoleeCircuit,
     SimulateurUnifieCartograffect,
     antagoniste_noyau,
+    assembler_reponses_isolees,
     budget_spatial,
+    calculer_reduction_information,
     canaux_retour_croisement_ii,
     classifier_coherence,
     compter_resolutions_actives,
+    entropie_shannon_bits,
     est_valide_noyau_affectif,
     mettre_a_jour_accumulateur,
     mettre_a_jour_strate_r5,
@@ -390,6 +397,151 @@ class TestLoiUnifieeAxesIV(unittest.TestCase):
         self.assertEqual(tr.z_suivant, 3)
         self.assertEqual(tr.budget_z_suivant, budget_spatial(3))
         self.assertEqual(tr.coord_noyau_suivante, (-1, 3, 3))
+
+
+class TestArbitragesA1A4EtRuptures(unittest.TestCase):
+    def test_stochasticite_exacte_et_independance_p1_p2(self) -> None:
+        profils = [
+            ParametresMoteur.homeostasique(epsilon=0.05),
+            ParametresMoteur.canonique_libre(0.8),
+            ParametresMoteur.extinction_passive(delta=0.40, epsilon=0.15),
+            ParametresMoteur.clivage_sous_couplage(epsilon=0.15),
+            ParametresMoteur.contagion_sur_couplage(epsilon=0.15, chi=0.95),
+            ParametresMoteur.surcharge_allostatique(epsilon=0.90),
+        ]
+        for params in profils:
+            T = MoteurPredictifCartograffect(params).construire_matrice_transition()
+            self.assertEqual(T.shape, (9, 9))
+            self.assertTrue(np.all(T >= 0.0))
+            self.assertTrue(np.allclose(T.sum(axis=1), 1.0, atol=1e-12))
+
+        # Indépendance P1 / P2 :
+        # - P1 fixe (w_X, w_Y) indépendamment de chi
+        # - Sans P2 (chi = 0), la surprise sortante sur l'axe complémentaire ne dépend pas de l'état de Charge
+        t_chi0 = MoteurPredictifCartograffect(
+            ParametresMoteur(rho=0.8, kappa=0.8, epsilon=0.15, q_pos_a=0.35, q_pos_c=0.35, chi=0.0)
+        ).construire_matrice_transition()
+        t_chi_pos = MoteurPredictifCartograffect(
+            ParametresMoteur(rho=0.8, kappa=0.8, epsilon=0.15, q_pos_a=0.35, q_pos_c=0.35, chi=0.60)
+        ).construire_matrice_transition()
+
+        # Depuis A0/C+ (pas de Charge), T reste strictement identique quand chi varie
+        idx_joie = INDEX_PAR_AC[(0, +1)]
+        self.assertTrue(np.allclose(t_chi0[idx_joie], t_chi_pos[idx_joie], atol=1e-12))
+        # Depuis A-/C0 (Charge en A), seul C subit la contagion P2 (A reste soumis à w_X=1.0 -> rho)
+        idx_peur = INDEX_PAR_AC[(-1, 0)]
+        self.assertGreater(
+            t_chi_pos[idx_peur, INDEX_PAR_AC[(-1, -1)]],
+            t_chi0[idx_peur, INDEX_PAR_AC[(-1, -1)]],
+        )
+
+    def test_rejet_z0_dans_interface_attentionnelle_et_projection_directe_z(self) -> None:
+        # Veille (0,0,0) siège exclusivement au Croisement I : Z=0 doit être rejeté dans l'Interface Attentionnelle
+        with self.assertRaises(ValueError):
+            DomainePossiblesAttentionnel(0, 0, 0)
+        with self.assertRaises(ValueError):
+            assembler_reponses_isolees(
+                ReponseIsoleeCircuit("A", 0, z_projete=0),
+                ReponseIsoleeCircuit("C", 0, z_projete=0),
+            )
+
+        # Projection directe de Z >= 1 (court-circuitage sans incrémentation séquentielle)
+        asm_z1 = assembler_reponses_isolees(
+            ReponseIsoleeCircuit("A", 0, z_projete=1),
+            ReponseIsoleeCircuit("C", 0, z_projete=1),
+        )
+        self.assertEqual(asm_z1.domaine.notation_symbolique, "{0, 0, Z}")
+        self.assertEqual(asm_z1.coord_octaedrique, (0, 0, 1))
+        self.assertNotEqual(asm_z1.coord_octaedrique, (0, 0, 0))
+
+        # Saut direct vers Z=5 en quadrant (-X, +Y, Z) avec partage asymétrique
+        asm_z5 = assembler_reponses_isolees(
+            ReponseIsoleeCircuit("A", -1, z_projete=5),
+            ReponseIsoleeCircuit("C", +1, z_projete=3),
+            pi_a=1,
+            pi_c=3,
+        )
+        self.assertEqual(asm_z5.z_projete, 5)
+        self.assertEqual(asm_z5.domaine.notation_symbolique, "{-X, +Y, Z}")
+        self.assertEqual(asm_z5.domaine.base_projective_croisement_i, (-1, 1, 0))
+        self.assertEqual(asm_z5.domaine.rayon_couronne, 8)
+        self.assertEqual(abs(asm_z5.coord_octaedrique[0]) + abs(asm_z5.coord_octaedrique[1]), 8)
+        self.assertEqual(asm_z5.coord_octaedrique[2], 5)
+        payload = asm_z5.vers_export_octaedrique()
+        self.assertTrue(payload["valide_noyau_affectif"])
+        self.assertGreaterEqual(payload["delta_h_bits"], 0.0)
+
+    def test_reduction_information_delta_h_non_negatif(self) -> None:
+        # Sélection déterministe sur 9 possibles -> ΔH = log2(9) bits > 0
+        h_p, h_r, dh = calculer_reduction_information([1.0 / 9.0] * 9)
+        self.assertAlmostEqual(h_p, np.log2(9.0), places=10)
+        self.assertEqual(h_r, 0.0)
+        self.assertAlmostEqual(dh, np.log2(9.0), places=10)
+        self.assertGreaterEqual(dh, 0.0)
+
+        # Réduction partielle (de 8 états équiprobables vers 2 états équiprobables) -> ΔH = 2.0 bits
+        h_p2, h_r2, dh2 = calculer_reduction_information([0.125] * 8, [0.5, 0.5])
+        self.assertAlmostEqual(h_p2, 3.0, places=10)
+        self.assertAlmostEqual(h_r2, 1.0, places=10)
+        self.assertAlmostEqual(dh2, 2.0, places=10)
+
+        # Entropie nulle -> ΔH = 0.0
+        self.assertEqual(entropie_shannon_bits([1.0, 0.0, 0.0]), 0.0)
+        with self.assertRaises(ValueError):
+            calculer_reduction_information([1.0, 0.0], [0.5, 0.5])
+
+    def test_diagnostic_automatique_5_ruptures_ergodicite(self) -> None:
+        # 0. Régime sain ergodique : 0 rupture
+        diag_sain = MoteurPredictifCartograffect(
+            ParametresMoteur.homeostasique(epsilon=0.05)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertIsInstance(diag_sain, DiagnosticRupturesErgodicite)
+        self.assertTrue(diag_sain.est_ergodique_sain)
+        self.assertEqual(diag_sain.ruptures_detectees, ())
+
+        # 1. Rigidité épistémique (rho = 0)
+        diag_rig = MoteurPredictifCartograffect(
+            ParametresMoteur.rigidite_epistemique(epsilon=0.05, chi=0.25)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_rig.est_ergodique_sain)
+        self.assertIn("rigidite_epistemique", diag_rig.ruptures_detectees)
+
+        # 2. Impuissance pragmatique (kappa = 0)
+        diag_imp = MoteurPredictifCartograffect(
+            ParametresMoteur.impuissance_pragmatique(epsilon=0.05, chi=0.25)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_imp.est_ergodique_sain)
+        self.assertIn("impuissance_pragmatique", diag_imp.ruptures_detectees)
+
+        # 3. Persévération (gamma = 0)
+        diag_per = MoteurPredictifCartograffect(
+            ParametresMoteur.perseveration(epsilon=0.05, chi=0.25)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_per.est_ergodique_sain)
+        self.assertIn("perseveration", diag_per.ruptures_detectees)
+
+        # 4a. Clivage (chi -> 0)
+        diag_cliv = MoteurPredictifCartograffect(
+            ParametresMoteur.clivage_sous_couplage(epsilon=0.15)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_cliv.est_ergodique_sain)
+        self.assertIn("clivage_contagion", diag_cliv.ruptures_detectees)
+        self.assertEqual(diag_cliv.sous_type_clivage_contagion, "clivage")
+
+        # 4b. Contagion (chi -> 1)
+        diag_cont = MoteurPredictifCartograffect(
+            ParametresMoteur.contagion_sur_couplage(epsilon=0.15, chi=0.95)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_cont.est_ergodique_sain)
+        self.assertIn("clivage_contagion", diag_cont.ruptures_detectees)
+        self.assertEqual(diag_cont.sous_type_clivage_contagion, "contagion")
+
+        # 5. Surcharge allostatique (epsilon >> rho, kappa)
+        diag_sur = MoteurPredictifCartograffect(
+            ParametresMoteur.surcharge_allostatique(epsilon=0.90)
+        ).diagnostiquer_ruptures_ergodicite()
+        self.assertFalse(diag_sur.est_ergodique_sain)
+        self.assertIn("surcharge_allostatique", diag_sur.ruptures_detectees)
 
 
 if __name__ == "__main__":
