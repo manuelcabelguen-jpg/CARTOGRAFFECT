@@ -6,7 +6,7 @@ pour le compendium unifié CARTOGRAFFECT® (Strate 0 / Strate 1).
 Vérifie les 7 groupes d'invariants sans aucune dépendance externe
 (bibliothèque standard Python 3.10+ uniquement) :
   1. version_parity               — Parité stricte de VERSION à travers le compendium
-  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 9 fichiers Lean, 0 trou/axiome sur 6 suites
+  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 10 fichiers Lean, 0 trou/axiome sur 6 suites
   3. zenodo_cff_spdx              — Validité .zenodo.json / manifest.json / CITATION.cff / NOTICE
   4. epistemic_compartmentalization — Chartes Strate 1, CONVERGENCE_MATRIX.md, garde A4-Sanctuaire
   5. zero_leak_zenodo_hygiene     — Zéro fuite locale, 0 .env, 0 brut tiers, <= 20 Mo, 0 filter=lfs
@@ -61,6 +61,11 @@ LEAK_SELF_EXEMPT = frozenset({
     "scripts/check_consistency.py",
     "scripts/test_check_consistency.py",
 })
+
+FORBIDDEN_INSTITUTIONAL_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("institutional-removed-abbr", re.compile(r"\bop" + r"q\b", re.IGNORECASE)),
+    ("institutional-removed-full", re.compile(r"ordre\s+des\s+psycho" + r"logues\s+du\s+qu[eé]bec", re.IGNORECASE)),
+)
 
 WIN_ABS_PATH_RE = re.compile(r"(?<![A-Za-z0-9_])[A-Za-z]:[/\\]")
 FILE_DRIVE_URI_RE = re.compile(r"file:///+[A-Za-z]:[/\\]", re.IGNORECASE)
@@ -611,18 +616,18 @@ def _check_strate0_integrity(
         else:
             cat.ok(f"{lexicon_rel} SHA-256 vérifié ({actual_sha[:16]}...)")
 
-    # 9 fichiers Lean dans manifest.json
+    # 10 fichiers Lean dans manifest.json
     if manifest_data is not None:
         lean_files = manifest_data.get("strate_0_core", {}).get("lean_files")
-        if not isinstance(lean_files, list) or len(lean_files) != 9:
+        if not isinstance(lean_files, list) or len(lean_files) != 10:
             count = len(lean_files) if isinstance(lean_files, list) else "invalid"
-            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 9 fichiers (trouvé : {count}).")
+            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 10 fichiers (trouvé : {count}).")
         else:
             missing = [lf for lf in lean_files if not (root / lf).is_file()]
             if missing:
                 cat.fail(f"Fichiers Lean manquants sur disque : {missing}")
             else:
-                cat.ok("9/9 fichiers Lean du manifest présents sur disque")
+                cat.ok("10/10 fichiers Lean du manifest présents sur disque")
 
     # Unicité de Lexicon176.lean hors Cartograffect/
     dup_lexicons = sorted({
@@ -830,6 +835,50 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
         else:
             cat.ok("Garde A4-Sanctuaire : 0 métrique PXP/min r dans le corps théorique")
 
+        # Garde d'intégrité éditoriale & transparence IA dans docs/01-Article_Cartograffect.md
+        if re.search(r"(?:49\s*\+|references-v2)", article_text, re.IGNORECASE):
+            cat.fail("docs/01-Article_Cartograffect.md contient un marqueur obsolète (49+ / references-v2).")
+        else:
+            cat.ok("0 marqueur obsolète (49+ / references-v2) dans docs/01-Article_Cartograffect.md")
+
+        art_low = article_text.lower()
+        has_art_ai_honesty = (
+            "non mathématicien formel" in art_low
+            and "traduction" in art_low
+            and "ligne par ligne" in art_low
+            and "vérification mécanique" in art_low
+            and "tests automatisés" in art_low
+            and "audit" in art_low
+        )
+        if not has_art_ai_honesty:
+            cat.fail(
+                "docs/01-Article_Cartograffect.md doit inclure la déclaration IA explicite "
+                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
+            )
+        else:
+            cat.ok("Déclaration IA explicite vérifiée dans docs/01-Article_Cartograffect.md")
+
+    readme_path = root / "README.md"
+    if not readme_path.is_file():
+        cat.fail("README.md introuvable pour le contrôle de transparence IA.")
+    else:
+        readme_low = _read_text(readme_path).lower()
+        has_readme_ai_honesty = (
+            "non mathématicien formel" in readme_low
+            and "traduction" in readme_low
+            and "ligne par ligne" in readme_low
+            and "vérification mécanique" in readme_low
+            and "tests automatisés" in readme_low
+            and "audit" in readme_low
+        )
+        if not has_readme_ai_honesty:
+            cat.fail(
+                "README.md doit inclure la déclaration IA explicite "
+                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
+            )
+        else:
+            cat.ok("Déclaration IA explicite vérifiée dans README.md")
+
     return cat
 
 
@@ -851,6 +900,7 @@ def _check_zero_leak_zenodo_hygiene(
     cat.ok(f"{len(tracked_files)} fichiers suivis analysés")
 
     leak_hits: list[str] = []
+    institutional_hits: list[str] = []
     env_files: list[str] = []
     raw_third_party: list[str] = []
     oversized: list[str] = []
@@ -885,6 +935,11 @@ def _check_zero_leak_zenodo_hygiene(
                 for lineno, line in enumerate(text.splitlines(), 1):
                     if pattern.search(line):
                         leak_hits.append(f"{rel}:{lineno} ({label})")
+        for label, pattern in FORBIDDEN_INSTITUTIONAL_PATTERNS:
+            if pattern.search(text):
+                for lineno, line in enumerate(text.splitlines(), 1):
+                    if pattern.search(line):
+                        institutional_hits.append(f"{rel}:{lineno} ({label})")
 
     if missing_tracked:
         cat.warn(f"Fichiers suivis absents du répertoire de travail : {missing_tracked}", strict=strict)
@@ -893,6 +948,13 @@ def _check_zero_leak_zenodo_hygiene(
         cat.fail(f"Fuites locales détectées dans les fichiers suivis : {leak_hits[:20]}")
     else:
         cat.ok("Zéro-Fuite : 0 chemin utilisateur/local dans les fichiers texte suivis")
+
+    if institutional_hits:
+        cat.fail(
+            f"Mentions institutionnelles retirées détectées dans les fichiers suivis : {institutional_hits[:20]}"
+        )
+    else:
+        cat.ok("Zéro mention institutionnelle retirée dans les fichiers texte suivis")
 
     if env_files:
         cat.fail(f"Fichiers .env suivis interdits : {env_files}")
@@ -1030,13 +1092,20 @@ def _check_site_payload_contract(
         return cat
 
     rel = payload.get("release", {})
+    ids_pay = payload.get("identifiers", {})
     s0_pay = payload.get("strate_0_core", {})
     s0_man = manifest_data.get("strate_0_core", {})
     lic_pay = payload.get("licenses", {})
     lic_man = manifest_data.get("licenses", {})
+    ai_pay = payload.get("ai_disclosure", {})
+    ai_verif = str(ai_pay.get("verification_and_audit_status", "")).lower()
 
     checks = [
         (payload.get("schema_version") == "1.0", f"schema_version={payload.get('schema_version')!r} != '1.0'"),
+        (
+            ids_pay.get("cipo_registration") == "1233199",
+            f"identifiers.cipo_registration={ids_pay.get('cipo_registration')!r} != '1233199'",
+        ),
         (rel.get("version") == version, f"release.version={rel.get('version')!r} != '{version}'"),
         (rel.get("tag") == f"v{version}", f"release.tag={rel.get('tag')!r} != 'v{version}'"),
         (
@@ -1049,7 +1118,7 @@ def _check_site_payload_contract(
         ),
         (s0_pay.get("sorry_count") == 0, f"sorry_count={s0_pay.get('sorry_count')!r} != 0"),
         (len(s0_pay.get("provers", [])) == 6, f"provers count={len(s0_pay.get('provers', []))} != 6"),
-        (s0_pay.get("lean_modules_count") == 9, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 9"),
+        (s0_pay.get("lean_modules_count") == 10, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 10"),
         (s0_pay.get("states_count") == 176, f"states_count={s0_pay.get('states_count')!r} != 176"),
         (s0_pay.get("predictions_count") == 5, f"predictions_count={s0_pay.get('predictions_count')!r} != 5"),
         (
@@ -1059,6 +1128,15 @@ def _check_site_payload_contract(
         (
             lic_pay.get("spdx_expression") == lic_man.get("spdx_expression"),
             f"licenses.spdx_expression={lic_pay.get('spdx_expression')!r} != {lic_man.get('spdx_expression')!r}",
+        ),
+        (
+            bool(ai_pay.get("author_ownership"))
+            and bool(ai_pay.get("ai_assistance_scope"))
+            and "non mathématicien formel" in ai_verif
+            and "ligne par ligne" in ai_verif
+            and "tests automatisés" in ai_verif
+            and "audit" in ai_verif,
+            "Bloc ai_disclosure manquant ou incomplet dans le payload web.",
         ),
     ]
     for ok_cond, err_msg in checks:

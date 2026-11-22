@@ -59,7 +59,7 @@ jobs:
       - name: Run TLC on AuditTests and 5 temporal models
         working-directory: ./tla/specs
         run: |
-          for cfg in AuditTests.cfg Model_Dissipation.cfg Model_Engine.cfg Model_DepthKernel.cfg Model_Circuit.cfg Model_Unified.cfg; do
+          for cfg in AuditTests.cfg Model_Dissipation.cfg Model_Engine.cfg Model_DepthKernel.cfg Model_Circuit.cfg Model_Unified.cfg Model_OperantFactorization.cfg; do
             spec="${cfg%.cfg}.tla"
             echo "=== TLC $spec ($cfg) ==="
             java -XX:+UseParallelGC -cp /tmp/tla/tla2tools.jar tlc2.TLC -workers auto -cleanup -config "$cfg" "$spec"

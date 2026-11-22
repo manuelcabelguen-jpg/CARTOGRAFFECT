@@ -12,4 +12,5 @@ From CartograffectRocq Require Export
   AffectiveDynamics
   Lexicon176
   PredictiveCircuit
-  AuditTests.
+  AuditTests
+  OperantFactorization.

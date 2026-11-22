@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cartograffect-sim"
-version = "2.0.0"
+version = "2.0.1"
 description = "Modèle génératif probabiliste inversible (POMDP hiérarchique sous inférence active) traduisant l'architecture formelle CARTOGRAFFECT® pour validation empirique in silico."
 readme = "README.md"
 license = {text = "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"}

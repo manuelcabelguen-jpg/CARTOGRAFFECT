@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "compendium": "CARTOGRAFFECT® Unified Research Compendium",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "release_date": "2026-11-21",
   "single_source_of_truth": {
     "version_file": "VERSION",
@@ -13,7 +13,7 @@
   },
   "strate_0_core": {
     "status": "normative_verified_core",
-    "theorems_verified": 113,
+    "theorems_verified": 120,
     "sorry_count": 0,
     "custom_axioms_count": 0,
     "provers": [
@@ -63,7 +63,8 @@
       "Cartograffect/AffectiveDynamics.lean",
       "Cartograffect/Lexicon176.lean",
       "Cartograffect/PredictiveCircuit.lean",
-      "Cartograffect/AuditTests.lean"
+      "Cartograffect/AuditTests.lean",
+      "Cartograffect/OperantFactorization.lean"
     ],
     "lexicon_176": {
       "path": "Cartograffect/Lexicon176.lean",
@@ -74,7 +75,7 @@
     "manuscript": {
       "path": "docs/01-Article_Cartograffect.md",
       "inventory_path": "docs/02-Inventaire_176.md",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "predictions_count": 5,
       "states_count": 176
     },

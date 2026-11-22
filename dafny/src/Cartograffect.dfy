@@ -12,6 +12,7 @@ include "AffectiveDynamics.dfy"
 include "Lexicon176.dfy"
 include "PredictiveCircuit.dfy"
 include "AuditTests.dfy"
+include "OperantFactorization.dfy"
 
 module Cartograffect {
   import PredictiveEngine
@@ -22,4 +23,5 @@ module Cartograffect {
   import Lexicon176
   import PredictiveCircuit
   import AuditTests
+  import OperantFactorization
 }

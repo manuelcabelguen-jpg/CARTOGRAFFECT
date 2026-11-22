@@ -2,9 +2,9 @@
 .SYNOPSIS
     Script de validation formelle autonome et isolée (SMT-LIB 2.6 / Z3 5.3.3) pour CARTOGRAFFECT.
 .DESCRIPTION
-    Exécute Z3 sur les 8 fichiers SMT-LIB 2.6 de smt/theories/, vérifie l'absence
+    Exécute Z3 sur les 9 fichiers SMT-LIB 2.6 de smt/theories/, vérifie l'absence
     totale de raccourcis ou d'assertions non prouvées hors des blocs (push)/(pop),
-    contrôle les 8 vérifications [CONSISTENCY] = sat, les 113 théorèmes [THM] = unsat,
+    contrôle les 9 vérifications [CONSISTENCY] = sat, les 120 théorèmes [THM] = unsat,
     le contrôle auxiliaire [AUX] = unsat, et la parité des 11 blocs [EVAL] = unsat.
 #>
 
@@ -57,7 +57,8 @@ try {
         "theories/05_AffectiveDynamics.smt2",
         "theories/06_Lexicon176.smt2",
         "theories/07_PredictiveCircuit.smt2",
-        "theories/08_AuditTests.smt2"
+        "theories/08_AuditTests.smt2",
+        "theories/09_OperantFactorization.smt2"
     )
 
     Write-Host "`n=== 2. Contrôle statique d'intégrité ===" -ForegroundColor Cyan
@@ -71,7 +72,7 @@ try {
         Write-Host ("  [OK] {0,-38} ({1} lignes)" -f $mod, $lines)
     }
 
-    Write-Host "`n=== 3. Exécution Z3 (8/8 CONSISTENCY sat, 113/113 THM unsat, 11/11 EVAL unsat) ===" -ForegroundColor Cyan
+    Write-Host "`n=== 3. Exécution Z3 (9/9 CONSISTENCY sat, 120/120 THM unsat, 11/11 EVAL unsat) ===" -ForegroundColor Cyan
     $totalStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     $consistencyCount = 0
     $thmCount = 0
@@ -127,8 +128,8 @@ try {
         Write-Host ("  [OK] {0,-38} ({1:N2} s | CONSISTENCY: {2}, THM: {3}, EVAL: {4})" -f $mod, $sw.Elapsed.TotalSeconds, $modCons, $modThm, $modEval)
     }
 
-    if ($consistencyCount -ne 8) { throw "Nombre inattendu de [CONSISTENCY] sat : $consistencyCount (attendu : 8)." }
-    if ($thmCount -ne 113) { throw "Nombre inattendu de [THM] unsat : $thmCount (attendu : 113)." }
+    if ($consistencyCount -ne 9) { throw "Nombre inattendu de [CONSISTENCY] sat : $consistencyCount (attendu : 9)." }
+    if ($thmCount -ne 120) { throw "Nombre inattendu de [THM] unsat : $thmCount (attendu : 120)." }
     if ($auxCount -ne 1) { throw "Nombre inattendu de [AUX] unsat : $auxCount (attendu : 1)." }
     if ($evalCount -ne 11) { throw "Nombre inattendu de [EVAL] unsat : $evalCount (attendu : 11)." }
 
@@ -154,7 +155,7 @@ try {
     Write-Host "  [OK] Valeurs concrètes Z3 conformes à Lean 4 et Rocq 9."
 
     $totalStopwatch.Stop()
-    Write-Host "`nVALIDATION SMT Z3 COMPLÈTE RÉUSSIE (8/8 sat, 113/113 unsat, 11/11 EVAL unsat, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
+    Write-Host "`nVALIDATION SMT Z3 COMPLÈTE RÉUSSIE (9/9 sat, 120/120 unsat, 11/11 EVAL unsat, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
 }
 finally {
     Pop-Location

@@ -24,6 +24,7 @@ EXPORT_SCRIPT = REPO_ROOT / "scripts" / "export_site_payload.py"
 # permettant de reconstruire un dépôt temporaire fidèle et rapide (< 0.3s/test).
 REQUIRED_COPY_PATHS = (
     "VERSION",
+    "README.md",
     "CITATION.cff",
     ".zenodo.json",
     "manifest.json",
@@ -138,7 +139,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             repo = _make_temp_repo(Path(tmp))
             zpath = repo / ".zenodo.json"
             data = json.loads(zpath.read_text(encoding="utf-8"))
-            data["version"] = "2.0.1"
+            data["version"] = "2.0.2"
             zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             self._assert_check_fails_on_category(repo, "version_parity")
 
@@ -220,7 +221,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
     def test_sync_metadata_check_and_apply_roundtrip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = _make_temp_repo(Path(tmp))
-            (repo / "VERSION").write_text("2.0.1\n", encoding="utf-8")
+            (repo / "VERSION").write_text("2.0.2\n", encoding="utf-8")
 
             check_before = _run_script(SYNC_SCRIPT, "--check", "--root", str(repo))
             self.assertEqual(check_before.returncode, 1)
@@ -254,14 +255,16 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
 
             payload = json.loads(bytes_a.decode("utf-8"))
             self.assertEqual(payload["schema_version"], "1.0")
-            self.assertEqual(payload["release"]["version"], "2.0.0")
-            self.assertEqual(payload["release"]["tag"], "v2.0.0")
+            self.assertEqual(payload["release"]["version"], "2.0.1")
+            self.assertEqual(payload["release"]["tag"], "v2.0.1")
             self.assertEqual(payload["release"]["date"], "2026-11-21")
+            self.assertIn("non mathématicien formel", payload["ai_disclosure"]["verification_and_audit_status"])
+            self.assertIn("ligne par ligne", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertEqual(payload["identifiers"]["cipo_registration"], "1233199")
-            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 113)
+            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 120)
             self.assertEqual(payload["strate_0_core"]["sorry_count"], 0)
             self.assertEqual(len(payload["strate_0_core"]["provers"]), 6)
-            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 9)
+            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 10)
             self.assertEqual(payload["strate_0_core"]["states_count"], 176)
             self.assertEqual(payload["strate_0_core"]["predictions_count"], 5)
             self.assertEqual(payload["licenses"]["spdx_expression"], "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
@@ -277,6 +280,24 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             exp_fail = _run_script(EXPORT_SCRIPT, "--check", "--root", str(repo))
             self.assertEqual(exp_fail.returncode, 1)
             self._assert_check_fails_on_category(repo, "site_payload_contract")
+
+    def test_fault_removed_institutional_mention_in_tracked_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            chg_path = repo / "CHANGELOG.md"
+            text = chg_path.read_text(encoding="utf-8")
+            injected = "Ordre des psycho" + "logues du Québec (" + "OP" + "Q)\n"
+            chg_path.write_text(text + injected, encoding="utf-8")
+            self._assert_check_fails_on_category(repo, "zero_leak_zenodo_hygiene")
+
+    def test_fault_missing_cipo_registration_in_zenodo(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            zpath = repo / ".zenodo.json"
+            data = json.loads(zpath.read_text(encoding="utf-8"))
+            data["description"] = str(data["description"]).replace("1233199", "0000000")
+            zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            self._assert_check_fails_on_category(repo, "zenodo_cff_spdx")
 
 
 if __name__ == "__main__":
