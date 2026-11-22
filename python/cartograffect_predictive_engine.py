@@ -30,7 +30,8 @@ Dépendances : numpy >= 1.24 (bibliothèque standard Python >= 3.10).
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+import math
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 import numpy as np
 
 
@@ -1472,6 +1473,308 @@ class SimulateurUnifieCartograffect:
             traces.append(tr)
             etat = tr.etat_suivant
         return traces
+
+
+# =============================================================================
+# 6B. ARBITRAGES A1–A4 : RÉPONSES ISOLÉES, PROJECTION DIRECTE DE Z, ΔH ET
+#     DIAGNOSTIC AUTOMATIQUE DES 5 RUPTURES D'ERGODICITÉ
+# =============================================================================
+
+@dataclass(frozen=True)
+class ReponseIsoleeCircuit:
+    """
+    Réponse isolée émise sur 3 circuits par une interface cachée (Arbitrages A1 & A3) :
+      - Boucle A (Interface Subjective) : A0 / A- / A+
+      - Boucle C (Interface Perceptive) : C0 / C- / C+
+    Projette directement le niveau d'opérabilité `z_projete` requis sans incrémentation forcée.
+    """
+    boucle: str
+    polarite: int
+    z_projete: int = 2
+
+    def __post_init__(self) -> None:
+        if self.boucle not in ("A", "C"):
+            raise ValueError(f"Boucle invalide : {self.boucle!r}. Attendue : 'A' ou 'C'.")
+        if self.polarite not in (-1, 0, +1):
+            raise ValueError(f"Polarité invalide : {self.polarite}. Attendue dans {{0, -1, +1}}.")
+        if self.z_projete < 0:
+            raise ValueError(f"Le niveau d'opérabilité z_projete doit être >= 0 (reçu : {self.z_projete}).")
+
+    @property
+    def etiquette_circuit(self) -> str:
+        return LABELS_A[self.polarite] if self.boucle == "A" else LABELS_C[self.polarite]
+
+    @property
+    def regime(self) -> str:
+        return GRADIENTS_ENERGETIQUES[self.polarite]
+
+
+_SYMBOLES_AXES: Dict[int, str] = {0: "0", -1: "-X", +1: "+X"}
+_SYMBOLES_CONTROLE: Dict[int, str] = {0: "0", -1: "-Y", +1: "+Y"}
+
+
+@dataclass(frozen=True)
+class DomainePossiblesAttentionnel:
+    """
+    Région symbolique `{±X, ±Y, Z}` dans l'INTERFACE ATTENTIONNELLE (Arbitrages A1 & A2).
+    L'invariant `z >= 1` exclut strictement `Z = 0` (`Veille (0,0,0)` siège exclusivement
+    au Croisement I).
+    """
+    a: int
+    c: int
+    z: int
+
+    def __post_init__(self) -> None:
+        _valider_modalites(self.a, self.c)
+        if self.z < 1:
+            raise ValueError(
+                f"Z = {self.z} invalide dans l'INTERFACE ATTENTIONNELLE (exige Z >= 1) : "
+                "Veille (0, 0, 0) siège exclusivement au Croisement I."
+            )
+
+    @property
+    def notation_symbolique(self) -> str:
+        return f"{{{_SYMBOLES_AXES[self.a]}, {_SYMBOLES_CONTROLE[self.c]}, Z}}"
+
+    @property
+    def notation_double_a2(self) -> str:
+        signe_a = "0" if self.a == 0 else ("+π_A" if self.a > 0 else "-π_A")
+        signe_c = "0" if self.c == 0 else ("+π_C" if self.c > 0 else "-π_C")
+        return f"{self.notation_symbolique} <-> ({signe_a}, {signe_c}, {self.z})"
+
+    @property
+    def base_projective_croisement_i(self) -> Tuple[int, int, int]:
+        return transduction_l1(self.a, self.c)
+
+    @property
+    def rayon_couronne(self) -> int:
+        return 0 if self.z == 1 else 2 * self.z - 2
+
+    @property
+    def etats_possibles(self) -> Tuple[Tuple[int, int, int], ...]:
+        """Énumère toutes les réalisations discrètes valides `(X, Y, Z)` du domaine."""
+        if self.z == 1 or (self.a == 0 and self.c == 0):
+            return ((0, 0, self.z),)
+        r = self.rayon_couronne
+        if self.a != 0 and self.c == 0:
+            return ((self.a * r, 0, self.z),)
+        if self.a == 0 and self.c != 0:
+            return ((0, self.c * r, self.z),)
+        return tuple((self.a * pa, self.c * (r - pa), self.z) for pa in range(1, r))
+
+
+def entropie_shannon_bits(probabilites: Sequence[float]) -> float:
+    """Calcule l'entropie de Shannon H(P) en bits pour une distribution discrète valide."""
+    arr = np.asarray(probabilites, dtype=np.float64)
+    if arr.ndim != 1 or arr.size == 0:
+        raise ValueError("La distribution de probabilités doit être un vecteur 1D non vide.")
+    if np.any(arr < -1e-12):
+        raise ValueError("Les probabilités ne peuvent pas être négatives.")
+    arr = np.clip(arr, 0.0, None)
+    total = float(arr.sum())
+    if not math.isclose(total, 1.0, rel_tol=1e-7, abs_tol=1e-7):
+        raise ValueError(f"La distribution de probabilités doit sommer à 1.0 (somme={total:.6f}).")
+    arr = arr / total
+    positifs = arr[arr > 0.0]
+    return float(-np.sum(positifs * np.log2(positifs))) if positifs.size > 0 else 0.0
+
+
+def calculer_reduction_information(
+    distribution_possibles: Sequence[float],
+    distribution_reduite: Optional[Sequence[float]] = None,
+) -> Tuple[float, float, float]:
+    """
+    Calcule la réduction d'information en bits opérée par l'INTERFACE ATTENTIONNELLE :
+        ΔH = H(P) - H(R(P)) >= 0.
+    Si `distribution_reduite` est None, correspond à la sélection déterministe d'une action
+    (H(R(P)) = 0, ΔH = H(P)).
+    """
+    h_p = entropie_shannon_bits(distribution_possibles)
+    h_r = 0.0 if distribution_reduite is None else entropie_shannon_bits(distribution_reduite)
+    if h_r > h_p + 1e-9:
+        raise ValueError(
+            f"Réduction d'information violée : H(R(P))={h_r:.6f} > H(P)={h_p:.6f}."
+        )
+    delta_h = max(0.0, h_p - h_r)
+    return (h_p, h_r, delta_h)
+
+
+@dataclass(frozen=True)
+class AssemblageReponsesIsolees:
+    """Résultat de l'assemblage des réponses isolées `(A, C)`, projection directe de Z et ΔH."""
+    reponse_a: ReponseIsoleeCircuit
+    reponse_c: ReponseIsoleeCircuit
+    z_projete: int
+    domaine: DomainePossiblesAttentionnel
+    coord_octaedrique: Tuple[int, int, int]
+    coord_antagoniste: Tuple[int, int, int]
+    h_possibles_bits: float
+    h_reduite_bits: float
+    delta_h_bits: float
+
+    def vers_export_octaedrique(self) -> Dict[str, Any]:
+        """Pont d'export vers les coordonnées octaédriques certifiées CARTOGRAFFECT®."""
+        x, y, z = self.coord_octaedrique
+        ax, ay, az = self.coord_antagoniste
+        return {
+            "reponse_A": self.reponse_a.etiquette_circuit,
+            "reponse_C": self.reponse_c.etiquette_circuit,
+            "croisement_ii_couplage": f"[{self.reponse_a.etiquette_circuit}/{self.reponse_c.etiquette_circuit}]",
+            "croisement_i_base": self.domaine.base_projective_croisement_i,
+            "domaine_attentionnel": self.domaine.notation_symbolique,
+            "notation_double_a2": self.domaine.notation_double_a2,
+            "niveau_z_projete": self.z_projete,
+            "rayon_couronne": self.domaine.rayon_couronne,
+            "coordonnees_octaedriques": {"X": x, "Y": y, "Z": z},
+            "coordonnees_antagoniste": {"X": ax, "Y": ay, "Z": az},
+            "valide_noyau_affectif": est_valide_noyau_affectif(x, y, z),
+            "nb_possibles_domaine": len(self.domaine.etats_possibles),
+            "h_possibles_bits": round(self.h_possibles_bits, 6),
+            "h_reduite_bits": round(self.h_reduite_bits, 6),
+            "delta_h_bits": round(self.delta_h_bits, 6),
+        }
+
+
+def assembler_reponses_isolees(
+    reponse_a: ReponseIsoleeCircuit | int,
+    reponse_c: ReponseIsoleeCircuit | int,
+    z_operabilite: Optional[int] = None,
+    pi_a: int = 1,
+    pi_c: int = 1,
+    distribution_possibles: Optional[Sequence[float]] = None,
+    distribution_reduite: Optional[Sequence[float]] = None,
+    nb_possibles_contexte: int = 9,
+) -> AssemblageReponsesIsolees:
+    """
+    Opérateur d'assemblage des réponses isolées `(reponse_a, reponse_c)` avec projection
+    directe du niveau d'opérabilité `Z` (`Z >= 1` pour l'INTERFACE ATTENTIONNELLE), calcul de
+    la réduction d'information `ΔH = H(P) - H(R(P)) >= 0` et pont vers les coordonnées
+    octaédriques CARTOGRAFFECT®.
+    """
+    resp_a = (
+        reponse_a
+        if isinstance(reponse_a, ReponseIsoleeCircuit)
+        else ReponseIsoleeCircuit("A", int(reponse_a), z_operabilite if z_operabilite is not None else 2)
+    )
+    resp_c = (
+        reponse_c
+        if isinstance(reponse_c, ReponseIsoleeCircuit)
+        else ReponseIsoleeCircuit("C", int(reponse_c), z_operabilite if z_operabilite is not None else 2)
+    )
+    if resp_a.boucle != "A" or resp_c.boucle != "C":
+        raise ValueError("Les réponses isolées doivent correspondre respectivement aux boucles 'A' et 'C'.")
+
+    z_eff = z_operabilite if z_operabilite is not None else max(resp_a.z_projete, resp_c.z_projete)
+    domaine = DomainePossiblesAttentionnel(a=resp_a.polarite, c=resp_c.polarite, z=z_eff)
+
+    if resp_a.polarite == 0 and resp_c.polarite == 0 and z_eff == 1:
+        coord = (0, 0, 1)
+    else:
+        coord = projeter_noyau_affectif(
+            resp_a.polarite,
+            resp_c.polarite,
+            z_eff,
+            pi_a=pi_a,
+            pi_c=pi_c,
+            suspension_descendante=(z_eff >= 2),
+        )
+    ant = antagoniste_noyau(*coord)
+
+    if distribution_possibles is None:
+        card_p = max(len(domaine.etats_possibles), max(1, int(nb_possibles_contexte)))
+        distribution_possibles = [1.0 / card_p] * card_p
+    h_p, h_r, delta_h = calculer_reduction_information(distribution_possibles, distribution_reduite)
+
+    return AssemblageReponsesIsolees(
+        reponse_a=resp_a,
+        reponse_c=resp_c,
+        z_projete=z_eff,
+        domaine=domaine,
+        coord_octaedrique=coord,
+        coord_antagoniste=ant,
+        h_possibles_bits=h_p,
+        h_reduite_bits=h_r,
+        delta_h_bits=delta_h,
+    )
+
+
+@dataclass(frozen=True)
+class DiagnosticRupturesErgodicite:
+    """Diagnostic automatique structuré des 5 ruptures d'ergodicité du Moteur Prédictif."""
+    est_ergodique_sain: bool
+    ruptures_detectees: Tuple[str, ...]
+    sous_type_clivage_contagion: Optional[str]
+    details: Dict[str, str]
+    rapport_spectral: RapportAnalytique
+
+
+def _diagnostiquer_ruptures_moteur(
+    moteur: MoteurPredictifCartograffect,
+    gain_precision: float = 1.0,
+    niveau_z: int = 2,
+    seuil_clivage: float = 0.02,
+    seuil_contagion: float = 0.80,
+    seuil_ratio_surcharge: float = 2.0,
+) -> DiagnosticRupturesErgodicite:
+    rapport = moteur.analyser_dynamique(gain_precision=gain_precision, niveau_z=niveau_z)
+    p = moteur.params
+    ruptures: List[str] = []
+    details: Dict[str, str] = {}
+    sous_type_chi: Optional[str] = None
+
+    if p.rho == 0.0:
+        ruptures.append("rigidite_epistemique")
+        details["rigidite_epistemique"] = (
+            "rho = 0 : blocage de la révisabilité subjective (piégeage ou pseudo-veille si delta_a > 0)."
+        )
+    if p.kappa == 0.0:
+        ruptures.append("impuissance_pragmatique")
+        details["impuissance_pragmatique"] = (
+            "kappa = 0 : blocage de la contrôlabilité pragmatique (piégeage ou pseudo-veille si delta_c > 0)."
+        )
+    if p.gamma_a == 0.0 or p.gamma_c == 0.0:
+        ruptures.append("perseveration")
+        details["perseveration"] = (
+            "gamma = 0 : défaut de désengagement homéostatique depuis la Décharge (+)."
+        )
+    if p.chi <= seuil_clivage:
+        ruptures.append("clivage_contagion")
+        sous_type_chi = "clivage"
+        details["clivage_contagion"] = (
+            f"Clivage inter-boucles (chi = {p.chi:.3f} <= {seuil_clivage:.3f}) : dissociation Attente / Contrôle."
+        )
+    elif p.chi >= seuil_contagion:
+        ruptures.append("clivage_contagion")
+        sous_type_chi = "contagion"
+        details["clivage_contagion"] = (
+            f"Contagion inter-boucles (chi = {p.chi:.3f} >= {seuil_contagion:.3f}) : avalanche de surprise vers Double Charge."
+        )
+
+    max_res = max(p.rho, p.kappa)
+    surcharge_ratio = max_res > 0.0 and p.epsilon >= seuil_ratio_surcharge * max_res
+    surcharge_bloque = p.epsilon > 0.0 and max_res == 0.0
+    surcharge_coherence = (
+        rapport.indice_coherence_stationnaire is not None
+        and rapport.indice_coherence_stationnaire < 0.05
+        and p.epsilon > 0.5
+    )
+    if p.epsilon >= 1.0 or surcharge_ratio or surcharge_bloque or surcharge_coherence:
+        ruptures.append("surcharge_allostatique")
+        details["surcharge_allostatique"] = (
+            f"Surcharge allostatique (epsilon = {p.epsilon:.3f} >> max(rho, kappa) = {max_res:.3f})."
+        )
+
+    est_sain = len(ruptures) == 0 and rapport.ergodique_global
+    return DiagnosticRupturesErgodicite(
+        est_ergodique_sain=est_sain,
+        ruptures_detectees=tuple(ruptures),
+        sous_type_clivage_contagion=sous_type_chi,
+        details=details,
+        rapport_spectral=rapport,
+    )
+
+
+MoteurPredictifCartograffect.diagnostiquer_ruptures_ergodicite = _diagnostiquer_ruptures_moteur  # type: ignore[attr-defined]
 
 
 # =============================================================================

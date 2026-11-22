@@ -255,9 +255,9 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
 
             payload = json.loads(bytes_a.decode("utf-8"))
             self.assertEqual(payload["schema_version"], "1.0")
-            self.assertEqual(payload["release"]["version"], "2.0.1")
-            self.assertEqual(payload["release"]["tag"], "v2.0.1")
-            self.assertEqual(payload["release"]["date"], "2026-11-21")
+            self.assertEqual(payload["release"]["version"], "2.1.0")
+            self.assertEqual(payload["release"]["tag"], "v2.1.0")
+            self.assertEqual(payload["release"]["date"], "2026-11-22")
             self.assertIn("non mathématicien formel", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertIn("ligne par ligne", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertEqual(payload["identifiers"]["cipo_registration"], "1233199")

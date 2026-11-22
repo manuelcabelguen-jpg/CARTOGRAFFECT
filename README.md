@@ -40,8 +40,10 @@ Ce dépôt contient la sextuple certification formelle mécanisée sous **Lean 4
 8. **[`Cartograffect/AuditTests.lean`](Cartograffect/AuditTests.lean) & [`AUDIT_REPORT.md`](AUDIT_REPORT.md)** : Audit axiomatique (`#print axioms` sur 113 théorèmes du noyau), tests d'évaluation constructive (`#eval`) et certificat d'audit formel complet.
 9. **[`Cartograffect/OperantFactorization.lean`](Cartograffect/OperantFactorization.lean)** : Module dérivé factorisant les 4 prototypes diagonaux de la première couronne ($Z = 2$) sur les contingences opérantes $\{R^+, R^-, P^+, P^-\}$ et reliant les pôles axiaux par métrique $L_1$ (7 théorèmes).
 10. **[`Cartograffect.lean`](Cartograffect.lean)** : Module racine agrégeant l'ensemble de la bibliothèque formelle.
-11. **[`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py) & [`python/test_predictive_engine.py`](python/test_predictive_engine.py)** : Moteur prédictif numérique en Python isomorphe à `PredictiveCircuit.lean` (écart maximal $|T - W / (4 \cdot 100^6)| \le 1{,}11 \times 10^{-16}$, analyse spectrale d'ergodicité, simulation unifiée $(R_t, Z_t, \tilde{\pi}_A, \tilde{\pi}_C)$ et suite de 12 tests unitaires).
-12. **[`rocq/`](rocq/)** : Validation croisée formelle isolée et entièrement constructive sous **Rocq 9** (`From Stdlib` uniquement, 0 dépendance externe), regroupant les **10 modules isomorphes** dans `rocq/theories/` — [`PredictiveEngine.v`](rocq/theories/PredictiveEngine.v), [`CoreAffect.v`](rocq/theories/CoreAffect.v), [`AffectiveMatrix.v`](rocq/theories/AffectiveMatrix.v), [`AffectiveTaxonomy.v`](rocq/theories/AffectiveTaxonomy.v), [`AffectiveDynamics.v`](rocq/theories/AffectiveDynamics.v), [`Lexicon176.v`](rocq/theories/Lexicon176.v), [`PredictiveCircuit.v`](rocq/theories/PredictiveCircuit.v), [`AuditTests.v`](rocq/theories/AuditTests.v), [`OperantFactorization.v`](rocq/theories/OperantFactorization.v) et [`Cartograffect.v`](rocq/theories/Cartograffect.v) — accompagnés du descripteur de projet [`rocq/_CoqProject`](rocq/_CoqProject), du script d'audit autonome [`rocq/verify.ps1`](rocq/verify.ps1) et du rapport détaillé [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md).
+11. **[`extensions/predictive_engine/PredictiveEngineCanonical.lean`](extensions/predictive_engine/PredictiveEngineCanonical.lean) & [`extensions/predictive_engine/EPISTEMIC_STATUS.md`](extensions/predictive_engine/EPISTEMIC_STATUS.md)** : Extension Lean 4 canonique formalisant les arbitrages A1–A4 du Moteur prédictif (réponses isolées sur 3 circuits, projection directe du niveau d'opérabilité $Z \ge 1$, ensembles de possibles $\{±X, ±Y, Z\}$, réduction d'information $\Delta H \ge 0$, loi de couronne, disjonction stricte de `Veille (0,0,0)` hors de l'`INTERFACE ATTENTIONNELLE`, distinction extinction passive / résolution active).
+12. **[`python/cartograffect_predictive_engine.py`](python/cartograffect_predictive_engine.py) & [`python/test_predictive_engine.py`](python/test_predictive_engine.py)** : Moteur prédictif numérique en Python (matrice markovienne $9\times 9$ avec indépendance P1/P2, analyse spectrale d'ergodicité, diagnostic des 5 ruptures d'ergodicité, assemblage des réponses isolées et projection directe de $Z$, réduction d'information $\Delta H \ge 0$, et suite de 16 tests unitaires).
+13. **[`docs/assets/moteur_predictif_canonique.html`](docs/assets/moteur_predictif_canonique.html) & [`docs/assets/moteur_predictif_article.svg`](docs/assets/moteur_predictif_article.svg)** : Source unique de vérité vectorielle du Moteur prédictif (topologie à 2 boucles contra-rotatives et 6 circuits continus) et export autonome thème clair pour manuscrit sans `var(...)` CSS résiduel.
+14. **[`rocq/`](rocq/)** : Validation croisée formelle isolée et entièrement constructive sous **Rocq 9** (`From Stdlib` uniquement, 0 dépendance externe), regroupant les **10 modules isomorphes** dans `rocq/theories/` — [`PredictiveEngine.v`](rocq/theories/PredictiveEngine.v), [`CoreAffect.v`](rocq/theories/CoreAffect.v), [`AffectiveMatrix.v`](rocq/theories/AffectiveMatrix.v), [`AffectiveTaxonomy.v`](rocq/theories/AffectiveTaxonomy.v), [`AffectiveDynamics.v`](rocq/theories/AffectiveDynamics.v), [`Lexicon176.v`](rocq/theories/Lexicon176.v), [`PredictiveCircuit.v`](rocq/theories/PredictiveCircuit.v), [`AuditTests.v`](rocq/theories/AuditTests.v), [`OperantFactorization.v`](rocq/theories/OperantFactorization.v) et [`Cartograffect.v`](rocq/theories/Cartograffect.v) — accompagnés du descripteur de projet [`rocq/_CoqProject`](rocq/_CoqProject), du script d'audit autonome [`rocq/verify.ps1`](rocq/verify.ps1) et du rapport détaillé [`rocq/ROCQ_VALIDATION.md`](rocq/ROCQ_VALIDATION.md).
 13. **[`agda/`](agda/)** : Validation croisée formelle intensionnelle sous **Agda 2.9.0** (`{-# OPTIONS --safe --without-K #-}`, compatible HoTT, 0 dépendance externe, uniquement `Agda.Builtin.*`), regroupant **11 modules** dans `agda/src/` ([`Prelude.agda`](agda/src/Cartograffect/Prelude.agda), [`PredictiveEngine.agda`](agda/src/Cartograffect/PredictiveEngine.agda), [`CoreAffect.agda`](agda/src/Cartograffect/CoreAffect.agda), [`AffectiveMatrix.agda`](agda/src/Cartograffect/AffectiveMatrix.agda), [`AffectiveTaxonomy.agda`](agda/src/Cartograffect/AffectiveTaxonomy.agda), [`AffectiveDynamics.agda`](agda/src/Cartograffect/AffectiveDynamics.agda), [`Lexicon176.agda`](agda/src/Cartograffect/Lexicon176.agda), [`PredictiveCircuit.agda`](agda/src/Cartograffect/PredictiveCircuit.agda), [`AuditTests.agda`](agda/src/Cartograffect/AuditTests.agda), [`OperantFactorization.agda`](agda/src/Cartograffect/OperantFactorization.agda), [`Cartograffect.agda`](agda/src/Cartograffect.agda)), le descripteur [`agda/cartograffect.agda-lib`](agda/cartograffect.agda-lib), le script [`agda/verify.ps1`](agda/verify.ps1) et le rapport [`agda/AGDA_VALIDATION.md`](agda/AGDA_VALIDATION.md).
 14. **[`dafny/`](dafny/)** : Vérification déductive de programmes et compilation exécutable certifiée sous **Dafny 4.11.0** (2 139 obligations Boogie/Z3 vérifiées, 0 erreur, 0 `{:axiom}`), regroupant **10 modules** dans `dafny/src/` ([`PredictiveEngine.dfy`](dafny/src/PredictiveEngine.dfy), [`CoreAffect.dfy`](dafny/src/CoreAffect.dfy), [`AffectiveMatrix.dfy`](dafny/src/AffectiveMatrix.dfy), [`AffectiveTaxonomy.dfy`](dafny/src/AffectiveTaxonomy.dfy), [`AffectiveDynamics.dfy`](dafny/src/AffectiveDynamics.dfy), [`Lexicon176.dfy`](dafny/src/Lexicon176.dfy), [`PredictiveCircuit.dfy`](dafny/src/PredictiveCircuit.dfy), [`AuditTests.dfy`](dafny/src/AuditTests.dfy), [`OperantFactorization.dfy`](dafny/src/OperantFactorization.dfy), [`Cartograffect.dfy`](dafny/src/Cartograffect.dfy)), la configuration [`dafny/dfyconfig.toml`](dafny/dfyconfig.toml), le script [`dafny/verify.ps1`](dafny/verify.ps1) et le rapport [`dafny/DAFNY_VALIDATION.md`](dafny/DAFNY_VALIDATION.md).
 15. **[`smt/`](smt/)** : Certification par réfutation en logique du premier ordre multi-sortes (**SMT-LIB 2.6 / Z3 5.3.3**), regroupant **9 théories autonomes** dans `smt/theories/` ([`01_PredictiveEngine.smt2`](smt/theories/01_PredictiveEngine.smt2) à [`09_OperantFactorization.smt2`](smt/theories/09_OperantFactorization.smt2), 9/9 preuves de cohérence axiomatique `[CONSISTENCY] = sat`, 120/120 théorèmes réfutés `[THM] = unsat` et 11/11 blocs d'évaluation `[EVAL] = unsat`), le script [`smt/verify.ps1`](smt/verify.ps1) et le rapport [`smt/SMT_VALIDATION.md`](smt/SMT_VALIDATION.md).
@@ -311,7 +313,7 @@ powershell -ExecutionPolicy Bypass -File .\tla\verify.ps1
 - **[`docs/CONVERGENCE_MATRIX.md`](docs/CONVERGENCE_MATRIX.md)** : Matrice de gouvernance épistémique et d'arbitrage entre la Strate 0 (Noyau) et la Strate 1 (satellites).
 - **[`extensions/lexicon/EPISTEMIC_STATUS.md`](extensions/lexicon/EPISTEMIC_STATUS.md)** : Charte épistémique du satellite lexical, triangulation GRID/CPM et clôture du prolongement exploratoire Diamant 303.
 - **[`extensions/in_silico/EPISTEMIC_STATUS.md`](extensions/in_silico/EPISTEMIC_STATUS.md)** : Charte épistémique du banc de simulation Active Inference (`pymdp`/JAX/NumPyro, P1–P5 et phénotypage DSM-5/HiTOP).
-- **[`CHANGELOG.md`](CHANGELOG.md)** & **[`manifest.json`](manifest.json)** : Historique sémantique (`2.0.1`) et carte de traçabilité structurée du Research Compendium.
+- **[`CHANGELOG.md`](CHANGELOG.md)** & **[`manifest.json`](manifest.json)** : Historique sémantique (`2.1.0`) et carte de traçabilité structurée du Research Compendium.
 
 ---
 
@@ -338,10 +340,10 @@ Copyright (C) 2025-2026 Manuel Cabelguen — `SPDX-License-Identifier: AGPL-3.0-
 
 Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de citer l'article théorique de référence ainsi que le compendium formel (source unique : [`CITATION.cff`](CITATION.cff)) :
 
-- **Modèle théorique (`v2.0.1`) :**  
-  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif* (version `v2.0.1`). Zenodo. https://doi.org/10.5281/zenodo.24022795
-- **Compendium & vérification formelle (`v2.0.1`) :**  
-  Cabelguen, M. (2026). *CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation* (version `v2.0.1`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938 · OSF : https://osf.io/z89sg
+- **Modèle théorique (`v2.1.0`) :**  
+  Cabelguen, M. (2026). *Cartographie des affects : une architecture hiérarchique de l’expérience affective fondée sur le traitement prédictif* (version `v2.1.0`). Zenodo. https://doi.org/10.5281/zenodo.24022795
+- **Compendium & vérification formelle (`v2.1.0`) :**  
+  Cabelguen, M. (2026). *CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation* (version `v2.1.0`) [Logiciel]. Zenodo. https://doi.org/10.5281/zenodo.23833938 · OSF : https://osf.io/z89sg
 - **Assistant de preuve :**  
   de Moura, L., & Ullrich, S. (2021). The Lean 4 Theorem Prover and Programming Language. In A. Platzer & G. Sutcliffe (Eds.), *Automated Deduction – CADE 28* (LNCS, Vol. 12699, pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 
@@ -350,10 +352,10 @@ Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de cite
   author  = {Cabelguen, Manuel},
   title   = {Cartographie des affects : une architecture hi{\'e}rarchique de l'exp{\'e}rience affective fond{\'e}e sur le traitement pr{\'e}dictif},
   year    = {2026},
-  version = {2.0.1},
+  version = {2.1.0},
   doi     = {10.5281/zenodo.24022795},
   url     = {https://doi.org/10.5281/zenodo.24022795},
-  note    = {Manuscrit th{\'e}orique de r{\'e}f{\'e}rence v2.0.1 (docs/01-Article_Cartograffect.md), enregistrement CIPO / OPIC n° 1233199}
+  note    = {Manuscrit th{\'e}orique de r{\'e}f{\'e}rence v2.1.0 (docs/01-Article_Cartograffect.md), enregistrement CIPO / OPIC n° 1233199}
 }
 
 @software{cabelguen2026cartograffect,
@@ -361,9 +363,9 @@ Si vous utilisez ce compendium, cette formalisation ou ce modèle, merci de cite
   title   = {{CARTOGRAFFECT}{\textregistered}: Unified Research Compendium --- Hexa-Prover Formal Verification, Theory, Lexicon \& Active Inference Simulation},
   year    = {2026},
   publisher = {Zenodo},
-  version = {2.0.1},
+  version = {2.1.0},
   doi     = {10.5281/zenodo.23833938},
   url     = {https://doi.org/10.5281/zenodo.23833938},
-  note    = {Version v2.0.1 (2026-11-21); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
+  note    = {Version v2.1.0 (2026-11-22); AGPL-3.0-or-later AND CC-BY-NC-SA-4.0; OSF: https://osf.io/z89sg}
 }
 ```

@@ -5,6 +5,18 @@ All notable changes to the **CARTOGRAFFECT®** Research Compendium are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-11-22
+
+### Added
+- **Canonical Predictive Engine Extension (`extensions/predictive_engine/PredictiveEngineCanonical.lean`, `extensions/predictive_engine/EPISTEMIC_STATUS.md`)**: Lean 4 canonical extension formalizing arbitrations A1–A4 (isolated 3-circuit responses, direct projection of operability level `Z >= 1`, possible-set symbolic domains `{±X, ±Y, Z}`, information reduction `ΔH >= 0`, crown law, strict exclusion of `Veille (0,0,0)` from the Attentional Interface, and active resolution vs. passive extinction).
+- **Single-Source-of-Truth Vector Diagram & Python Engine Alignment (`docs/assets/moteur_predictif_canonique.html`, `docs/assets/moteur_predictif_article.svg`, `python/cartograffect_predictive_engine.py`, `python/test_predictive_engine.py`)**: canonical `#moteur-svg` vector source and standalone light-theme manuscript SVG export paired with isolated-response assembly, direct `Z` projection, `ΔH >= 0` entropy reduction, automated diagnosis of the 5 ergodicity breaks, and 16 unit tests.
+
+### Changed
+- **Editorial Alignment & Companion Website Sync (`docs/01-Article_Cartograffect.md`, `README.md`, `manuelcabelguen-jpg.github.io`)**: aligned Section 4 and Figure 1 on the canonical two-loop / six-circuit Predictive Engine (`v2.1.0`), regenerated `site-payload.json`, synchronized companion web pages, and updated the PWA Service Worker cache (`cartograffect-v2.1.0-moteur-canonique-r1`).
+
+### Verified
+- **Strate 0 Hexa-Prover Core intact**: zero modifications to any Strate 0 proof file (`10` `.lean` modules, `120/120` verified theorems across `6` independent provers, `0 sorry`, `0` custom axioms).
+
 ## [2.0.1] - 2026-11-21
 
 ### Changed
@@ -45,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Lean 4 formalization of the CARTOGRAFFECT 176-state L1 affective taxonomy, core 17 founding theorems, and dual licensing (`AGPL-3.0-or-later` / `CC BY-NC-SA 4.0`).
 
+[2.1.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v1.0.0...v1.0.1
