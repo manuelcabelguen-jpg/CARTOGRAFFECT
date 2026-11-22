@@ -2,9 +2,9 @@
 .SYNOPSIS
     Script de validation formelle autonome et isolée (The Rocq Prover 9.1.0) pour CARTOGRAFFECT.
 .DESCRIPTION
-    Compile l'intégralité des 9 modules dans rocq/theories/ avec -w +default,
+    Compile l'intégralité des 10 modules dans rocq/theories/ avec -w +default,
     vérifie l'absence totale de mots-clés interdits (Admitted, admit, Axiom, etc.),
-    contrôle que les 113 théorèmes audités sont « Closed under the global context »,
+    contrôle que les 120 théorèmes audités sont « Closed under the global context »,
     valide les évaluations concrètes Compute clés, et exécute le vérificateur
     indépendant du noyau (rocq check -o) sans aucune modification hors de rocq/.
 #>
@@ -118,6 +118,7 @@ try {
         "theories/Lexicon176.v",
         "theories/PredictiveCircuit.v",
         "theories/AuditTests.v",
+        "theories/OperantFactorization.v",
         "theories/Cartograffect.v"
     )
 
@@ -133,8 +134,8 @@ try {
             throw "Échec de compilation pour $mod (ExitCode=$($res.ExitCode))."
         }
         Write-Host ("  [OK] {0,-34} ({1:N2} s)" -f $mod, $sw.Elapsed.TotalSeconds)
-        if ($mod -eq "theories/AuditTests.v") {
-            $auditOutput = $res.Output
+        if ($mod -eq "theories/AuditTests.v" -or $mod -eq "theories/OperantFactorization.v") {
+            $auditOutput += $res.Output
         }
     }
 
@@ -148,19 +149,19 @@ try {
             throw "Mot-clé interdit détecté dans $mod : '$($m.Value)'."
         }
     }
-    Write-Host "  [OK] 0 mot-clé interdit sur les 9 fichiers .v."
+    Write-Host "  [OK] 0 mot-clé interdit sur les 10 fichiers .v."
 
-    Write-Host "`n=== 5. Audit des 113 Print Assumptions et des évaluations Compute ===" -ForegroundColor Cyan
+    Write-Host "`n=== 5. Audit des 120 Print Assumptions et des évaluations Compute ===" -ForegroundColor Cyan
     $closedCount = ($auditOutput | Where-Object { $_ -eq "Closed under the global context" }).Count
     $axiomLines = $auditOutput | Where-Object { $_ -match "^Axioms:" }
     if ($axiomLines.Count -gt 0) {
         $axiomLines | ForEach-Object { Write-Host $_ -ForegroundColor Red }
         throw "Des axiomes ont été détectés par Print Assumptions !"
     }
-    if ($closedCount -ne 113) {
-        throw "Nombre inattendu de 'Closed under the global context' : $closedCount (attendu : 113)."
+    if ($closedCount -ne 120) {
+        throw "Nombre inattendu de 'Closed under the global context' : $closedCount (attendu : 120)."
     }
-    Write-Host "  [OK] Exactement 113 / 113 théorèmes rapportés 'Closed under the global context'."
+    Write-Host "  [OK] Exactement 120 / 120 théorèmes rapportés 'Closed under the global context'."
 
     $joinedAudit = ($auditOutput -join " ") -replace "\s+", " "
     $expectedComputeSnippets = @(
@@ -197,7 +198,7 @@ try {
     Write-Host ("  [OK] rocq check -o : Axioms: <none> ({0:N2} s)" -f $chkSw.Elapsed.TotalSeconds)
 
     $totalStopwatch.Stop()
-    Write-Host "`nVALIDATION ROCQ 9.1 COMPLÈTE RÉUSSIE (113/113 théorèmes constructifs, 0 axiome, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
+    Write-Host "`nVALIDATION ROCQ 9.1 COMPLÈTE RÉUSSIE (120/120 théorèmes constructifs, 0 axiome, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
 }
 finally {
     Pop-Location

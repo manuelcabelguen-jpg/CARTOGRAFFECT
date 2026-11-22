@@ -12,8 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Editorial & Conceptual Alignment**: preserved conceptual psychological focus on Figure 1 and Data Availability synchronized to `v2.0.1`, unified APA 7 bibliography (`72` continuous A–Z entries without legacy `49+` web migration counters), and added structured `ai_disclosure` payload block alongside stricter guardrails in `scripts/export_site_payload.py`, `scripts/check_consistency.py`, and `scripts/test_check_consistency.py`.
 - **Showcase Web & Independent Research Notice Patch (`manuelcabelguen-jpg.github.io`)**: restored 100% native wheel scrolling across all pages (including 3D taxonomy camera zoom bounds), repaired `FR/EN` i18n switching with complete translation coverage and `sw.js` `2.0.1` cache invalidation, verified WCAG 2.1 opaque dropdown styling, aligned Figure 1 cross-references, and clarified total intellectual independence & non-clinical research scope notice in `mentions-legales.html`.
 
+### Added
+- **Derived `OperantFactorization` parity across all 6 provers (`10` Lean modules / `12` Lake targets, `120/120` verified theorems, `0 sorry`)**: ported `Cartograffect/OperantFactorization.lean` (7 theorems factoring the four `Z = 2` diagonal prototypes over `{R+, R-, P+, P-}` and bridging axial poles via `L1` distance) symmetrically across Rocq 9.1 (`rocq/theories/OperantFactorization.v`), Agda 2.9 (`agda/src/Cartograffect/OperantFactorization.agda`), Dafny 4.11 (`dafny/src/OperantFactorization.dfy`), SMT-LIB 2.6 / Z3 5.3.3 (`smt/theories/09_OperantFactorization.smt2`), and TLA+ / TLC 2.19 (`tla/specs/OperantFactorization.tla`, `Model_OperantFactorization.tla`) while keeping all existing Strate 0 core proof modules intact.
+
 ### Verified
-- **Strate 0 Hexa-Prover Core untouched**: zero modifications inside `Cartograffect/`, `rocq/`, `agda/`, `dafny/`, `smt/`, or `tla/` relative to `v2.0.0`.
+- **Strate 0 Hexa-Prover Core intact**: zero modifications to any existing Strate 0 proof modules (`PredictiveEngine`, `CoreAffect`, `AffectiveMatrix`, `AffectiveTaxonomy`, `AffectiveDynamics`, `Lexicon176`, `PredictiveCircuit`, `AuditTests`, `Prelude.agda`) across all 6 formal suites relative to `v2.0.0`.
 
 ## [2.0.0] - 2026-11-21
 

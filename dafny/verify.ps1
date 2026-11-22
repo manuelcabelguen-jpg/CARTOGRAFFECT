@@ -125,10 +125,15 @@ $expected113 = @(
   "symmetricSigmoid_neg", "precisionShare_double_charge_cancels_alpha", "projectUnifiedState_valid",
   "projectUnifiedState_crown_budget", "projectUnifiedState_reaches_lateral_consternation",
   # AuditTests (1)
-  "all176Entries_antagonist_inverts_hedonic_polarity"
+  "all176Entries_antagonist_inverts_hedonic_polarity",
+  # Derived Module: OperantFactorization (7)
+  "manhattanDistXY_origin", "operant_factorization_law",
+  "energyRegime_matches_operant_operator", "antagonist_flips_effect_preserves_operator",
+  "axial_poles_bridge_operant_pairs", "axial_poles_pre_operant",
+  "operant_bijection_on_z2_diagonals"
 )
 
-if ($expected113.Count -ne 113) { throw "Internal count mismatch" }
+if ($expected113.Count -ne 120) { throw "Internal count mismatch" }
 $missing = @()
 foreach ($thm in $expected113) {
   if (-not $declaredLemmas.Contains($thm)) {
@@ -139,7 +144,7 @@ if ($missing.Count -gt 0) {
   Write-Error "Missing Dafny lemmas: $($missing -join ', ')"
   exit 1
 }
-Write-Host "[AUDIT] Static check OK: 0 assume/axiom/verify-false/extern, 113/113 lemmas declared."
+Write-Host "[AUDIT] Static check OK: 0 assume/axiom/verify-false/extern, 120/120 lemmas declared."
 
 $totalSw = [System.Diagnostics.Stopwatch]::StartNew()
 Push-Location $dafnyRoot
@@ -147,7 +152,7 @@ try {
   # 3. Timed per-module verification
   $modules = @(
     "PredictiveEngine", "CoreAffect", "AffectiveMatrix", "AffectiveTaxonomy",
-    "AffectiveDynamics", "Lexicon176", "PredictiveCircuit", "AuditTests", "Cartograffect"
+    "AffectiveDynamics", "Lexicon176", "PredictiveCircuit", "AuditTests", "OperantFactorization", "Cartograffect"
   )
   Write-Host "`n=== Per-Module Dafny Verification ==="
   foreach ($mod in $modules) {

@@ -13,7 +13,7 @@
   },
   "strate_0_core": {
     "status": "normative_verified_core",
-    "theorems_verified": 113,
+    "theorems_verified": 120,
     "sorry_count": 0,
     "custom_axioms_count": 0,
     "provers": [
@@ -63,7 +63,8 @@
       "Cartograffect/AffectiveDynamics.lean",
       "Cartograffect/Lexicon176.lean",
       "Cartograffect/PredictiveCircuit.lean",
-      "Cartograffect/AuditTests.lean"
+      "Cartograffect/AuditTests.lean",
+      "Cartograffect/OperantFactorization.lean"
     ],
     "lexicon_176": {
       "path": "Cartograffect/Lexicon176.lean",

@@ -243,8 +243,8 @@ def build_site_payload(root: Path) -> dict[str, Any]:
         )
     if not isinstance(provers_raw, list) or len(provers_raw) != 6:
         raise ValueError(f"manifest.json doit déclarer exactement 6 prouveurs (trouvé : {len(provers_raw)}).")
-    if not isinstance(lean_files, list) or len(lean_files) != 9:
-        raise ValueError(f"manifest.json doit lister exactement 9 fichiers Lean (trouvé : {len(lean_files)}).")
+    if not isinstance(lean_files, list) or len(lean_files) != 10:
+        raise ValueError(f"manifest.json doit lister exactement 10 fichiers Lean (trouvé : {len(lean_files)}).")
     for lf in lean_files:
         if not (resolved / lf).is_file():
             raise FileNotFoundError(f"Module Lean listé dans manifest.json introuvable : {lf}")

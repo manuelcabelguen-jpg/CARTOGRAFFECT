@@ -6,7 +6,7 @@ pour le compendium unifié CARTOGRAFFECT® (Strate 0 / Strate 1).
 Vérifie les 7 groupes d'invariants sans aucune dépendance externe
 (bibliothèque standard Python 3.10+ uniquement) :
   1. version_parity               — Parité stricte de VERSION à travers le compendium
-  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 9 fichiers Lean, 0 trou/axiome sur 6 suites
+  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 10 fichiers Lean, 0 trou/axiome sur 6 suites
   3. zenodo_cff_spdx              — Validité .zenodo.json / manifest.json / CITATION.cff / NOTICE
   4. epistemic_compartmentalization — Chartes Strate 1, CONVERGENCE_MATRIX.md, garde A4-Sanctuaire
   5. zero_leak_zenodo_hygiene     — Zéro fuite locale, 0 .env, 0 brut tiers, <= 20 Mo, 0 filter=lfs
@@ -616,18 +616,18 @@ def _check_strate0_integrity(
         else:
             cat.ok(f"{lexicon_rel} SHA-256 vérifié ({actual_sha[:16]}...)")
 
-    # 9 fichiers Lean dans manifest.json
+    # 10 fichiers Lean dans manifest.json
     if manifest_data is not None:
         lean_files = manifest_data.get("strate_0_core", {}).get("lean_files")
-        if not isinstance(lean_files, list) or len(lean_files) != 9:
+        if not isinstance(lean_files, list) or len(lean_files) != 10:
             count = len(lean_files) if isinstance(lean_files, list) else "invalid"
-            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 9 fichiers (trouvé : {count}).")
+            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 10 fichiers (trouvé : {count}).")
         else:
             missing = [lf for lf in lean_files if not (root / lf).is_file()]
             if missing:
                 cat.fail(f"Fichiers Lean manquants sur disque : {missing}")
             else:
-                cat.ok("9/9 fichiers Lean du manifest présents sur disque")
+                cat.ok("10/10 fichiers Lean du manifest présents sur disque")
 
     # Unicité de Lexicon176.lean hors Cartograffect/
     dup_lexicons = sorted({
@@ -1118,7 +1118,7 @@ def _check_site_payload_contract(
         ),
         (s0_pay.get("sorry_count") == 0, f"sorry_count={s0_pay.get('sorry_count')!r} != 0"),
         (len(s0_pay.get("provers", [])) == 6, f"provers count={len(s0_pay.get('provers', []))} != 6"),
-        (s0_pay.get("lean_modules_count") == 9, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 9"),
+        (s0_pay.get("lean_modules_count") == 10, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 10"),
         (s0_pay.get("states_count") == 176, f"states_count={s0_pay.get('states_count')!r} != 176"),
         (s0_pay.get("predictions_count") == 5, f"predictions_count={s0_pay.get('predictions_count')!r} != 5"),
         (

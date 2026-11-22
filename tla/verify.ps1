@@ -3,7 +3,7 @@
   SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
   Author: Manuel Cabelguen
 
-  Autonomous TLA+ / TLC verification script for Cartograffect (113 theorems + 11 evals + 5 temporal models).
+  Autonomous TLA+ / TLC verification script for Cartograffect (120 theorems + 11 evals + 6 temporal/factorization models).
 #>
 [CmdletBinding()]
 param(
@@ -51,7 +51,7 @@ if (-not $TlaJar -or -not (Test-Path $TlaJar)) {
 Write-Host "[TLA+] Java: $JavaBin"
 Write-Host "[TLA+] JAR : $TlaJar"
 
-# 2. Static integrity check: zero AXIOM, all 113 Thm_* and 11 EvalBlock* present
+# 2. Static integrity check: zero AXIOM, all 120 Thm_* and 11 EvalBlock* present
 function Strip-TlaCommentsAndStrings([string]$text) {
   $noBlock = [regex]::Replace($text, '(?s)\(\*.*?\*\)', ' ')
   $noLine = [regex]::Replace($noBlock, '\\\*.*', ' ')
@@ -129,10 +129,15 @@ $expected113 = @(
   "symmetricSigmoid_neg", "precisionShare_double_charge_cancels_alpha", "projectUnifiedState_valid",
   "projectUnifiedState_crown_budget", "projectUnifiedState_reaches_lateral_consternation",
   # AuditTests (1)
-  "all176Entries_antagonist_inverts_hedonic_polarity"
+  "all176Entries_antagonist_inverts_hedonic_polarity",
+  # Derived Module: OperantFactorization (7)
+  "manhattanDistXY_origin", "operant_factorization_law",
+  "energyRegime_matches_operant_operator", "antagonist_flips_effect_preserves_operator",
+  "axial_poles_bridge_operant_pairs", "axial_poles_pre_operant",
+  "operant_bijection_on_z2_diagonals"
 )
 
-if ($expected113.Count -ne 113) { throw "Internal count mismatch" }
+if ($expected113.Count -ne 120) { throw "Internal count mismatch" }
 $missing = @()
 foreach ($thm in $expected113) {
   if ($allSpecText -notmatch ("Thm_" + [regex]::Escape($thm) + "\b")) {
@@ -150,7 +155,7 @@ for ($b = 1; $b -le 11; $b++) {
     exit 1
   }
 }
-Write-Host "[AUDIT] Static check OK: 0 AXIOMs, 113/113 Thm_* predicates, 11/11 EvalBlocks."
+Write-Host "[AUDIT] Static check OK: 0 AXIOMs, 120/120 Thm_* predicates, 11/11 EvalBlocks."
 
 # 3. SANY syntax & semantic parsing across all .tla specs
 $totalSw = [System.Diagnostics.Stopwatch]::StartNew()
@@ -159,9 +164,9 @@ try {
   $orderedSpecs = @(
     "PredictiveEngine.tla", "CoreAffect.tla", "AffectiveMatrix.tla",
     "AffectiveTaxonomy.tla", "AffectiveDynamics.tla", "Lexicon176.tla",
-    "PredictiveCircuit.tla", "AuditTests.tla", "Cartograffect.tla",
+    "PredictiveCircuit.tla", "AuditTests.tla", "OperantFactorization.tla", "Cartograffect.tla",
     "Model_Dissipation.tla", "Model_Engine.tla", "Model_DepthKernel.tla",
-    "Model_Circuit.tla", "Model_Unified.tla"
+    "Model_Circuit.tla", "Model_Unified.tla", "Model_OperantFactorization.tla"
   )
   Write-Host "`n=== SANY Parsing Check ($($orderedSpecs.Count) modules) ==="
   foreach ($sp in $orderedSpecs) {
@@ -183,8 +188,9 @@ try {
     @{ Spec = "Model_Dissipation.tla"; Cfg = "Model_Dissipation.cfg" },
     @{ Spec = "Model_Engine.tla";      Cfg = "Model_Engine.cfg" },
     @{ Spec = "Model_DepthKernel.tla"; Cfg = "Model_DepthKernel.cfg" },
-    @{ Spec = "Model_Circuit.tla";     Cfg = "Model_Circuit.cfg" },
-    @{ Spec = "Model_Unified.tla";     Cfg = "Model_Unified.cfg" }
+    @{ Spec = "Model_Circuit.tla";            Cfg = "Model_Circuit.cfg" },
+    @{ Spec = "Model_Unified.tla";            Cfg = "Model_Unified.cfg" },
+    @{ Spec = "Model_OperantFactorization.tla"; Cfg = "Model_OperantFactorization.cfg" }
   )
   Write-Host "`n=== TLC Model Checking ($($tlcRuns.Count) models) ==="
   foreach ($run in $tlcRuns) {

@@ -7,6 +7,6 @@
   Module chapeau Cartograffect (TLA+ / TLC)
 *)
 EXTENDS PredictiveEngine, CoreAffect, AffectiveMatrix, AffectiveTaxonomy,
-        AffectiveDynamics, Lexicon176, PredictiveCircuit, AuditTests
+        AffectiveDynamics, Lexicon176, PredictiveCircuit, AuditTests, OperantFactorization
 
 =============================================================================

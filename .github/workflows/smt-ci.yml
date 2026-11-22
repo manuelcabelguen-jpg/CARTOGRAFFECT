@@ -66,6 +66,6 @@ jobs:
                       eval_count += 1
               print(f"  OK ({path})")
 
-          print(f"Summary: CONSISTENCY={cons_count}/8 sat, THM={thm_count}/113 unsat, AUX={aux_count}/1 unsat, EVAL={eval_count}/11 unsat")
-          assert cons_count == 8 and thm_count == 113 and aux_count == 1 and eval_count == 11
+          print(f"Summary: CONSISTENCY={cons_count}/9 sat, THM={thm_count}/120 unsat, AUX={aux_count}/1 unsat, EVAL={eval_count}/11 unsat")
+          assert cons_count == 9 and thm_count == 120 and aux_count == 1 and eval_count == 11
           PY
