@@ -326,10 +326,9 @@ crownPeripheralCount z = 4 * crownRadius z
 stratumTotalCount : Nat → Nat
 stratumTotalCount z = 1 + crownPeripheralCount z
 
-runCartograffectPipeline : PredictiveEngineState → TaxonomicState
-runCartograffectPipeline s =
-  let p  = projectToCoreAffect s
-      m  = evaluateMatrix p canonicalMapping
+evaluateTaxonomy : AffectiveMatrixState → TaxonomicState
+evaluateTaxonomy m =
+  let p  = core m
       ap = antagonist m
   in mkTaxonomicState
        m
@@ -339,6 +338,122 @@ runCartograffectPipeline s =
        (classifySubsector (px p) (py p))
        (classifyTaxonomicGroup ap)
        (classifySubsector (px ap) (py ap))
+
+runCartograffectPipeline : PredictiveEngineState → TaxonomicState
+runCartograffectPipeline s =
+  evaluateTaxonomy (evaluateMatrix (projectToCoreAffect s) canonicalMapping)
+
+classifyTaxonomicGroup_correct :
+  ∀ (p : CoreAffectPoint) → matchesTaxonomicGroupB p (classifyTaxonomicGroup p) ≡ true
+classifyTaxonomicGroup_correct p = eqTaxonomicGroupB-refl (classifyTaxonomicGroup p)
+
+IsCoherentTerminalState : PredictiveEngineState → TaxonomicState → Set
+IsCoherentTerminalState s ts =
+  let m  = matrix ts
+      cp = core m
+      ap = antagonist m
+  in (cp ≡ projectToCoreAffect s)
+     × IsValidCoreAffect cp
+     × (ap ≡ antagonistPoint cp)
+     × IsValidCoreAffect ap
+     × (pz ap ≡ pz cp)
+     × (displacementSum ap ≡ displacementSum cp)
+     × (expectationPole m ≡ transduceExpectation (px cp))
+     × (controlPole m ≡ transduceControl (py cp))
+     × (energyRegime m ≡ computeEnergyRegime (px cp) (py cp))
+     × (valence m ≡ computeHedonicPolarity (px cp) (py cp))
+     × (activation m ≡ computeActivation cp)
+     × (stratum ts ≡ classifyStratum (pz cp))
+     × (geometry ts ≡ classifyGeometry cp)
+     × (subsector ts ≡ classifySubsector (px cp) (py cp))
+     × (antagonistSubsector ts ≡ classifySubsector (px ap) (py ap))
+     × (matchesTaxonomicGroupB cp (group ts) ≡ true)
+     × (∀ (g : TaxonomicGroup) → matchesTaxonomicGroupB cp g ≡ true → g ≡ group ts)
+     × (matchesTaxonomicGroupB ap (antagonistGroup ts) ≡ true)
+
+AffectiveMatrixState-eq :
+  ∀ {m1 m2 : AffectiveMatrixState} →
+  core m1 ≡ core m2 →
+  expectationPole m1 ≡ expectationPole m2 →
+  controlPole m1 ≡ controlPole m2 →
+  energyRegime m1 ≡ energyRegime m2 →
+  valence m1 ≡ valence m2 →
+  activation m1 ≡ activation m2 →
+  antagonist m1 ≡ antagonist m2 →
+  m1 ≡ m2
+AffectiveMatrixState-eq
+  {mkAffectiveMatrixState _ _ _ _ _ _ _}
+  {mkAffectiveMatrixState _ _ _ _ _ _ _}
+  refl refl refl refl refl refl refl = refl
+
+TaxonomicState-eq :
+  ∀ {t1 t2 : TaxonomicState} →
+  matrix t1 ≡ matrix t2 →
+  stratum t1 ≡ stratum t2 →
+  geometry t1 ≡ geometry t2 →
+  group t1 ≡ group t2 →
+  subsector t1 ≡ subsector t2 →
+  antagonistGroup t1 ≡ antagonistGroup t2 →
+  antagonistSubsector t1 ≡ antagonistSubsector t2 →
+  t1 ≡ t2
+TaxonomicState-eq
+  {mkTaxonomicState _ _ _ _ _ _ _}
+  {mkTaxonomicState _ _ _ _ _ _ _}
+  refl refl refl refl refl refl refl = refl
+
+runCartograffectPipeline_coherent :
+  ∀ (s : PredictiveEngineState) → IsCoherentTerminalState s (runCartograffectPipeline s)
+runCartograffectPipeline_coherent s =
+  let cp = projectToCoreAffect s in
+  refl
+  , engine_induces_valid_core_affect s
+  , refl
+  , antagonistPoint_preserves_validity cp (engine_induces_valid_core_affect s)
+  , antagonist-pz cp
+  , antagonist-displacementSum cp
+  , refl
+  , refl
+  , refl
+  , refl
+  , refl
+  , refl
+  , refl
+  , refl
+  , refl
+  , classifyTaxonomicGroup_correct cp
+  , (λ g hg → sym (eqTaxonomicGroupB-to-≡ (classifyTaxonomicGroup cp) g hg))
+  , classifyTaxonomicGroup_correct (antagonistPoint cp)
+
+isCoherentTerminalState_unique :
+  ∀ (s : PredictiveEngineState) (ts' : TaxonomicState) →
+  IsCoherentTerminalState s ts' →
+  ts' ≡ runCartograffectPipeline s
+isCoherentTerminalState_unique s
+  (mkTaxonomicState (mkAffectiveMatrixState cp ep cl er va ac ap) st gm gr sb agr asb)
+  (hcp , _ , hap , _ , _ , _ , hep , hcl , her , hva , hac , hst , hgm , hsb , hasb , hgr , _ , hagr) =
+  let p0    = projectToCoreAffect s
+      ap0   = antagonistPoint p0
+      hap0  = trans hap (cong antagonistPoint hcp)
+      hmEq  = AffectiveMatrixState-eq
+                hcp
+                (trans hep (cong (λ q → transduceExpectation (px q)) hcp))
+                (trans hcl (cong (λ q → transduceControl (py q)) hcp))
+                (trans her (cong (λ q → computeEnergyRegime (px q) (py q)) hcp))
+                (trans hva (cong (λ q → computeHedonicPolarity (px q) (py q)) hcp))
+                (trans hac (cong computeActivation hcp))
+                hap0
+      hgr0  = trans (sym (eqTaxonomicGroupB-to-≡ (classifyTaxonomicGroup cp) gr hgr))
+                    (cong classifyTaxonomicGroup hcp)
+      hagr0 = trans (sym (eqTaxonomicGroupB-to-≡ (classifyTaxonomicGroup ap) agr hagr))
+                    (cong classifyTaxonomicGroup hap0)
+  in TaxonomicState-eq
+       hmEq
+       (trans hst (cong (λ q → classifyStratum (pz q)) hcp))
+       (trans hgm (cong classifyGeometry hcp))
+       hgr0
+       (trans hsb (cong (λ q → classifySubsector (px q) (py q)) hcp))
+       hagr0
+       (trans hasb (cong (λ q → classifySubsector (px q) (py q)) hap0))
 
 -- ---------------------------------------------------------------------------
 -- 3. Les 10 théorèmes certifiés d'AffectiveTaxonomy

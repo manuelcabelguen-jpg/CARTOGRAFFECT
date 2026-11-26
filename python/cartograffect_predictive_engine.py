@@ -4,7 +4,8 @@ cartograffect_predictive_engine.py
 Moteur prédictif cybernétique en boucle fermée pour le modèle CARTOGRAFFECT®.
 
 Strictement isomorphe à la formalisation Lean 4 (`Cartograffect/PredictiveCircuit.lean`,
-`Cartograffect/CoreAffect.lean`, `Cartograffect/AffectiveMatrix.lean`) et fidèle au
+`Cartograffect/CoreAffect.lean`, `Cartograffect/AffectiveMatrix.lean`,
+`Cartograffect/OperantFactorization.lean`, `Cartograffect/EndToEndBridge.lean`) et fidèle au
 circuit continu de la Figure 1 (2 boucles × 3 circuits, 6 opérations de frontière).
 
 Implémente :
@@ -20,9 +21,11 @@ Implémente :
        - Op. 4 : Croisement Attentionnel II (rétroactif sub-personnel) -> 9 canaux A/C et C/A
        - Op. 5 : Entrée externe dans les [États cachés] subjectifs
        - Op. 6 : Entrée externe dans les [États cachés] perceptifs (+ Corps & Environnement)
-  4. Le noyau entier exact `construire_noyau_entier` (somme 4*scale^4, miroir de `circuitWeight`),
+  4. Le noyau entier exact `construire_noyau_entier` (factorisation exacte 4*scale^6, miroir de `circuitWeight`),
      la matrice de transition markovienne couplée T (9x9), le spectre exact, le contrôle
      d'ergodicité globale (0 < epsilon < 1) et la simulation du circuit continu fermé.
+  5. Le pont de bout en bout `EndToEndBridge` vers les contingences opérantes {R+, R-, P+, P-}
+     (`contingence_couplage`, `contingence_quadrant`, `contingence_diagonale_z2`, `classifier_role_operant`).
 
 Dépendances : numpy >= 1.24 (bibliothèque standard Python >= 3.10).
 """
@@ -559,7 +562,7 @@ class MoteurPredictifCartograffect:
     def construire_noyau_entier(self, scale: int = 100) -> np.ndarray:
         """
         Construit la matrice entière exacte W (9x9) miroir de `PredictiveCircuit.circuitWeight`
-        (chaque ligne somme exactement à `4 * scale^6`). Nécessite `beta = feedback_* = 0`.
+        (chaque ligne se factorise en `(2*scale^3) * (2*scale^3) = 4*scale^6`). Nécessite `beta = feedback_* = 0`.
         """
         if scale <= 0:
             raise ValueError("Le facteur entier `scale` doit être strictement positif.")
@@ -1775,6 +1778,108 @@ def _diagnostiquer_ruptures_moteur(
 
 
 MoteurPredictifCartograffect.diagnostiquer_ruptures_ergodicite = _diagnostiquer_ruptures_moteur  # type: ignore[attr-defined]
+
+
+# =============================================================================
+# 6C. PONT DE BOUT EN BOUT (EndToEndBridge & OperantFactorization)
+# =============================================================================
+
+@dataclass(frozen=True)
+class ContingenceOperante:
+    """
+    Contingence opérante élémentaire `{R+, R-, P+, P-}` miroir de
+    `OperantFactorization.OperantContingency` (`effect` in {'Reinforcement', 'Punishment'},
+    `op` in {'Addition', 'Removal'}).
+    """
+    effect: str
+    op: str
+
+    def __post_init__(self) -> None:
+        if self.effect not in ("Reinforcement", "Punishment"):
+            raise ValueError(f"Effet opérant invalide : {self.effect!r}.")
+        if self.op not in ("Addition", "Removal"):
+            raise ValueError(f"Opérateur opérant invalide : {self.op!r}.")
+
+    @property
+    def code_court(self) -> str:
+        prefix = "R" if self.effect == "Reinforcement" else "P"
+        suffix = "+" if self.op == "Addition" else "-"
+        return f"{prefix}{suffix}"
+
+
+def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[ContingenceOperante]:
+    """Miroir exact de `OperantFactorization.diagToContingency` sur la couronne Z = 2."""
+    if z != 2:
+        return None
+    if (x, y) == (1, 1):
+        return ContingenceOperante("Reinforcement", "Addition")
+    if (x, y) == (1, -1):
+        return ContingenceOperante("Reinforcement", "Removal")
+    if (x, y) == (-1, -1):
+        return ContingenceOperante("Punishment", "Addition")
+    if (x, y) == (-1, 1):
+        return ContingenceOperante("Punishment", "Removal")
+    return None
+
+
+def contingence_couplage(a: int, c: int) -> Optional[ContingenceOperante]:
+    """Miroir exact de `EndToEndBridge.couplingToContingency`."""
+    _valider_modalites(a, c)
+    if (a, c) == (+1, +1):
+        return ContingenceOperante("Reinforcement", "Addition")
+    if (a, c) == (+1, -1):
+        return ContingenceOperante("Reinforcement", "Removal")
+    if (a, c) == (-1, -1):
+        return ContingenceOperante("Punishment", "Addition")
+    if (a, c) == (-1, +1):
+        return ContingenceOperante("Punishment", "Removal")
+    return None
+
+
+def contingence_quadrant(x: int, y: int) -> Optional[ContingenceOperante]:
+    """Miroir exact de `EndToEndBridge.quadrantContingency` sur toute strate Z."""
+    if x > 0 and y > 0:
+        return ContingenceOperante("Reinforcement", "Addition")
+    if x > 0 and y < 0:
+        return ContingenceOperante("Reinforcement", "Removal")
+    if x < 0 and y < 0:
+        return ContingenceOperante("Punishment", "Addition")
+    if x < 0 and y > 0:
+        return ContingenceOperante("Punishment", "Removal")
+    return None
+
+
+def secteur_dominant_xy(x: int, y: int) -> Optional[str]:
+    """Miroir exact de `CoreAffectPoint.dominantSector?`."""
+    ax, ay = abs(x), abs(y)
+    if ay > ax:
+        return "joie" if y > 0 else "tristesse"
+    if ax > ay:
+        return "peur" if x < 0 else "courage"
+    return None
+
+
+@dataclass(frozen=True)
+class RoleOperant:
+    """Miroir exact de `EndToEndBridge.OperantRole`."""
+    kind: str
+    sector: Optional[str] = None
+    contingency: Optional[ContingenceOperante] = None
+
+
+def classifier_role_operant(x: int, y: int, z: int) -> RoleOperant:
+    """Miroir exact de `EndToEndBridge.classifyOperantRole`."""
+    if z < 0:
+        raise ValueError(f"Strate Z invalide : {z}")
+    qc = contingence_quadrant(x, y)
+    sec = secteur_dominant_xy(x, y)
+    if qc is not None and sec is not None:
+        return RoleOperant("blendedLateral", sector=sec, contingency=qc)
+    if qc is not None and sec is None:
+        return RoleOperant("pureOperant", sector=None, contingency=qc)
+    if qc is None and sec is not None:
+        return RoleOperant("preOperantAxial", sector=sec, contingency=None)
+    return RoleOperant("centralOperator", sector=None, contingency=None)
 
 
 # =============================================================================

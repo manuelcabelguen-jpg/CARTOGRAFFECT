@@ -14,6 +14,7 @@ from cartograffect_predictive_engine import (
     ORDRE_CONTROLE,
     AssemblageReponsesIsolees,
     CircuitCirculaireCartograffect,
+    ContingenceOperante,
     DiagnosticRupturesErgodicite,
     DomainePossiblesAttentionnel,
     EtatCircuitCirculaire,
@@ -26,6 +27,7 @@ from cartograffect_predictive_engine import (
     ParametresLoiUnifiee,
     ParametresMoteur,
     ReponseIsoleeCircuit,
+    RoleOperant,
     SimulateurUnifieCartograffect,
     antagoniste_noyau,
     assembler_reponses_isolees,
@@ -33,7 +35,11 @@ from cartograffect_predictive_engine import (
     calculer_reduction_information,
     canaux_retour_croisement_ii,
     classifier_coherence,
+    classifier_role_operant,
     compter_resolutions_actives,
+    contingence_couplage,
+    contingence_diagonale_z2,
+    contingence_quadrant,
     entropie_shannon_bits,
     est_valide_noyau_affectif,
     mettre_a_jour_accumulateur,
@@ -46,6 +52,7 @@ from cartograffect_predictive_engine import (
     projeter_noyau_affectif,
     rayon_couronne,
     repartir_rayon,
+    secteur_dominant_xy,
     transduction_l1,
     transduction_l1_inverse,
 )
@@ -542,6 +549,81 @@ class TestArbitragesA1A4EtRuptures(unittest.TestCase):
         ).diagnostiquer_ruptures_ergodicite()
         self.assertFalse(diag_sur.est_ergodique_sain)
         self.assertIn("surcharge_allostatique", diag_sur.ruptures_detectees)
+
+
+class TestEndToEndBridgeOperant(unittest.TestCase):
+    def test_circuit_coupling_operant_bridge_and_all_strata_invariance(self) -> None:
+        # [1/10] circuit_coupling_operant_bridge : Z=2 et Z=d+2 >= 2
+        for a in ORDRE_ATTENTE:
+            for c in ORDRE_CONTROLE:
+                expected = contingence_couplage(a, c)
+                for susp in (False, True):
+                    for pa, pc in ((1, 1), (1, 3), (3, 1)):
+                        pt2 = projeter_noyau_affectif(a, c, 2, pi_a=pa, pi_c=pc, suspension_descendante=susp)
+                        self.assertEqual(contingence_diagonale_z2(*pt2), expected)
+                        for d in (0, 1, 3, 5):
+                            ptz = projeter_noyau_affectif(a, c, d + 2, pi_a=pa, pi_c=pc, suspension_descendante=susp)
+                            self.assertEqual(contingence_quadrant(ptz[0], ptz[1]), expected)
+
+        # [4/10] & [5/10] operant_quadrant_lifting_all_strata & operant_antagonist_invariance_all_strata
+        for z in range(2, 8):
+            r = 2 * z - 2
+            for ax in range(1, r):
+                ay = r - ax
+                for sx in (-1, +1):
+                    for sy in (-1, +1):
+                        x, y = sx * ax, sy * ay
+                        c1 = contingence_quadrant(x, y)
+                        self.assertIsNotNone(c1)
+                        assert c1 is not None
+                        self.assertEqual(c1.effect == "Reinforcement", x > 0)
+                        self.assertEqual(c1.effect == "Punishment", x < 0)
+                        self.assertEqual(c1.op == "Addition", x * y > 0)
+                        self.assertEqual(c1.op == "Removal", x * y < 0)
+
+                        ant_x, ant_y, _ = antagoniste_noyau(x, y, z)
+                        c2 = contingence_quadrant(ant_x, ant_y)
+                        self.assertIsNotNone(c2)
+                        assert c2 is not None
+                        self.assertNotEqual(c1.effect, c2.effect)
+                        self.assertEqual(c1.op, c2.op)
+
+    def test_p2_markov_contagion_and_z7_transcendental_lineages(self) -> None:
+        # [3/10] p2_markov_contagion_enters_operant_punishment
+        moteur = MoteurPredictifCartograffect(ParametresMoteur.homeostasique(epsilon=0.15))
+        W = moteur.construire_noyau_entier(scale=100)
+        idx_peur = INDEX_PAR_AC[(-1, 0)]
+        idx_colere = INDEX_PAR_AC[(-1, +1)]
+        idx_degout = INDEX_PAR_AC[(-1, -1)]
+        self.assertGreater(int(W[idx_peur, idx_colere]), 0)
+        self.assertGreater(int(W[idx_peur, idx_degout]), 0)
+        self.assertIsNone(contingence_couplage(-1, 0))
+        self.assertEqual(contingence_couplage(-1, +1), ContingenceOperante("Punishment", "Removal"))
+        self.assertEqual(contingence_couplage(-1, -1), ContingenceOperante("Punishment", "Addition"))
+
+        # [7/10] operant_lineages_reach_z7_transcendentals : Sublimation, Impassibilité, Dissolution, Rage
+        self.assertEqual(
+            classifier_role_operant(6, 6, 7),
+            RoleOperant("pureOperant", None, ContingenceOperante("Reinforcement", "Addition")),
+        )
+        self.assertEqual(
+            classifier_role_operant(6, -6, 7),
+            RoleOperant("pureOperant", None, ContingenceOperante("Reinforcement", "Removal")),
+        )
+        self.assertEqual(
+            classifier_role_operant(-6, -6, 7),
+            RoleOperant("pureOperant", None, ContingenceOperante("Punishment", "Addition")),
+        )
+        self.assertEqual(
+            classifier_role_operant(-6, 6, 7),
+            RoleOperant("pureOperant", None, ContingenceOperante("Punishment", "Removal")),
+        )
+        self.assertEqual(
+            classifier_role_operant(-1, 3, 3),
+            RoleOperant("blendedLateral", "joie", ContingenceOperante("Punishment", "Removal")),
+        )
+        self.assertEqual(classifier_role_operant(-2, 0, 2), RoleOperant("preOperantAxial", "peur", None))
+        self.assertEqual(classifier_role_operant(0, 0, 0), RoleOperant("centralOperator", None, None))
 
 
 if __name__ == "__main__":

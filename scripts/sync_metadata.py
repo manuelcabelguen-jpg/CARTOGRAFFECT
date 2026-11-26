@@ -49,7 +49,7 @@ def _replace_once(pattern: str, repl: str, text: str, label: str, flags: int = 0
     return new_text
 
 
-def _sync_citation_cff(text: str, version: str) -> str:
+def _sync_citation_cff(text: str, version: str, theorems_verified: int = 130) -> str:
     # 1. Champ racine `version: "..."`
     updated = _replace_once(
         r'^(version:\s*)"[^"\r\n]+"',
@@ -74,6 +74,14 @@ def _sync_citation_cff(text: str, version: str) -> str:
         "CITATION.cff abstract version",
         flags=re.MULTILINE,
     )
+    # 3b. Compteur X/X verified theorems dans l'abstract
+    updated = _replace_once(
+        r'\b\d+/\d+(\s+verified theorems)',
+        rf"{theorems_verified}/{theorems_verified}\g<1>",
+        updated,
+        "CITATION.cff abstract verified theorems count",
+        flags=re.MULTILINE,
+    )
     # 4. Champ `preferred-citation:` -> `  version: "..."`
     updated = _replace_once(
         r'(^preferred-citation:\s*\n(?:[ \t]+.*\n)*?[ \t]+version:\s*)"[^"\r\n]+"',
@@ -85,7 +93,7 @@ def _sync_citation_cff(text: str, version: str) -> str:
     return updated
 
 
-def _sync_zenodo_json(text: str, version: str) -> str:
+def _sync_zenodo_json(text: str, version: str, theorems_verified: int = 130) -> str:
     updated = _replace_once(
         r'^(\s*"version":\s*)"[^"\r\n]+"',
         rf'\g<1>"{version}"',
@@ -98,6 +106,13 @@ def _sync_zenodo_json(text: str, version: str) -> str:
         rf"\g<1>{version}",
         updated,
         ".zenodo.json description version",
+        flags=re.MULTILINE,
+    )
+    updated = _replace_once(
+        r'(certifying\s+)\d+/\d+(\s+theorems)',
+        rf"\g<1>{theorems_verified}/{theorems_verified}\g<2>",
+        updated,
+        ".zenodo.json description theorems count",
         flags=re.MULTILINE,
     )
     parsed = json.loads(updated)

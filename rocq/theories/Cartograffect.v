@@ -13,4 +13,5 @@ From CartograffectRocq Require Export
   Lexicon176
   PredictiveCircuit
   AuditTests
-  OperantFactorization.
+  OperantFactorization
+  EndToEndBridge.

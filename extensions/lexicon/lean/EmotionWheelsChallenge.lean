@@ -652,4 +652,16 @@ theorem emotion_wheels_challenge_certified :
     certifiedWheelsChallenge.h6_coverage_diamond303 = 10000 := by
   decide
 
+/-!
+## 8. Audit axiomatique (#print axioms)
+-/
+
+#print axioms rose_symmetries_involutive_on_carto176
+#print axioms plutchik_2d_antagonism_refuted
+#print axioms gew3_coverage_and_hedonic_invariance
+#print axioms markov_double_barrier_resolves_wheel_anomalies
+#print axioms z_dissociated_from_plutchik_intensity
+#print axioms diamond303_completeness_and_axiological_purity
+#print axioms emotion_wheels_challenge_certified
+
 end Cartograffect.Validation.EmotionWheelsChallenge

@@ -243,21 +243,35 @@ def build_site_payload(root: Path) -> dict[str, Any]:
         )
     if not isinstance(provers_raw, list) or len(provers_raw) != 6:
         raise ValueError(f"manifest.json doit déclarer exactement 6 prouveurs (trouvé : {len(provers_raw)}).")
-    if not isinstance(lean_files, list) or len(lean_files) != 10:
-        raise ValueError(f"manifest.json doit lister exactement 10 fichiers Lean (trouvé : {len(lean_files)}).")
+    if not isinstance(lean_files, list) or len(lean_files) != 11:
+        raise ValueError(f"manifest.json doit lister exactement 11 fichiers Lean (trouvé : {len(lean_files)}).")
     for lf in lean_files:
         if not (resolved / lf).is_file():
             raise FileNotFoundError(f"Module Lean listé dans manifest.json introuvable : {lf}")
 
-    provers = [
-        {
+    provers: list[dict[str, Any]] = []
+    for p in provers_raw:
+        entry: dict[str, Any] = {
             "name": str(p["name"]),
             "version": str(p["version"]),
             "entrypoint": str(p["entrypoint"]),
             "directory": str(p["directory"]),
         }
-        for p in provers_raw
-    ]
+        for opt_key in (
+            "modules_count",
+            "theorems_count",
+            "closed_assumptions_count",
+            "lemmas_count",
+            "obligations_verified",
+            "consistency_sat_count",
+            "aux_unsat_count",
+            "predicates_count",
+            "eval_blocks_count",
+            "tlc_models_count",
+        ):
+            if opt_key in p:
+                entry[opt_key] = int(p[opt_key])
+        provers.append(entry)
 
     actual_sha256 = hashlib.sha256(lexicon_path.read_bytes()).hexdigest()
     expected_sha256 = str(lex_meta.get("sha256", "")).strip()
@@ -306,10 +320,14 @@ def build_site_payload(root: Path) -> dict[str, Any]:
             "path": str(lex_ext.get("path", "extensions/lexicon")),
             "status": str(lex_ext.get("status", "exploratory_subordinate")),
             "epistemic_status_file": lex_status_file,
+            "theorems_verified": int(lex_ext.get("theorems_verified", 36)),
+            "sorry_count": int(lex_ext.get("sorry_count", 0)),
+            "lean_challenges_count": len(lex_ext.get("lean_challenges", [])),
             "summary": (
                 "Triangulation psychométrique préliminaire sur les 24 ancres Scherer GRID / CPM "
                 "et réfutation formelle des roues émotionnelles 2D à rayon fixe "
-                "(EmotionWheelsChallenge.lean) ; statut exploratoire subordonné à la Strate 0 ; "
+                "(36/36 théorèmes Lean 4 dans extensions/lexicon/lean/, 0 sorry) ; "
+                "statut exploratoire subordonné à la Strate 0 ; "
                 "extension axiologique Z- (« Diamant 303 ») strictement cloisonnée hors de "
                 "l'axiomatique Z in {0..7}."
             ),

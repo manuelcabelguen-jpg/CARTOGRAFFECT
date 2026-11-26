@@ -1051,60 +1051,110 @@ module Lexicon176 {
   }
 
   // Stratum z=7 (49 entries)
+  function LabelZ7(i: nat): string
+    requires i < 49
+  {
+    if i < 24 then
+      if i < 12 then
+        if i < 6 then
+          if i < 3 then
+            if i < 1 then
+              "Suspension"
+            else
+              if i < 2 then "Infini" else "Néant"
+          else
+            if i < 4 then
+              "Déréliction"
+            else
+              if i < 5 then "Communion" else "Transcendance"
+        else
+          if i < 9 then
+            if i < 7 then
+              "Déchirement"
+            else
+              if i < 8 then "Exubérance" else "Horreur"
+          else
+            if i < 10 then
+              "Renaissance"
+            else
+              if i < 11 then "Vertige" else "Élévation"
+      else
+        if i < 18 then
+          if i < 15 then
+            if i < 13 then
+              "Détresse"
+            else
+              if i < 14 then "Enivrement" else "Révolte"
+          else
+            if i < 16 then
+              "Nirvana"
+            else
+              if i < 17 then "Perdition" else "Paix"
+        else
+          if i < 21 then
+            if i < 19 then
+              "Oppression"
+            else
+              if i < 20 then "Pérennité" else "Abîme"
+          else
+            if i < 22 then
+              "Abandon"
+            else
+              if i < 23 then "Damnation" else "Silence"
+    else
+      if i < 36 then
+        if i < 30 then
+          if i < 27 then
+            if i < 25 then
+              "Résignation"
+            else
+              if i < 26 then "Hantise" else "Isolement"
+          else
+            if i < 28 then
+              "Affliction"
+            else
+              if i < 29 then "Mélancolie" else "Précarité"
+        else
+          if i < 33 then
+            if i < 31 then
+              "Déchéance"
+            else
+              if i < 32 then "Sidération" else "Engloutissement"
+          else
+            if i < 34 then
+              "Tumulte"
+            else
+              if i < 35 then "Pétrification" else "Éblouissement"
+      else
+        if i < 42 then
+          if i < 39 then
+            if i < 37 then
+              "Recueillement"
+            else
+              if i < 38 then "Rayonnement" else "Contentement"
+          else
+            if i < 40 then
+              "Ravissement"
+            else
+              if i < 41 then "Épiphanie" else "Louange"
+        else
+          if i < 45 then
+            if i < 43 then
+              "Lucidité"
+            else
+              if i < 44 then "Effusion" else "Consentement"
+          else
+            if i < 47 then
+              if i < 46 then "Rage" else "Impassibilité"
+            else
+              if i < 48 then "Sublimation" else "Dissolution"
+  }
+
   opaque function LabelsZ7(): seq<string>
     ensures |LabelsZ7()| == 49
+    ensures forall i | 0 <= i < 49 :: LabelsZ7()[i] == LabelZ7(i)
   {
-    [
-      "Suspension",
-      "Infini",
-      "Néant",
-      "Déréliction",
-      "Communion",
-      "Transcendance",
-      "Déchirement",
-      "Exubérance",
-      "Horreur",
-      "Renaissance",
-      "Vertige",
-      "Élévation",
-      "Détresse",
-      "Enivrement",
-      "Révolte",
-      "Nirvana",
-      "Perdition",
-      "Paix",
-      "Oppression",
-      "Pérennité",
-      "Abîme",
-      "Abandon",
-      "Damnation",
-      "Silence",
-      "Résignation",
-      "Hantise",
-      "Isolement",
-      "Affliction",
-      "Mélancolie",
-      "Précarité",
-      "Déchéance",
-      "Sidération",
-      "Engloutissement",
-      "Tumulte",
-      "Pétrification",
-      "Éblouissement",
-      "Recueillement",
-      "Rayonnement",
-      "Contentement",
-      "Ravissement",
-      "Épiphanie",
-      "Louange",
-      "Lucidité",
-      "Effusion",
-      "Consentement",
-      "Rage",
-      "Impassibilité",
-      "Sublimation",
-      "Dissolution"
-    ]
+    seq(49, i requires 0 <= i < 49 => LabelZ7(i))
   }
 
   function PointZ7(i: nat): CoreAffectPoint
@@ -1431,6 +1481,24 @@ module Lexicon176 {
         if i < 127 then PointZ6(i - 86) else PointZ7(i - 127)
   }
 
+  function GlobalLabel(i: nat): string
+    requires i < 176
+  {
+    if i < 28 then
+      if i < 11 then
+        if i < 2 then
+          if i < 1 then LabelsZ0()[i] else LabelsZ1()[i - 1]
+        else
+          LabelsZ2()[i - 2]
+      else
+        LabelsZ3()[i - 11]
+    else
+      if i < 86 then
+        if i < 53 then LabelsZ4()[i - 28] else LabelsZ5()[i - 53]
+      else
+        if i < 127 then LabelsZ6()[i - 86] else LabelsZ7()[i - 127]
+  }
+
   function StratumOffset(z: nat): nat
     requires z <= 7
   {
@@ -1448,6 +1516,7 @@ module Lexicon176 {
   opaque function All176Entries(): seq<LexiconEntry>
     ensures |All176Entries()| == 176
     ensures forall i | 0 <= i < 176 :: All176Entries()[i].point == GlobalPoint(i)
+    ensures forall i | 0 <= i < 176 :: All176Entries()[i].entryLabel == GlobalLabel(i)
   {
     var r := EntriesZ0() + EntriesZ1() + EntriesZ2() + EntriesZ3() +
              EntriesZ4() + EntriesZ5() + EntriesZ6() + EntriesZ7();
@@ -3282,6 +3351,35 @@ module Lexicon176 {
       ensures ProjectToCoreAffect(WitnessEngineForPoint(All176Entries()[i].point)) == All176Entries()[i].point
     {
       projectToCoreAffect_surjective(All176Entries()[i].point);
+    }
+  }
+
+  // Clôture intégrale du répertoire sous l'opérateur d'antagonisme controlatéral
+  lemma all176Entries_closed_under_antagonist()
+    ensures forall i | 0 <= i < |All176Entries()| ::
+      AntagonistPoint(All176Entries()[i].point) in LexiconPoints()
+    ensures forall e | e in All176Entries() ::
+      AntagonistPoint(e.point) in LexiconPoints()
+  {
+    all176Entries_geometrically_valid();
+    all176Entries_z_bounds();
+    forall i | 0 <= i < |All176Entries()|
+      ensures AntagonistPoint(All176Entries()[i].point) in LexiconPoints()
+    {
+      var p := All176Entries()[i].point;
+      antagonistPoint_preserves_validity(p);
+      antagonistPoint_preserves_z(p);
+      all176Entries_complete(AntagonistPoint(p));
+      var j :| 0 <= j < |All176Entries()| && All176Entries()[j].point == AntagonistPoint(p);
+      assert 0 <= j < |LexiconPoints()|;
+      assert LexiconPoints()[j] == GlobalPoint(j) == All176Entries()[j].point == AntagonistPoint(p);
+      assert LexiconPoints()[j] in LexiconPoints();
+    }
+    forall e | e in All176Entries()
+      ensures AntagonistPoint(e.point) in LexiconPoints()
+    {
+      var i :| 0 <= i < |All176Entries()| && All176Entries()[i] == e;
+      assert AntagonistPoint(All176Entries()[i].point) in LexiconPoints();
     }
   }
 }

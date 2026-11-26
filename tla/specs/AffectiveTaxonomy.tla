@@ -123,19 +123,24 @@ SubsectorToHedonicPolarity(sub) ==
 CrownPeripheralCount(z) == 4 * CrownRadius(z)
 StratumTotalCount(z) == 1 + CrownPeripheralCount(z)
 
-RunCartograffectPipeline(s) ==
-  LET p == ProjectToCoreAffect(s)
-      m == EvaluateMatrixCanonical(p)
+EvaluateTaxonomy(m) ==
+  LET cp == m.core
       ap == m.antagonist
   IN [
     matrix |-> m,
-    stratum |-> ClassifyStratum(p.z),
-    geometry |-> ClassifyGeometry(p),
-    group |-> ClassifyTaxonomicGroup(p),
-    subsector |-> ClassifySubsector(p.x, p.y),
+    stratum |-> ClassifyStratum(cp.z),
+    geometry |-> ClassifyGeometry(cp),
+    group |-> ClassifyTaxonomicGroup(cp),
+    subsector |-> ClassifySubsector(cp.x, cp.y),
     antagonistGroup |-> ClassifyTaxonomicGroup(ap),
     antagonistSubsector |-> ClassifySubsector(ap.x, ap.y)
   ]
+
+EvaluateTaxonomyOfPoint(p) ==
+  EvaluateTaxonomy(EvaluateMatrixCanonical(p))
+
+RunCartograffectPipeline(s) ==
+  EvaluateTaxonomyOfPoint(ProjectToCoreAffect(s))
 
 IsCoherentTerminalState(s, ts) ==
   LET m == ts.matrix
@@ -159,6 +164,12 @@ IsCoherentTerminalState(s, ts) ==
      /\ MatchesTaxonomicGroup(cp, ts.group)
      /\ (\A g \in TaxonomicGroups : MatchesTaxonomicGroup(cp, g) => g = ts.group)
      /\ MatchesTaxonomicGroup(ap, ts.antagonistGroup)
+
+IsCoherentTerminalStateUnique(s, ts) ==
+  /\ IsCoherentTerminalState(s, ts)
+  /\ ts = RunCartograffectPipeline(s)
+  /\ (\A g \in TaxonomicGroups : MatchesTaxonomicGroup(ts.matrix.core, g) => g = ts.group)
+  /\ (\A ag \in TaxonomicGroups : MatchesTaxonomicGroup(ts.matrix.antagonist, ag) => ag = ts.antagonistGroup)
 
 -----------------------------------------------------------------------------
 (* 10 audited theorem predicates for AffectiveTaxonomy *)

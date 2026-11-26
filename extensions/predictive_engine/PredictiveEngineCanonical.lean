@@ -7,6 +7,11 @@ Author: Manuel Cabelguen
 import Cartograffect.PredictiveEngine
 import Cartograffect.CoreAffect
 import Cartograffect.PredictiveCircuit
+import Cartograffect.AffectiveMatrix
+import Cartograffect.AffectiveTaxonomy
+import Cartograffect.Lexicon176
+import Cartograffect.OperantFactorization
+import Cartograffect.EndToEndBridge
 
 namespace Cartograffect
 
@@ -15,6 +20,11 @@ namespace PredictiveEngineCanonical
 open PredictiveEngine
 open CoreAffect
 open PredictiveCircuit
+open AffectiveMatrix
+open AffectiveTaxonomy
+open Lexicon176
+open OperantFactorization
+open EndToEndBridge
 
 /-!
 # Moteur Prédictif Canonique Unifié (Arbitrages A1–A4)
@@ -507,6 +517,143 @@ theorem active_vs_passive_energy_signature :
   refine ⟨⟨by decide, Or.inr rfl, Or.inl rfl⟩, Or.inl rfl, rfl, rfl, rfl, rfl⟩
 
 /-!
+## 2bis. Ponts canoniques A1–A4 → Opérants, Taxonomie et Lexicon176
+-/
+
+/-- Tout domaine attentionnel `d` projeté en strate `Z ≥ 2` hérite exactement de la contingence
+    opérante `{R+, R-, P+, P-}` portée par son couplage sous-jacent `d.coupling`. -/
+theorem canonical_direct_project_preserves_operant
+    (d : AttentionalPossibilityDomain) (piA piC : Nat) (hz : d.z ≥ 2) :
+    let pt := projectAttentionalDomain d piA piC
+    quadrantContingency pt.x pt.y = couplingToContingency d.coupling := by
+  dsimp only
+  unfold projectAttentionalDomain
+  split
+  · rename_i hneut
+    have hnone : couplingToContingency d.coupling = none := by
+      rcases d with ⟨⟨a, ctrl⟩, z, hzpos⟩
+      cases a <;> cases ctrl <;>
+        first
+        | rfl
+        | (dsimp only [EngineCoupling.isGlobalNeutrality, Polarity.isEngaged] at hneut; cases hneut)
+    rw [hnone]
+    rfl
+  · cases hzs : d.z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => omega
+      | succ k =>
+        exact (circuit_coupling_operant_bridge d.coupling k piA piC true).2
+
+/-- Toute projection d'un domaine attentionnel produit un état taxonomique terminal valide,
+    strictement disjoint du `Point de Veille` (`stratum ≠ .z0_pointDeVeille`), dont le sous-secteur
+    raffine le groupe et détermine la valence hédonique. -/
+theorem canonical_attentional_domain_to_taxonomy_coherent
+    (d : AttentionalPossibilityDomain) (piA piC : Nat) :
+    let st : CoreAffectState := ⟨projectAttentionalDomain d piA piC, projectAttentionalDomain_valid d piA piC⟩
+    let ts := evaluateTaxonomy (evaluateMatrix st canonicalMapping)
+    let cp := ts.matrix.core.point
+    let ap := ts.matrix.antagonist.point
+    isValidCoreAffect cp ∧
+    isValidCoreAffect ap ∧
+    ts.stratum ≠ .z0_pointDeVeille ∧
+    ts.subsector.toTaxonomicGroup = ts.group ∧
+    ts.subsector.toHedonicPolarity = ts.matrix.valence ∧
+    matchesTaxonomicGroup cp ts.group ∧
+    matchesTaxonomicGroup ap ts.antagonistGroup := by
+  dsimp only [evaluateTaxonomy, evaluateMatrix, canonicalMapping]
+  have hvc : isValidCoreAffect (projectAttentionalDomain d piA piC) :=
+    projectAttentionalDomain_valid d piA piC
+  have hva : isValidCoreAffect (antagonistPoint (projectAttentionalDomain d piA piC)) :=
+    antagonistPoint_preserves_validity _ hvc
+  have hz_eq : (projectAttentionalDomain d piA piC).z = d.z :=
+    projectAttentionalDomain_z d piA piC
+  have hz_pos : d.z ≥ 1 := d.h_z_pos
+  have h_not_z0 : classifyStratum (projectAttentionalDomain d piA piC).z ≠ .z0_pointDeVeille := by
+    rw [hz_eq]
+    cases hdz : d.z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => simp [classifyStratum]
+      | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ _ => simp [classifyStratum]
+  exact ⟨hvc, hva, h_not_z0, classifySubsector_refines_group _,
+    classifySubsector_determines_valence _ _,
+    classifyTaxonomicGroup_correct _, classifyTaxonomicGroup_correct _⟩
+
+private theorem canonical_pdv_unique_point :
+    (all176Entries.all (fun e => !(e.label == "Point de Veille") || (e.point == ⟨0, 0, 0⟩))) = true := by
+  decide
+
+private theorem canonical_nodup_point_inj {l : List LexiconEntry}
+    (hnodup : (l.map (·.point)).Nodup) {a b : LexiconEntry}
+    (ha : a ∈ l) (hb : b ∈ l) (heq : a.point = b.point) : a = b := by
+  induction l with
+  | nil => cases ha
+  | cons x xs ih =>
+    simp only [List.map_cons, List.nodup_cons] at hnodup
+    rcases List.mem_cons.mp ha with rfl | ha' <;> rcases List.mem_cons.mp hb with rfl | hb'
+    · rfl
+    · exfalso; apply hnodup.1; rw [heq]; exact List.mem_map_of_mem hb'
+    · exfalso; apply hnodup.1; rw [← heq]; exact List.mem_map_of_mem ha'
+    · exact ih hnodup.2 ha' hb'
+
+/-- Pour tout domaine attentionnel dans les 7 premières strates (`1 ≤ d.z ≤ 7`), sa réalisation et
+    son antagoniste désignent chacun une entrée nominale unique dans `all176Entries`, distincte de
+    `"Point de Veille"`. -/
+theorem canonical_attentional_domain_in_lexicon176
+    (d : AttentionalPossibilityDomain) (piA piC : Nat) (hz7 : d.z ≤ 7) :
+    let cp := projectAttentionalDomain d piA piC
+    let ap := antagonistPoint cp
+    (∃ e ∈ all176Entries, e.point = cp ∧ e.label ≠ "Point de Veille" ∧
+      ∀ e' ∈ all176Entries, e'.point = cp → e' = e) ∧
+    (∃ ae ∈ all176Entries, ae.point = ap ∧ ae.label ≠ "Point de Veille" ∧
+      ∀ ae' ∈ all176Entries, ae'.point = ap → ae' = ae) := by
+  have hvc : isValidCoreAffect (projectAttentionalDomain d piA piC) :=
+    projectAttentionalDomain_valid d piA piC
+  have hva : isValidCoreAffect (antagonistPoint (projectAttentionalDomain d piA piC)) :=
+    antagonistPoint_preserves_validity _ hvc
+  have hz_eq : (projectAttentionalDomain d piA piC).z = d.z :=
+    projectAttentionalDomain_z d piA piC
+  have hcp_z : (projectAttentionalDomain d piA piC).z ≤ 7 := by rw [hz_eq]; exact hz7
+  have hap_z : (antagonistPoint (projectAttentionalDomain d piA piC)).z ≤ 7 := by
+    rw [antagonistPoint_preserves_z]; exact hcp_z
+  have hmem_cp := all176Entries_spatial_completeness _ hcp_z hvc
+  have hmem_ap := all176Entries_spatial_completeness _ hap_z hva
+  rcases List.mem_map.mp hmem_cp with ⟨e, he_mem, he_pt⟩
+  rcases List.mem_map.mp hmem_ap with ⟨ae, hae_mem, hae_pt⟩
+  have hcp_ne : projectAttentionalDomain d piA piC ≠ ⟨0, 0, 0⟩ :=
+    (attentional_domain_disjoint_from_veille d piA piC).2.2
+  have hap_ne : antagonistPoint (projectAttentionalDomain d piA piC) ≠ ⟨0, 0, 0⟩ := by
+    intro h0
+    have hz0 : (antagonistPoint (projectAttentionalDomain d piA piC)).z = 0 :=
+      congrArg CoreAffectPoint.z h0
+    rw [antagonistPoint_preserves_z, hz_eq] at hz0
+    have hzpos := d.h_z_pos
+    omega
+  have he_lbl : e.label ≠ "Point de Veille" := by
+    intro hl
+    have hchk := List.all_eq_true.mp canonical_pdv_unique_point e he_mem
+    simp only [hl, beq_self_eq_true, Bool.not_true, Bool.false_or, beq_iff_eq] at hchk
+    exact hcp_ne (he_pt.symm.trans hchk)
+  have hae_lbl : ae.label ≠ "Point de Veille" := by
+    intro hl
+    have hchk := List.all_eq_true.mp canonical_pdv_unique_point ae hae_mem
+    simp only [hl, beq_self_eq_true, Bool.not_true, Bool.false_or, beq_iff_eq] at hchk
+    exact hap_ne (hae_pt.symm.trans hchk)
+  refine ⟨⟨e, he_mem, he_pt, he_lbl, fun e' he' hpt' =>
+      canonical_nodup_point_inj all176Entries_unique_points he' he_mem (hpt'.trans he_pt.symm)⟩,
+    ⟨ae, hae_mem, hae_pt, hae_lbl, fun ae' hae' hpt' =>
+      canonical_nodup_point_inj all176Entries_unique_points hae' hae_mem (hpt'.trans hae_pt.symm)⟩⟩
+
+/-!
 ## 3. Audit axiomatique (#print axioms)
 -/
 
@@ -528,6 +675,9 @@ theorem active_vs_passive_energy_signature :
 #print axioms lyapunov_strict_decrease_active_free
 #print axioms passive_extinction_requires_delta_pos
 #print axioms active_vs_passive_energy_signature
+#print axioms canonical_direct_project_preserves_operant
+#print axioms canonical_attentional_domain_to_taxonomy_coherent
+#print axioms canonical_attentional_domain_in_lexicon176
 
 end PredictiveEngineCanonical
 

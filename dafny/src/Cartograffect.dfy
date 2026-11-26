@@ -13,6 +13,7 @@ include "Lexicon176.dfy"
 include "PredictiveCircuit.dfy"
 include "AuditTests.dfy"
 include "OperantFactorization.dfy"
+include "EndToEndBridge.dfy"
 
 module Cartograffect {
   import PredictiveEngine
@@ -24,4 +25,5 @@ module Cartograffect {
   import PredictiveCircuit
   import AuditTests
   import OperantFactorization
+  import EndToEndBridge
 }

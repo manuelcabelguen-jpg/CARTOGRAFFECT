@@ -102,11 +102,11 @@ $expected113 = @(
   "canonicalDepthKernel_axial_instability_p2", "canonicalDepthKernel_outgoingWeight_pos",
   "classifyTaxonomicGroup_unique_maximizer", "classifyTaxonomicGroup_maximizes_membership",
   "lateral_has_overlapping_attractors",
-  # Lexicon176 (8)
+  # Lexicon176 (8 + all176Entries_closed_under_antagonist)
   "all176Entries_length", "all176Entries_geometrically_valid", "all176Entries_z_bounds",
   "all176Entries_unique_points", "all176Entries_complete",
   "all176Entries_deterministically_reachable", "all176Entries_reachable_by_engine",
-  "all176Entries_witness_check",
+  "all176Entries_witness_check", "all176Entries_closed_under_antagonist",
   # PredictiveCircuit (41)
   "circuit_covers_interfaces_both_sides", "circuit_refines_inferential_ops", "phiL1_left_inv",
   "phiL1_right_inv", "phiL1_agrees_with_deployZ2", "crossingII_is_transpose_of_crossingI",
@@ -130,10 +130,17 @@ $expected113 = @(
   "manhattanDistXY_origin", "operant_factorization_law",
   "energyRegime_matches_operant_operator", "antagonist_flips_effect_preserves_operator",
   "axial_poles_bridge_operant_pairs", "axial_poles_pre_operant",
-  "operant_bijection_on_z2_diagonals"
+  "operant_bijection_on_z2_diagonals",
+  # Derived Module: EndToEndBridge (10 + all176Entries_unique_labels)
+  "all176Entries_unique_labels",
+  "circuit_coupling_operant_bridge", "triggerSecondaryGradient_enters_operant",
+  "p2_markov_contagion_enters_operant_punishment", "operant_quadrant_lifting_all_strata",
+  "operant_antagonist_invariance_all_strata", "depthKernel_preserves_operant_quadrant",
+  "operant_lineages_reach_z7_transcendentals", "unified_circuit_to_taxonomy_coherence",
+  "circularCycle_to_taxonomy_and_lexicon_coherence", "full_end_to_end_lexicon_resolution"
 )
 
-if ($expected113.Count -ne 120) { throw "Internal count mismatch" }
+if ($expected113.Count -ne 132) { throw "Internal count mismatch: $($expected113.Count)" }
 $missing = @()
 foreach ($thm in $expected113) {
   if (-not $declaredLemmas.Contains($thm)) {
@@ -144,7 +151,7 @@ if ($missing.Count -gt 0) {
   Write-Error "Missing Dafny lemmas: $($missing -join ', ')"
   exit 1
 }
-Write-Host "[AUDIT] Static check OK: 0 assume/axiom/verify-false/extern, 120/120 lemmas declared."
+Write-Host "[AUDIT] Static check OK: 0 assume/axiom/verify-false/extern, 130/130 theorems + all176Entries_unique_labels + all176Entries_closed_under_antagonist (132/132 lemmas declared)."
 
 $totalSw = [System.Diagnostics.Stopwatch]::StartNew()
 Push-Location $dafnyRoot
@@ -152,7 +159,8 @@ try {
   # 3. Timed per-module verification
   $modules = @(
     "PredictiveEngine", "CoreAffect", "AffectiveMatrix", "AffectiveTaxonomy",
-    "AffectiveDynamics", "Lexicon176", "PredictiveCircuit", "AuditTests", "OperantFactorization", "Cartograffect"
+    "AffectiveDynamics", "Lexicon176", "PredictiveCircuit", "AuditTests",
+    "OperantFactorization", "EndToEndBridge", "Cartograffect"
   )
   Write-Host "`n=== Per-Module Dafny Verification ==="
   foreach ($mod in $modules) {

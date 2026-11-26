@@ -14,5 +14,6 @@ open import Cartograffect.AffectiveTaxonomy public
 open import Cartograffect.AffectiveDynamics public
 open import Cartograffect.Lexicon176        public
 open import Cartograffect.PredictiveCircuit    public
-open import Cartograffect.AuditTests           public
 open import Cartograffect.OperantFactorization public
+open import Cartograffect.EndToEndBridge       public
+open import Cartograffect.AuditTests           public

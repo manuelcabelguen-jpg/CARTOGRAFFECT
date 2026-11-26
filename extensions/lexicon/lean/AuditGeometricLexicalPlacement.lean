@@ -87,4 +87,13 @@ theorem corpus2_exact_conservation :
     (corpus2Points.all (fun p => l1Displacement p == 2 * (p.z - 1))) = true := by
   decide
 
+/-!
+## Audit axiomatique (#print axioms)
+-/
+
+#print axioms corpus2_all_valid_crown_points
+#print axioms corpus2_all_even_parity
+#print axioms corpus2_none_central
+#print axioms corpus2_exact_conservation
+
 end Cartograffect.Validation.GeometricAudit

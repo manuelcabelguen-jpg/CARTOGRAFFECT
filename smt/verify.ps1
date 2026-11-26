@@ -58,7 +58,8 @@ try {
         "theories/06_Lexicon176.smt2",
         "theories/07_PredictiveCircuit.smt2",
         "theories/08_AuditTests.smt2",
-        "theories/09_OperantFactorization.smt2"
+        "theories/09_OperantFactorization.smt2",
+        "theories/10_EndToEndBridge.smt2"
     )
 
     Write-Host "`n=== 2. Contrôle statique d'intégrité ===" -ForegroundColor Cyan
@@ -72,12 +73,13 @@ try {
         Write-Host ("  [OK] {0,-38} ({1} lignes)" -f $mod, $lines)
     }
 
-    Write-Host "`n=== 3. Exécution Z3 (9/9 CONSISTENCY sat, 120/120 THM unsat, 11/11 EVAL unsat) ===" -ForegroundColor Cyan
+    Write-Host "`n=== 3. Exécution Z3 (10/10 CONSISTENCY sat, 130/130 THM unsat, 2/2 AUX unsat, 11/11 EVAL unsat, 0 unknown) ===" -ForegroundColor Cyan
     $totalStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
     $consistencyCount = 0
     $thmCount = 0
     $auxCount = 0
     $evalCount = 0
+    $unknownCount = 0
     $auditValuesLines = @()
 
     foreach ($mod in $modules) {
@@ -95,8 +97,12 @@ try {
         $modEval = 0
         for ($i = 0; $i -lt $lines.Count; $i++) {
             $ln = $lines[$i].Trim()
+            if ($ln -eq "unknown" -or $ln -eq "timeout") {
+                $unknownCount++
+            }
             if ($ln -match '^\[CONSISTENCY\]$') {
                 $status = $lines[$i + 1].Trim()
+                if ($status -eq "unknown" -or $status -eq "timeout") { $unknownCount++ }
                 if ($status -ne "sat") { throw "Échec [CONSISTENCY] dans $mod : attendu 'sat', reçu '$status'." }
                 $consistencyCount++
                 $modCons++
@@ -104,6 +110,7 @@ try {
             elseif ($ln -match '^\[THM\]\s+(.+)$') {
                 $name = $Matches[1]
                 $status = $lines[$i + 1].Trim()
+                if ($status -eq "unknown" -or $status -eq "timeout") { $unknownCount++ }
                 if ($status -ne "unsat") { throw "Échec théorème '$name' dans $mod : attendu 'unsat', reçu '$status'." }
                 $thmCount++
                 $modThm++
@@ -111,12 +118,14 @@ try {
             elseif ($ln -match '^\[AUX\]\s+(.+)$') {
                 $name = $Matches[1]
                 $status = $lines[$i + 1].Trim()
+                if ($status -eq "unknown" -or $status -eq "timeout") { $unknownCount++ }
                 if ($status -ne "unsat") { throw "Échec auxiliaire '$name' dans $mod : attendu 'unsat', reçu '$status'." }
                 $auxCount++
             }
             elseif ($ln -match '^\[EVAL\]\s+(.+)$') {
                 $name = $Matches[1]
                 $status = $lines[$i + 1].Trim()
+                if ($status -eq "unknown" -or $status -eq "timeout") { $unknownCount++ }
                 if ($status -ne "unsat") { throw "Échec [EVAL] '$name' dans $mod : attendu 'unsat', reçu '$status'." }
                 $evalCount++
                 $modEval++
@@ -128,9 +137,10 @@ try {
         Write-Host ("  [OK] {0,-38} ({1:N2} s | CONSISTENCY: {2}, THM: {3}, EVAL: {4})" -f $mod, $sw.Elapsed.TotalSeconds, $modCons, $modThm, $modEval)
     }
 
-    if ($consistencyCount -ne 9) { throw "Nombre inattendu de [CONSISTENCY] sat : $consistencyCount (attendu : 9)." }
-    if ($thmCount -ne 120) { throw "Nombre inattendu de [THM] unsat : $thmCount (attendu : 120)." }
-    if ($auxCount -ne 1) { throw "Nombre inattendu de [AUX] unsat : $auxCount (attendu : 1)." }
+    if ($unknownCount -ne 0) { throw "Résultats unknown/timeout détectés : $unknownCount (attendu : 0)." }
+    if ($consistencyCount -ne 10) { throw "Nombre inattendu de [CONSISTENCY] sat : $consistencyCount (attendu : 10)." }
+    if ($thmCount -ne 130) { throw "Nombre inattendu de [THM] unsat : $thmCount (attendu : 130)." }
+    if ($auxCount -ne 2) { throw "Nombre inattendu de [AUX] unsat : $auxCount (attendu : 2)." }
     if ($evalCount -ne 11) { throw "Nombre inattendu de [EVAL] unsat : $evalCount (attendu : 11)." }
 
     Write-Host "`n=== 4. Parité des valeurs concrètes [VALUES] ===" -ForegroundColor Cyan
@@ -155,7 +165,7 @@ try {
     Write-Host "  [OK] Valeurs concrètes Z3 conformes à Lean 4 et Rocq 9."
 
     $totalStopwatch.Stop()
-    Write-Host "`nVALIDATION SMT Z3 COMPLÈTE RÉUSSIE (9/9 sat, 120/120 unsat, 11/11 EVAL unsat, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
+    Write-Host "`nVALIDATION SMT Z3 COMPLÈTE RÉUSSIE (10/10 sat, 130/130 unsat, 2/2 AUX unsat, 11/11 EVAL unsat, 0 unknown, durée totale : $([string]::Format('{0:N2} s', $totalStopwatch.Elapsed.TotalSeconds)))" -ForegroundColor Green
 }
 finally {
     Pop-Location

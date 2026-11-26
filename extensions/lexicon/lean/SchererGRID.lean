@@ -911,4 +911,30 @@ theorem radial_projection_preserves_octant :
 
 end DualSphereHomeomorphism
 
+/-!
+## 10. Audit axiomatique (#print axioms)
+-/
+
+#print axioms cpm_total_items_eq_142
+#print axioms cpmSomaticDen_pos_of_embodied
+#print axioms ratioZLe_refl
+#print axioms envelope_radius_monotone
+#print axioms octahedral_envelope_inclusion
+#print axioms vertical_abstraction_monotonicity
+#print axioms somatic_grounding_dominance
+#print axioms normative_abstraction_dominance
+#print axioms coping_splits_acted_reflexive
+#print axioms grid24_canonical_injective
+#print axioms empirical_thresholds_certified
+#print axioms ratioZ_strict_of_threshold_separation
+#print axioms stratum_hierarchy_monotone
+#print axioms scaleInt_succ_sign
+#print axioms int_pos_mul_sign_invariants
+#print axioms signInt_mul_pos
+#print axioms octantSignature_scaleRadialPoint
+#print axioms coping_modality_scale_invariant
+#print axioms classifyZRegime_aux
+#print axioms classifyZRegime_scale_invariant
+#print axioms radial_projection_preserves_octant
+
 end Cartograffect.Validation.SchererGRID

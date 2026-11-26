@@ -336,3 +336,259 @@ all176Entries_witness_check :
   ∀ {e : LexiconEntry} → e ∈ all176Entries → witnessMatchesPointB e ≡ true
 all176Entries_witness_check e∈ =
   All-lookup (allB-to-All witnessMatchesPointB all176Entries refl) e∈
+
+------------------------------------------------------------------------
+-- Structural Lemmas for End-to-End Bridge (NoDup, Lookup, Completeness)
+------------------------------------------------------------------------
+
+data NoDup {A : Set} : List A → Set where
+  nodup-[] : NoDup []
+  nodup-∷  : ∀ {x : A} {xs : List A} → ¬ (x ∈ xs) → NoDup xs → NoDup (x ∷ xs)
+
+anyB : ∀ {A : Set} → (A → Bool) → List A → Bool
+anyB _ []       = false
+anyB p (x ∷ xs) = p x ∨b anyB p xs
+
+nodupByB : ∀ {A : Set} → (A → A → Bool) → List A → Bool
+nodupByB _   []       = true
+nodupByB eqB (x ∷ xs) = eqB x x ∧b (not (anyB (eqB x) xs) ∧b nodupByB eqB xs)
+
+not-true-to-false : ∀ (b : Bool) → not b ≡ true → b ≡ false
+not-true-to-false false _ = refl
+not-true-to-false true  ()
+
+or-false-l-lex : ∀ (a b : Bool) → (a ∨b b) ≡ false → a ≡ false
+or-false-l-lex false _ _ = refl
+or-false-l-lex true  _ ()
+
+or-false-r-lex : ∀ (a b : Bool) → (a ∨b b) ≡ false → b ≡ false
+or-false-r-lex false b h = h
+or-false-r-lex true  _ ()
+
+false≢true-lex : false ≡ true → ⊥
+false≢true-lex ()
+
+anyB-false-not-∈ :
+  ∀ {A : Set} (eqB : A → A → Bool) (x : A) (xs : List A) →
+  eqB x x ≡ true →
+  anyB (eqB x) xs ≡ false →
+  ¬ (x ∈ xs)
+anyB-false-not-∈ _   _ []        _     _    ()
+anyB-false-not-∈ eqB x (.x ∷ xs) hRefl hAny here =
+  false≢true-lex (trans (sym (or-false-l-lex (eqB x x) (anyB (eqB x) xs) hAny)) hRefl)
+anyB-false-not-∈ eqB x (y ∷ xs)  hRefl hAny (there h∈) =
+  anyB-false-not-∈ eqB x xs hRefl (or-false-r-lex (eqB x y) (anyB (eqB x) xs) hAny) h∈
+
+nodupByB-to-NoDup :
+  ∀ {A : Set} (eqB : A → A → Bool) (xs : List A) →
+  nodupByB eqB xs ≡ true →
+  NoDup xs
+nodupByB-to-NoDup _   []       _ = nodup-[]
+nodupByB-to-NoDup eqB (x ∷ xs) h =
+  let h1   = and-true-l (eqB x x) (not (anyB (eqB x) xs) ∧b nodupByB eqB xs) h
+      h23  = and-true-r (eqB x x) (not (anyB (eqB x) xs) ∧b nodupByB eqB xs) h
+      hNot = and-true-l (not (anyB (eqB x) xs)) (nodupByB eqB xs) h23
+      hTl  = and-true-r (not (anyB (eqB x) xs)) (nodupByB eqB xs) h23
+  in nodup-∷ (anyB-false-not-∈ eqB x xs h1 (not-true-to-false (anyB (eqB x) xs) hNot))
+             (nodupByB-to-NoDup eqB xs hTl)
+
+in-map : ∀ {A B : Set} (f : A → B) {x : A} {xs : List A} → x ∈ xs → f x ∈ map f xs
+in-map _ here      = here
+in-map f (there h) = there (in-map f h)
+
+nodup-map-inj :
+  ∀ {A B : Set} (f : A → B) (xs : List A) →
+  NoDup (map f xs) →
+  ∀ {a b : A} → a ∈ xs → b ∈ xs → f a ≡ f b → a ≡ b
+nodup-map-inj _ []       _                 ()         _          _
+nodup-map-inj _ (_ ∷ _)  (nodup-∷ _    _)  here       here       _  = refl
+nodup-map-inj f (_ ∷ xs) (nodup-∷ ¬fx∈ _)  here       (there hb) eq =
+  ⊥-elim (¬fx∈ (subst (λ v → v ∈ map f xs) (sym eq) (in-map f hb)))
+nodup-map-inj f (_ ∷ xs) (nodup-∷ ¬fx∈ _)  (there ha) here       eq =
+  ⊥-elim (¬fx∈ (subst (λ v → v ∈ map f xs) eq (in-map f ha)))
+nodup-map-inj f (_ ∷ xs) (nodup-∷ _    nd) (there ha) (there hb) eq =
+  nodup-map-inj f xs nd ha hb eq
+
+all176Entries_nodup_points : NoDup (map entryPoint all176Entries)
+all176Entries_nodup_points = nodupByB-to-NoDup eqPointB (map entryPoint all176Entries) refl
+
+all176Entries_point_injective :
+  ∀ {e₁ e₂ : LexiconEntry} →
+  e₁ ∈ all176Entries → e₂ ∈ all176Entries →
+  entryPoint e₁ ≡ entryPoint e₂ →
+  e₁ ≡ e₂
+all176Entries_point_injective h1 h2 eq =
+  nodup-map-inj entryPoint all176Entries all176Entries_nodup_points h1 h2 eq
+
+nthOrDefault : ∀ {A : Set} → A → Nat → List A → A
+nthOrDefault d _       []       = d
+nthOrDefault _ zero    (x ∷ _)  = x
+nthOrDefault d (suc k) (_ ∷ xs) = nthOrDefault d k xs
+
+nth-∈ : ∀ {A : Set} (d : A) (k : Nat) (xs : List A) → (k < length xs) ≡ true → nthOrDefault d k xs ∈ xs
+nth-∈ _ zero    (_ ∷ _)  _ = here
+nth-∈ d (suc k) (_ ∷ xs) h = there (nth-∈ d k xs h)
+
+eqIntB-to-≡ : ∀ (x y : Int) → eqIntB x y ≡ true → x ≡ y
+eqIntB-to-≡ (pos a)    (pos b)    h = cong pos (nat-==-to-≡ a b h)
+eqIntB-to-≡ (negsuc a) (negsuc b) h = cong negsuc (nat-==-to-≡ a b h)
+eqIntB-to-≡ (pos _)    (negsuc _) ()
+eqIntB-to-≡ (negsuc _) (pos _)    ()
+
+eqPointB-to-≡ : ∀ (p q : CoreAffectPoint) → eqPointB p q ≡ true → p ≡ q
+eqPointB-to-≡ (mkPoint xa ya za) (mkPoint xb yb zb) h =
+  let hx  = and-true-l (eqIntB xa xb) (eqIntB ya yb ∧b (za == zb)) h
+      hyz = and-true-r (eqIntB xa xb) (eqIntB ya yb ∧b (za == zb)) h
+      hy  = and-true-l (eqIntB ya yb) (za == zb) hyz
+      hz  = and-true-r (eqIntB ya yb) (za == zb) hyz
+  in trans (cong (mkPoint xa ya) (nat-==-to-≡ za zb hz))
+           (cong₂ (λ u v → mkPoint u v zb)
+                  (eqIntB-to-≡ xa xb hx)
+                  (eqIntB-to-≡ ya yb hy))
+
+hasEntryForPointB : List LexiconEntry → CoreAffectPoint → Bool
+hasEntryForPointB []       _ = false
+hasEntryForPointB (e ∷ es) p = eqPointB (entryPoint e) p ∨b hasEntryForPointB es p
+
+hasEntryForPointB-to-Σ :
+  ∀ (es : List LexiconEntry) (p : CoreAffectPoint) →
+  hasEntryForPointB es p ≡ true →
+  Σ LexiconEntry (λ e → (e ∈ es) × (entryPoint e ≡ p))
+hasEntryForPointB-to-Σ []       _ ()
+hasEntryForPointB-to-Σ (e ∷ es) p h = aux (eqPointB (entryPoint e) p) refl h
+  where
+    aux : ∀ (b : Bool) → eqPointB (entryPoint e) p ≡ b →
+          (b ∨b hasEntryForPointB es p) ≡ true →
+          Σ LexiconEntry (λ e' → (e' ∈ (e ∷ es)) × (entryPoint e' ≡ p))
+    aux true  eq _  = e ,, (here , eqPointB-to-≡ (entryPoint e) p eq)
+    aux false _  h' =
+      let res = hasEntryForPointB-to-Σ es p h'
+      in proj₁ res ,, (there (fst (proj₂ res)) , snd (proj₂ res))
+
+∈-++-l : ∀ {A : Set} {x : A} {xs ys : List A} → x ∈ xs → x ∈ (xs ++ ys)
+∈-++-l here      = here
+∈-++-l (there h) = there (∈-++-l h)
+
+∈-++-r : ∀ {A : Set} {x : A} (xs : List A) {ys : List A} → x ∈ ys → x ∈ (xs ++ ys)
+∈-++-r []       h = h
+∈-++-r (_ ∷ xs) h = there (∈-++-r xs h)
+
+flatMap : ∀ {A B : Set} → (A → List B) → List A → List B
+flatMap _ []       = []
+flatMap f (x ∷ xs) = f x ++ flatMap f xs
+
+∈-flatMap :
+  ∀ {A B : Set} (f : A → List B) {a : A} {b : B} {xs : List A} →
+  a ∈ xs → b ∈ f a → b ∈ flatMap f xs
+∈-flatMap _ here       hb = ∈-++-l hb
+∈-flatMap f (there ha) hb = ∈-++-r (f _) (∈-flatMap f ha hb)
+
+≤-of-≤-suc-neq : ∀ {a k : Nat} → a ≤ℕ suc k → ¬ (a ≡ suc k) → a ≤ℕ k
+≤-of-≤-suc-neq {zero}          z≤n       _   = z≤n
+≤-of-≤-suc-neq {suc _} {zero}  (s≤s z≤n) neq = ⊥-elim (neq refl)
+≤-of-≤-suc-neq {suc _} {suc _} (s≤s h)   neq = s≤s (≤-of-≤-suc-neq h (λ eq → neq (cong suc eq)))
+
+seq0 : Nat → List Nat
+seq0 zero    = zero ∷ []
+seq0 (suc k) = suc k ∷ seq0 k
+
+∈-seq0 : ∀ (a k : Nat) → a ≤ℕ k → a ∈ seq0 k
+∈-seq0 zero zero    z≤n = here
+∈-seq0 a    (suc k) h with ≡ℕ-dec a (suc k)
+... | yes refl = here
+... | no  neq  = there (∈-seq0 a k (≤-of-≤-suc-neq h neq))
+
+signVariants : Nat → Nat → Nat → List CoreAffectPoint
+signVariants ax ay z =
+    mkPoint (pos ax)     (pos ay)     z
+  ∷ mkPoint (pos ax)     (-ℤ pos ay) z
+  ∷ mkPoint (-ℤ pos ax) (pos ay)     z
+  ∷ mkPoint (-ℤ pos ax) (-ℤ pos ay) z
+  ∷ []
+
+∈-signVariants :
+  ∀ (p : CoreAffectPoint) → p ∈ signVariants (absNat (px p)) (absNat (py p)) (pz p)
+∈-signVariants (mkPoint (pos _)    (pos _)    _) = here
+∈-signVariants (mkPoint (pos _)    (negsuc _) _) = there here
+∈-signVariants (mkPoint (negsuc _) (pos _)    _) = there (there here)
+∈-signVariants (mkPoint (negsuc _) (negsuc _) _) = there (there (there here))
+
+stratumValidGrid : Nat → List CoreAffectPoint
+stratumValidGrid z =
+  mkPoint (pos 0) (pos 0) z
+  ∷ flatMap (λ ax → signVariants ax (crownRadius z - ax) z) (seq0 (crownRadius z))
+
+valid-in-stratumValidGrid :
+  ∀ (p : CoreAffectPoint) → IsValidCoreAffect p → p ∈ stratumValidGrid (pz p)
+valid-in-stratumValidGrid p hVal = aux (isCentralB p) refl hVal
+  where
+    aux : ∀ (b : Bool) → isCentralB p ≡ b →
+          (b ∨b isOnCrownB p) ≡ true →
+          p ∈ stratumValidGrid (pz p)
+    aux true cEq _ =
+      let xy = isCentralB-to-xy p cEq
+          pEq : mkPoint (pos 0) (pos 0) (pz p) ≡ p
+          pEq = cong₂ (λ a b → mkPoint a b (pz p)) (sym (fst xy)) (sym (snd xy))
+      in subst (λ q → q ∈ stratumValidGrid (pz p)) pEq here
+    aux false _ hCrown = crownAux (pz p) refl hCrown
+      where
+        crownAux : ∀ (zv : Nat) → pz p ≡ zv →
+                   (ge2ℕ zv ∧b (displacementSum p == crownRadius zv)) ≡ true →
+                   p ∈ stratumValidGrid zv
+        crownAux zero          _    ()
+        crownAux (suc zero)    _    ()
+        crownAux (suc (suc d)) pzEq hc =
+          let r     = crownRadius (suc (suc d))
+              eqSum = nat-==-to-≡ (displacementSum p) r hc
+              ax≤r  = subst (absNat (px p) ≤ℕ_) eqSum (≤ℕ-add-r (absNat (px p)) (absNat (py p)))
+              ayEq  = trans (cong (_- absNat (px p)) (sym eqSum))
+                            (-ℕ-cancel (absNat (px p)) (absNat (py p)))
+              inSV0 = subst (λ z' → p ∈ signVariants (absNat (px p)) (absNat (py p)) z')
+                            pzEq (∈-signVariants p)
+              inSV  = subst (λ v → p ∈ signVariants (absNat (px p)) v (suc (suc d)))
+                            (sym ayEq) inSV0
+          in there (∈-flatMap (λ ax → signVariants ax (r - ax) (suc (suc d)))
+                              (∈-seq0 (absNat (px p)) r ax≤r)
+                              inSV)
+
+stratumValidGrid-hasEntry :
+  ∀ (z : Nat) → leNatB z 7 ≡ true →
+  ∀ {q : CoreAffectPoint} → q ∈ stratumValidGrid z →
+  hasEntryForPointB all176Entries q ≡ true
+stratumValidGrid-hasEntry 0 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 0) refl) q∈
+stratumValidGrid-hasEntry 1 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 1) refl) q∈
+stratumValidGrid-hasEntry 2 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 2) refl) q∈
+stratumValidGrid-hasEntry 3 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 3) refl) q∈
+stratumValidGrid-hasEntry 4 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 4) refl) q∈
+stratumValidGrid-hasEntry 5 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 5) refl) q∈
+stratumValidGrid-hasEntry 6 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 6) refl) q∈
+stratumValidGrid-hasEntry 7 _ q∈ =
+  All-lookup (allB-to-All (hasEntryForPointB all176Entries) (stratumValidGrid 7) refl) q∈
+stratumValidGrid-hasEntry (suc (suc (suc (suc (suc (suc (suc (suc _)))))))) () _
+
+all176Entries_lookup_by_point :
+  ∀ (p : CoreAffectPoint) →
+  leNatB (pz p) 7 ≡ true →
+  IsValidCoreAffect p →
+  Σ LexiconEntry (λ e → (e ∈ all176Entries) × (entryPoint e ≡ p))
+all176Entries_lookup_by_point p hz hVal =
+  hasEntryForPointB-to-Σ all176Entries p
+    (stratumValidGrid-hasEntry (pz p) hz (valid-in-stratumValidGrid p hVal))
+
+all176Entries_spatial_completeness :
+  ∀ (p : CoreAffectPoint) →
+  leNatB (pz p) 7 ≡ true →
+  IsValidCoreAffect p →
+  p ∈ map entryPoint all176Entries
+all176Entries_spatial_completeness p hz hVal =
+  let res = all176Entries_lookup_by_point p hz hVal
+  in subst (λ q → q ∈ map entryPoint all176Entries)
+           (snd (proj₂ res))
+           (in-map entryPoint {xs = all176Entries} (fst (proj₂ res)))

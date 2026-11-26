@@ -798,6 +798,133 @@ def test_audit_tests_phase2_eval_witnesses() -> None:
     assert ts_const.subsector is FunctionalSubsector.LATERAL_DEFENSIVE_URGENCY
     assert ts_const.matrix.valence is HedonicPolarity.NEGATIVE
     assert ts_const.matrix.antagonist.point == CoreAffectPoint(3, -1, 3)
+
+
+def test_end_to_end_bridge_and_operant_factorization_invariants() -> None:
+    """Vérifie en Python les 10 théorèmes du module `Cartograffect/EndToEndBridge.lean`
+    et les 7 théorèmes de `Cartograffect/OperantFactorization.lean` (130 théorèmes Strate 0)."""
+    from cartograffect_sim.affective_matrix import canonical_depth_weight
+
+    def coupling_to_contingency(c: EngineCoupling) -> tuple[str, str] | None:
+        if c == EngineCoupling(Polarity.POS, Polarity.POS):
+            return ("Reinforcement", "Addition")
+        if c == EngineCoupling(Polarity.POS, Polarity.NEG):
+            return ("Reinforcement", "Removal")
+        if c == EngineCoupling(Polarity.NEG, Polarity.NEG):
+            return ("Punishment", "Addition")
+        if c == EngineCoupling(Polarity.NEG, Polarity.POS):
+            return ("Punishment", "Removal")
+        return None
+
+    def quadrant_contingency(x: int, y: int) -> tuple[str, str] | None:
+        if x > 0 and y > 0:
+            return ("Reinforcement", "Addition")
+        if x > 0 and y < 0:
+            return ("Reinforcement", "Removal")
+        if x < 0 and y < 0:
+            return ("Punishment", "Addition")
+        if x < 0 and y > 0:
+            return ("Punishment", "Removal")
+        return None
+
+    def diag_to_contingency(p: CoreAffectPoint) -> tuple[str, str] | None:
+        if p.z != 2:
+            return None
+        return {
+            (1, 1): ("Reinforcement", "Addition"),
+            (1, -1): ("Reinforcement", "Removal"),
+            (-1, -1): ("Punishment", "Addition"),
+            (-1, 1): ("Punishment", "Removal"),
+        }.get((p.x, p.y))
+
+    # [1/10] circuit_coupling_operant_bridge & [2/10] triggerSecondaryGradient_enters_operant
+    for c in ALL_COUPLINGS:
+        for d in (0, 1, 3, 5):
+            for pa, pc in ((1, 1), (1, 3), (3, 1)):
+                pt = deploy_coupling_with_precision(c, d, pa, pc)
+                assert quadrant_contingency(pt.x, pt.y) == coupling_to_contingency(c)
+        if c.is_single_engaged():
+            assert diag_to_contingency(deploy_coupling_at_depth(c, 0)) is None
+            for pol in (Polarity.POS, Polarity.NEG):
+                c2 = trigger_secondary_gradient(c, pol)
+                p2 = deploy_coupling_at_depth(c2, 0)
+                oc = diag_to_contingency(p2)
+                assert oc is not None
+                assert oc == coupling_to_contingency(c2)
+
+    # [4/10] operant_quadrant_lifting_all_strata & [5/10] operant_antagonist_invariance_all_strata
+    for entry in ALL_176_ENTRIES:
+        p = entry.point
+        if p.x != 0 and p.y != 0:
+            oc = quadrant_contingency(p.x, p.y)
+            assert oc is not None
+            eff, op = oc
+            assert (eff == "Reinforcement") == (p.x > 0)
+            assert (eff == "Punishment") == (p.x < 0)
+            assert (op == "Addition") == (p.x * p.y > 0)
+            assert (op == "Removal") == (p.x * p.y < 0)
+            assert (compute_hedonic_polarity(p.x, p.y) is HedonicPolarity.POSITIVE) == (
+                eff == "Reinforcement"
+            )
+            er = compute_energy_regime(p.x, p.y)
+            assert (op == "Addition") == (
+                er in (EnergyRegime.POSITIVE_SYNERGY, EnergyRegime.NEGATIVE_SYNERGY)
+            )
+            assert (op == "Removal") == (
+                er in (EnergyRegime.ERGOTROPIC_COMPENSATION, EnergyRegime.TROPHOTROPIC_RELEASE)
+            )
+            ant = antagonist_point(p)
+            oc_ant = quadrant_contingency(ant.x, ant.y)
+            assert oc_ant is not None
+            assert oc_ant[0] != eff and oc_ant[1] == op
+
+    # [6/10] depthKernel_preserves_operant_quadrant
+    for e1 in ALL_176_ENTRIES:
+        p = e1.point
+        if p.x != 0 and p.y != 0 and p.z < 7:
+            for q in stratum_valid_grid(p.z + 1):
+                if canonical_depth_weight(p, q) > 0:
+                    assert q.x != 0 and q.y != 0
+                    assert quadrant_contingency(q.x, q.y) == quadrant_contingency(p.x, p.y)
+
+    # [7/10] operant_lineages_reach_z7_transcendentals
+    lineages = [
+        (1, 1, "Sublimation", TaxonomicGroup.GROUPE_DESIR, FunctionalSubsector.DIAGONAL_DESIRE),
+        (1, -1, "Impassibilité", TaxonomicGroup.GROUPE_CALME, FunctionalSubsector.DIAGONAL_CALM),
+        (-1, -1, "Dissolution", TaxonomicGroup.GROUPE_DEGOUT, FunctionalSubsector.DIAGONAL_DISGUST),
+        (-1, 1, "Rage", TaxonomicGroup.GROUPE_COLERE, FunctionalSubsector.DIAGONAL_ANGER),
+    ]
+    for sx, sy, label_z7, grp_z7, sub_z7 in lineages:
+        for z in range(2, 7):
+            k = z - 1
+            p_cur = CoreAffectPoint(sx * k, sy * k, z)
+            p_nxt = CoreAffectPoint(sx * (k + 1), sy * (k + 1), z + 1)
+            assert canonical_depth_weight(p_cur, p_nxt) == 2
+        pt7 = CoreAffectPoint(sx * 6, sy * 6, 7)
+        assert ENTRY_BY_POINT[pt7].label == label_z7
+        assert classify_taxonomic_group(pt7) is grp_z7
+        assert classify_subsector(pt7.x, pt7.y) is sub_z7
+
+    # [10/10] full_end_to_end_lexicon_resolution & all176Entries_unique_labels
+    assert len({e.label for e in ALL_176_ENTRIES}) == 176
+    for state in _sample_engine_states():
+        if project_to_core_affect(state).z <= 7:
+            ts = run_cartograffect_pipeline(state)
+            cp = ts.matrix.core.point
+            ap = ts.matrix.antagonist.point
+            assert is_coherent_terminal_state(state, ts)
+            assert cp in ENTRY_BY_POINT and ap in ENTRY_BY_POINT
+            e_cp = ENTRY_BY_POINT[cp]
+            e_ap = ENTRY_BY_POINT[ap]
+            assert e_cp.antagonist_label == e_ap.label
+            if cp.x != 0 and cp.y != 0:
+                c1 = quadrant_contingency(cp.x, cp.y)
+                c2 = quadrant_contingency(ap.x, ap.y)
+                assert c1 is not None and c2 is not None
+                assert c1[0] != c2[0] and c1[1] == c2[1]
+
+    s_const = witness_engine_for_point(ENTRY_BY_LABEL["Consternation"].point)
+    ts_const = run_cartograffect_pipeline(s_const)
     assert ENTRY_BY_POINT[ts_const.matrix.core.point].label == "Consternation"
     assert ENTRY_BY_POINT[ts_const.matrix.antagonist.point].label == "Émerveillement"
 
