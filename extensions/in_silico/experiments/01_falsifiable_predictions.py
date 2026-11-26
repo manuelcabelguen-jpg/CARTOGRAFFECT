@@ -1,12 +1,21 @@
-"""Expérience 1 : Validation Monte-Carlo non circulaire des 5 prédictions falsifiables (P1–P5).
+"""Expérience 1 : Tests de cohérence in silico (P1–P5) — V3 = 0.
 
-Prédictions testées (N = 1 000 trajectoires par condition) :
-    1. Arbitrage budgétaire L1 : à profondeur Z constante (Z = 4, R = 6), un
-       plan factoriel orthogonal 2 x 2 sur NonStationaryBanditEnv (cycle fermé
-       LL -> HL -> HH -> LH -> LL ; p_ctrl x v_rule) produit des demandes brutes
-       orthogonales, mais l'application canonique de `apply_budget_constraint`
-       induit une anticorrélation significative r(Δ|X_t|, Δ|Y_t|) < -0.60 sous
-       λ = 1, absente sous λ = 0 (|r| < 0.05).
+Note méthodologique (Phase 1, v3.0.0-dev) :
+    Ces simulations évaluent exclusivement la cohérence numérique et générative
+    interne du simulateur `pymdp` (aucune validation empirique humaine, V3 = 0).
+    En particulier, P1 constitue un **test de cohérence numérique du projecteur
+    budgétaire** `apply_budget_constraint` (vérification de l'effet numérique de
+    la contrainte explicite λ = 1 vs λ = 0), et non une validation empirique ou
+    non circulaire.
+
+Tests exécutés (N = 1 000 trajectoires par condition) :
+    1. P1 — Test de cohérence numérique du projecteur budgétaire L1 : à profondeur
+       Z constante (Z = 4, R = 6), un plan factoriel orthogonal 2 x 2 sur
+       NonStationaryBanditEnv (cycle fermé LL -> HL -> HH -> LH -> LL ; p_ctrl x
+       v_rule) produit des demandes brutes orthogonales ; l'application explicite
+       du projecteur `apply_budget_constraint` induit numériquement une
+       anticorrélation r(Δ|X_t|, Δ|Y_t|) < -0.60 sous λ = 1, absente sous λ = 0
+       (|r| < 0.05).
     2. Instabilité émergente des positions axiales en Z = 2 : à partir d'un tenseur
        de transition B_Z2 symétrique sans aucun biais axial a priori
        (|stay_ax - stay_diag| < 1e-12), les dynamiques de tâche en 4 quadrants
@@ -174,7 +183,11 @@ def run_prediction_1_budget_tradeoff(
     depth_z: int = 4,
     seed: int = 101,
 ) -> dict[str, Any]:
-    """Prédiction 1 : Arbitrage L1 (λ=1 vs λ=0) à profondeur constante Z = 4.
+    """P1 — Test de cohérence numérique du projecteur budgétaire L1 (λ=1 vs λ=0, Z=4).
+
+    Note épistémique : vérifie la cohérence numérique de l'opérateur explicite
+    `apply_budget_constraint` sous demandes orthogonales (V3 = 0, ne constitue
+    pas une validation empirique ni une preuve non circulaire).
 
     Protocole orthogonal 2 x 2 en cycle fermé :
         - Bloc 0 : p_ctrl élevé (0.90), volatilité basse (0.05) -> faible X, faible Y (LL)
@@ -1296,7 +1309,7 @@ def _generate_figure(
     ax.axhline(0.0, color="#34495e", linestyle="--", linewidth=1.0)
     p1_p_tex = _format_p_latex(float(p1["comparison"]["wilcoxon_p"]))
     ax.set_title(
-        f"P1 — Arbitrage budgétaire $L_1$ ($Z=4$, $N={p1['num_trajectories']}$)\n"
+        f"P1 — Cohérence numérique du projecteur budgétaire $L_1$ ($Z=4$, $N={p1['num_trajectories']}$)\n"
         f"$r(\\lambda=1) = {p1['lambda_1']['mean_traj_corr']:.3f}$ vs "
         f"$r(\\lambda=0) = {p1['lambda_0']['mean_traj_corr']:.3f}$ "
         f"(${p1_p_tex}$, $r_{{\\mathrm{{raw}}}}={p1['r_raw_orthogonal']:.3f}$)",
@@ -1515,8 +1528,8 @@ def _generate_figure(
     ax.legend(h1 + h2, l1 + l2, frameon=True, fontsize=7.8, loc="upper left")
 
     fig.suptitle(
-        "CARTOGRAFFECT — Validation Monte-Carlo non circulaire des 5 prédictions falsifiables (P1–P5)",
-        fontsize=13,
+        "CARTOGRAFFECT — Simulation in silico (V3 = 0) : test numérique du projecteur budgétaire (P1) et prédictions internes (P2–P5)",
+        fontsize=12.2,
         fontweight="bold",
         y=0.988,
     )
@@ -1530,7 +1543,7 @@ def run_experiment(
     num_trajectories: int = 1000,
     results_dir: Path | None = None,
 ) -> dict[str, Any]:
-    """Exécute les cinq validations Monte-Carlo (P1–P5) et exporte JSON/CSV/PNG."""
+    """Exécute le test de cohérence numérique du projecteur budgétaire (P1) et les simulations internes (P2–P5) et exporte JSON/CSV/PNG."""
     out_dir = ROOT_DIR / "results" if results_dir is None else Path(results_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 

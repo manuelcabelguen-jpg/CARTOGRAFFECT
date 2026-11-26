@@ -36,17 +36,12 @@ Dans **CARTOGRAFFECT®**, les trois dimensions sont définies de manière intrin
 
 ---
 
-## 3. Support de Validation Externe *a posteriori* (Témoin Scherer GRID / CPM)
+## 3. Épreuve Externe Exploratoire (Roues des Émotions, Scherer et al., 2013)
 
-Afin de démontrer empiriquement la solidité psychométrique de **CARTOGRAFFECT®** face à la littérature existante, le modèle a été confronté *a posteriori* à des référentiels externes (NRC-VAD v2.1, DIMA et l'échantillon de 24 termes du paradigme **GRID / Component Process Model** de Scherer, 2005 ; Fontaine et al., 2007, 2013) :
-
-- **Statut méthodologique** : Le paradigme GRID ne définit aucunement la géométrie de CARTOGRAFFECT® (GRID ne comporte que **24 mots** d'émotions courantes, limités aux strates basses S1–S3, sans loi d'enveloppe ni strates éthiques/axiologiques/politiques S4–S6). Il sert uniquement d'**échantillon-témoin externe** pour vérifier que les mesures psychométriques classiques (142 descripteurs componantiels) viennent naturellement s'inscrire aux emplacements prévus par la topologie 3D de CARTOGRAFFECT®.
-- **[Rapport de Validation Psychométrique & Preuves Formelles Lean 4.35.0](validation_scherer_grid.md)** :
-  - Vérification de l'invariance des octants, des symétries antagonistes et de l'homéomorphisme radial $L_1 \leftrightarrow L_2$ sous **Lean 4.35.0** (`Cartograffect/Validation/SchererGRID.lean`, zéro `sorry`).
-  - Benchmark comparatif de la dualité Diamant ($L_1$) $\leftrightarrow$ Sphère ($L_2$) démontrant le gain d'isotropie angulaire ($\Delta\phi_Z = +0.2385$ sur les 176 prototypes et $+0.3407$ sur le lexique).
+- **Note d'intégrité probatoire (Phase 1, `v3.0.0-dev`) :** Les scripts et revendications de « validation empirique » **GRID-24 / CPM-142** (anciens artefacts synthétiques avec réinjection sectorielle et module `SchererGRID.lean` contenant des scores statistiques codés en dur) ont été **retirés du périmètre actif** et archivés dans `archive/deprecated_synthetic_v2/`.
 - **[Défi des Roues des Émotions (Scherer et al., 2013)](validation_roues_emotions_scherer.md)** :
-  - Épreuve de falsification empirique confrontant CARTOGRAFFECT aux roues **GEW 3.0**, **GEW 2.0**, **GEW 1.0** et au **Circumplex de Plutchik** (7 hypothèses pré-enregistrées, permutations Monte Carlo $N=10\,000$).
-  - Confirmation empirique de l'ordre circulaire ($\bar{R} = 0.728, p = 0.0001$), de l'invariance de signe de valence ($98.4\%$), de l'orthogonalisation face au cisaillement oblique empirique ($\alpha \approx -31^\circ$), et de la validité discriminante fondamentale de l'axe vertical ($Z \neq \text{intensité}$, $\rho = +0.215, p = 0.338$).
+  - Épreuve exploratoire confrontant la projection lexicale de CARTOGRAFFECT aux roues **GEW 3.0**, **GEW 2.0**, **GEW 1.0** et au **Circumplex de Plutchik** sans surcharge manuelle cachée (permutations Monte-Carlo $N = 10\,000$).
+  - Les hypothèses **H2** (orthogonalité sans rotation, $|\alpha| \le 22.5^\circ$) et **H4** (antipodalité 2D des opposés de roue) sont rapportées strictement comme **non corroborées** sans recadrage post-hoc.
 
 ---
 

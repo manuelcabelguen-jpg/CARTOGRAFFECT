@@ -5,14 +5,9 @@
 06_build_interactive_3d_viewer.py
 Génère l'explorateur interactif 3D autonome (HTML/Canvas) pour la Pyramide CARTOGRAFFECT :
 - 176 prototypes répartis sur la Pyramide des Couronnes L1 (Z = 0..7, R_L1 = 2*(Z-1)) certifiée sous Lean 4
-- Intégration des 24 Ancres Canoniques Scherer GRID (`CARTOGRAFFECT_GRID_24_Prototypes_CPM.tsv`)
-  et des profils CPM interpolés (`CARTOGRAFFECT_176_GRID_CPM_Interpolated.tsv`)
-- Commutateur visuel "Ancres Canoniques Scherer GRID (24)" sur les couronnes L1
-- Diagramme radar 5 axes du Component Process Model (Appraisal [33], Bodily [27],
-  Expression [33], Action [28], Feeling [21])
-- Jauge de régime vertical Z (`Z_0`, `Z_neg` somatique, `Z_7` équatorial, `Z_pos` cognitivo-normatif)
-  fondée sur `Ratio_Z`
-- Badge de certification formelle : "Lean 4.35.0 Verified (SchererGRID.lean - Zero Sorry)"
+- Morphing géométrique radial L1 (Diamant) ↔ L2 (Sphère)
+- Note Phase 1 (v3.0.0-dev) : les métriques synthétiques GRID-24 / CPM-142 (ex-SchererGRID.lean)
+  ont été retirées et archivées dans `archive/deprecated_synthetic_v2/`.
 
 Copyright (C) 2026  Projet CARTOGRAFFECT (Manuel Cabelguen)
 
@@ -52,10 +47,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <div>
         <div class="flex flex-wrap items-center gap-2">
           <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-600 text-white shadow-sm">
-            ✓ Lean 4.35.0 Verified (Lexicon176.lean &amp; DualSphereHomeomorphism • Zero Sorry)
+            ✓ Lean 4.35.0 Verified (Lexicon176.lean • Zero Sorry)
           </span>
           <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-400 border border-sky-500/40">
-            Dictionnaire Multi-Strates (S1 Somatique → S6 Politique • 16 183 entrées)
+            Explorateur Lexical Strate 1 (Z⁺ / Z⁻)
           </span>
           <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-500 border border-amber-500/40">
             Sphère Octaédrique Duale (L1 ↔ L2)
@@ -63,21 +58,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <h1 class="text-lg font-bold text-[var(--foreground)]">CARTOGRAFFECT® — Sphère Octaédrique Duale (L1 ↔ L2) &amp; Taxonomie Multi-Strates (Z = 0 à 7)</h1>
         </div>
         <p class="text-xs text-[var(--muted-foreground)] mt-1">
-          Architecture géométrique souveraine (OPIC n° 1233199) • Loi d'enveloppe |X| + |Y| = 2(Z - 1) • 176 prototypes (8 couronnes Z₀–Z₇) • 1 991 lemmes 3D sur 6 strates S1–S6 (CNRS GLAWI / Lexique 3.83 / DIMA / NRC-VAD)
+          Architecture géométrique souveraine (OPIC n° 1233199) • Loi d'enveloppe |X| + |Y| = 2(Z - 1) • 176 prototypes (8 couronnes Z₀–Z₇) • 1 991 lemmes 3D (CNRS GLAWI / Lexique 3.83 / DIMA / NRC-VAD)
         </p>
       </div>
       <div class="flex flex-wrap gap-2 text-xs">
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
           <span class="text-[var(--muted-foreground)]">Architecture CARTOGRAFFECT® :</span>
-          <span id="metricCcaBadge" class="font-bold text-[var(--foreground)] ml-1">176 pôles (Z₀–Z₇) • 6 strates (16 183 entrées) • B(Z) = ‖u‖₁ = ‖u_Lp‖_p</span>
+          <span id="metricCcaBadge" class="font-bold text-[var(--foreground)] ml-1">176 pôles (Z₀–Z₇) • B(Z) = ‖u‖₁ = ‖u_Lp‖_p</span>
         </div>
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
-          <span class="text-[var(--muted-foreground)]">Isotropie Lp • Congruence (φ_X, φ_Y, φ_Z) [176] :</span>
-          <span id="metricTucker176Badge" class="font-bold text-emerald-400 ml-1">R=0.6281 • φ=(0.6139, 0.6360, 0.6385)</span>
+          <span class="text-[var(--muted-foreground)]">Géométrie Lp :</span>
+          <span id="metricTucker176Badge" class="font-bold text-emerald-400 ml-1">Homéomorphisme radial L1 ↔ L2</span>
         </div>
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
-          <span class="text-[var(--muted-foreground)]">Validation externe (Lexique 15 037 | Témoin GRID-24) :</span>
-          <span id="metricTuckerZBadge" class="font-bold text-amber-400 ml-1">φ_Z = 0.4534 (Lex) | 0.8762 (Témoin-24)</span>
+          <span class="text-[var(--muted-foreground)]">Statut épistémique :</span>
+          <span id="metricTuckerZBadge" class="font-bold text-amber-400 ml-1">Strate 1 exploratoire (V3 = 0)</span>
         </div>
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
           <span class="text-[var(--muted-foreground)]">Licences (OPIC n° 1233199) :</span>
@@ -422,56 +417,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       };
     }
 
-    // Métriques psychométriques de référence aux bornes L1 (p=1.0), Superquadrique (p=1.5) et L2 (p=2.0)
-    const BENCHMARK_METRICS_LP = {
-      p1: {
-        cca24: 0.9502, cca176: 0.9309, ccaLex: 0.9104,
-        proc176: 0.6281, phi176: [0.6139, 0.6360, 0.6385], rms176: 0.6296,
-        phiZ24: 0.8762, phiZLex: 0.4534, procLex: 0.6637
-      },
-      p15: {
-        cca24: 0.9310, cca176: 0.9342, ccaLex: 0.9080,
-        proc176: 0.8937, phi176: [0.9152, 0.9469, 0.8153], rms176: 0.8942,
-        phiZ24: 0.8690, phiZLex: 0.7215, procLex: 0.7240
-      },
-      p2: {
-        cca24: 0.9095, cca176: 0.9364, ccaLex: 0.9046,
-        proc176: 0.9134, phi176: [0.9114, 0.9509, 0.8770], rms176: 0.9136,
-        phiZ24: 0.8600, phiZLex: 0.7941, procLex: 0.7427
-      }
-    };
-
-    function lerpVal(a, b, t) {
-      return a + (b - a) * t;
-    }
-
-    function getInterpolatedMetricsForP(pVal) {
-      const p = Math.max(1.0, Math.min(2.0, pVal));
-      const m1 = BENCHMARK_METRICS_LP.p1;
-      const m15 = BENCHMARK_METRICS_LP.p15;
-      const m2 = BENCHMARK_METRICS_LP.p2;
-      let a, b, t;
-      if (p <= 1.5) {
-        a = m1; b = m15; t = (p - 1.0) / 0.5;
-      } else {
-        a = m15; b = m2; t = (p - 1.5) / 0.5;
-      }
-      return {
-        cca24: lerpVal(a.cca24, b.cca24, t),
-        cca176: lerpVal(a.cca176, b.cca176, t),
-        ccaLex: lerpVal(a.ccaLex, b.ccaLex, t),
-        proc176: lerpVal(a.proc176, b.proc176, t),
-        phiX176: lerpVal(a.phi176[0], b.phi176[0], t),
-        phiY176: lerpVal(a.phi176[1], b.phi176[1], t),
-        phiZ176: lerpVal(a.phi176[2], b.phi176[2], t),
-        rms176: lerpVal(a.rms176, b.rms176, t),
-        phiZ24: lerpVal(a.phiZ24, b.phiZ24, t),
-        phiZLex: lerpVal(a.phiZLex, b.phiZLex, t)
-      };
-    }
-
     function updateLpMetricsHeader() {
-      const m = getInterpolatedMetricsForP(lpExponent);
       const badge = document.getElementById("lpValueBadge");
       let geomName = "Variété Superquadrique Lp";
       if (lpExponent <= 1.02) geomName = "Diamant Octaédrique L1";
@@ -483,17 +429,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
       const ccaEl = document.getElementById("metricCcaBadge");
       if (ccaEl) {
-        ccaEl.textContent = `176 pôles (Z₀–Z₇) • 6 strates (16 183 entrées) • CCA ρ₁=${m.cca176.toFixed(4)}`;
+        ccaEl.textContent = `303 pôles (Z⁺/Z⁻) • p = ${lpExponent.toFixed(2)} • B(Z) = ‖u‖₁ = ‖u_Lp‖_p`;
       }
       const t176El = document.getElementById("metricTucker176Badge");
       if (t176El) {
-        const deltaPhiZ = m.phiZ176 - BENCHMARK_METRICS_LP.p1.phi176[2];
-        const deltaStr = deltaPhiZ > 0.0005 ? ` [Δφ_Z +${deltaPhiZ.toFixed(4)}]` : "";
-        t176El.textContent = `R=${m.proc176.toFixed(4)} • φ=(${m.phiX176.toFixed(4)}, ${m.phiY176.toFixed(4)}, ${m.phiZ176.toFixed(4)})${deltaStr}`;
+        t176El.textContent = `${geomName} (homéomorphisme radial L1 ↔ L2)`;
       }
       const tzEl = document.getElementById("metricTuckerZBadge");
       if (tzEl) {
-        tzEl.textContent = `φ_Z = ${m.phiZLex.toFixed(4)} (Lexique) | ${m.phiZ24.toFixed(4)} (Témoin-24)`;
+        tzEl.textContent = `Strate 1 exploratoire (GRID-24 synthétique retiré en Phase 1)`;
       }
 
       // Mise à jour de l'état actif des 3 boutons rapides
@@ -1205,12 +1149,10 @@ def main():
         df_lex = pd.read_csv(open_3d_path, sep="\t", encoding="utf-8")
     else:
         df_lex = pd.read_csv("CARTOGRAFFECT_Affectif_Purifie_Z_Plus.tsv", sep="\t", encoding="utf-8")
-    df_grid24 = pd.read_csv("CARTOGRAFFECT_GRID_24_Prototypes_CPM.tsv", sep="\t", encoding="utf-8")
-    df_cpm176 = pd.read_csv("CARTOGRAFFECT_176_GRID_CPM_Interpolated.tsv", sep="\t", encoding="utf-8")
-
+    # Phase 1 (v3.0.0-dev) : les tables synthétiques GRID-24 / CPM-142 ont été archivées dans archive/deprecated_synthetic_v2/
     stats176_by_id = {int(r.id_176): r for r in df_stats.itertuples()}
-    grid24_by_id = {int(r.id_176_cartograffect): str(r.grid_label_fr) for r in df_grid24.itertuples()}
-    cpm176_by_id = {int(r.id_176): r for r in df_cpm176.itertuples()}
+    grid24_by_id = {}
+    cpm176_by_id = {}
 
     protos_data = []
     dual_303_rows = []

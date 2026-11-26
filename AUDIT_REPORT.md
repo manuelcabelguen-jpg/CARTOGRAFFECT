@@ -564,10 +564,16 @@ $$
 \end{cases}
 $$
 
-Ces deux cas se ramènent à une seule loi, qui est la lecture littérale du Doc. 2 §4.3 et du Doc. 1 §7.1 (« inverse le signe de chacune des deux coordonnées tout en permutant leurs valeurs absolues ») :
+Ces deux cas (jointes aux diagonales `|X| = |Y| > 0`) s'unifient hors des axes principaux (`XY ≠ 0`), tandis que sur les axes et au centre (`XY = 0`) l'antagoniste est donné par `(-X, -Y, Z)`. La loi exacte sur l'ensemble de la grille s'écrit donc **par morceaux** :
 
 $$
-\boxed{\;(X, Y) \;\longmapsto\; \big(-\mathrm{sgn}(X)\,|Y|,\; -\mathrm{sgn}(Y)\,|X|\big)\;}
+\boxed{\;
+\mathcal{A}(X, Y, Z) \;=\;
+\begin{cases}
+(-X,\; -Y,\; Z) & \text{si } XY = 0 \\[4pt]
+\big(-\mathrm{sgn}(X)\,|Y|,\; -\mathrm{sgn}(Y)\,|X|,\; Z\big) & \text{si } XY \neq 0
+\end{cases}
+\;}
 $$
 
 Exemples : Haine $(-1, 5) \mapsto (5, -1)$ = Affection ; Invulnérabilité $(1, 7) \mapsto (-7, -1)$ = Vulnérabilité ; Abandon $(3, -9) \mapsto (-9, 3)$ = Sidération.

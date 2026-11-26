@@ -114,11 +114,10 @@
       "epistemic_status_file": "extensions/lexicon/EPISTEMIC_STATUS.md",
       "status": "exploratory_subordinate",
       "canonical_reference": "Cartograffect/Lexicon176.lean",
-      "theorems_verified": 36,
+      "theorems_verified": 10,
       "sorry_count": 0,
       "lean_challenges": [
         "extensions/lexicon/lean/EmotionWheelsChallenge.lean",
-        "extensions/lexicon/lean/SchererGRID.lean",
         "extensions/lexicon/lean/PolarityAntipodal3D.lean",
         "extensions/lexicon/lean/AuditGeometricLexicalPlacement.lean"
       ],
@@ -139,8 +138,8 @@
         "extensions/in_silico/experiments/01_falsifiable_predictions.py",
         "extensions/in_silico/experiments/02_clinical_phenotypes.py",
         "extensions/in_silico/experiments/03_parameter_and_model_recovery.py",
-        "extensions/in_silico/experiments/04_dsm5_phenotyping.py",
-        "extensions/in_silico/experiments/05_dsm5_full_nosology.py"
+        "extensions/in_silico/exploratory_synthetic/04_dsm5_phenotyping.py",
+        "extensions/in_silico/exploratory_synthetic/05_dsm5_full_nosology.py"
       ],
       "results_summary": "extensions/in_silico/results/exp01_statistics.json"
     }

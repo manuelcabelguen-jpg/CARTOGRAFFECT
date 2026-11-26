@@ -223,7 +223,7 @@ def _int_sign(v: int) -> int:
 
 
 def antagonist_point_unified(p: CoreAffectPoint) -> CoreAffectPoint:
-    """Forme algébrique unifiée hors des axes : ``(-sgn(X)*|Y|, -sgn(Y)*|X|, Z)``."""
+    """Branche hors des axes (`XY != 0`) de l'antagoniste par morceaux : ``(-sgn(X)*|Y|, -sgn(Y)*|X|, Z)`` (sur les axes `XY == 0`, utiliser ``antagonist_point`` qui renvoie ``(-X, -Y, Z)``)."""
     if p.x == 0 or p.y == 0:
         raise ValueError(
             f"La loi algébrique unifiée est définie hors des axes (x != 0 et y != 0), reçu {p!r}."

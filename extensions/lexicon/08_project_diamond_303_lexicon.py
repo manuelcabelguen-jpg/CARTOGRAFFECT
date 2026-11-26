@@ -23,9 +23,9 @@ Fondements formels intégrés (Cabelguen, 2026 ; certifiés sous Lean 4) :
      de convergence/éveil (Z=-1, -7), garantissant une valence moyenne positive
      sur les strates d'intégration W=2..7.
 3. Validation et déduction par la Rose des 8 Symétries sur tous les axes :
-   - Antagonisme régulateur formel A(P) : Axial, Diagonal, Controlatéral Td (Y,X) et Ti (-Y,-X)
+   - Antagonisme régulateur formel par morceaux A(X, Y, Z) : (-X, -Y, Z) si XY = 0 ; (-sgn(X)|Y|, -sgn(Y)|X|, Z) si XY ≠ 0 (Diagonal, Controlatéral Td (Y,X) et Ti (-Y,-X))
    - Opposé central intra-dominante Ic(P) = (-X, -Y, Z)
-   - Miroir diagonal de dominante Mdom(P) = (sgn(X)|Y|, sgn(Y)|X|, Z)
+   - Miroir diagonal de dominante Mdom(P) : (X, Y, Z) si XY = 0 ; (sgn(X)|Y|, sgn(Y)|X|, Z) si XY ≠ 0
    - Opposés orthogonaux latéraux Ox(P) = (-X, Y, Z) et Oy(P) = (X, -Y, Z)
    - Homologie verticale trans-hémisphérique Hz(P) = (X, Y, -Z)
    - Contrepoids croisé trans-hémisphérique Az(P) = A(Hz(P))

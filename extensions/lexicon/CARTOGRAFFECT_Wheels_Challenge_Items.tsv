@@ -101,7 +101,7 @@ PLUTCHIK	anticipation	interest	Intérêt	135.0			1.0	0	0.56	0.334	0.236	ANCRE_EX
 PLUTCHIK	anticipation	anticipation	Anticipation	135.0			2.0	0	0.396	0.078	0.422	ANCRE_EXACTE_303	3	3	Anticipation	0	0	2	Anticipation	
 PLUTCHIK	anticipation	vigilance	Vigilance	135.0			3.0	0	0.56	0.75	0.5	ANCRE_EXACTE_303	191	191	Vigilance	-4	0	-3	Inventivité	180.0
 PLUTCHIK	love	love	Amour	67.5				0	0.73	-0.04	0.304	ANCRE_EXACTE_303	36	36	Amour	1	5	4	Mépris	78.69
-PLUTCHIK	submission	submission	Soumission	22.5				0	0.333	-0.933	-0.958	TRIADE_Z_MINUS	271	271	Assertif	-4	6	-6	Gentil	123.69
+PLUTCHIK	submission	submission	Soumission	22.5				0	0.333	-0.933	-0.958	LEXIQUE_PIPELINE	217	217	Dépouillement	-1	-5	-4	Croissance	-101.31
 PLUTCHIK	awe	awe	Crainte	-22.5				0	-0.6562	0.2047	-0.4739	ANCRE_EXACTE_303	15	15	Crainte	-4	0	3	Curiosité	180.0
 PLUTCHIK	disapproval	disapproval	Désapprobation	-67.5				0	-0.68	0.15	-0.1	LEXIQUE_PIPELINE	45	45	Défiance	-4	-2	4	Ferveur	-153.435
 PLUTCHIK	remorse	remorse	Remords	-112.5				0	-0.667	-0.667	-0.259	LEXIQUE_PIPELINE	40	40	Honte	-2	-4	4	Fierté	-116.565

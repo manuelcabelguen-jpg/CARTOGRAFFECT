@@ -17,11 +17,18 @@ externes indépendants :
   * PLUTCHIK  — Roue de Plutchik (2001, Fig. 2) : 8 primaires × 3 intensités
                 + 8 dyades. Orientation arbitraire (pas de sémantique d'axes).
 
-Règle d'appariement (fixée a priori, sans choix manuel au cas par cas) :
-  1. libellé français identique à l'un des 176 prototypes (Lexicon176.lean) ;
-  2. sinon, ancre `id_176_ancre` attribuée par le pipeline lui-même dans
-     CARTOGRAFFECT_NRC_Lexicon_Complet.tsv ;
-  3. sinon, terme non couvert (compté comme échec de couverture).
+Règle d'appariement (fixée a priori — ZERO surcharge manuelle cachée, Phase 1 v3.0.0-dev) :
+  1. libellé français identique à l'un des pôles de référence (`ref_303_diamant_z.tsv`) ;
+  2. sinon, entrée exacte de triade `Z = -6` (`deficit_D_moins` / `exces_D_plus`) ;
+  3. sinon, ancre attribuée automatiquement par le pipeline lexical (`CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv`) ;
+  4. sinon, terme non couvert (`NON_COUVERT`, compté comme échec de couverture).
+
+Politique d'intégrité probatoire (Phase 1 v3.0.0-dev) :
+  - Toutes les anciennes surcharges manuelles codées en dur (`soumission -> by_id[271]`,
+    `canonical_alts`, et substitution manuelle NRC pour `rire` / `laughter`) ont été retirées.
+  - Les hypothèses H2 (orthogonalité |α| ≤ 22,5°) et H4 (antipodalité 2D des opposés de roue)
+    sont évaluées strictement contre les seuils pré-enregistrés `PREREG` et rapportées comme
+    **NON CORROBORÉE** en cas d'échec, sans aucun recadrage post-hoc (suppression de H4b).
 
 Hypothèses pré-enregistrées (seuils dans PREREG ci-dessous) :
   H1 Congruence d'ordre circulaire (R̄ des écarts angulaires, test de permutation)
@@ -127,42 +134,23 @@ class CartoResolver:
             self.by_label["point de veille"] = self.by_label["veille"]
         self.by_id = {int(r.id_303): r for r in self.ref303.itertuples()}
 
-        # Indexation des triades de Z=-6 (W=1) : défauts D- et excès D+
+        # Indexation des triades de Z=-6 (W=1) : défauts D- et excès D+ (strictement automatique, 0 surcharge manuelle)
         self.triads = {}
         for r in self.ref303[self.ref303["Z_signe"] == -6].itertuples():
             if pd.notna(r.deficit_D_moins):
                 self.triads[_norm(r.deficit_D_moins)] = r
             if pd.notna(r.exces_D_plus):
                 self.triads[_norm(r.exces_D_plus)] = r
-        # Soumission -> pôle 271 Assertif (défaut D- Soumis)
-        self.triads["soumission"] = self.by_id[271]
 
         lex = pd.read_csv(LEXICON_TSV, sep="\t")
         lex["_k"] = lex["terme_fr"].map(_norm)
         self.lex = lex.drop_duplicates("_k").set_index("_k")
 
-        # Alts canoniques de couverture et de redirection
-        self.canonical_alts = {
-            "délivrance": "soulagement",
-            "songerie": "mélancolie",
-            "désapprobation": "réprobation",
-            "soumission": "soumis",
-            "vigilance": "vigilance",
-        }
-
     def nrc(self, term_fr: str):
         k = _norm(term_fr)
-        # Arbitrage de polysémie expressive : Rire / laughter retient la polarité psychométrique primaire
-        if k in ("rire", "laughter"):
-            return 0.9180, 0.3080, 0.1760
         if k in self.lex.index:
             r = self.lex.loc[k]
             return float(r["valence"]), float(r["arousal"]), float(r["dominance"])
-        if k in self.canonical_alts:
-            alt = self.canonical_alts[k]
-            if alt in self.lex.index:
-                r = self.lex.loc[alt]
-                return float(r["valence"]), float(r["arousal"]), float(r["dominance"])
         return (np.nan, np.nan, np.nan)
 
     def resolve(self, term_fr: str):
@@ -179,20 +167,6 @@ class CartoResolver:
             pid = int(self.lex.loc[k, "id_303_ancre"] if "id_303_ancre" in self.lex.columns else self.lex.loc[k, "id_176_ancre"])
             r = self.by_id[pid]
             method = "LEXIQUE_PIPELINE"
-        elif k in self.canonical_alts:
-            alt = self.canonical_alts[k]
-            if alt in self.by_label:
-                r = self.by_label[alt]
-                method = "CANONICAL_ALT_REF"
-            elif alt in self.triads:
-                r = self.triads[alt]
-                method = "CANONICAL_ALT_TRIAD"
-            elif alt in self.lex.index:
-                pid = int(self.lex.loc[alt, "id_303_ancre"] if "id_303_ancre" in self.lex.columns else self.lex.loc[alt, "id_176_ancre"])
-                r = self.by_id[pid]
-                method = "CANONICAL_ALT_LEX"
-            else:
-                return None
         else:
             return None
 
@@ -350,82 +324,8 @@ def antagonism_test(df: pd.DataFrame, wheel: str) -> dict:
     rate = (sum(p["antipodal"] for p in pairs) / n) if n else float("nan")
     return {"n_pairs": n, "antipodal_rate": round(rate, 3) if n else None,
             "lean_exact_rate": round(sum(p["antagoniste_lean_exact"] for p in pairs) / n, 3) if n else None,
-            "verdict": ("VALIDÉ" if rate >= PREREG["H4_pass_rate"] else "INVALIDÉ") if n else "N/A",
+            "verdict": ("CORROBORÉE" if rate >= PREREG["H4_pass_rate"] else "NON CORROBORÉE") if n else "N/A",
             "pairs": pairs}
-
-
-def involution_3d_test(df: pd.DataFrame, resolver: CartoResolver) -> dict:
-    """H4b : Test de l'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z).
-    
-    Démontre la supériorité de la topologie 3D : les opposés 2D de Plutchik (ex. Peur vs Colère)
-    sont des co-voisins de défense (dL1 = 2, X < 0), tandis que leurs régulateurs homéostatiques
-    sont trans-axiaux (Courage et Calme, dL1 = 4, X > 0).
-    """
-    # 1. Vérification de l'involution A(A(P)) = P sur 100% des 303 pôles (Loi 4 du Diamant)
-    n_p = len(resolver.ref303)
-    inv_ok = 0
-    for p in resolver.ref303.itertuples():
-        x, y = int(p.X), int(p.Y)
-        sx = 1 if x > 0 else (-1 if x < 0 else 0)
-        sy = 1 if y > 0 else (-1 if y < 0 else 0)
-        if x == 0 and y == 0:
-            ax, ay = 0, 0
-        elif x == 0 or y == 0 or abs(x) == abs(y):
-            ax, ay = -x, -y
-        else:
-            ax = -sx * abs(y)
-            ay = -sy * abs(x)
-        # A(A(P))
-        sax = 1 if ax > 0 else (-1 if ax < 0 else 0)
-        say = 1 if ay > 0 else (-1 if ay < 0 else 0)
-        if ax == 0 and ay == 0:
-            aax, aay = 0, 0
-        elif ax == 0 or ay == 0 or abs(ax) == abs(ay):
-            aax, aay = -ax, -ay
-        else:
-            aax = -sax * abs(ay)
-            aay = -say * abs(ax)
-        if (aax, aay) == (x, y):
-            inv_ok += 1
-    involutivite_rate = round(inv_ok / max(1, n_p), 4)
-
-    # 2. Analyse des paires opposées sur Plutchik
-    d = df[(df.wheel == "PLUTCHIK")].dropna(subset=["theta_carto"]).reset_index(drop=True)
-    opposite_pairs = []
-    co_defense = []
-    for i in range(len(d)):
-        for j in range(i + 1, len(d)):
-            a, b = d.loc[i], d.loc[j]
-            if a.intensity == a.intensity and b.intensity == b.intensity and a.intensity != b.intensity:
-                continue
-            if abs(_wrap(a.theta_wheel - b.theta_wheel)) >= PREREG["H4_opposite_wheel_min_deg"]:
-                dL1 = abs(int(a.X) - int(b.X)) + abs(int(a.Y) - int(b.Y))
-                is_co_def = (int(a.X) < 0 and int(b.X) < 0) and dL1 <= 2
-                pair_dict = {
-                    "A": a.term_fr_utilise, "B": b.term_fr_utilise,
-                    "ancre_A": a.ancre, "ancre_B": b.ancre,
-                    "coords_A": [int(a.X), int(a.Y), int(a.Z)],
-                    "coords_B": [int(b.X), int(b.Y), int(b.Z)],
-                    "dL1": dL1,
-                    "co_defense_neighbors": is_co_def,
-                    "antagoniste_A_3D": a.antagoniste,
-                }
-                opposite_pairs.append(pair_dict)
-                if is_co_def:
-                    co_defense.append(pair_dict)
-
-    return {
-        "involutivite_303_rate": involutivite_rate,
-        "n_plutchik_opposite_pairs": len(opposite_pairs),
-        "n_co_defense_pairs": len(co_defense),
-        "co_defense_examples": co_defense,
-        "verdict": "VALIDÉ" if involutivite_rate == 1.0 else "INVALIDÉ",
-        "interpretation": (
-            "L'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) démontre que les opposés "
-            "circulaires 2D de Plutchik (ex. Peur vs Colère) sont des co-voisins de défense (dL1=2, X<0), "
-            "tandis que leurs vrais régulateurs homéostatiques sont trans-axiaux (Courage et Calme, dL1=4, X>0)."
-        ),
-    }
 
 
 def z_vs_intensity(df: pd.DataFrame, rng) -> dict:
@@ -489,16 +389,15 @@ def gew3_linear_and_baseline(df: pd.DataFrame, rng) -> dict:
     resid_carto = _wrap(d.theta_wheel - d.theta_carto - alpha_deg)
     mae_carto = float(np.mean(np.abs(resid_carto)))
 
-    out["H7b_dual_L2"] = {
+    out["H7b_dual_L2_exploratory_diagnostic"] = {
         "Rbar_carto_gew3": round(rbar_carto, 4),
         "mae_carto_gew3_deg": round(mae_carto, 2),
         "pearson_X_L2_valence": out["pearson_X_L2_V"],
         "pearson_Y_L2_power": out["pearson_Y_L2_P"],
         "delta_Rbar_vs_raw_nrc": round(rbar_carto - r_n, 4),
-        "verdict": "VALIDÉ",
-        "interpretation": (
-            f"La projection duale L2 et la barrière de contrôle Y portent R̄ à {rbar_carto:.4f} "
-            f"(gain de +{rbar_carto - r_n:.4f} vs NRC) et réduisent la MAE angulaire à {mae_carto:.2f}°."
+        "note": (
+            "Diagnostique descriptif exploratoire (hors critères pré-enregistrés PREREG) : "
+            f"R̄ = {rbar_carto:.4f} (Δ vs NRC = {rbar_carto - r_n:+.4f}), MAE = {mae_carto:.2f}°."
         ),
     }
     return out
@@ -514,14 +413,15 @@ def run(use_alt: bool, rng) -> dict:
     report = {"coverage": {}, "H1_H2_circular": {}, "H4_antagonism": {}}
     for wheel in ("GEW3", "GEW2", "GEW1", "PLUTCHIK"):
         it = items[items.wheel == wheel]
-        cov = float((it.methode != "NON_COUVERT").mean())
+        n_cov = int((it.methode != "NON_COUVERT").sum())
+        cov = float(n_cov / max(1, len(it)))
         report["coverage"][wheel] = {
-            "n_items": int(len(it)), "coverage": round(cov, 3),
+            "n_items": int(len(it)), "n_covered": n_cov, "coverage": round(cov, 3),
             "n_exact_303": int(((it.methode == "ANCRE_EXACTE_303") | (it.methode == "ANCRE_EXACTE_176")).sum()),
             "n_exact_176": int(((it.methode == "ANCRE_EXACTE_303") | (it.methode == "ANCRE_EXACTE_176")).sum()),
-            "n_lexique": int(((it.methode == "LEXIQUE_PIPELINE") | (it.methode.str.startswith("CANONICAL_ALT"))).sum()),
+            "n_lexique": int((it.methode == "LEXIQUE_PIPELINE").sum()),
             "n_triade": int((it.methode == "TRIADE_Z_MINUS").sum()),
-            "n_centre_sans_angle": int((it.methode != "NON_COUVERT").sum() - it.theta_carto.notna().sum()),
+            "n_centre_sans_angle": int(n_cov - it.theta_carto.notna().sum()),
             "non_couverts": it.loc[it.methode == "NON_COUVERT", "term_fr_utilise"].tolist(),
             "H6_verdict": "VALIDÉ" if cov >= PREREG["H6_min_coverage"] else "INVALIDÉ",
         }
@@ -530,13 +430,12 @@ def run(use_alt: bool, rng) -> dict:
         u_res = c.pop("_units")
         c["H1_verdict"] = verdict_h1(c)
         if wheel != "PLUTCHIK":
-            c["H2_verdict"] = ("VALIDÉ" if abs(c["rotation_alpha_deg"]) <= PREREG["H2_max_abs_rotation_deg"]
-                               else "INVALIDÉ")
+            c["H2_verdict"] = ("CORROBORÉE" if abs(c["rotation_alpha_deg"]) <= PREREG["H2_max_abs_rotation_deg"]
+                               else "NON CORROBORÉE")
         c["units"] = u_res.round(2).to_dict("records")
         report["H1_H2_circular"][wheel] = c
         report["H4_antagonism"][wheel] = antagonism_test(items, wheel)
     report["H3_valence_sign"] = valence_sign_test(items[items.wheel != "PLUTCHIK"])
-    report["H4b_involution_3D"] = involution_3d_test(items, resolver)
     report["H5_Z_vs_intensity"] = z_vs_intensity(items, rng)
     report["GEW3_linear_H7"] = gew3_linear_and_baseline(items, rng)
     return items, report
@@ -551,6 +450,7 @@ def main() -> None:
         "source": "Scherer, Shuman, Fontaine & Soriano (2013). The GRID meets the Wheel. "
                   "In Fontaine, Scherer & Soriano (Eds.), Components of Emotional Meaning, ch. 18. OUP.",
         "reference_model": "CARTOGRAFFECT Diamant 303 (ref_303_diamant_z.tsv / CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv)",
+        "manual_overrides": "NONE (strict automatic lookup only; rire, soumission->271 and canonical_alts removed in Phase 1)",
         "preregistration": PREREG, "n_perm": N_PERM, "n_boot": N_BOOT, "seed": SEED,
         "primary_translations": primary,
         "sensitivity_alt_translations": sensitivity,
@@ -560,32 +460,31 @@ def main() -> None:
 
     # Résumé console
     print("=" * 88)
-    print("DÉFI CARTOGRAFFECT × ROUES DES ÉMOTIONS (Scherer et al., 2013)")
+    print("DÉFI CARTOGRAFFECT × ROUES DES ÉMOTIONS (Scherer et al., 2013) — 0 surcharge manuelle")
     print("========================================================================================")
     for tag, rep in (("PRIMAIRE", primary), ("SENSIBILITÉ (trad. alt.)", sensitivity)):
         print(f"\n--- {tag} ---")
         for w, c in rep["H1_H2_circular"].items():
             cov = rep["coverage"][w]
-            print(f"{w:9s} cov={cov['coverage']:.2f} ({cov['n_items']}/{cov['n_items']} couv) n={c['n_units']:2d} R̄={c['Rbar']:.3f} "
+            print(f"{w:9s} cov={cov['coverage']:.2f} ({cov['n_covered']}/{cov['n_items']} couv) n={c['n_units']:2d} R̄={c['Rbar']:.3f} "
                   f"p={c['p_perm']:.4f} α={c['rotation_alpha_deg']:+7.1f}° CI{c['rotation_CI95_deg']} "
                   f"MAE={c['mean_abs_error_deg']:5.1f}° refl={c['reflection_used']} "
                   f"H1={c['H1_verdict']} H2={c.get('H2_verdict', '-')} H6={cov['H6_verdict']} "
-                  f"H4_circ={rep['H4_antagonism'][w]['verdict']}({rep['H4_antagonism'][w]['antipodal_rate']})")
+                  f"H4={rep['H4_antagonism'][w]['verdict']}({rep['H4_antagonism'][w]['antipodal_rate']})")
         h3 = rep["H3_valence_sign"]
-        h4b = rep["H4b_involution_3D"]
         h5 = rep["H5_Z_vs_intensity"]
         g = rep["GEW3_linear_H7"]
-        print(f"H3 valence : {h3['n_violations']}/{h3['n_tested']} violations -> {h3['verdict']} (100% conformité)")
-        print(f"H4b involution 3D : 303/303 pôles={h4b['involutivite_303_rate']*100:.1f}%, co-défense Plutchik={h4b['n_co_defense_pairs']} paires -> {h4b['verdict']}")
+        h3_pct = 100.0 * (h3["n_tested"] - h3["n_violations"]) / max(1, h3["n_tested"])
+        print(f"H3 valence : {h3['n_violations']}/{h3['n_tested']} violations -> {h3['verdict']} ({h3_pct:.1f}% conformité)")
         print(f"H5 Z~intensité : ρ={h5['spearman_rho']:+.3f} p={h5['p_perm']:.4f} -> {h5['verdict']}")
         print(f"GEW3 r(X,V)={g['pearson_X_V']:+.3f} r(Y,P)={g['pearson_Y_P']:+.3f} "
               f"r(X,P)={g['pearson_X_P']:+.3f} r(Y,V)={g['pearson_Y_V']:+.3f}")
         h7 = g["H7_baseline"]
-        h7b = g["H7b_dual_L2"]
+        h7b = g["H7b_dual_L2_exploratory_diagnostic"]
         print(f"H7 R̄ Carto={h7['Rbar_cartograffect']:.3f} vs NRC(V,D)={h7['Rbar_nrc_VD']:.3f} "
               f"Δ={h7['delta_Rbar_carto_minus_nrc']:+.3f} CI{h7['delta_CI95']} -> {h7['verdict']}")
-        print(f"H7b Dual L2 : R̄={h7b['Rbar_carto_gew3']:.4f} (gain vs NRC={h7b['delta_Rbar_vs_raw_nrc']:+.4f}) "
-              f"MAE={h7b['mae_carto_gew3_deg']:.2f}° r(XL2,V)={h7b['pearson_X_L2_valence']:+.3f} r(YL2,P)={h7b['pearson_Y_L2_power']:+.3f} -> {h7b['verdict']}")
+        print(f"Diagnostique L2 (exploratoire) : R̄={h7b['Rbar_carto_gew3']:.4f} (Δ vs NRC={h7b['delta_Rbar_vs_raw_nrc']:+.4f}) "
+              f"MAE={h7b['mae_carto_gew3_deg']:.2f}° r(XL2,V)={h7b['pearson_X_L2_valence']:+.3f} r(YL2,P)={h7b['pearson_Y_L2_power']:+.3f}")
     print(f"\nItems : {OUT_ITEMS}\nStats : {OUT_STATS}")
 
 
