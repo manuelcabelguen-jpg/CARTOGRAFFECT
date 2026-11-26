@@ -214,6 +214,14 @@ All176Entries ==
 
 All176Points == {All176Entries[i].point : i \in 1..Len(All176Entries)}
 
+All176EntrySet == {All176Entries[i] : i \in 1..Len(All176Entries)}
+
+All176Labels == {All176Entries[i].label : i \in 1..Len(All176Entries)}
+
+HasUniqueLexiconEntry(p) ==
+  \E e \in All176EntrySet :
+    e.point = p /\ (\A e2 \in All176EntrySet : e2.point = p => e2 = e)
+
 ValidPointsUpToZ7 ==
   UNION {
     LET r == CrownRadius(z) IN
@@ -222,7 +230,7 @@ ValidPointsUpToZ7 ==
   }
 
 -----------------------------------------------------------------------------
-(* 8 audited theorem predicates for Lexicon176 *)
+(* 8 audited theorem predicates + unicite nominale + cloture antagoniste *)
 -----------------------------------------------------------------------------
 
 Thm_all176Entries_length ==
@@ -238,6 +246,14 @@ Thm_all176Entries_z_bounds ==
 Thm_all176Entries_unique_points ==
   \A i \in 1..Len(All176Entries), j \in 1..Len(All176Entries) :
     i # j => All176Entries[i].point # All176Entries[j].point
+
+Thm_all176Entries_unique_labels ==
+  \A i \in 1..Len(All176Entries), j \in 1..Len(All176Entries) :
+    i # j => All176Entries[i].label # All176Entries[j].label
+
+Thm_all176Entries_closed_under_antagonist ==
+  \A i \in 1..Len(All176Entries) :
+    AntagonistPoint(All176Entries[i].point) \in All176Points
 
 Thm_all176Entries_complete ==
   \A p \in ValidPointsUpToZ7 : p \in All176Points

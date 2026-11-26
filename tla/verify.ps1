@@ -106,9 +106,10 @@ $expected113 = @(
   "canonicalDepthKernel_axial_instability_p2", "canonicalDepthKernel_outgoingWeight_pos",
   "classifyTaxonomicGroup_unique_maximizer", "classifyTaxonomicGroup_maximizes_membership",
   "lateral_has_overlapping_attractors",
-  # Lexicon176 (8)
+  # Lexicon176 (8 + unicite nominale + cloture antagoniste)
   "all176Entries_length", "all176Entries_geometrically_valid", "all176Entries_z_bounds",
-  "all176Entries_unique_points", "all176Entries_complete",
+  "all176Entries_unique_points", "all176Entries_unique_labels",
+  "all176Entries_closed_under_antagonist", "all176Entries_complete",
   "all176Entries_deterministically_reachable", "all176Entries_reachable_by_engine",
   "all176Entries_witness_check",
   # PredictiveCircuit (41)
@@ -134,10 +135,16 @@ $expected113 = @(
   "manhattanDistXY_origin", "operant_factorization_law",
   "energyRegime_matches_operant_operator", "antagonist_flips_effect_preserves_operator",
   "axial_poles_bridge_operant_pairs", "axial_poles_pre_operant",
-  "operant_bijection_on_z2_diagonals"
+  "operant_bijection_on_z2_diagonals",
+  # Derived Module: EndToEndBridge (10)
+  "circuit_coupling_operant_bridge", "triggerSecondaryGradient_enters_operant",
+  "p2_markov_contagion_enters_operant_punishment", "operant_quadrant_lifting_all_strata",
+  "operant_antagonist_invariance_all_strata", "depthKernel_preserves_operant_quadrant",
+  "operant_lineages_reach_z7_transcendentals", "unified_circuit_to_taxonomy_coherence",
+  "circularCycle_to_taxonomy_and_lexicon_coherence", "full_end_to_end_lexicon_resolution"
 )
 
-if ($expected113.Count -ne 120) { throw "Internal count mismatch" }
+if ($expected113.Count -ne 132) { throw "Internal count mismatch: $($expected113.Count)" }
 $missing = @()
 foreach ($thm in $expected113) {
   if ($allSpecText -notmatch ("Thm_" + [regex]::Escape($thm) + "\b")) {
@@ -155,7 +162,7 @@ for ($b = 1; $b -le 11; $b++) {
     exit 1
   }
 }
-Write-Host "[AUDIT] Static check OK: 0 AXIOMs, 120/120 Thm_* predicates, 11/11 EvalBlocks."
+Write-Host "[AUDIT] Static check OK: 0 AXIOMs, 130/130 Thm_* + all176Entries_unique_labels + all176Entries_closed_under_antagonist (132/132 predicates), 11/11 EvalBlocks."
 
 # 3. SANY syntax & semantic parsing across all .tla specs
 $totalSw = [System.Diagnostics.Stopwatch]::StartNew()
@@ -164,9 +171,11 @@ try {
   $orderedSpecs = @(
     "PredictiveEngine.tla", "CoreAffect.tla", "AffectiveMatrix.tla",
     "AffectiveTaxonomy.tla", "AffectiveDynamics.tla", "Lexicon176.tla",
-    "PredictiveCircuit.tla", "AuditTests.tla", "OperantFactorization.tla", "Cartograffect.tla",
+    "PredictiveCircuit.tla", "AuditTests.tla", "OperantFactorization.tla",
+    "EndToEndBridge.tla", "Cartograffect.tla",
     "Model_Dissipation.tla", "Model_Engine.tla", "Model_DepthKernel.tla",
-    "Model_Circuit.tla", "Model_Unified.tla", "Model_OperantFactorization.tla"
+    "Model_Circuit.tla", "Model_Unified.tla", "Model_OperantFactorization.tla",
+    "Model_EndToEndBridge.tla"
   )
   Write-Host "`n=== SANY Parsing Check ($($orderedSpecs.Count) modules) ==="
   foreach ($sp in $orderedSpecs) {
@@ -182,15 +191,16 @@ try {
     Write-Host ("  [SANY OK] {0,-26} ({1:F2} s)" -f $sp, $sw.Elapsed.TotalSeconds)
   }
 
-  # 4. TLC Model Checking (AuditTests + 5 temporal models)
+  # 4. TLC Model Checking (AuditTests + 7 temporal/structural models)
   $tlcRuns = @(
-    @{ Spec = "AuditTests.tla";        Cfg = "AuditTests.cfg" },
-    @{ Spec = "Model_Dissipation.tla"; Cfg = "Model_Dissipation.cfg" },
-    @{ Spec = "Model_Engine.tla";      Cfg = "Model_Engine.cfg" },
-    @{ Spec = "Model_DepthKernel.tla"; Cfg = "Model_DepthKernel.cfg" },
-    @{ Spec = "Model_Circuit.tla";            Cfg = "Model_Circuit.cfg" },
-    @{ Spec = "Model_Unified.tla";            Cfg = "Model_Unified.cfg" },
-    @{ Spec = "Model_OperantFactorization.tla"; Cfg = "Model_OperantFactorization.cfg" }
+    @{ Spec = "AuditTests.tla";                 Cfg = "AuditTests.cfg" },
+    @{ Spec = "Model_Dissipation.tla";          Cfg = "Model_Dissipation.cfg" },
+    @{ Spec = "Model_Engine.tla";               Cfg = "Model_Engine.cfg" },
+    @{ Spec = "Model_DepthKernel.tla";          Cfg = "Model_DepthKernel.cfg" },
+    @{ Spec = "Model_Circuit.tla";              Cfg = "Model_Circuit.cfg" },
+    @{ Spec = "Model_Unified.tla";              Cfg = "Model_Unified.cfg" },
+    @{ Spec = "Model_OperantFactorization.tla"; Cfg = "Model_OperantFactorization.cfg" },
+    @{ Spec = "Model_EndToEndBridge.tla";       Cfg = "Model_EndToEndBridge.cfg" }
   )
   Write-Host "`n=== TLC Model Checking ($($tlcRuns.Count) models) ==="
   foreach ($run in $tlcRuns) {

@@ -13,7 +13,7 @@
   },
   "strate_0_core": {
     "status": "normative_verified_core",
-    "theorems_verified": 120,
+    "theorems_verified": 130,
     "sorry_count": 0,
     "custom_axioms_count": 0,
     "provers": [
@@ -21,37 +21,60 @@
         "name": "Lean 4",
         "version": "4.35.0",
         "entrypoint": "Cartograffect.lean",
-        "directory": "Cartograffect"
+        "directory": "Cartograffect",
+        "modules_count": 11,
+        "theorems_count": 130
       },
       {
         "name": "Rocq",
-        "version": "9.0",
+        "version": "9.1.0",
         "entrypoint": "rocq/theories/Cartograffect.v",
-        "directory": "rocq"
+        "directory": "rocq",
+        "modules_count": 11,
+        "theorems_count": 130,
+        "closed_assumptions_count": 131
       },
       {
         "name": "Agda",
         "version": "2.9.0",
         "entrypoint": "agda/src/Cartograffect.agda",
-        "directory": "agda"
+        "directory": "agda",
+        "modules_count": 12,
+        "theorems_count": 130,
+        "eval_blocks_count": 11
       },
       {
         "name": "Dafny",
         "version": "4.11.0",
         "entrypoint": "dafny/src/Cartograffect.dfy",
-        "directory": "dafny"
+        "directory": "dafny",
+        "modules_count": 11,
+        "theorems_count": 130,
+        "lemmas_count": 132,
+        "obligations_verified": 3021,
+        "eval_blocks_count": 11
       },
       {
         "name": "SMT/Z3",
         "version": "5.3.3",
-        "entrypoint": "smt/theories/08_AuditTests.smt2",
-        "directory": "smt"
+        "entrypoint": "smt/theories/10_EndToEndBridge.smt2",
+        "directory": "smt",
+        "modules_count": 10,
+        "consistency_sat_count": 10,
+        "theorems_count": 130,
+        "aux_unsat_count": 2,
+        "eval_blocks_count": 11
       },
       {
         "name": "TLA+/TLC",
         "version": "2.19",
         "entrypoint": "tla/specs/Cartograffect.tla",
-        "directory": "tla"
+        "directory": "tla",
+        "modules_count": 18,
+        "theorems_count": 130,
+        "predicates_count": 132,
+        "eval_blocks_count": 11,
+        "tlc_models_count": 8
       }
     ],
     "lean_files": [
@@ -64,7 +87,8 @@
       "Cartograffect/Lexicon176.lean",
       "Cartograffect/PredictiveCircuit.lean",
       "Cartograffect/AuditTests.lean",
-      "Cartograffect/OperantFactorization.lean"
+      "Cartograffect/OperantFactorization.lean",
+      "Cartograffect/EndToEndBridge.lean"
     ],
     "lexicon_176": {
       "path": "Cartograffect/Lexicon176.lean",
@@ -90,6 +114,8 @@
       "epistemic_status_file": "extensions/lexicon/EPISTEMIC_STATUS.md",
       "status": "exploratory_subordinate",
       "canonical_reference": "Cartograffect/Lexicon176.lean",
+      "theorems_verified": 36,
+      "sorry_count": 0,
       "lean_challenges": [
         "extensions/lexicon/lean/EmotionWheelsChallenge.lean",
         "extensions/lexicon/lean/SchererGRID.lean",

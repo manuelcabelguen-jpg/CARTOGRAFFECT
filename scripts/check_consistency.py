@@ -6,7 +6,7 @@ pour le compendium unifié CARTOGRAFFECT® (Strate 0 / Strate 1).
 Vérifie les 7 groupes d'invariants sans aucune dépendance externe
 (bibliothèque standard Python 3.10+ uniquement) :
   1. version_parity               — Parité stricte de VERSION à travers le compendium
-  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 10 fichiers Lean, 0 trou/axiome sur 6 suites
+  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 11 fichiers Lean (130 th.), 0 trou/axiome sur 6 suites + Strate 1 Lean (36 th.)
   3. zenodo_cff_spdx              — Validité .zenodo.json / manifest.json / CITATION.cff / NOTICE
   4. epistemic_compartmentalization — Chartes Strate 1, CONVERGENCE_MATRIX.md, garde A4-Sanctuaire
   5. zero_leak_zenodo_hygiene     — Zéro fuite locale, 0 .env, 0 brut tiers, <= 20 Mo, 0 filter=lfs
@@ -616,18 +616,28 @@ def _check_strate0_integrity(
         else:
             cat.ok(f"{lexicon_rel} SHA-256 vérifié ({actual_sha[:16]}...)")
 
-    # 10 fichiers Lean dans manifest.json
+    # 11 fichiers Lean dans manifest.json (incluant EndToEndBridge.lean)
     if manifest_data is not None:
-        lean_files = manifest_data.get("strate_0_core", {}).get("lean_files")
-        if not isinstance(lean_files, list) or len(lean_files) != 10:
+        s0 = manifest_data.get("strate_0_core", {})
+        if s0.get("theorems_verified") != 130:
+            cat.fail(
+                f"manifest.json strate_0_core.theorems_verified doit valoir 130 (trouvé : {s0.get('theorems_verified')})."
+            )
+        else:
+            cat.ok("manifest.json strate_0_core.theorems_verified = 130")
+
+        lean_files = s0.get("lean_files")
+        if not isinstance(lean_files, list) or len(lean_files) != 11:
             count = len(lean_files) if isinstance(lean_files, list) else "invalid"
-            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 10 fichiers (trouvé : {count}).")
+            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 11 fichiers (trouvé : {count}).")
         else:
             missing = [lf for lf in lean_files if not (root / lf).is_file()]
             if missing:
                 cat.fail(f"Fichiers Lean manquants sur disque : {missing}")
+            elif "Cartograffect/EndToEndBridge.lean" not in lean_files:
+                cat.fail("Cartograffect/EndToEndBridge.lean absent de manifest.json strate_0_core.lean_files.")
             else:
-                cat.ok("10/10 fichiers Lean du manifest présents sur disque")
+                cat.ok("11/11 fichiers Lean du manifest présents sur disque (dont EndToEndBridge.lean)")
 
     # Unicité de Lexicon176.lean hors Cartograffect/
     dup_lexicons = sorted({
@@ -639,7 +649,7 @@ def _check_strate0_integrity(
     else:
         cat.ok("0 doublon Lexicon176.lean hors Cartograffect/")
 
-    # Scan des 6 suites formelles hors commentaires et littéraux
+    # Scan des 6 suites formelles Strate 0 + extensions Strate 1 Lean hors commentaires et littéraux
     suites: list[tuple[str, str, list[Path]]] = [
         (
             "Lean 4",
@@ -658,6 +668,14 @@ def _check_strate0_integrity(
             + sorted((root / "tla/specs").rglob("*.cfg") if (root / "tla/specs").is_dir() else []),
         ),
     ]
+
+    strate1_lean_paths = sorted(
+        (root / "extensions/lexicon/lean").rglob("*.lean")
+        if (root / "extensions/lexicon/lean").is_dir()
+        else []
+    )
+    if strate1_lean_paths:
+        suites.append(("Lean 4 Strate 1 (extensions/lexicon/lean)", "lean", strate1_lean_paths))
 
     total_formal_files = 0
     for suite_name, lang, paths in suites:
@@ -1118,7 +1136,7 @@ def _check_site_payload_contract(
         ),
         (s0_pay.get("sorry_count") == 0, f"sorry_count={s0_pay.get('sorry_count')!r} != 0"),
         (len(s0_pay.get("provers", [])) == 6, f"provers count={len(s0_pay.get('provers', []))} != 6"),
-        (s0_pay.get("lean_modules_count") == 10, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 10"),
+        (s0_pay.get("lean_modules_count") == 11, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 11"),
         (s0_pay.get("states_count") == 176, f"states_count={s0_pay.get('states_count')!r} != 176"),
         (s0_pay.get("predictions_count") == 5, f"predictions_count={s0_pay.get('predictions_count')!r} != 5"),
         (

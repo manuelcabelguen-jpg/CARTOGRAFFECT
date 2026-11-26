@@ -8,4 +8,5 @@ theories/Lexicon176.v
 theories/PredictiveCircuit.v
 theories/AuditTests.v
 theories/OperantFactorization.v
+theories/EndToEndBridge.v
 theories/Cartograffect.v

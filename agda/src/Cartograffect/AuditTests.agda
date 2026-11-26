@@ -2,8 +2,9 @@
 ------------------------------------------------------------------------
 -- Copyright (c) 2026 Manuel Cabelguen. All rights reserved.
 -- SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
--- Cartograffect.AuditTests: 113th theorem, 113-theorem typechecked manifest,
--- and 11 concrete computational evaluation blocks (refl parity)
+-- Cartograffect.AuditTests: 113th theorem, 130-theorem (+ nominal uniqueness)
+-- typechecked manifest across 11 anchor blocks, and 11 concrete computational
+-- evaluation blocks (refl parity)
 ------------------------------------------------------------------------
 module Cartograffect.AuditTests where
 
@@ -15,6 +16,8 @@ open import Cartograffect.AffectiveTaxonomy
 open import Cartograffect.AffectiveDynamics
 open import Cartograffect.Lexicon176
 open import Cartograffect.PredictiveCircuit
+open import Cartograffect.OperantFactorization
+open import Cartograffect.EndToEndBridge
 
 ------------------------------------------------------------------------
 -- 1. Audited Theorem #113: all176Entries_antagonist_inverts_hedonic_polarity
@@ -42,7 +45,8 @@ all176Entries_antagonist_inverts_hedonic_polarity {e} e∈ =
   All-lookup (allB-to-All antagonistInvertsEntryB all176Entries refl) e∈
 
 ------------------------------------------------------------------------
--- 2. Exhaustive 113-Theorem Anchor (7 + 23 + 13 + 10 + 10 + 8 + 41 + 1)
+-- 2. Exhaustive 130-Theorem Anchor across 11 Blocks
+--    (7 + 23 + 13 + 10 + 10 + 8 + 41 + 1 + 7 + [unique_labels] + 10)
 ------------------------------------------------------------------------
 
 auditAnchor-01-PredictiveEngine : _
@@ -188,6 +192,35 @@ auditAnchor-07-PredictiveCircuit =
 auditAnchor-08-AuditTests : _
 auditAnchor-08-AuditTests =
   λ {e} → all176Entries_antagonist_inverts_hedonic_polarity {e}
+
+auditAnchor-09-OperantFactorization : _
+auditAnchor-09-OperantFactorization =
+  ( manhattanDistXY_origin
+  , operant_factorization_law
+  , energyRegime_matches_operant_operator
+  , antagonist_flips_effect_preserves_operator
+  , axial_poles_bridge_operant_pairs
+  , axial_poles_pre_operant
+  , operant_bijection_on_z2_diagonals
+  )
+
+auditAnchor-10-LexiconNominalUniqueness : _
+auditAnchor-10-LexiconNominalUniqueness =
+  all176Entries_unique_labels
+
+auditAnchor-11-EndToEndBridge : _
+auditAnchor-11-EndToEndBridge =
+  ( circuit_coupling_operant_bridge
+  , triggerSecondaryGradient_enters_operant
+  , p2_markov_contagion_enters_operant_punishment
+  , operant_quadrant_lifting_all_strata
+  , operant_antagonist_invariance_all_strata
+  , depthKernel_preserves_operant_quadrant
+  , operant_lineages_reach_z7_transcendentals
+  , unified_circuit-to-taxonomy_coherence
+  , circularCycle-to-taxonomy_and_lexicon_coherence
+  , full_end-to-end_lexicon_resolution
+  )
 
 ------------------------------------------------------------------------
 -- 3. 11 Concrete Computational Evaluation Blocks (Bit-for-Bit Parity)

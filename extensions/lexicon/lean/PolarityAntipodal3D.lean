@@ -74,4 +74,13 @@ theorem all176Entries_axial_diag_strict_3d_antipodal :
         (let q := antagonistPoint e.point
          e.point.x + q.x == 0 && e.point.y + q.y == 0 && zAntipodal3D e.point + zAntipodal3D q == 0))) = true := by decide
 
+/-!
+## Audit axiomatique (#print axioms)
+-/
+
+#print axioms all176Entries_peripheral_polarity_pos_count
+#print axioms all176Entries_peripheral_polarity_neg_count
+#print axioms all176Entries_peripheral_z_antipodal_sum_zero
+#print axioms all176Entries_axial_diag_strict_3d_antipodal
+
 end Cartograffect.Validation.PolarityAntipodal3D

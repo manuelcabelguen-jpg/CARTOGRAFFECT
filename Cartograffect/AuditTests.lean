@@ -11,6 +11,8 @@ import Cartograffect.AffectiveDynamics
 import Cartograffect.AffectiveTaxonomy
 import Cartograffect.Lexicon176
 import Cartograffect.PredictiveCircuit
+import Cartograffect.OperantFactorization
+import Cartograffect.EndToEndBridge
 
 namespace Cartograffect.Audit
 
@@ -21,6 +23,8 @@ open AffectiveDynamics
 open AffectiveTaxonomy
 open Lexicon176
 open PredictiveCircuit
+open OperantFactorization
+open EndToEndBridge
 
 /-!
 ## PHASE 1 : Audit Axiomatique (#print axioms)
@@ -149,6 +153,24 @@ theorem all176Entries_antagonist_inverts_hedonic_polarity :
 #print axioms projectUnifiedState_valid
 #print axioms projectUnifiedState_crown_budget
 #print axioms projectUnifiedState_reaches_lateral_consternation
+#print axioms manhattanDistXY_origin
+#print axioms operant_factorization_law
+#print axioms energyRegime_matches_operant_operator
+#print axioms antagonist_flips_effect_preserves_operator
+#print axioms axial_poles_bridge_operant_pairs
+#print axioms axial_poles_pre_operant
+#print axioms operant_bijection_on_z2_diagonals
+#print axioms all176Entries_unique_labels
+#print axioms circuit_coupling_operant_bridge
+#print axioms triggerSecondaryGradient_enters_operant
+#print axioms p2_markov_contagion_enters_operant_punishment
+#print axioms operant_quadrant_lifting_all_strata
+#print axioms operant_antagonist_invariance_all_strata
+#print axioms depthKernel_preserves_operant_quadrant
+#print axioms operant_lineages_reach_z7_transcendentals
+#print axioms unified_circuit_to_taxonomy_coherence
+#print axioms circularCycle_to_taxonomy_and_lexicon_coherence
+#print axioms full_end_to_end_lexicon_resolution
 
 /-!
 ## PHASE 2 : Tests d'Inhabitation et Évaluation Concrète (#eval)

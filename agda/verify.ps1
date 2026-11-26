@@ -8,8 +8,8 @@
 #   2. Every .agda file begins with {-# OPTIONS --safe --without-K #-}.
 #   3. Zero forbidden constructs (postulate, trustMe, primTrustMe, TRUSTME, holes {!,
 #      --type-in-type, --unsafe, --rewriting, --allow-unsolved-metas, --sized-types, --guardedness).
-#   4. All 120 audited theorem declarations and 11 concrete evaluation blocks exist.
-#   5. Clean build from scratch (deleting all *.agdai) of all 11 modules in topological order.
+#   4. All 130 audited theorem declarations (+ all176Entries_unique_labels) and 11 concrete evaluation blocks exist.
+#   5. Clean build from scratch (deleting all *.agdai) of all 12 modules in topological order.
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -46,8 +46,9 @@ $Modules = @(
     "Cartograffect\AffectiveDynamics.agda",
     "Cartograffect\Lexicon176.agda",
     "Cartograffect\PredictiveCircuit.agda",
-    "Cartograffect\AuditTests.agda",
     "Cartograffect\OperantFactorization.agda",
+    "Cartograffect\EndToEndBridge.agda",
+    "Cartograffect\AuditTests.agda",
     "Cartograffect.agda"
 )
 
@@ -89,10 +90,10 @@ foreach ($rel in $Modules) {
         }
     }
 }
-Write-Host "  OK: 11/11 modules enforce {-# OPTIONS --safe --without-K #-} ($TotalLines lines total, 0 postulates/holes)." -ForegroundColor Green
+Write-Host "  OK: 12/12 modules enforce {-# OPTIONS --safe --without-K #-} ($TotalLines lines total, 0 postulates/holes)." -ForegroundColor Green
 
 # 2. Theorem & Evaluation Block Census
-Write-Host "[2/3] Auditing 120 Theorem Symbols & 11 Evaluation Blocks..." -ForegroundColor Yellow
+Write-Host "[2/3] Auditing 130 Theorem Symbols (+ all176Entries_unique_labels) & 11 Evaluation Blocks..." -ForegroundColor Yellow
 
 $ExpectedTheorems = @(
     # Module 01: PredictiveEngine (7)
@@ -223,11 +224,22 @@ $ExpectedTheorems = @(
     "antagonist_flips_effect_preserves_operator",
     "axial_poles_bridge_operant_pairs",
     "axial_poles_pre_operant",
-    "operant_bijection_on_z2_diagonals"
+    "operant_bijection_on_z2_diagonals",
+    # Derived Module: EndToEndBridge (10)
+    "circuit_coupling_operant_bridge",
+    "triggerSecondaryGradient_enters_operant",
+    "p2_markov_contagion_enters_operant_punishment",
+    "operant_quadrant_lifting_all_strata",
+    "operant_antagonist_invariance_all_strata",
+    "depthKernel_preserves_operant_quadrant",
+    "operant_lineages_reach_z7_transcendentals",
+    "unified_circuit-to-taxonomy_coherence",
+    "circularCycle-to-taxonomy_and_lexicon_coherence",
+    "full_end-to-end_lexicon_resolution"
 )
 
-if ($ExpectedTheorems.Count -ne 120) {
-    throw "Internal error: ExpectedTheorems count is $($ExpectedTheorems.Count), expected 120."
+if ($ExpectedTheorems.Count -ne 130) {
+    throw "Internal error: ExpectedTheorems count is $($ExpectedTheorems.Count), expected 130."
 }
 
 $AllCombined = ""
@@ -235,7 +247,7 @@ foreach ($rel in $Modules) {
     $AllCombined += "`n" + [System.IO.File]::ReadAllText((Join-Path $SrcDir $rel), [System.Text.Encoding]::UTF8)
 }
 
-foreach ($thm in $ExpectedTheorems) {
+foreach ($thm in ($ExpectedTheorems + @("all176Entries_unique_labels"))) {
     $escaped = [Regex]::Escape($thm)
     if ($AllCombined -notmatch "(?m)^$escaped\s*:") {
         throw "Missing theorem signature for '$thm'"
@@ -249,10 +261,10 @@ for ($b = 1; $b -le 11; $b++) {
         throw "Missing evaluation block '$bName'"
     }
 }
-Write-Host "  OK: 120/120 theorem signatures and 11/11 evaluation blocks verified." -ForegroundColor Green
+Write-Host "  OK: 130/130 theorem signatures (+ all176Entries_unique_labels) and 11/11 evaluation blocks verified." -ForegroundColor Green
 
-# 3. Clean-room Agda typechecking
-Write-Host "[3/3] Clean-Room Typechecking (11 modules in topological order)..." -ForegroundColor Yellow
+# 3. Clean-Room Agda typechecking
+Write-Host "[3/3] Clean-Room Typechecking (12 modules in topological order)..." -ForegroundColor Yellow
 
 Get-ChildItem -Path $SrcDir -Recurse -Filter "*.agdai" -ErrorAction SilentlyContinue | Remove-Item -Force
 
@@ -279,6 +291,6 @@ $TotalSec = "{0:N2}" -f $TotalSw.Elapsed.TotalSeconds
 
 Write-Host ""
 Write-Host "========================================================================" -ForegroundColor Cyan
-Write-Host " ALL 11 AGDA MODULES (120 THEOREMS + 11 EVAL BLOCKS) VERIFIED IN $TotalSec s" -ForegroundColor Green
+Write-Host " ALL 12 AGDA MODULES (130 THEOREMS + all176Entries_unique_labels + 11 EVAL BLOCKS) VERIFIED IN $TotalSec s" -ForegroundColor Green
 Write-Host "========================================================================" -ForegroundColor Cyan
 exit 0

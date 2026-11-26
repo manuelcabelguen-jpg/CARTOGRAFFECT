@@ -1,21 +1,25 @@
 # Rapport de validation *in silico* — CARTOGRAFFECT
 
-- **Horodatage (UTC) :** `2026-11-19T13:29:37.912820+00:00`
-- **Durée totale :** `751.86 s` (Exp 1 : `17.52 s`, Exp 2 : `341.02 s`, Exp 3 : `389.23 s`)
+- **Horodatage (UTC) :** `2026-11-25T03:07:18.991712+00:00`
+- **Durée totale :** `1176.61 s` (Exp 1 : `58.73 s`, Exp 2 : `541.16 s`, Exp 3 : `569.32 s`)
 - **Statut global :** `SUCCÈS COMPLET`
 
 ## 1. Expérience 1 — Prédictions falsifiables Monte-Carlo (non circulaire)
 
-*(N = 1000 trajectoires par condition ; symétrie préalable `B(Z=2)` : `Δ_prior = 8.33e-17`, bascule pôles opposés max = `0.0375`)*
+*(N = 1000 trajectoires par condition ; symétrie préalable `B(Z=2)` : `Δ_prior = 8.33e-17`, bascule pôles opposés max = `0.0400`)*
 
 | Prédiction | Condition / Comparaison | Valeur principale | Comparateur | Statistique / p-value |
 | :--- | :--- | :---: | :---: | :--- |
 | **P1 — Arbitrage $L_1$** ($Z=4$) | Corr. $(\Delta|X_t|, \Delta|Y_t|)$ : $\lambda=1$ vs $\lambda=0$ | `-0.7232` | `0.0481` | $p = 3.33e-165$ (paired t: `< 1e-300`), $d_z = -6.59$ |
-| **P2 — Résidence axiale** ($Z=2$) | Temps moyen Axial vs Diagonal | `1.986` | `3.078` | $p = 1.02e-162$, $d_z = 1.59$ |
-| **P2 — Asymétrie de transition** | $P(\text{Ax}\to\text{Diag})$ vs $P(\text{Diag}\to\text{Ax})$ | `0.3968` | `0.3151` | $p = 5.72e-106$, $d_z = 0.91$ |
+| **P2 — Résidence axiale** ($Z=2$) | Temps moyen Axial vs Diagonal | `1.998` | `3.067` | $p = 9.41e-159$, $d_z = 1.35$ |
+| **P2 — Asymétrie de transition** | $P(\text{Ax}\to\text{Diag})$ vs $P(\text{Diag}\to\text{Ax})$ | `0.3939` | `0.3197` | $p = 1.79e-84$, $d_z = 0.75$ |
 | **P3 — Demi-vie hiérarchique** | $t_{1/2}(Z=4)$ vs $t_{1/2}(Z=2)$ | `3.72` | `1.75` | $p = < 1e-300$, $d = 4.80$ |
 | **P3 — Demi-vie hiérarchique** | $t_{1/2}(Z=5)$ vs $t_{1/2}(Z=2)$ | `5.19` | `1.75` | $p = < 1e-300$, $d = 8.32$ |
 | **P3 — Résistance Dirichlet** | Rétention vraisemblance $Z=5$ vs $Z=2$ | `0.9988` | `0.9799` | $p = < 1e-300$, $d = 7.48$ |
+| **P4 — Lexicographie (Bras A)** | Taux valence négative ($X_t<0, \Delta\nabla A_t>0$) : CARTO vs J\&C | `1.000` | `0.000` | $p = 1.80e-219$ (Wilcoxon, 10362 essais) |
+| **P4 — Lexicographie (Bras B)** | Taux valence positive ($X_t>0, \Delta\nabla A_t<0$) : CARTO vs J\&C | `1.000` | `0.000` | $p = 2.69e-167$ (Wilcoxon, 2505 essais) |
+| **P5 — Peur $\to$ Colère vs Dégoût** | Indice $P(\text{Col}) - P(\text{Dég})$ : $p_{\text{ctrl}}=0.90$ vs $0.10$ | `+0.0526` | `-0.5806` | $p = 9.62e-250$, $d = 2.13$ |
+| **P5 — Médiation $\hat{p}_{\text{ctrl}}$** | Effet indirect Sobel $a\cdot b$ ($c' = -0.0121$) | `0.8037` | `Sobel z = 46.91` | $p = < 1e-300$, $\rho_S = 0.8985$ |
 
 ## 2. Expérience 2 — Phénotypes cliniques comparés (pure-θ, protocole unifié)
 
@@ -91,3 +95,9 @@
 - `[PASS]` `exp03_nuts_rhat_lt_102`
 - `[PASS]` `exp03_nuts_ess_ge_400`
 - `[PASS]` `exp03_model_recovery_diag_pxp_gt_095`
+- `[PASS]` `exp01_p4_b_prior_symmetric`
+- `[PASS]` `exp01_p4_arm_a_strict_opposition`
+- `[PASS]` `exp01_p4_arm_b_strict_opposition`
+- `[PASS]` `exp01_p5_b_prior_symmetric`
+- `[PASS]` `exp01_p5_control_shifts_colere_over_degout`
+- `[PASS]` `exp01_p5_mediation_indirect_positive`

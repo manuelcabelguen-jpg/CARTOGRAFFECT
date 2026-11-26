@@ -261,12 +261,13 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             self.assertIn("non mathématicien formel", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertIn("ligne par ligne", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertEqual(payload["identifiers"]["cipo_registration"], "1233199")
-            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 120)
+            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 130)
             self.assertEqual(payload["strate_0_core"]["sorry_count"], 0)
             self.assertEqual(len(payload["strate_0_core"]["provers"]), 6)
-            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 10)
+            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 11)
             self.assertEqual(payload["strate_0_core"]["states_count"], 176)
             self.assertEqual(payload["strate_0_core"]["predictions_count"], 5)
+            self.assertEqual(payload["strate_1_extensions"]["lexicon"]["theorems_verified"], 36)
             self.assertEqual(payload["licenses"]["spdx_expression"], "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
 
     def test_fault_site_payload_manifest_mismatch(self) -> None:
