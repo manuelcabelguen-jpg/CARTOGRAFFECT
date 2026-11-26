@@ -267,7 +267,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 11)
             self.assertEqual(payload["strate_0_core"]["states_count"], 176)
             self.assertEqual(payload["strate_0_core"]["predictions_count"], 5)
-            self.assertEqual(payload["strate_1_extensions"]["lexicon"]["theorems_verified"], 36)
+            self.assertEqual(payload["strate_1_extensions"]["lexicon"]["theorems_verified"], 10)
             self.assertEqual(payload["licenses"]["spdx_expression"], "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
 
     def test_fault_site_payload_manifest_mismatch(self) -> None:

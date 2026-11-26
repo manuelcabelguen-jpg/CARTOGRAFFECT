@@ -320,16 +320,16 @@ def build_site_payload(root: Path) -> dict[str, Any]:
             "path": str(lex_ext.get("path", "extensions/lexicon")),
             "status": str(lex_ext.get("status", "exploratory_subordinate")),
             "epistemic_status_file": lex_status_file,
-            "theorems_verified": int(lex_ext.get("theorems_verified", 36)),
+            "theorems_verified": int(lex_ext.get("theorems_verified", 10)),
             "sorry_count": int(lex_ext.get("sorry_count", 0)),
             "lean_challenges_count": len(lex_ext.get("lean_challenges", [])),
             "summary": (
-                "Triangulation psychométrique préliminaire sur les 24 ancres Scherer GRID / CPM "
-                "et réfutation formelle des roues émotionnelles 2D à rayon fixe "
-                "(36/36 théorèmes Lean 4 dans extensions/lexicon/lean/, 0 sorry) ; "
-                "statut exploratoire subordonné à la Strate 0 ; "
-                "extension axiologique Z- (« Diamant 303 ») strictement cloisonnée hors de "
-                "l'axiomatique Z in {0..7}."
+                "Audit lexical et géométrique exploratoire de Strate 1 "
+                "(10/10 théorèmes géométriques Lean 4 dans extensions/lexicon/lean/, 0 sorry, "
+                "0 constante statistique Python codée en dur ; banc GEW 3.0 / Plutchik sans surcharges "
+                "manuelles avec H2 et H4 rapportées comme non corroborées) ; statut exploratoire "
+                "subordonné à la Strate 0 ; extension axiologique Z- (« Diamant 303 ») strictement "
+                "cloisonnée hors de l'axiomatique Z in {0..7}."
             ),
         },
         "in_silico": {
@@ -341,13 +341,14 @@ def build_site_payload(root: Path) -> dict[str, Any]:
             "a4_sanctuaire_policy": (
                 "Respect absolu de l'arbitrage A4-Sanctuaire : aucune métrique quantitative "
                 "in silico (PXP, min r) n'est injectée dans le corps théorique de l'article "
-                "canonique ; banc compagnon Exp 1–5 réservé à un second article dédié."
+                "canonique ; Exp 4–5 DSM-5 / HiTOP isolées en quarantaine dans exploratory_synthetic/ "
+                "(SYNTHETIC EXPLORATORY ONLY — V3 = 0)."
             ),
             "summary": (
-                "Banc compagnon de simulation Active Inference (Exp 1–5 : faisabilité générative "
-                "P1–P5, phénotypes cliniques, identifiabilité bayésienne et explorations "
-                "nosologiques DSM-5 / HiTOP), strictement subordonné à la Strate 0 et réservé "
-                "à un second article méthodologique dédié dans le respect absolu de A4-Sanctuaire."
+                "Banc compagnon de simulation Active Inference (Exp 1–3 : test de cohérence numérique "
+                "du projecteur budgétaire P1, cohérence générative interne P2–P5 et identifiabilité "
+                "bayésienne ; Exp 4–5 DSM-5 / HiTOP en quarantaine exploratory_synthetic/ — "
+                "SYNTHETIC EXPLORATORY ONLY, V3 = 0), strictement subordonné à la Strate 0."
             ),
         },
     }

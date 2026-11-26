@@ -1,4 +1,12 @@
-"""Expérience 5 : Panorama pan-chapitres DSM-5 (26 régimes cliniques transdiagnostiques).
+"""[SYNTHETIC EXPLORATORY ONLY — V3 = 0]
+QUARANTAINE EXPLORATOIRE — AUCUNE VALIDATION CLINIQUE OU NOSOLOGIQUE EXTERNE.
+Ce script génère des agents synthétiques à partir de lois a priori paramétriques
+définies dans le simulateur (zéro donnée patient humaine, V3 = 0). Les taux de
+séparabilité, chevauchements entre cohortes simulées et réponses différentielles
+aux perturbations paramétriques ne constituent aucune preuve nosologique ou
+clinique réelle.
+
+Expérience 5 : Simulation exploratoire synthétique sur 26 régimes paramétriques (inspirés DSM-5 / HiTOP).
 
 Étend l'expérience 4 (8 cohortes conservées intactes) à un panorama complet de
 26 régimes paramétriques dynamiques couvrant l'ensemble des grands chapitres

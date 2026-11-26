@@ -15,9 +15,9 @@ Lois formelles vérifiées :
    17 sous-secteurs topologiques.
 3. Loi Lexicographique de Polarité : primauté stricte de sgn(X) dès que X != 0, et de sgn(Y) si X = 0.
 4. Clôture Injective et Involutivité de la Rose des 8 Symétries :
-   - Antagoniste formel A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) avec A(A(P)) = P et typage quintuple.
+   - Antagoniste formel par morceaux A(X, Y, Z) = (-X, -Y, Z) si XY = 0, (-sgn(X)|Y|, -sgn(Y)|X|, Z) si XY != 0, avec A(A(P)) = P et typage quintuple.
    - Opposé central intra-dominante Ic(P) = (-X, -Y, Z) avec Ic(Ic(P)) = P.
-   - Miroir diagonal de dominante M_dom(P) = (sgn(X)|Y|, sgn(Y)|X|, Z) avec M_dom(M_dom(P)) = P.
+   - Miroir diagonal de dominante M_dom(P) = (X, Y, Z) si XY = 0, (sgn(X)|Y|, sgn(Y)|X|, Z) si XY != 0, avec M_dom(M_dom(P)) = P.
    - Miroirs orthogonaux Ox(P) = (-X, Y, Z) et Oy(P) = (X, -Y, Z).
    - Homologue vertical trans-hémisphérique Hz(P) = (X, Y, -Z) ((0,0,0) <-> (0,0,-7) et Z=+7 auto-dual)
      et les 6 lois de transmutation verticale.
@@ -297,7 +297,7 @@ def main():
         sx = 1 if x > 0 else (-1 if x < 0 else 0)
         sy = 1 if y > 0 else (-1 if y < 0 else 0)
 
-        # 1. Antagoniste régulateur formel A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z)
+        # 1. Antagoniste régulateur formel par morceaux : (-X, -Y, Z) si XY = 0 ; (-sgn(X)|Y|, -sgn(Y)|X|, Z) si XY != 0
         if x == 0 and y == 0:
             ax, ay = 0, 0
             exp_rule = "AUTO_DUAL_CENTRE"
@@ -332,7 +332,7 @@ def main():
         assert int(r["oppose_central_id_303"]) == ic_p["id_303"]
         assert int(ic_p["oppose_central_id_303"]) == pid, f"Ic(Ic(P)) != P pour pôle {pid}"
 
-        # 3. Miroir diagonal de dominante M_dom(P) = (sgn(X)|Y|, sgn(Y)|X|, Z)
+        # 3. Miroir diagonal de dominante par morceaux : (X, Y, Z) si XY = 0 ; (sgn(X)|Y|, sgn(Y)|X|, Z) si XY != 0
         if x == 0 and y == 0:
             mx, my = 0, 0
         elif x == 0:

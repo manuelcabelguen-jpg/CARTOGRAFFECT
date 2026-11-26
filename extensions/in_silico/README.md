@@ -52,8 +52,8 @@ Cartograffect-simulation-in-silico/
 
 Tous les **18 critères de validation** passent (`ALL_CRITERIA_PASSED: True`, durée totale `751.86 s`) ; voir [results/validation_summary.md](results/validation_summary.md) :
 
-1. **Expérience 1 — Prédictions falsifiables non circulaires ($N = 1\,000$ / condition) :**
-   - **P1 (Arbitrage $L_1$, $Z=4$) :** demandes orthogonales avant contrainte ($r_{\text{raw}} = 0.048$), donnant $r(\lambda=1) = -0.7232$ vs $r(\lambda=0) = 0.0481$ ($p_{\text{Wilcoxon}} = 3.33 \times 10^{-165}$, $d_z = -6.59$).
+1. **Expérience 1 — Tests de cohérence *in silico* ($N = 1\,000$ / condition, `V3 = 0`) :**
+   - **P1 (Test de cohérence numérique du projecteur budgétaire $L_1$, $Z=4$) :** demandes orthogonales avant contrainte ($r_{\text{raw}} = 0.048$), donnant après application explicite de `apply_budget_constraint` $r(\lambda=1) = -0.7232$ vs $r(\lambda=0) = 0.0481$ ($p_{\text{Wilcoxon}} = 3.33 \times 10^{-165}$, $d_z = -6.59$).
    - **P2 (Instabilité axiale émergente, $Z=2$) :** symétrie préalable stricte dans $B(Z=2)$ ($\Delta_{\text{prior}} = 8.33 \times 10^{-17}$), mais temps de résidence émergent $\tau_{\text{ax}} = 1.986 < \tau_{\text{diag}} = 3.078$ pas ($p = 1.02 \times 10^{-162}$) et $P(\text{Ax}\to\text{Diag}) = 0.3968 > P(\text{Diag}\to\text{Ax}) = 0.3151$ ($p = 5.72 \times 10^{-106}$), avec bascule directe entre pôles opposés $\le 0.0375$.
    - **P3 (Inertie hiérarchique sur le POMDP à 176 états sous JAX) :** demi-vie de dissipation $t_{1/2}(Z=2)=1.75 < t_{1/2}(Z=4)=3.72 < t_{1/2}(Z=5)=5.19$ et résistance Dirichlet aux évidences contraires strictement croissante ($0.9799 < 0.9978 < 0.9988$, Kruskal-Wallis $p < 10^{-300}$).
 2. **Expérience 2 — Phénotypes cliniques pure-$\theta$ ($N = 20$ graines appariées, protocole unifié) :**

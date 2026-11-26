@@ -1,6 +1,7 @@
 {
   "source": "Scherer, Shuman, Fontaine & Soriano (2013). The GRID meets the Wheel. In Fontaine, Scherer & Soriano (Eds.), Components of Emotional Meaning, ch. 18. OUP.",
   "reference_model": "CARTOGRAFFECT Diamant 303 (ref_303_diamant_z.tsv / CARTOGRAFFECT_Diamant_303_Lexique_Complet.tsv)",
+  "manual_overrides": "NONE (strict automatic lookup only; rire, soumission->271 and canonical_alts removed in Phase 1)",
   "preregistration": {
     "H1_Rbar_pass": 0.7,
     "H1_Rbar_partial": 0.5,
@@ -21,6 +22,7 @@
     "coverage": {
       "GEW3": {
         "n_items": 20,
+        "n_covered": 20,
         "coverage": 1.0,
         "n_exact_303": 14,
         "n_exact_176": 14,
@@ -32,6 +34,7 @@
       },
       "GEW2": {
         "n_items": 40,
+        "n_covered": 40,
         "coverage": 1.0,
         "n_exact_303": 19,
         "n_exact_176": 19,
@@ -43,6 +46,7 @@
       },
       "GEW1": {
         "n_items": 17,
+        "n_covered": 17,
         "coverage": 1.0,
         "n_exact_303": 14,
         "n_exact_176": 14,
@@ -54,11 +58,12 @@
       },
       "PLUTCHIK": {
         "n_items": 32,
+        "n_covered": 32,
         "coverage": 1.0,
         "n_exact_303": 22,
         "n_exact_176": 22,
-        "n_lexique": 9,
-        "n_triade": 1,
+        "n_lexique": 10,
+        "n_triade": 0,
         "n_centre_sans_angle": 2,
         "non_couverts": [],
         "H6_verdict": "VALIDÉ"
@@ -79,7 +84,7 @@
         "mean_abs_error_deg": 33.48,
         "outliers": [],
         "H1_verdict": "VALIDÉ",
-        "H2_verdict": "INVALIDÉ",
+        "H2_verdict": "NON CORROBORÉE",
         "units": [
           {
             "wheel": "GEW3",
@@ -277,7 +282,7 @@
         "mean_abs_error_deg": 25.88,
         "outliers": [],
         "H1_verdict": "VALIDÉ",
-        "H2_verdict": "INVALIDÉ",
+        "H2_verdict": "NON CORROBORÉE",
         "units": [
           {
             "wheel": "GEW2",
@@ -474,7 +479,7 @@
           }
         ],
         "H1_verdict": "PARTIEL",
-        "H2_verdict": "VALIDÉ",
+        "H2_verdict": "CORROBORÉE",
         "units": [
           {
             "wheel": "GEW1",
@@ -616,64 +621,57 @@
       "PLUTCHIK": {
         "n_units": 30,
         "reflection_used": false,
-        "rotation_alpha_deg": 33.73,
+        "rotation_alpha_deg": 40.53,
         "rotation_CI95_deg": [
-          4.31,
-          66.12
+          13.53,
+          72.18
         ],
-        "Rbar": 0.4538,
-        "p_perm": 0.0027,
-        "null_Rbar_mean": 0.2093,
-        "mean_abs_error_deg": 56.12,
+        "Rbar": 0.4807,
+        "p_perm": 0.0012,
+        "null_Rbar_mean": 0.2077,
+        "mean_abs_error_deg": 54.17,
         "outliers": [
           {
             "unit": "joy:serenity",
             "anchors": "Sérénité",
             "theta_wheel": 90.0,
             "theta_carto": -63.435,
-            "residual_deg": 119.71
+            "residual_deg": 112.9
           },
           {
             "unit": "fear:fear",
             "anchors": "Peur",
             "theta_wheel": 0.0,
             "theta_carto": 180.0,
-            "residual_deg": 146.27
+            "residual_deg": 139.47
           },
           {
             "unit": "fear:terror",
             "anchors": "Terreur",
             "theta_wheel": 0.0,
             "theta_carto": 96.34,
-            "residual_deg": -130.07
+            "residual_deg": -136.87
           },
           {
             "unit": "surprise:amazement",
             "anchors": "Sidération",
             "theta_wheel": -45.0,
             "theta_carto": 161.565,
-            "residual_deg": 119.71
-          },
-          {
-            "unit": "submission:submission",
-            "anchors": "Assertif",
-            "theta_wheel": 22.5,
-            "theta_carto": 123.69,
-            "residual_deg": -134.92
+            "residual_deg": 112.9
           },
           {
             "unit": "awe:awe",
             "anchors": "Crainte",
             "theta_wheel": -22.5,
             "theta_carto": 180.0,
-            "residual_deg": 123.77
+            "residual_deg": 116.97
           },
           {
             "unit": "aggressiveness:aggressiveness",
             "anchors": "Fermeture",
             "theta_wheel": 157.5,
             "theta_carto": -120.964,
-            "residual_deg": -115.27
+            "residual_deg": -122.07
           }
         ],
         "H1_verdict": "INVALIDÉ",
@@ -685,7 +683,7 @@
             "theta_wheel": 90.0,
             "theta_carto": -63.44,
             "anchors": "Sérénité",
-            "residual_deg": 119.71
+            "residual_deg": 112.9
           },
           {
             "wheel": "PLUTCHIK",
@@ -694,7 +692,7 @@
             "theta_wheel": 90.0,
             "theta_carto": 90.0,
             "anchors": "Joie",
-            "residual_deg": -33.73
+            "residual_deg": -40.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -703,7 +701,7 @@
             "theta_wheel": 90.0,
             "theta_carto": 14.04,
             "anchors": "Extase",
-            "residual_deg": 42.23
+            "residual_deg": 35.43
           },
           {
             "wheel": "PLUTCHIK",
@@ -712,7 +710,7 @@
             "theta_wheel": 45.0,
             "theta_carto": -45.0,
             "anchors": "Acceptation",
-            "residual_deg": 56.27
+            "residual_deg": 49.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -721,7 +719,7 @@
             "theta_wheel": 45.0,
             "theta_carto": 0.0,
             "anchors": "Confiance",
-            "residual_deg": 11.27
+            "residual_deg": 4.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -730,7 +728,7 @@
             "theta_wheel": 45.0,
             "theta_carto": -26.56,
             "anchors": "Admiration",
-            "residual_deg": 37.84
+            "residual_deg": 31.03
           },
           {
             "wheel": "PLUTCHIK",
@@ -739,7 +737,7 @@
             "theta_wheel": 0.0,
             "theta_carto": -26.56,
             "anchors": "Admiration",
-            "residual_deg": -7.16
+            "residual_deg": -13.97
           },
           {
             "wheel": "PLUTCHIK",
@@ -748,7 +746,7 @@
             "theta_wheel": 0.0,
             "theta_carto": 180.0,
             "anchors": "Peur",
-            "residual_deg": 146.27
+            "residual_deg": 139.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -757,7 +755,7 @@
             "theta_wheel": 0.0,
             "theta_carto": 96.34,
             "anchors": "Terreur",
-            "residual_deg": -130.07
+            "residual_deg": -136.87
           },
           {
             "wheel": "PLUTCHIK",
@@ -766,7 +764,7 @@
             "theta_wheel": -45.0,
             "theta_carto": -95.19,
             "anchors": "Abîme",
-            "residual_deg": 16.46
+            "residual_deg": 9.66
           },
           {
             "wheel": "PLUTCHIK",
@@ -775,7 +773,7 @@
             "theta_wheel": -45.0,
             "theta_carto": 161.56,
             "anchors": "Sidération",
-            "residual_deg": 119.71
+            "residual_deg": 112.9
           },
           {
             "wheel": "PLUTCHIK",
@@ -784,7 +782,7 @@
             "theta_wheel": -90.0,
             "theta_carto": -108.44,
             "anchors": "Chagrin",
-            "residual_deg": -15.29
+            "residual_deg": -22.1
           },
           {
             "wheel": "PLUTCHIK",
@@ -793,7 +791,7 @@
             "theta_wheel": -90.0,
             "theta_carto": -90.0,
             "anchors": "Tristesse",
-            "residual_deg": -33.73
+            "residual_deg": -40.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -802,7 +800,7 @@
             "theta_wheel": -90.0,
             "theta_carto": -108.44,
             "anchors": "Chagrin",
-            "residual_deg": -15.29
+            "residual_deg": -22.1
           },
           {
             "wheel": "PLUTCHIK",
@@ -811,7 +809,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -90.0,
             "anchors": "Ennui",
-            "residual_deg": -78.73
+            "residual_deg": -85.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -820,7 +818,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -135.0,
             "anchors": "Dégoût",
-            "residual_deg": -33.73
+            "residual_deg": -40.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -829,7 +827,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -135.0,
             "anchors": "Rejet",
-            "residual_deg": -33.73
+            "residual_deg": -40.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -838,7 +836,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Exaspération",
-            "residual_deg": 11.27
+            "residual_deg": 4.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -847,7 +845,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Colère",
-            "residual_deg": 11.27
+            "residual_deg": 4.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -856,7 +854,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Rage",
-            "residual_deg": 11.27
+            "residual_deg": 4.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -865,7 +863,7 @@
             "theta_wheel": 135.0,
             "theta_carto": 45.0,
             "anchors": "Intérêt",
-            "residual_deg": 56.27
+            "residual_deg": 49.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -874,7 +872,7 @@
             "theta_wheel": 135.0,
             "theta_carto": 180.0,
             "anchors": "Vigilance",
-            "residual_deg": -78.73
+            "residual_deg": -85.53
           },
           {
             "wheel": "PLUTCHIK",
@@ -883,16 +881,16 @@
             "theta_wheel": 67.5,
             "theta_carto": 78.69,
             "anchors": "Amour",
-            "residual_deg": -44.92
+            "residual_deg": -51.72
           },
           {
             "wheel": "PLUTCHIK",
             "unit": "submission:submission",
             "family": "submission",
             "theta_wheel": 22.5,
-            "theta_carto": 123.69,
-            "anchors": "Assertif",
-            "residual_deg": -134.92
+            "theta_carto": -101.31,
+            "anchors": "Dépouillement",
+            "residual_deg": 83.28
           },
           {
             "wheel": "PLUTCHIK",
@@ -901,7 +899,7 @@
             "theta_wheel": -22.5,
             "theta_carto": 180.0,
             "anchors": "Crainte",
-            "residual_deg": 123.77
+            "residual_deg": 116.97
           },
           {
             "wheel": "PLUTCHIK",
@@ -910,7 +908,7 @@
             "theta_wheel": -67.5,
             "theta_carto": -153.44,
             "anchors": "Défiance",
-            "residual_deg": 52.21
+            "residual_deg": 45.4
           },
           {
             "wheel": "PLUTCHIK",
@@ -919,7 +917,7 @@
             "theta_wheel": -112.5,
             "theta_carto": -116.56,
             "anchors": "Honte",
-            "residual_deg": -29.66
+            "residual_deg": -36.47
           },
           {
             "wheel": "PLUTCHIK",
@@ -928,7 +926,7 @@
             "theta_wheel": -157.5,
             "theta_carto": -168.69,
             "anchors": "Mépris",
-            "residual_deg": -22.54
+            "residual_deg": -29.34
           },
           {
             "wheel": "PLUTCHIK",
@@ -937,7 +935,7 @@
             "theta_wheel": 157.5,
             "theta_carto": -120.96,
             "anchors": "Fermeture",
-            "residual_deg": -115.27
+            "residual_deg": -122.07
           },
           {
             "wheel": "PLUTCHIK",
@@ -946,7 +944,7 @@
             "theta_wheel": 112.5,
             "theta_carto": 18.43,
             "anchors": "Optimisme",
-            "residual_deg": 60.34
+            "residual_deg": 53.53
           }
         ]
       }
@@ -956,7 +954,7 @@
         "n_pairs": 22,
         "antipodal_rate": 0.773,
         "lean_exact_rate": 0.045,
-        "verdict": "VALIDÉ",
+        "verdict": "CORROBORÉE",
         "pairs": [
           {
             "A": "Admiration",
@@ -1184,7 +1182,7 @@
         "n_pairs": 36,
         "antipodal_rate": 0.528,
         "lean_exact_rate": 0.028,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Implication",
@@ -1552,7 +1550,7 @@
         "n_pairs": 8,
         "antipodal_rate": 0.375,
         "lean_exact_rate": 0.0,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Fierté",
@@ -1640,7 +1638,7 @@
         "n_pairs": 15,
         "antipodal_rate": 0.4,
         "lean_exact_rate": 0.067,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Sérénité",
@@ -1765,9 +1763,9 @@
           {
             "A": "Soumission",
             "B": "Mépris",
-            "ancre_A": "Assertif",
+            "ancre_A": "Dépouillement",
             "ancre_B": "Mépris",
-            "delta_carto_deg": 67.6,
+            "delta_carto_deg": 67.4,
             "antipodal": false,
             "antagoniste_lean_exact": false,
             "meme_couronne_Z": false
@@ -1800,34 +1798,6 @@
       "n_violations": 0,
       "violations": [],
       "verdict": "VALIDÉ"
-    },
-    "H4b_involution_3D": {
-      "involutivite_303_rate": 1.0,
-      "n_plutchik_opposite_pairs": 15,
-      "n_co_defense_pairs": 1,
-      "co_defense_examples": [
-        {
-          "A": "Peur",
-          "B": "Colère",
-          "ancre_A": "Peur",
-          "ancre_B": "Colère",
-          "coords_A": [
-            -2,
-            0,
-            2
-          ],
-          "coords_B": [
-            -1,
-            1,
-            2
-          ],
-          "dL1": 2,
-          "co_defense_neighbors": true,
-          "antagoniste_A_3D": "Courage"
-        }
-      ],
-      "verdict": "VALIDÉ",
-      "interpretation": "L'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) démontre que les opposés circulaires 2D de Plutchik (ex. Peur vs Colère) sont des co-voisins de défense (dL1=2, X<0), tandis que leurs vrais régulateurs homéostatiques sont trans-axiaux (Courage et Calme, dL1=4, X>0)."
     },
     "H5_Z_vs_intensity": {
       "n": 24,
@@ -1905,14 +1875,13 @@
       "pearson_Y_L2_P": 0.4656,
       "spearman_X_L2_V": 0.833,
       "spearman_Y_L2_P": 0.5187,
-      "H7b_dual_L2": {
+      "H7b_dual_L2_exploratory_diagnostic": {
         "Rbar_carto_gew3": 0.7774,
         "mae_carto_gew3_deg": 33.48,
         "pearson_X_L2_valence": 0.8111,
         "pearson_Y_L2_power": 0.4656,
         "delta_Rbar_vs_raw_nrc": -0.1409,
-        "verdict": "VALIDÉ",
-        "interpretation": "La projection duale L2 et la barrière de contrôle Y portent R̄ à 0.7774 (gain de +-0.1409 vs NRC) et réduisent la MAE angulaire à 33.48°."
+        "note": "Diagnostique descriptif exploratoire (hors critères pré-enregistrés PREREG) : R̄ = 0.7774 (Δ vs NRC = -0.1409), MAE = 33.48°."
       }
     }
   },
@@ -1920,6 +1889,7 @@
     "coverage": {
       "GEW3": {
         "n_items": 20,
+        "n_covered": 20,
         "coverage": 1.0,
         "n_exact_303": 14,
         "n_exact_176": 14,
@@ -1931,6 +1901,7 @@
       },
       "GEW2": {
         "n_items": 40,
+        "n_covered": 40,
         "coverage": 1.0,
         "n_exact_303": 21,
         "n_exact_176": 21,
@@ -1942,6 +1913,7 @@
       },
       "GEW1": {
         "n_items": 17,
+        "n_covered": 17,
         "coverage": 1.0,
         "n_exact_303": 14,
         "n_exact_176": 14,
@@ -1953,11 +1925,12 @@
       },
       "PLUTCHIK": {
         "n_items": 32,
+        "n_covered": 32,
         "coverage": 1.0,
         "n_exact_303": 23,
         "n_exact_176": 23,
-        "n_lexique": 8,
-        "n_triade": 1,
+        "n_lexique": 9,
+        "n_triade": 0,
         "n_centre_sans_angle": 2,
         "non_couverts": [],
         "H6_verdict": "VALIDÉ"
@@ -1978,7 +1951,7 @@
         "mean_abs_error_deg": 33.48,
         "outliers": [],
         "H1_verdict": "VALIDÉ",
-        "H2_verdict": "INVALIDÉ",
+        "H2_verdict": "NON CORROBORÉE",
         "units": [
           {
             "wheel": "GEW3",
@@ -2184,7 +2157,7 @@
           }
         ],
         "H1_verdict": "VALIDÉ",
-        "H2_verdict": "INVALIDÉ",
+        "H2_verdict": "NON CORROBORÉE",
         "units": [
           {
             "wheel": "GEW2",
@@ -2381,7 +2354,7 @@
           }
         ],
         "H1_verdict": "PARTIEL",
-        "H2_verdict": "VALIDÉ",
+        "H2_verdict": "CORROBORÉE",
         "units": [
           {
             "wheel": "GEW1",
@@ -2523,53 +2496,46 @@
       "PLUTCHIK": {
         "n_units": 30,
         "reflection_used": false,
-        "rotation_alpha_deg": 27.47,
+        "rotation_alpha_deg": 34.14,
         "rotation_CI95_deg": [
-          -2.86,
-          54.34
+          6.38,
+          61.16
         ],
-        "Rbar": 0.489,
-        "p_perm": 0.0016,
-        "null_Rbar_mean": 0.2129,
-        "mean_abs_error_deg": 55.0,
+        "Rbar": 0.5096,
+        "p_perm": 0.0004,
+        "null_Rbar_mean": 0.2114,
+        "mean_abs_error_deg": 53.48,
         "outliers": [
           {
             "unit": "joy:serenity",
             "anchors": "Sérénité",
             "theta_wheel": 90.0,
             "theta_carto": -63.435,
-            "residual_deg": 125.96
+            "residual_deg": 119.3
           },
           {
             "unit": "fear:fear",
             "anchors": "Peur",
             "theta_wheel": 0.0,
             "theta_carto": 180.0,
-            "residual_deg": 152.53
+            "residual_deg": 145.86
           },
           {
             "unit": "fear:terror",
             "anchors": "Terreur",
             "theta_wheel": 0.0,
             "theta_carto": 96.34,
-            "residual_deg": -123.81
-          },
-          {
-            "unit": "submission:submission",
-            "anchors": "Assertif",
-            "theta_wheel": 22.5,
-            "theta_carto": 123.69,
-            "residual_deg": -128.66
+            "residual_deg": -130.48
           },
           {
             "unit": "aggressiveness:aggressiveness",
             "anchors": "Fermeture",
             "theta_wheel": 157.5,
             "theta_carto": -120.964,
-            "residual_deg": -109.01
+            "residual_deg": -115.67
           }
         ],
-        "H1_verdict": "INVALIDÉ",
+        "H1_verdict": "PARTIEL",
         "units": [
           {
             "wheel": "PLUTCHIK",
@@ -2578,7 +2544,7 @@
             "theta_wheel": 90.0,
             "theta_carto": -63.44,
             "anchors": "Sérénité",
-            "residual_deg": 125.96
+            "residual_deg": 119.3
           },
           {
             "wheel": "PLUTCHIK",
@@ -2587,7 +2553,7 @@
             "theta_wheel": 90.0,
             "theta_carto": 90.0,
             "anchors": "Joie",
-            "residual_deg": -27.47
+            "residual_deg": -34.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2596,7 +2562,7 @@
             "theta_wheel": 90.0,
             "theta_carto": 14.04,
             "anchors": "Extase",
-            "residual_deg": 48.49
+            "residual_deg": 41.83
           },
           {
             "wheel": "PLUTCHIK",
@@ -2605,7 +2571,7 @@
             "theta_wheel": 45.0,
             "theta_carto": -45.0,
             "anchors": "Acceptation",
-            "residual_deg": 62.53
+            "residual_deg": 55.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2614,7 +2580,7 @@
             "theta_wheel": 45.0,
             "theta_carto": 0.0,
             "anchors": "Confiance",
-            "residual_deg": 17.53
+            "residual_deg": 10.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2623,7 +2589,7 @@
             "theta_wheel": 45.0,
             "theta_carto": -26.56,
             "anchors": "Admiration",
-            "residual_deg": 44.09
+            "residual_deg": 37.43
           },
           {
             "wheel": "PLUTCHIK",
@@ -2632,7 +2598,7 @@
             "theta_wheel": 0.0,
             "theta_carto": -26.56,
             "anchors": "Admiration",
-            "residual_deg": -0.91
+            "residual_deg": -7.57
           },
           {
             "wheel": "PLUTCHIK",
@@ -2641,7 +2607,7 @@
             "theta_wheel": 0.0,
             "theta_carto": 180.0,
             "anchors": "Peur",
-            "residual_deg": 152.53
+            "residual_deg": 145.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2650,7 +2616,7 @@
             "theta_wheel": 0.0,
             "theta_carto": 96.34,
             "anchors": "Terreur",
-            "residual_deg": -123.81
+            "residual_deg": -130.48
           },
           {
             "wheel": "PLUTCHIK",
@@ -2659,7 +2625,7 @@
             "theta_wheel": -45.0,
             "theta_carto": -95.19,
             "anchors": "Abîme",
-            "residual_deg": 22.72
+            "residual_deg": 16.06
           },
           {
             "wheel": "PLUTCHIK",
@@ -2668,7 +2634,7 @@
             "theta_wheel": -45.0,
             "theta_carto": -18.43,
             "anchors": "Émerveillement",
-            "residual_deg": -54.04
+            "residual_deg": -60.7
           },
           {
             "wheel": "PLUTCHIK",
@@ -2677,7 +2643,7 @@
             "theta_wheel": -90.0,
             "theta_carto": -153.44,
             "anchors": "Mélancolie",
-            "residual_deg": 35.96
+            "residual_deg": 29.3
           },
           {
             "wheel": "PLUTCHIK",
@@ -2686,7 +2652,7 @@
             "theta_wheel": -90.0,
             "theta_carto": -90.0,
             "anchors": "Tristesse",
-            "residual_deg": -27.47
+            "residual_deg": -34.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2695,7 +2661,7 @@
             "theta_wheel": -90.0,
             "theta_carto": 153.44,
             "anchors": "Affliction",
-            "residual_deg": 89.09
+            "residual_deg": 82.43
           },
           {
             "wheel": "PLUTCHIK",
@@ -2704,7 +2670,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -90.0,
             "anchors": "Ennui",
-            "residual_deg": -72.47
+            "residual_deg": -79.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2713,7 +2679,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -135.0,
             "anchors": "Dégoût",
-            "residual_deg": -27.47
+            "residual_deg": -34.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2722,7 +2688,7 @@
             "theta_wheel": -135.0,
             "theta_carto": -135.0,
             "anchors": "Retrait",
-            "residual_deg": -27.47
+            "residual_deg": -34.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2731,7 +2697,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Exaspération",
-            "residual_deg": 17.53
+            "residual_deg": 10.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2740,7 +2706,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Colère",
-            "residual_deg": 17.53
+            "residual_deg": 10.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2749,7 +2715,7 @@
             "theta_wheel": 180.0,
             "theta_carto": 135.0,
             "anchors": "Rage",
-            "residual_deg": 17.53
+            "residual_deg": 10.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2758,7 +2724,7 @@
             "theta_wheel": 135.0,
             "theta_carto": 45.0,
             "anchors": "Intérêt",
-            "residual_deg": 62.53
+            "residual_deg": 55.86
           },
           {
             "wheel": "PLUTCHIK",
@@ -2767,7 +2733,7 @@
             "theta_wheel": 135.0,
             "theta_carto": 180.0,
             "anchors": "Vigilance",
-            "residual_deg": -72.47
+            "residual_deg": -79.14
           },
           {
             "wheel": "PLUTCHIK",
@@ -2776,16 +2742,16 @@
             "theta_wheel": 67.5,
             "theta_carto": 78.69,
             "anchors": "Amour",
-            "residual_deg": -38.66
+            "residual_deg": -45.33
           },
           {
             "wheel": "PLUTCHIK",
             "unit": "submission:submission",
             "family": "submission",
             "theta_wheel": 22.5,
-            "theta_carto": 123.69,
-            "anchors": "Assertif",
-            "residual_deg": -128.66
+            "theta_carto": -101.31,
+            "anchors": "Dépouillement",
+            "residual_deg": 89.67
           },
           {
             "wheel": "PLUTCHIK",
@@ -2794,7 +2760,7 @@
             "theta_wheel": -22.5,
             "theta_carto": 18.43,
             "anchors": "Gaieté",
-            "residual_deg": -68.41
+            "residual_deg": -75.07
           },
           {
             "wheel": "PLUTCHIK",
@@ -2803,7 +2769,7 @@
             "theta_wheel": -67.5,
             "theta_carto": -146.31,
             "anchors": "Responsable",
-            "residual_deg": 51.34
+            "residual_deg": 44.67
           },
           {
             "wheel": "PLUTCHIK",
@@ -2812,7 +2778,7 @@
             "theta_wheel": -112.5,
             "theta_carto": -116.56,
             "anchors": "Honte",
-            "residual_deg": -23.41
+            "residual_deg": -30.07
           },
           {
             "wheel": "PLUTCHIK",
@@ -2821,7 +2787,7 @@
             "theta_wheel": -157.5,
             "theta_carto": -168.69,
             "anchors": "Mépris",
-            "residual_deg": -16.28
+            "residual_deg": -22.95
           },
           {
             "wheel": "PLUTCHIK",
@@ -2830,7 +2796,7 @@
             "theta_wheel": 157.5,
             "theta_carto": -120.96,
             "anchors": "Fermeture",
-            "residual_deg": -109.01
+            "residual_deg": -115.67
           },
           {
             "wheel": "PLUTCHIK",
@@ -2839,7 +2805,7 @@
             "theta_wheel": 112.5,
             "theta_carto": 18.43,
             "anchors": "Optimisme",
-            "residual_deg": 66.59
+            "residual_deg": 59.93
           }
         ]
       }
@@ -2849,7 +2815,7 @@
         "n_pairs": 22,
         "antipodal_rate": 0.773,
         "lean_exact_rate": 0.045,
-        "verdict": "VALIDÉ",
+        "verdict": "CORROBORÉE",
         "pairs": [
           {
             "A": "Admiration",
@@ -3077,7 +3043,7 @@
         "n_pairs": 36,
         "antipodal_rate": 0.556,
         "lean_exact_rate": 0.083,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Engagement",
@@ -3445,7 +3411,7 @@
         "n_pairs": 8,
         "antipodal_rate": 0.375,
         "lean_exact_rate": 0.0,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Fierté",
@@ -3533,7 +3499,7 @@
         "n_pairs": 15,
         "antipodal_rate": 0.6,
         "lean_exact_rate": 0.067,
-        "verdict": "INVALIDÉ",
+        "verdict": "NON CORROBORÉE",
         "pairs": [
           {
             "A": "Sérénité",
@@ -3658,9 +3624,9 @@
           {
             "A": "Soumission",
             "B": "Mépris",
-            "ancre_A": "Assertif",
+            "ancre_A": "Dépouillement",
             "ancre_B": "Mépris",
-            "delta_carto_deg": 67.6,
+            "delta_carto_deg": 67.4,
             "antipodal": false,
             "antagoniste_lean_exact": false,
             "meme_couronne_Z": false
@@ -3693,34 +3659,6 @@
       "n_violations": 0,
       "violations": [],
       "verdict": "VALIDÉ"
-    },
-    "H4b_involution_3D": {
-      "involutivite_303_rate": 1.0,
-      "n_plutchik_opposite_pairs": 15,
-      "n_co_defense_pairs": 1,
-      "co_defense_examples": [
-        {
-          "A": "Peur",
-          "B": "Colère",
-          "ancre_A": "Peur",
-          "ancre_B": "Colère",
-          "coords_A": [
-            -2,
-            0,
-            2
-          ],
-          "coords_B": [
-            -1,
-            1,
-            2
-          ],
-          "dL1": 2,
-          "co_defense_neighbors": true,
-          "antagoniste_A_3D": "Courage"
-        }
-      ],
-      "verdict": "VALIDÉ",
-      "interpretation": "L'involution 3D intra-couronne A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) démontre que les opposés circulaires 2D de Plutchik (ex. Peur vs Colère) sont des co-voisins de défense (dL1=2, X<0), tandis que leurs vrais régulateurs homéostatiques sont trans-axiaux (Courage et Calme, dL1=4, X>0)."
     },
     "H5_Z_vs_intensity": {
       "n": 24,
@@ -3798,14 +3736,13 @@
       "pearson_Y_L2_P": 0.4656,
       "spearman_X_L2_V": 0.833,
       "spearman_Y_L2_P": 0.5187,
-      "H7b_dual_L2": {
+      "H7b_dual_L2_exploratory_diagnostic": {
         "Rbar_carto_gew3": 0.7774,
         "mae_carto_gew3_deg": 33.48,
         "pearson_X_L2_valence": 0.8111,
         "pearson_Y_L2_power": 0.4656,
         "delta_Rbar_vs_raw_nrc": -0.1409,
-        "verdict": "VALIDÉ",
-        "interpretation": "La projection duale L2 et la barrière de contrôle Y portent R̄ à 0.7774 (gain de +-0.1409 vs NRC) et réduisent la MAE angulaire à 33.48°."
+        "note": "Diagnostique descriptif exploratoire (hors critères pré-enregistrés PREREG) : R̄ = 0.7774 (Δ vs NRC = -0.1409), MAE = 33.48°."
       }
     }
   }

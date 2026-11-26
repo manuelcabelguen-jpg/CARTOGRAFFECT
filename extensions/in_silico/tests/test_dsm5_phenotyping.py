@@ -32,7 +32,7 @@ from cartograffect_sim import (
 def _load_exp_module(filename: str, mod_name: str):
     root = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location(
-        mod_name, root / "experiments" / filename
+        mod_name, root / "exploratory_synthetic" / filename
     )
     assert spec is not None and spec.loader is not None
     mod = importlib.util.module_from_spec(spec)

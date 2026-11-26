@@ -133,10 +133,9 @@ python run_pipeline.py
 
 ### 5.1 Symétrie Antagoniste Intra-Couronne (Lean 4, $Z = 0 \dots 7$)
 
-Au sein de chaque couronne $Z$ de la pyramide, l'involution d'antagonisme régulateur $P \leftrightarrow P^*$ certifiée sous Lean 4 (`Lexicon176.lean`) opère à hauteur cognitive $Z$ constante :
-- **24 couples axiaux et diagonaux** (48 prototypes) : symétrie centrale $(X^*, Y^*, Z) = (-X, -Y, Z)$.
-- **60 couples latéraux** (120 prototypes) : réflexion contralatérale $(X^*, Y^*, Z) = (-Y, -X, Z)$ autour des diagonales.
-- **8 opérateurs centraux** ($Z = 0 \dots 7$) : pivots auto-duaux $(0, 0, Z)$ sur l'axe vertical de la pyramide.
+Au sein de chaque couronne $Z$ de la pyramide, l'involution d'antagonisme régulateur $\mathcal{A}(X, Y, Z)$ certifiée sous Lean 4 (`AffectiveMatrix.lean` & `Lexicon176.lean`) opère à hauteur cognitive $Z$ constante selon la définition exacte **par morceaux** :
+- **Si $XY = 0$** (8 opérateurs centraux $(0, 0, Z)$ et 12 paires / 24 positions axiales) : $\mathcal{A}(X, Y, Z) = (-X, -Y, Z)$.
+- **Si $XY \neq 0$** (12 paires / 24 positions diagonales et 60 paires / 120 positions latérales) : $\mathcal{A}(X, Y, Z) = (-\operatorname{sgn}(X)|Y|, -\operatorname{sgn}(Y)|X|, Z)$ — soit $(-X, -Y, Z)$ sur les diagonales, $(Y, X, Z)$ en quadrants de signes opposés et $(-Y, -X, Z)$ en quadrants de même signe.
 
 ---
 

@@ -11,25 +11,25 @@
 
 **Contexte :** Une théorie psychologique informatisée n'a de valeur que si elle formule des **prédictions risquées** — c'est-à-dire des comportements précis que l'expérience pourrait contredire, et qui ne sont pas simplement recopiés en dur dans les équations.
 
-**Objectif :** Mettre à l'épreuve trois prédictions distinctives de CARTOGRAFFECT® par simulations de Monte-Carlo : **(P1)** l'émergence d'un compromis entre Attente ($X$) et Contrôle ($Y$) à profondeur fixe, **(P2)** la brièveté spontanée des émotions axiales en $Z=2$ par rapport aux émotions diagonales, et **(P3)** la lenteur d'apaisement et la résistance aux contre-exemples lorsque la profondeur $Z$ augmente.
+**Objectif :** Vérifier par simulation *in silico* (`V3 = 0`) trois signatures du simulateur CARTOGRAFFECT® : **(P1)** un **test de cohérence numérique du projecteur budgétaire** `apply_budget_constraint` entre Attente ($X$) et Contrôle ($Y$) à profondeur fixe, **(P2)** la brièveté des états axiaux en $Z=2$ par rapport aux états diagonaux sous $B(Z=2)$ symétrique, et **(P3)** la lenteur d'apaisement et la résistance aux contre-exemples lorsque la profondeur $Z$ augmente.
 
 **Méthode :** Chacune des trois prédictions est testée sur **$N = 1\,000$ trajectoires** indépendantes. En P1 ($Z = 4$, 240 essais), un protocole orthogonal alterne quatre conditions de contrôle et de volatilité avec ($\lambda = 1$) ou sans ($\lambda = 0$) contrainte budgétaire $L_1$. En P2 ($Z = 2$, 112 essais), l'agent part d'une matrice de transition $B(Z=2)$ strictement symétrique ($\Delta_{\text{prior}} = 8.33 \times 10^{-17}$). En P3 ($Z \in \{2, 4, 5\}$), le POMDP canonique à 176 états sous JAX subit d'abord une phase neutre (`DISSIPATE`), puis $K = 12$ observations positives contradictoires.
 
 **Résultats :** En **P1**, des demandes initialement indépendantes ($r_{\text{raw}} = 0.0481$) produisent une forte anticorrélation sous budget compétitif ($\lambda = 1$ : $r = -0.7232 \pm 0.0682$, 100 % dans le losange $L_1$) contre $r = +0.0481 \pm 0.0937$ sans budget ($\lambda = 0$, $p_{\text{Wilcoxon}} = 3.33 \times 10^{-165}$, $d_z = -6.59$). En **P2**, les états axiaux durent en moyenne $\tau_{\text{ax}} = 1.986 \pm 0.268$ pas contre $\tau_{\text{diag}} = 3.078 \pm 0.648$ pas pour les diagonales ($p = 1.02 \times 10^{-162}$, $d_z = 1.59$), avec $P(\text{Axial} \to \text{Diagonal}) = 39.7\,\%$ vs $31.5\,\%$ en sens inverse et un saut direct vers le pôle opposé maximal à $3.75\,\%$. En **P3**, la demi-vie d'apaisement triple presque entre $Z=2$ (`1.75` pas), $Z=4$ (`3.72` pas) et $Z=5$ (`5.19` pas ; Kruskal-Wallis $H = 2607.7$, $p < 10^{-300}$, $d_{5\text{ vs }2} = 8.32$), et la résistance Dirichlet aux bonnes nouvelles passe de `0.9799` ($Z=2$) à `0.9988` ($Z=5$, $H = 2619.7$, $p < 10^{-300}$).
 
-**Conclusion :** Les trois signatures dynamiques annoncées émergent de façon robuste, avec des tailles d'effet considérables, sans programmation circulaire.
+**Conclusion :** En simulation *in silico* (`V3 = 0`), P1 vérifie la cohérence numérique du projecteur budgétaire `apply_budget_constraint`, tandis que P2 et P3 vérifient la cohérence dynamique interne du simulateur ; aucune de ces expériences ne constitue une validation empirique humaine.
 
 ---
 
-## 1. Pourquoi parle-t-on de prédictions « falsifiables » et « non circulaires » ?
+## 1. Statut méthodologique : test numérique (P1) et signatures internes (P2–P3)
 
-Imaginons un météorologue qui prédirait : *« S'il pleut, le sol sera mouillé. »* Ce n'est pas faux, mais ce n'est pas instructif. À l'inverse, si une théorie postule un mécanisme précis, elle doit accepter de faire des paris risqués : *« Si mes équations reflètent la réalité, alors tel phénomène inattendu doit apparaître — et s'il n'apparaît pas, ma théorie a tort. »*
-
-C'est exactement ce que vérifie l'Expérience 1 avec trois paris sur 1 000 agents virtuels par condition.
+Il importe de distinguer ce qui relève d'une **vérification numérique d'implémentation** de ce qui relève d'une **prédiction empirique falsifiable sur sujets humains** :
+- En **P1**, le compromis budgétaire $L_1$ résulte directement de la projection `apply_budget_constraint` ($\lambda = 1$ vs $\lambda = 0$). Il s'agit donc d'un **test de cohérence numérique du projecteur budgétaire** (et non d'une validation empirique ou non circulaire).
+- En **P2** et **P3**, les signatures dynamiques émergent de la géométrie et de la concentration Dirichlet du simulateur ; elles définissent des hypothèses réfutables qui restent intégralement à tester sur données humaines (`V3 = 0`).
 
 ---
 
-## 2. Prédiction 1 — Le budget émotionnel limité : quand l'attente et le contrôle se disputent la place ($Z = 4$)
+## 2. P1 — Test de cohérence numérique du projecteur budgétaire ($Z = 4$)
 
 ### L'analogie de la valise à taille fixe
 
@@ -87,11 +87,11 @@ Testée directement sur le POMDP complet à 176 états sous JAX ($N = 1\,000$ tr
 | **P3 — Demi-vie d'apaisement** | $t_{1/2}$ en $Z=2$ / $Z=4$ / $Z=5$ | `5.19` ($Z=5$) | `1.75` ($Z=2$) | $H = 2607.7$, $p < 10^{-300}$, $d = 8.32$ |
 | **P3 — Inertie Dirichlet** | Rétention après 12 contre-indices ($Z=5$ vs $Z=2$) | `0.9988` | `0.9799` | $H = 2619.7$, $p < 10^{-300}$, $d = 7.48$ |
 
-![Expérience 1 — Validation Monte-Carlo des 3 prédictions falsifiables](../results/fig1_falsifiable_predictions.png)
+![Expérience 1 — Simulation in silico (V3 = 0) : test numérique du projecteur budgétaire (P1) et signatures internes (P2–P3)](../results/fig1_falsifiable_predictions.png)
 
 ### Comment lire chaque panneau de la figure ci-dessus ?
 
-- **En haut à gauche (P1) :** les « violons » comparent la distribution des corrélations sur 1 000 trajectoires. En rouge ($\lambda = 1$), tout le nuage est nettement sous zéro (`-0.723`) ; en bleu ($\lambda = 0$), il reste centré près de zéro (`+0.048`).
+- **En haut à gauche (P1 — test numérique du projecteur budgétaire) :** les « violons » comparent la distribution des corrélations sur 1 000 trajectoires. En rouge ($\lambda = 1$), tout le nuage est nettement sous zéro (`-0.723`) ; en bleu ($\lambda = 0$), il reste centré près de zéro (`+0.048`).
 - **En haut à droite (P2 — carte de chaleur 8×8) :** chaque case donne la probabilité de passer de l'émotion en ligne à celle en colonne. On voit que les diagonales fortes (*Dégoût `0.72`, Désir `0.69`, Calme `0.63`*) retiennent plus longtemps l'agent que les pôles axiaux (*Courage `0.48`, Peur `0.50`, Joie `0.50`, Tristesse `0.51`*), tandis que les coins opposés (*Tristesse → Joie `0.04`, Peur → Courage `0.00`*) restent quasi vides.
 - **En bas à gauche (P2 — boîtes à moustaches) :** la boîte verte (états diagonaux) se situe clairement au-dessus de la boîte orange (états axiaux).
 - **En bas à droite (P3 — courbes de décroissance) :** à chaque pas apaisant, la courbe verte ($Z=2$) plonge rapidement sous la ligne pointillée des 50 %, alors que la courbe orange ($Z=4$) et surtout la courbe violette ($Z=5$) descendent nettement plus lentement.
@@ -100,7 +100,7 @@ Testée directement sur le POMDP complet à 176 états sous JAX ($N = 1\,000$ tr
 
 ## À retenir en 3 points
 
-1. **Trois signatures non circulaires confirmées :** compromis budgétaire $L_1$, brièveté des états axiaux et inertie croissante avec $Z$ apparaissent toutes avec une précision statistique très élevée ($N = 1\,000$ par condition).
+1. **Cohérence numérique et dynamique interne vérifiées *in silico* (`V3 = 0`) :** test de cohérence numérique du projecteur budgétaire $L_1$ (P1), brièveté des états axiaux (P2) et inertie croissante avec $Z$ (P3) sont reproduits de façon stable sur $N = 1\,000$ trajectoires par condition.
 2. **Pas de saut magique d'un extrême à l'autre :** les transitions restent graduelles et cohérentes avec le vécu humain (*Tristesse* ne saute presque jamais directement vers *Joie*).
 3. **Explication mécaniste de l'« entêtement » émotionnel :** plus l'état est profond, moins 12 bonnes nouvelles suffisent à corriger les attentes (`0.12 %` de dérive seulement en $Z=5$).
 

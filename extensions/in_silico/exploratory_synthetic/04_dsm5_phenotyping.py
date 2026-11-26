@@ -1,4 +1,11 @@
-"""Expérience 4 : Phénotypage computationnel transdiagnostique (DSM-5) sous CARTOGRAFFECT.
+"""[SYNTHETIC EXPLORATORY ONLY — V3 = 0]
+QUARANTAINE EXPLORATOIRE — AUCUNE VALIDATION CLINIQUE OU NOSOLOGIQUE EXTERNE.
+Ce script génère des agents synthétiques à partir de lois a priori paramétriques
+définies dans le simulateur (zéro donnée patient humaine, V3 = 0). Les taux de
+séparabilité et réponses simulées ne prouvent aucun phénomène nosologique ou
+thérapeutique réel.
+
+Expérience 4 : Simulation exploratoire synthétique sur 8 cohortes paramétriques (inspirées DSM-5).
 
 Étend la validation in silico à 8 cohortes cliniques synthétiques (N = 200 agents
 chacune, soit 1 600 agents au total) formalisées comme régimes paramétriques

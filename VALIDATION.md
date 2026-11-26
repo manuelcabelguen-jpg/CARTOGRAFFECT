@@ -3,7 +3,7 @@
 **Projet :** CARTOGRAFFECT® — *Cartographie des affects* (`v2.1.0`)  
 **Auteur :** Manuel Cabelguen, Ph. D. (CIPO / OPIC Registration No. `1233199`)  
 **Licence :** `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`  
-**Statut :** ✅ **CERTIFIÉ (Parité Hexa-Prover Strate 0 : 130/130 théorèmes · Strate 1 Lean : 36/36 théorèmes · 0 `sorry` / `Admitted` / `postulate` / `{:axiom}`)**
+**Statut :** ✅ **CERTIFIÉ (Parité Hexa-Prover Strate 0 : 130/130 théorèmes · Strate 1 Lean : 10/10 théorèmes géométriques · 0 `sorry` / `Admitted` / `postulate` / `{:axiom}`)**
 
 ---
 
@@ -45,17 +45,16 @@ Le noyau normatif de la **Strate 0** est vérifié symétriquement sur **six ass
 
 ---
 
-## 2. Strate 1 — Extensions Lexicales Lean 4.35.0 (`extensions/lexicon/lean/`, 36/36 théorèmes, 0 `sorryAx`)
+## 2. Strate 1 — Extensions Lexicales Lean 4.35.0 (`extensions/lexicon/lean/`, 10/10 théorèmes géométriques, 0 `sorryAx`)
 
-Les 4 modules Lean 4 du satellite lexical sont compilés avec `lake env lean -DwarningAsError=true` directement au-dessus du référentiel canonique `Cartograffect/Lexicon176.lean` et audités par `#print axioms` (**36 / 36 théorèmes certifiés, 0 `sorryAx`**) :
+Les 3 modules Lean 4 actifs du satellite lexical sont compilés avec `lake env lean -DwarningAsError=true` directement au-dessus du référentiel canonique `Cartograffect/Lexicon176.lean` et audités par `#print axioms` (**10 / 10 théorèmes géométriques/combinatoires certifiés, 0 `sorryAx`, 0 constante statistique Python codée en dur** ; l'ancien module synthétique `SchererGRID.lean` a été archivé dans `archive/deprecated_synthetic_v2/` en Phase 1) :
 
 | # | Module Lean 4 (`extensions/lexicon/lean/`) | Théorèmes | Objet de la certification mécanique | Statut |
 | :-: | :--- | :---: | :--- | :---: |
 | 1 | [`PolarityAntipodal3D.lean`](extensions/lexicon/lean/PolarityAntipodal3D.lean) | **4 / 4** | Équipartition `84 / 84` en polarité $+Z/-Z$ et invariance antipodale 3D $Z_A + Z_B = 0$ sur les 168 prototypes périphériques | ✅ `0 sorryAx` |
 | 2 | [`AuditGeometricLexicalPlacement.lean`](extensions/lexicon/lean/AuditGeometricLexicalPlacement.lean) | **4 / 4** | Conformité sur couronne $L_1$, parité paire $(X+Y) \equiv 0 \pmod 2$, non-centralité et conservation $\|X\|+\|Y\| = 2(Z-1)$ du Corpus 2 | ✅ `0 sorryAx` |
-| 3 | [`EmotionWheelsChallenge.lean`](extensions/lexicon/lean/EmotionWheelsChallenge.lean) | **7 / 7** | Involutivité de la Rose des 8 symétries sur 176 pôles, réfutation de l'antagonisme 2D de Plutchik, couverture GEW 3.0 (20/20, H3 100 %), double barrière de Markov, dissociation $Z$ vs intensité (H5) et pureté axiologique du Diamant 303 | ✅ `0 sorryAx` |
-| 4 | [`SchererGRID.lean`](extensions/lexicon/lean/SchererGRID.lean) | **21 / 21** | Somme des 5 composantes CPM (142 items), monotonie de l'enveloppe octaédrique $L_1$ et du `Ratio_Z`, partition Coping agi vs subi, plongement injectif des 24 ancres GRID, seuils CCA/Tucker, hiérarchie des 6 strates sémantiques et homéomorphisme radial $L_1 \leftrightarrow L_2$ | ✅ `0 sorryAx` |
-| **Total** | **4 modules Strate 1 Lean 4.35.0** | **36 / 36** | **Compilation stricte `-DwarningAsError=true` & audit `#print axioms` complet** | ✅ **100 %** |
+| 3 | [`EmotionWheelsChallenge.lean`](extensions/lexicon/lean/EmotionWheelsChallenge.lean) | **2 / 2** | Involutivité de la Rose des symétries sur 176 pôles et pureté combinatoire du Diamant 303 (toute certification de scores statistiques Python ou de réfutation circulaire 2D ayant été purgée en Phase 1) | ✅ `0 sorryAx` |
+| **Total** | **3 modules Strate 1 Lean 4.35.0** | **10 / 10** | **Compilation stricte `-DwarningAsError=true` & audit `#print axioms` complet** | ✅ **100 %** |
 
 ---
 
@@ -64,7 +63,7 @@ Les 4 modules Lean 4 du satellite lexical sont compilés avec `lake env lean -Dw
 | Banc de validation | Commande d'exécution | Périmètre vérifié | Statut |
 | :--- | :--- | :--- | :---: |
 | **Tests unitaires Python (Strate 0 + Strate 1 + Gardes)** | `pytest` | Moteur prédictif exact (`python/test_predictive_engine.py`, factorisation `4*scale^6`, pont `EndToEndBridge`), gardes d'intégrité (`scripts/test_check_consistency.py`) et isomorphisme / Active Inference (`extensions/in_silico/tests/`) | ✅ PASS |
-| **Garde-fou de cohérence globale** | `python scripts/check_consistency.py --strict` | 7 catégories d'invariants : parité `VERSION = 2.1.0`, SHA-256 `Lexicon176.lean`, 11 modules Lean Strate 0 (130 th.) + Strate 1 Lean (36 th.), conformité Zenodo/CFF/SPDX, garde A4-Sanctuaire, Zéro-Fuite et contrat `site-payload.json` | ✅ PASS (`ExitCode 0`) |
+| **Garde-fou de cohérence globale** | `python scripts/check_consistency.py --strict` | 7 catégories d'invariants : parité `VERSION = 2.1.0`, SHA-256 `Lexicon176.lean`, 11 modules Lean Strate 0 (130 th.) + Strate 1 Lean (10 th.), conformité Zenodo/CFF/SPDX, garde A4-Sanctuaire, Zéro-Fuite et contrat `site-payload.json` | ✅ PASS (`ExitCode 0`) |
 | **Synchronisation des métadonnées** | `python scripts/sync_metadata.py --check` | Parité exacte `VERSION` (`2.1.0`), `130/130` théorèmes et SHA-256 `Lexicon176.lean` entre `VERSION`, `CITATION.cff`, `.zenodo.json`, `manifest.json` et `extensions/in_silico/pyproject.toml` | ✅ PASS (`ExitCode 0`) |
 | **Contrat d'export web déterministe** | `python scripts/export_site_payload.py --check` | Validation croisée déterministe du payload JSON (`schema=1.0`, `version=2.1.0`, `theorems=130`, `provers=6`, `lean_modules=11`, `states=176`, `predictions=5`) | ✅ PASS (`ExitCode 0`) |
-| **Pipeline de validation *in silico*** | `python extensions/in_silico/run_all_validations.py --quick` | Expériences 1 à 3 sous `pymdp`/JAX/NumPyro : prédictions falsifiables P1–P5 non circulaires, phénotypes cliniques pure-$\theta$ et Parameter/Model Recovery | ✅ PASS (`ExitCode 0`) |
+| **Pipeline de cohérence *in silico*** | `python extensions/in_silico/run_all_validations.py --quick` | Expériences 1 à 3 sous `pymdp`/JAX/NumPyro : test de cohérence numérique du projecteur budgétaire (P1), cohérence générative interne P2–P5, phénotypes pure-$\theta$ et Parameter/Model Recovery (`V3 = 0` ; Exp 4–5 isolées en quarantaine dans `exploratory_synthetic/`) | ✅ PASS (`ExitCode 0`) |

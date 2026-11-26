@@ -16,13 +16,13 @@ Intègre intégralement :
    - Taxonomie hiérarchique (`AffectiveTaxonomy`) : 15 strates Z ∈ [-7, +7], 9 groupes
      d'orientation par hémisphère et partition exacte en 17 sous-secteurs fonctionnels.
 2. La Rose complète des 8 symétries et antagonismes sur tous les axes :
-   - Antagoniste régulateur formel A(P) = (-sgn(X)|Y|, -sgn(Y)|X|, Z) :
-     * Axial (-X, -Y, Z) si X=0 ou Y=0
-     * Diagonal (-X, -Y, Z) si |X|=|Y|>0
-     * Controlatéral direct Td(X,Y) = (Y, X, Z) si sgn(X) != sgn(Y)
-     * Controlatéral inversé Ti(X,Y) = (-Y, -X, Z) si sgn(X) == sgn(Y)
+   - Antagoniste régulateur formel par morceaux A(X, Y, Z) :
+     * (-X, -Y, Z) si XY = 0 (centre et positions axiales X=0 ou Y=0)
+     * (-sgn(X)|Y|, -sgn(Y)|X|, Z) si XY ≠ 0 (positions diagonales |X|=|Y|>0 -> (-X,-Y,Z),
+       controlatéral direct Td(X,Y) = (Y, X, Z) si sgn(X) != sgn(Y),
+       controlatéral inversé Ti(X,Y) = (-Y, -X, Z) si sgn(X) == sgn(Y))
    - Opposé central intra-dominante Ic(P) = (-X, -Y, Z) (inversion des signes à dominante fixe)
-   - Miroir diagonal de dominante Mdom(P) = (sgn(X)|Y|, sgn(Y)|X|, Z) (échange |X|<->|Y| intra-quadrant)
+   - Miroir diagonal de dominante Mdom(P) : (X, Y, Z) si XY = 0, (sgn(X)|Y|, sgn(Y)|X|, Z) si XY ≠ 0 (échange |X|<->|Y| intra-quadrant)
    - Opposé latéral d'Attente Ox(P) = (-X, Y, Z) (inversion d'Attente X à Contrôle Y constant)
    - Opposé latéral de Contrôle Oy(P) = (X, -Y, Z) (inversion de Contrôle Y à Attente X constante)
    - Homologue vertical trans-hémisphérique Hz(P) = (X, Y, -Z) (et (0,0,0) <-> (0,0,-7))
@@ -285,13 +285,12 @@ def get_axiological_group(x, y):
 
 def get_antagonist_xy_and_rule(x, y):
     """
-    Opérateur général d'antagonisme formel (AffectiveMatrix.lean, Théorème 8 & Doc 2 §4) :
-    - Centre (0, 0) -> (0, 0) : AUTO_DUAL_CENTRE
-    - Axiale (X=0 ou Y=0) -> (-X, -Y) : AXIAL_INVERSION_CENTRALE
-    - Diagonale (|X|=|Y|>0) -> (-X, -Y) : DIAGONAL_INVERSION_CENTRALE
-    - Latérale avec sgn(X) != sgn(Y) -> Td(X,Y) = (Y, X) : CONTROLATERAL_DIRECT_Td
-    - Latérale avec sgn(X) == sgn(Y) -> Ti(X,Y) = (-Y, -X) : CONTROLATERAL_INVERSE_Ti
-    Réunis sous l'involution générale : (-sgn(X)|Y|, -sgn(Y)|X|).
+    Opérateur général d'antagonisme formel par morceaux (AffectiveMatrix.lean & Doc 2 §4) :
+    - Si XY = 0 : (-X, -Y) [Centre (0, 0) : AUTO_DUAL_CENTRE ; Axiale (X=0 ou Y=0) : AXIAL_INVERSION_CENTRALE]
+    - Si XY != 0 : (-sgn(X)|Y|, -sgn(Y)|X|) :
+      * Diagonale (|X|=|Y|>0) -> (-X, -Y) : DIAGONAL_INVERSION_CENTRALE
+      * Latérale avec sgn(X) != sgn(Y) -> Td(X,Y) = (Y, X) : CONTROLATERAL_DIRECT_Td
+      * Latérale avec sgn(X) == sgn(Y) -> Ti(X,Y) = (-Y, -X) : CONTROLATERAL_INVERSE_Ti
     """
     if x == 0 and y == 0:
         return (0, 0), "AUTO_DUAL_CENTRE"
@@ -313,7 +312,7 @@ def get_central_opposite_xy(x, y):
 
 
 def get_dominant_mirror_xy(x, y):
-    """Miroir diagonal de dominante dans le même quadrant de signes : (sgn(X)|Y|, sgn(Y)|X|)."""
+    """Miroir diagonal de dominante par morceaux : (X, Y) si XY = 0 ; (sgn(X)|Y|, sgn(Y)|X|) si XY != 0."""
     if x == 0 and y == 0:
         return (0, 0)
     if x == 0:
@@ -626,7 +625,7 @@ def main():
         r["oppose_central_id_303"] = cent_p["id_303"]
         r["oppose_central_label"] = cent_p["label_fr"]
 
-        # 3. Miroir diagonal de dominante (même quadrant de signes) : (sgn(X)|Y|, sgn(Y)|X|, Z)
+        # 3. Miroir diagonal de dominante par morceaux : (X, Y, Z) si XY = 0 ; (sgn(X)|Y|, sgn(Y)|X|, Z) si XY != 0
         mx, my = get_dominant_mirror_xy(x, y)
         mir_p = by_coord_all[(mx, my, z)]
         r["miroir_dominant_id_303"] = mir_p["id_303"]

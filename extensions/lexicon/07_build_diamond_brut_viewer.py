@@ -307,9 +307,10 @@ INLINE_TEMPLATE = """<!DOCTYPE html>
       }
 
       const symRule = document.getElementById("symRule");
-      if (n.r === 0) symRule.textContent = "Opérateur central sur l'axe (0, 0, Z)";
-      else if (n.type === "Axiale" || n.type === "Diagonale") symRule.textContent = "Inversion centrale (-X, -Y, Z)";
-      else symRule.textContent = "Involution controlatérale (-sgn(X)|Y|, -sgn(Y)|X|, Z)";
+      if (n.r === 0) symRule.textContent = "Opérateur central sur l'axe (0, 0, Z) [XY = 0]";
+      else if (n.type === "Axiale") symRule.textContent = "Inversion centrale axiale (-X, -Y, Z) [XY = 0]";
+      else if (n.type === "Diagonale") symRule.textContent = "Inversion centrale diagonale (-X, -Y, Z) [XY ≠ 0, |X| = |Y|]";
+      else symRule.textContent = "Involution controlatérale (-sgn(X)|Y|, -sgn(Y)|X|, Z) [XY ≠ 0]";
 
       const triadContent = document.getElementById("triadContent");
       if (n.d_min !== "-") {

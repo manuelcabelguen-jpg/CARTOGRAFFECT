@@ -1,5 +1,5 @@
-site_name: CARTOGRAFFECT — Documentation Scientifique & Validation GRID/CPM
-site_description: Architecture géométrique 3D CARTOGRAFFECT, lexique affectif français (NRC-VAD + DIMA + FANCat) et validation formelle/psychométrique par le paradigme GRID/CPM de Klaus R. Scherer (Lean 4.35.0)
+site_name: CARTOGRAFFECT — Documentation Scientifique & Lexique (Strate 1)
+site_description: Architecture géométrique 3D CARTOGRAFFECT, lexique affectif français (NRC-VAD + DIMA + FANCat) et épreuve externe par les roues des émotions (Scherer et al., 2013)
 site_author: Manuel Cabelguen
 copyright: "Code : GNU AGPLv3 | Documentation & Taxonomie : CC BY-NC-SA 4.0 — Copyright © 2026 Manuel Cabelguen"
 
@@ -13,7 +13,6 @@ theme:
 
 nav:
   - Accueil: index.md
-  - Validation Scherer GRID / CPM: validation_scherer_grid.md
   - Défi des Roues des Émotions: validation_roues_emotions_scherer.md
 
 markdown_extensions:

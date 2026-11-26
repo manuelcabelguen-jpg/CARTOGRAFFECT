@@ -212,17 +212,17 @@ theorem PrimaryCrownPrototype.valid_on_crown (proto : PrimaryCrownPrototype) :
 -- Source : Document 2, §4 (Logique de placement et règles de correspondance antagoniste)
 /--
 Transformation géométrique associant à toute position de la Matrice son antagoniste régulateur
-sur la même strate Z :
-1. **Correspondance axiale et diagonale** (`x = 0 ∨ y = 0 ∨ |x| = |y|`) :
-   Symétrie centrale inversant simultanément le signe des coordonnées `(X, Y, Z) ↦ (-X, -Y, Z)`.
-2. **Correspondance controlatérale** (positions latérales où `x ≠ 0`, `y ≠ 0` et `|x| ≠ |y|`) :
-   Réflexion diagonale permutant les valeurs absolues entre l'Axe X et l'Axe Y tout en inversant
-   le signe propre de chaque axe :
-   - Lorsque X et Y sont de signes opposés (`(x > 0 ∧ y < 0) ∨ (x < 0 ∧ y > 0)`), la réflexion
-     permute directement les coordonnées `(X, Y, Z) ↦ (Y, X, Z)` (ex. Haine `(-1, +5, 4)` ↔
-     Affection `(+5, -1, 4)`).
-   - Lorsqu'ils sont de même signe, elle les permute en inversant leurs signes
-     `(X, Y, Z) ↦ (-Y, -X, Z)` (ex. Invulnérabilité `(+1, +7, 5)` ↔ Vulnérabilité `(-7, -1, 5)`).
+sur la même strate Z, définie de manière exacte **par morceaux** :
+- Si `XY = 0` (`p.x = 0 ∨ p.y = 0`, centre et positions axiales) :
+  `A(X, Y, Z) = (-X, -Y, Z)` (symétrie centrale inversant l'axe actif ; la formule `(-sgn(X)|Y|, -sgn(Y)|X|, Z)`
+  ne s'applique PAS ici car `sgn(0) = 0` annulerait la coordonnée active).
+- Si `XY ≠ 0` (`p.x ≠ 0 ∧ p.y ≠ 0`, positions diagonales et latérales) :
+  `A(X, Y, Z) = (-sgn(X)|Y|, -sgn(Y)|X|, Z)` :
+  - Sur les diagonales (`|X| = |Y| > 0`), cela coïncide avec `(-X, -Y, Z)`.
+  - Sur les positions latérales (`|X| ≠ |Y|`), la réflexion permute les amplitudes tout en
+    inversant le signe propre de chaque axe : `(Y, X, Z)` si `X` et `Y` sont de signes opposés
+    (ex. Haine `(-1, +5, 4)` ↔ Affection `(+5, -1, 4)`), et `(-Y, -X, Z)` s'ils sont de même
+    signe (ex. Invulnérabilité `(+1, +7, 5)` ↔ Vulnérabilité `(-7, -1, 5)`).
 -/
 def antagonistPoint (p : CoreAffectPoint) : CoreAffectPoint :=
   if p.x = 0 ∨ p.y = 0 ∨ p.x.natAbs = p.y.natAbs then
@@ -561,11 +561,12 @@ private theorem natAbs_cast_of_pos {y : Int} (h : y > 0) : (y.natAbs : Int) = y 
 private theorem natAbs_cast_of_neg {y : Int} (h : y < 0) : (y.natAbs : Int) = -y := by omega
 
 /--
-Théorème 8 (Forme algébrique unifiée de l'antagonisme hors des axes, Doc. 1, §7.1 & Doc. 2, §4.3) :
-Pour toute position hors des axes principaux (`x ≠ 0` et `y ≠ 0`, couvrant l'ensemble des
-positions diagonales et latérales), `antagonistPoint p` coïncide avec la loi algébrique unique
+Théorème 8 (Branche hors-axes `XY ≠ 0` de l'antagonisme par morceaux, Doc. 1, §7.1 & Doc. 2, §4.3) :
+Pour toute position hors des axes principaux (`XY ≠ 0`, soit `x ≠ 0` et `y ≠ 0`, couvrant
+l'ensemble des positions diagonales et latérales), `antagonistPoint p` coïncide avec
 `(-sgn(X)|Y|, -sgn(Y)|X|, Z)` qui inverse le signe de chaque coordonnée tout en permutant
-leurs valeurs absolues.
+leurs valeurs absolues. Sur les axes et au centre (`XY = 0`), la branche exacte est `(-X, -Y, Z)`
+(voir `antagonistPoint_piecewise`).
 -/
 theorem antagonistPoint_unified (p : CoreAffectPoint) (hx : p.x ≠ 0) (hy : p.y ≠ 0) :
     antagonistPoint p =
@@ -590,6 +591,29 @@ theorem antagonistPoint_unified (p : CoreAffectPoint) (hx : p.x ≠ 0) (hy : p.y
         natAbs_cast_of_pos hy_pos, natAbs_cast_of_pos hx_pos]
     unfold antagonistPoint; dsimp; split <;> try split
     all_goals (simp only [CoreAffectPoint.mk.injEq, Int.natAbs_eq_natAbs_iff, and_true] at *; try omega)
+
+/--
+Définition algébrique exacte **par morceaux** de l'antagoniste `A(X, Y, Z)` sur tout `CoreAffectPoint` :
+- `(-X, -Y, Z)` si `XY = 0` (centre et positions axiales) ;
+- `(-sgn(X)|Y|, -sgn(Y)|X|, Z)` si `XY ≠ 0` (positions diagonales et latérales).
+-/
+theorem antagonistPoint_piecewise (p : CoreAffectPoint) :
+    antagonistPoint p =
+      if p.x * p.y = 0 then
+        ⟨-p.x, -p.y, p.z⟩
+      else
+        ⟨-p.x.sign * (p.y.natAbs : Int), -p.y.sign * (p.x.natAbs : Int), p.z⟩ := by
+  split
+  · rename_i hxy
+    rcases Int.mul_eq_zero.mp hxy with hx | hy
+    · unfold antagonistPoint
+      simp [hx]
+    · unfold antagonistPoint
+      simp [hy]
+  · rename_i hxy
+    have hx : p.x ≠ 0 := fun h => hxy (by simp [h])
+    have hy : p.y ≠ 0 := fun h => hxy (by simp [h])
+    exact antagonistPoint_unified p hx hy
 
 /--
 Théorème 9 (Invariance de l'antagonisme sous les deux régimes de ressources, Doc. 1, §5.2 & §7.1) :

@@ -3,24 +3,25 @@
 Exécute séquentiellement les volets expérimentaux :
     - Mode `--quick` (défaut, Expériences 1 à 3) :
         1. Expérience 1 (`experiments/01_falsifiable_predictions.py`) :
-           Simulations Monte-Carlo non circulaires (N = 1 000 trajectoires / condition)
-           pour P1 (arbitrage L1), P2 (instabilité axiale émergente en Z=2 sans biais dans B),
-           P3 (inertie hiérarchique), P4 (priorité lexicographique sgn(X_t) vs Δ∇A_t)
-           et P5 (médiation par le contrôle pragmatique Peur → Colère vs Dégoût)
-           sur le POMDP canonique à 176 états sous JAX/pymdp.
+           Tests de cohérence in silico (N = 1 000 trajectoires / condition, V3 = 0) :
+           P1 (test de cohérence numérique du projecteur budgétaire L1), P2 (instabilité
+           axiale émergente en Z=2 sans biais dans B), P3 (inertie hiérarchique),
+           P4 (priorité lexicographique sgn(X_t) vs Δ∇A_t) et P5 (médiation par le
+           contrôle pragmatique Peur → Colère vs Dégoût) sur le POMDP canonique à
+           176 états sous JAX/pymdp.
         2. Expérience 2 (`experiments/02_clinical_phenotypes.py`) :
-           Comparaison pure-θ des 4 phénotypes cliniques sur cohorte unifiée appariée
+           Comparaison pure-θ des 4 phénotypes synthétiques sur cohorte unifiée appariée
            (N = 20 graines / profil, Wilcoxon bilatéral + Holm-Bonferroni).
         3. Expérience 3 (`experiments/03_parameter_and_model_recovery.py`) :
            Parameter Recovery (M = 500, critère r >= 0.80, couverture >= 0.85,
            10 contrôles NUTS R-hat < 1.02 et ESS >= 400) et Model Recovery
            (4 × 100 jeux de données, pxp (BIC) > 0.95 sur la diagonale).
-    - Mode `--full` (Expériences 1 à 5) :
+    - Mode `--full` (Expériences 1 à 5 — Exp 4 & 5 en quarantaine SYNTHETIC EXPLORATORY ONLY — V3 = 0) :
         Ajoute aux Expériences 1 à 3 :
-        4. Expérience 4 (`experiments/04_dsm5_phenotyping.py`) :
-           Phénotypage computationnel transdiagnostique sur 8 cohortes DSM-5 (N = 1 600 agents).
-        5. Expérience 5 (`experiments/05_dsm5_full_nosology.py`) :
-           Panorama pan-DSM-5 de 26 régimes et 7 spectres HiTOP (N = 2 600 agents).
+        4. Expérience 4 (`exploratory_synthetic/04_dsm5_phenotyping.py`) :
+           [SYNTHETIC EXPLORATORY ONLY — V3 = 0] Simulation exploratoire sur 8 cohortes paramétriques synthétiques (N = 1 600 agents).
+        5. Expérience 5 (`exploratory_synthetic/05_dsm5_full_nosology.py`) :
+           [SYNTHETIC EXPLORATORY ONLY — V3 = 0] Simulation exploratoire sur 26 régimes paramétriques synthétiques (N = 2 600 agents).
 
 Exporte l'ensemble des tableaux CSV, figures 300 DPI et rapports consolidés
 (`validation_report.json`, `validation_summary.md`) dans `results/`.
@@ -116,10 +117,10 @@ def run_all(
     dt4 = 0.0
     dt5 = 0.0
     if include_dsm5_full:
-        exp04 = _load_experiment_module("exp04_dsm5_phenotyping", "experiments/04_dsm5_phenotyping.py")
-        exp05 = _load_experiment_module("exp05_dsm5_full_nosology", "experiments/05_dsm5_full_nosology.py")
+        exp04 = _load_experiment_module("exp04_dsm5_phenotyping", "exploratory_synthetic/04_dsm5_phenotyping.py")
+        exp05 = _load_experiment_module("exp05_dsm5_full_nosology", "exploratory_synthetic/05_dsm5_full_nosology.py")
 
-        print(f"[4/{total_steps}] Exécution Expérience 4 (Phénotypage DSM-5 8 cohortes)...", flush=True)
+        print(f"[4/{total_steps}] Exécution Expérience 4 [SYNTHETIC EXPLORATORY ONLY — V3 = 0] (8 cohortes synthétiques)...", flush=True)
         t4 = time.perf_counter()
         res4 = exp04.run_experiment(
             n_per_cohort=exp04_n_per_cohort,
@@ -130,7 +131,7 @@ def run_all(
         dt4 = time.perf_counter() - t4
         print(f"      Terminée en {dt4:.1f}s.", flush=True)
 
-        print(f"[5/{total_steps}] Exécution Expérience 5 (Panorama pan-DSM-5 26 régimes & 7 spectres HiTOP)...", flush=True)
+        print(f"[5/{total_steps}] Exécution Expérience 5 [SYNTHETIC EXPLORATORY ONLY — V3 = 0] (26 régimes synthétiques)...", flush=True)
         t5 = time.perf_counter()
         res5 = exp05.run_experiment(
             n_per_cohort=exp05_n_per_cohort,
@@ -328,7 +329,7 @@ def _write_markdown_summary(md_path: Path, report: dict[str, Any]) -> None:
         f"Exp 3 : `{report['timings_seconds']['exp03']:.2f} s`)",
         f"- **Statut global :** `{'SUCCÈS COMPLET' if report['all_criteria_passed'] else 'ATTENTION REQUISE'}`",
         "",
-        "## 1. Expérience 1 — Prédictions falsifiables Monte-Carlo (non circulaire)",
+        "## 1. Expérience 1 — Tests de cohérence *in silico* (P1 : projecteur budgétaire $L_1$ ; P2–P5 : dynamique `pymdp`, V3 = 0)",
         "",
         f"*(N = {report['configuration']['num_mc_trajectories']} trajectoires par condition ; "
         f"symétrie préalable `B(Z=2)` : `Δ_prior = {p2.get('b_prior_sym_diff', 0.0):.2e}`, "

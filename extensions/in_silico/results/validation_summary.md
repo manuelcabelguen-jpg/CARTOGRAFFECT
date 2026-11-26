@@ -4,7 +4,7 @@
 - **Durée totale :** `1176.61 s` (Exp 1 : `58.73 s`, Exp 2 : `541.16 s`, Exp 3 : `569.32 s`)
 - **Statut global :** `SUCCÈS COMPLET`
 
-## 1. Expérience 1 — Prédictions falsifiables Monte-Carlo (non circulaire)
+## 1. Expérience 1 — Tests de cohérence *in silico* (P1 : projecteur budgétaire $L_1$ ; P2–P5 : dynamique `pymdp`, V3 = 0)
 
 *(N = 1000 trajectoires par condition ; symétrie préalable `B(Z=2)` : `Δ_prior = 8.33e-17`, bascule pôles opposés max = `0.0400`)*
 
