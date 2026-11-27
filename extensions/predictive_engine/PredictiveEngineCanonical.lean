@@ -9,7 +9,6 @@ import Cartograffect.CoreAffect
 import Cartograffect.PredictiveCircuit
 import Cartograffect.AffectiveMatrix
 import Cartograffect.AffectiveTaxonomy
-import Cartograffect.Lexicon176
 import Cartograffect.OperantFactorization
 import Cartograffect.EndToEndBridge
 
@@ -22,49 +21,72 @@ open CoreAffect
 open PredictiveCircuit
 open AffectiveMatrix
 open AffectiveTaxonomy
-open Lexicon176
 open OperantFactorization
 open EndToEndBridge
 
 /-!
-# Moteur Prédictif Canonique Unifié (Arbitrages A1–A4)
+# Moteur Prédictif Canonique Unifié — Réalignement v3.0 (Options 1A, 2a, 3b, 4)
 
-Extension formelle en Lean 4 raccordée aux types natifs du noyau Strate 0
-(`PredictiveEngine`, `CoreAffect`, `PredictiveCircuit`) sans modification d'aucun module
-existant du noyau ni de la parité des 6 prouveurs.
+Extension formelle en Lean 4 raccordée aux types natifs du cœur normatif v3.0
+(`PredictiveEngine`, `CoreAffect`, `PredictiveCircuit`, `AffectiveMatrix`,
+`AffectiveTaxonomy`, `OperantFactorization`, `EndToEndBridge`), sans dépendance
+envers `Lexicon176` ni aucune constante empirique externe (`0 sorry`, `0 admit`,
+`0 native_decide`, `warningAsError := true`).
 
-Formalise et certifie (`0 sorry`, `0 axiom`, `warningAsError := true`) :
-1. **Arbitrage A1** : Réponse isolée sur 3 circuits (`A0, A-, A+` et `C0, C-, C+`),
-   projection directe du niveau d'opérabilité `Z` depuis les `[États cachés]`
-   (court-circuitage ascendant et descendant sans incrémentation séquentielle forcée),
-   ensembles de possibles `{±X, ±Y, Z}` dans l'`INTERFACE ATTENTIONNELLE` (excluant
-   strictement `Veille (0,0,0)`) et réduction de l'information (`ΔH ≥ 0`) vers l'action ;
-2. **Arbitrage A2** : Double système de notation — base projective directionnelle `(X_0, Y_0, 0)`
-   au Croisement I (`|X_0| + |Y_0| = 2` hors Veille) et loi d'échelle de couronne
-   `|π_A| + |π_C| = 2Z - 2` pour `Z ≥ 2` ;
-3. **Arbitrage A3 & A4** : Bijection `Φ`, conservation `L1` (P1), disjonction stricte entre
-   `Veille (0,0,0)` et tout domaine attentionnel (`Z ≥ 1`), décroissance stricte du potentiel
-   de Lyapunov (`ΔV < 0`) sur toute transition non triviale de résolution active
-   (`ε = 0, χ = 0, δ = 0`) et séparation formelle entre résolution active et extinction passive.
+Formalise et certifie :
+1. **Assemblage des réponses isolées et dynamique verticale pas-à-pas stricte (Option 2a)** :
+   couplage typé des boucles `expectationLoop` (`{A0, A-, A+}`) et `controlLoop` (`{C0, C-, C+}`),
+   énumération constructive exacte des réalisations admissibles de tout domaine attentionnel
+   `{s_X, s_Y, Z}` (`Z ≥ 1`, excluant `Veille (0,0,0)`), rejet de tout saut vertical direct et
+   conformité stricte à `isValidVerticalStep2a` (`ΔZ ∈ {-1, 0, +1}` avec unique court-circuit
+   descendant `2 → 0`, cascades rapides `0 → 1 → 2 → … → Z`) ;
+2. **Typage bayésien et postulat géométrique `L1`** : polarités signées `(s_X, s_Y) ∈ {-1, 0, +1}²`
+   pondérées par des précisions `(π_A, π_C)`, base projective `(X_0, Y_0, 0)` au Croisement I
+   (`|X_0| + |Y_0| = 2` hors Veille) et loi de couronne `|X| + |Y| = 2Z - 2` pour `Z ≥ 2` ;
+3. **Bijection `Φ`, disjonction `Veille (0,0,0)` / `Z ≥ 1` et décroissance de Lyapunov** :
+   décroissance stricte `V(dst) < V(src)` sur toute transition non triviale de résolution active
+   (`ε = 0, χ = 0, δ = 0`) et séparation signée exacte sur `ℤ` d'avec l'extinction passive ;
+4. **Ponts v3.0 vers `Z2ContingencyRegime` et `TaxonomicState` (Options 1A & 4)** :
+   contingences bornées exclusivement à `Z = 2` (sans relèvement en `Z ≥ 3`) et indépendance du
+   canal autonome `A ≥ 0` (`autonomousActivation`).
 -/
 
 /-!
-## 1. Arbitrages A1–A3 : Réponses isolées, projection directe de Z et réduction de l'information
+## 1. Réponses isolées, domaines attentionnels et transitions verticales pas-à-pas (Option 2a)
 -/
 
-/-- Réponse isolée émise sur l'un des 3 circuits d'une boucle (`A0, A-, A+` ou `C0, C-, C+`)
-    avec projection directe du niveau d'opérabilité `zOperability` requis par les `[États cachés]`. -/
+/-- Réponse isolée émise sur l'un des 3 circuits d'une boucle (`expectationLoop` ou `controlLoop`),
+    sans projection directe de strate (conformément à l'Option 2a). -/
 structure IsolatedCircuitResponse where
-  loop         : CircuitLoop
-  polarity     : Polarity
-  zOperability : Nat
+  loop     : CircuitLoop
+  polarity : Polarity
   deriving DecidableEq, Repr, Inhabited
 
 /-- Régime fonctionnel associé à une réponse isolée (`charge`, `neutral`, `discharge`). -/
 def IsolatedCircuitResponse.regime (r : IsolatedCircuitResponse) : FunctionalRegime :=
   r.polarity.toRegime
 
-/-- Domaine attentionnel symbolique `{±X, ±Y, Z}` dans l'`INTERFACE ATTENTIONNELLE`.
+/-- Assemblage typé d'une réponse subjective (`expectationLoop`) et d'une réponse perceptive
+    (`controlLoop`) en un couplage `EngineCoupling` ; renvoie `none` si les boucles ne correspondent pas. -/
+def assembleIsolatedResponses (respA respC : IsolatedCircuitResponse) : Option EngineCoupling :=
+  if respA.loop == .expectationLoop && respC.loop == .controlLoop then
+    some ⟨respA.polarity, respC.polarity⟩
+  else
+    none
+
+/-- Caractérisation exacte de l'assemblage des réponses isolées sur leurs boucles respectives. -/
+theorem assembleIsolatedResponses_iff
+    (respA respC : IsolatedCircuitResponse) (c : EngineCoupling) :
+    assembleIsolatedResponses respA respC = some c ↔
+      respA.loop = .expectationLoop ∧
+      respC.loop = .controlLoop ∧
+      c = ⟨respA.polarity, respC.polarity⟩ := by
+  rcases respA with ⟨la, pa⟩
+  rcases respC with ⟨lc, pc⟩
+  rcases c with ⟨ca, cc⟩
+  cases la <;> cases lc <;> cases pa <;> cases pc <;> cases ca <;> cases cc <;> decide
+
+/-- Domaine attentionnel symbolique `{s_X, s_Y, Z}` dans l'`INTERFACE ATTENTIONNELLE`.
     L'invariant `h_z_pos : z ≥ 1` exclut structurellement `Z = 0` (`Veille (0,0,0)`). -/
 structure AttentionalPossibilityDomain where
   coupling : EngineCoupling
@@ -84,40 +106,281 @@ instance : Inhabited AttentionalPossibilityDomain where
 def AttentionalPossibilityDomain.protoNode (d : AttentionalPossibilityDomain) : ProtoSpatialNode :=
   phiL1 d.coupling
 
-/-- Nombre de réalisations discrètes admissibles contenues dans l'ensemble des possibles
-    `{±X, ±Y, Z}` :
-    - `1` en `Z = 1` ou sur les domaines centraux/axiaux (un seul point admissible) ;
-    - `2 * Z - 3` sur les quadrants diagonaux/latéraux en `Z ≥ 2` (`|π_A| + |π_C| = 2Z - 2`
-      avec `|π_A| ≥ 1`, `|π_C| ≥ 1`). -/
+/-- Nombre de réalisations discrètes entières contenues dans le domaine `{s_X, s_Y, Z}` :
+    - `1` en `Z = 1` ou sur les domaines centraux/axiaux (un unique point entier admissible) ;
+    - `2 * Z - 3` sur les quadrants doublement engagés en `Z = k + 2 ≥ 2` (`2 * k + 1` points
+      vérifiant `|X| + |Y| = 2k + 2` avec `|X| ≥ 1` et `|Y| ≥ 1`). -/
 def AttentionalPossibilityDomain.domainCardinality (d : AttentionalPossibilityDomain) : Nat :=
-  if d.z ≤ 1 then 1
-  else if d.coupling.isDualEngaged then 2 * d.z - 3
-  else 1
+  match d.z with
+  | 0     => 1
+  | 1     => 1
+  | k + 2 => if d.coupling.isDualEngaged then 2 * k + 1 else 1
 
-/-- Tout domaine attentionnel contient au moins une réalisation admissible. -/
-theorem AttentionalPossibilityDomain.domainCardinality_pos (d : AttentionalPossibilityDomain) :
-    d.domainCardinality ≥ 1 := by
-  unfold domainCardinality
-  split
-  · exact Nat.le_refl 1
-  · split
-    · have hz := d.h_z_pos
-      have hge2 : d.z ≥ 2 := by omega
-      omega
-    · exact Nat.le_refl 1
+/-- Énumération explicite exacte des coordonnées entières `CoreAffectPoint` réalisant le
+    domaine attentionnel `d` à la strate `d.z`. -/
+def AttentionalPossibilityDomain.realizations (d : AttentionalPossibilityDomain) : List CoreAffectPoint :=
+  match d.z with
+  | 0     => [⟨0, 0, 0⟩]
+  | 1     => [⟨0, 0, 1⟩]
+  | k + 2 =>
+    let r := 2 * k + 2
+    match d.coupling.attente, d.coupling.controle with
+    | .zero, .zero => [⟨0, 0, k + 2⟩]
+    | a,     .zero => [⟨signedAmplitude a r, 0, k + 2⟩]
+    | .zero, ctrl  => [⟨0, signedAmplitude ctrl r, k + 2⟩]
+    | a,     ctrl  =>
+      (List.range (2 * k + 1)).map fun i =>
+        let ax := i + 1
+        let ay := r - ax
+        ⟨signedAmplitude a ax, signedAmplitude ctrl ay, k + 2⟩
 
-/-- Projection directe des réponses isolées `(respA, respC)` vers un domaine de possibles
-    attentionnel au niveau d'opérabilité `zReq ≥ 1` projeté par les `[États cachés]`,
-    sans incrémentation séquentielle forcée de `Z`. -/
-def directProjectToAttentional
-    (respA respC : IsolatedCircuitResponse)
-    (zReq : Nat) (h_z : zReq ≥ 1) : AttentionalPossibilityDomain :=
-  { coupling := ⟨respA.polarity, respC.polarity⟩
-    z        := zReq
-    h_z_pos  := h_z }
+private theorem signedAmplitude_natAbs_engaged (pol : Polarity) (m : Nat)
+    (h : pol.isEngaged = true) :
+    (signedAmplitude pol m).natAbs = m := by
+  cases pol with
+  | zero => cases h
+  | pos  => rfl
+  | neg  => dsimp [signedAmplitude]; exact Int.natAbs_neg (m : Int)
 
-/-- Projection géométrique certifiée d'un domaine attentionnel `{±X, ±Y, Z}` vers le Noyau
-    affectif (`CoreAffectPoint`) sous arbitrage `(π_A, π_C)`.
+/-- Adéquation et cardinalité exacte des réalisations d'un domaine attentionnel :
+    1. La liste `d.realizations` a exactement pour longueur `d.domainCardinality ≥ 1`
+       (et strictement plus d'une réalisation dès `d.z ≥ 3` en double engagement) ;
+    2. Chaque coordonnée de `d.realizations` satisfait `isValidCoreAffect` et siège à la strate `d.z`. -/
+theorem attentional_domain_realizations_valid_and_card (d : AttentionalPossibilityDomain) :
+    d.realizations.length = d.domainCardinality ∧
+    d.domainCardinality ≥ 1 ∧
+    (d.z ≥ 3 → d.coupling.isDualEngaged = true → d.domainCardinality > 1) ∧
+    (∀ p ∈ d.realizations, isValidCoreAffect p ∧ p.z = d.z) := by
+  rcases d with ⟨⟨a, ctrl⟩, z, hz⟩
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · cases z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => rfl
+      | succ k =>
+        cases a <;> cases ctrl <;>
+          simp [AttentionalPossibilityDomain.realizations,
+            AttentionalPossibilityDomain.domainCardinality,
+            EngineCoupling.isDualEngaged, Polarity.isEngaged]
+  · cases z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => exact Nat.le_refl 1
+      | succ k =>
+        dsimp [AttentionalPossibilityDomain.domainCardinality]
+        split <;> omega
+  · intro hz3 hdual
+    dsimp only at hz3 hdual ⊢
+    cases z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => omega
+      | succ k =>
+        dsimp [AttentionalPossibilityDomain.domainCardinality]
+        rw [hdual]
+        simp only [↓reduceIte]
+        omega
+  · intro p hp
+    dsimp only at hp ⊢
+    cases z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero =>
+        simp [AttentionalPossibilityDomain.realizations] at hp
+        subst hp
+        exact ⟨Or.inl ⟨rfl, rfl⟩, rfl⟩
+      | succ k =>
+        cases a with
+        | zero =>
+          cases ctrl with
+          | zero =>
+            simp [AttentionalPossibilityDomain.realizations] at hp
+            subst hp
+            exact ⟨Or.inl ⟨rfl, rfl⟩, rfl⟩
+          | neg =>
+            simp [AttentionalPossibilityDomain.realizations] at hp
+            subst hp
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .neg (2 * k + 2) rfl]
+            omega
+          | pos =>
+            simp [AttentionalPossibilityDomain.realizations] at hp
+            subst hp
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .pos (2 * k + 2) rfl]
+            omega
+        | neg =>
+          cases ctrl with
+          | zero =>
+            simp [AttentionalPossibilityDomain.realizations] at hp
+            subst hp
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .neg (2 * k + 2) rfl]
+          | neg =>
+            dsimp [AttentionalPossibilityDomain.realizations] at hp
+            rw [List.mem_map] at hp
+            rcases hp with ⟨i, hi, rfl⟩
+            rw [List.mem_range] at hi
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .neg (i + 1) rfl,
+                signedAmplitude_natAbs_engaged .neg (2 * k + 2 - (i + 1)) rfl]
+            omega
+          | pos =>
+            dsimp [AttentionalPossibilityDomain.realizations] at hp
+            rw [List.mem_map] at hp
+            rcases hp with ⟨i, hi, rfl⟩
+            rw [List.mem_range] at hi
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .neg (i + 1) rfl,
+                signedAmplitude_natAbs_engaged .pos (2 * k + 2 - (i + 1)) rfl]
+            omega
+        | pos =>
+          cases ctrl with
+          | zero =>
+            simp [AttentionalPossibilityDomain.realizations] at hp
+            subst hp
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .pos (2 * k + 2) rfl]
+          | neg =>
+            dsimp [AttentionalPossibilityDomain.realizations] at hp
+            rw [List.mem_map] at hp
+            rcases hp with ⟨i, hi, rfl⟩
+            rw [List.mem_range] at hi
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .pos (i + 1) rfl,
+                signedAmplitude_natAbs_engaged .neg (2 * k + 2 - (i + 1)) rfl]
+            omega
+          | pos =>
+            dsimp [AttentionalPossibilityDomain.realizations] at hp
+            rw [List.mem_map] at hp
+            rcases hp with ⟨i, hi, rfl⟩
+            rw [List.mem_range] at hi
+            refine ⟨Or.inr ⟨by dsimp; omega, ?_⟩, rfl⟩
+            dsimp [CoreAffectPoint.displacementSum, crownRadius]
+            rw [signedAmplitude_natAbs_engaged .pos (i + 1) rfl,
+                signedAmplitude_natAbs_engaged .pos (2 * k + 2 - (i + 1)) rfl]
+            omega
+
+/-- Opérateur de transition verticale pas-à-pas vers un domaine attentionnel (`Z ≥ 1`)
+    strictement conforme à l'Option 2a (`DECISIONS_V3.md`) :
+    - `delta = 0` : maintien en strate `zSrc` (admissible ssi `zSrc ≥ 1`) ;
+    - `delta = +1` : montée unitaire `zSrc → zSrc + 1` (incluant l'entrée `0 → 1` en Surprise) ;
+    - `delta = -1` : descente unitaire `zSrc → zSrc - 1` uniquement pour `zSrc ≥ 3`
+      (depuis `Z ∈ {1, 2}`, la redescente regagne `Veille (Z = 0)` hors de l'Interface Attentionnelle,
+      sans jamais visiter `Surprise Z = 1` depuis `Z = 2`) ;
+    - tout saut direct `|delta| ≥ 2` renvoie `none`. -/
+def stepAttentionalDomain2a
+    (zSrc : Nat) (cNext : EngineCoupling) (delta : Int) : Option AttentionalPossibilityDomain :=
+  if delta == 0 then
+    if h : zSrc ≥ 1 then some ⟨cNext, zSrc, h⟩ else none
+  else if delta == 1 then
+    some ⟨cNext, zSrc + 1, by omega⟩
+  else if delta == -1 then
+    if h : zSrc ≥ 3 then some ⟨cNext, zSrc - 1, by omega⟩ else none
+  else
+    none
+
+/-- Correction et complétude de `stepAttentionalDomain2a` vis-à-vis de `isValidVerticalStep2a` :
+    1. Toute transition acceptée par `stepAttentionalDomain2a` satisfait `isValidVerticalStep2a zSrc d.z` ;
+    2. Inversement, toute transition `isValidVerticalStep2a zSrc zDst` aboutissant dans l'Interface
+       Attentionnelle (`zDst ≥ 1`) est réalisée par `stepAttentionalDomain2a` avec `delta ∈ {-1, 0, +1}`
+       (excluant tout saut direct `0 → Z ≥ 2`, `Z → Z + k` pour `k ≥ 2` et `2 → 1`). -/
+theorem stepAttentionalDomain2a_sound_and_no_jump
+    (zSrc : Nat) (cNext : EngineCoupling) :
+    (∀ (delta : Int) (d : AttentionalPossibilityDomain),
+      stepAttentionalDomain2a zSrc cNext delta = some d →
+      isValidVerticalStep2a zSrc d.z ∧ d.coupling = cNext ∧ (delta = -1 ∨ delta = 0 ∨ delta = 1)) ∧
+    (∀ (zDst : Nat) (hz : zDst ≥ 1),
+      isValidVerticalStep2a zSrc zDst →
+      ∃ delta : Int, stepAttentionalDomain2a zSrc cNext delta = some ⟨cNext, zDst, hz⟩) ∧
+    (∀ zDst : Nat, zDst > zSrc + 1 → ¬ isValidVerticalStep2a zSrc zDst) ∧
+    ¬ isValidVerticalStep2a 2 1 := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · intro delta d hstep
+    unfold stepAttentionalDomain2a at hstep
+    by_cases hd0 : delta = 0
+    · subst hd0
+      simp only [beq_self_eq_true, ↓reduceIte] at hstep
+      split at hstep
+      · cases hstep
+        exact ⟨Or.inl rfl, rfl, Or.inr (Or.inl rfl)⟩
+      · cases hstep
+    · have hb0 : (delta == 0) = false := beq_false_of_ne hd0
+      rw [hb0] at hstep
+      simp only [Bool.false_eq_true, ↓reduceIte] at hstep
+      by_cases hd1 : delta = 1
+      · subst hd1
+        simp only [beq_self_eq_true, ↓reduceIte, Option.some.injEq] at hstep
+        subst hstep
+        exact ⟨Or.inr (Or.inl rfl), rfl, Or.inr (Or.inr rfl)⟩
+      · have hb1 : (delta == 1) = false := beq_false_of_ne hd1
+        rw [hb1] at hstep
+        simp only [Bool.false_eq_true, ↓reduceIte] at hstep
+        by_cases hdm1 : delta = -1
+        · subst hdm1
+          simp only [beq_self_eq_true, ↓reduceIte] at hstep
+          split at hstep
+          · rename_i hz3
+            cases hstep
+            dsimp only
+            exact ⟨Or.inr (Or.inr (Or.inl ⟨hz3, by omega⟩)), rfl, Or.inl rfl⟩
+          · cases hstep
+        · have hbm1 : (delta == -1) = false := beq_false_of_ne hdm1
+          rw [hbm1] at hstep
+          cases hstep
+  · intro zDst hz hvalid
+    rcases hvalid with rfl | rfl | ⟨hz3, hsub⟩ | ⟨_, hz0⟩
+    · refine ⟨0, ?_⟩
+      unfold stepAttentionalDomain2a
+      simp [hz]
+    · refine ⟨1, rfl⟩
+    · refine ⟨-1, ?_⟩
+      have heq : zDst = zSrc - 1 := by omega
+      subst heq
+      unfold stepAttentionalDomain2a
+      simp [hz3]
+    · omega
+  · intro zDst hgt hvalid
+    unfold isValidVerticalStep2a at hvalid
+    omega
+  · unfold isValidVerticalStep2a
+    omega
+
+/-- Cascade rapide pas-à-pas `0 → 1 → 2 → … → k + 1` (Option 2a : reformulation des effractions
+    aiguës comme cascades séquentielles à constante de temps brève, sans saut discontinu) :
+    depuis `Veille (Z = 0)`, `k + 1` pas unitaires `+1` atteignent exactement la strate `k + 1`
+    tout en respectant `isValidVerticalStep2a` à chaque transition. -/
+def cascadeAscentSteps (c : EngineCoupling) : Nat → AttentionalPossibilityDomain
+  | 0     => ⟨c, 1, Nat.le_refl 1⟩
+  | k + 1 =>
+    let prev := cascadeAscentSteps c k
+    ⟨c, prev.z + 1, by omega⟩
+
+theorem cascadeAscentSteps_reaches_and_obeys_2a (c : EngineCoupling) (k : Nat) :
+    (cascadeAscentSteps c k).z = k + 1 ∧
+    isValidVerticalStep2a 0 (cascadeAscentSteps c 0).z ∧
+    isValidVerticalStep2a (cascadeAscentSteps c k).z (cascadeAscentSteps c (k + 1)).z := by
+  induction k with
+  | zero =>
+    exact ⟨rfl, Or.inr (Or.inl rfl), Or.inr (Or.inl rfl)⟩
+  | succ n ih =>
+    refine ⟨?_, Or.inr (Or.inl rfl), Or.inr (Or.inl rfl)⟩
+    dsimp [cascadeAscentSteps]
+    omega
+
+/-- Projection géométrique certifiée d'un domaine attentionnel `{s_X, s_Y, Z}` vers le Noyau
+    affectif (`CoreAffectPoint`) sous pondération de précision `(π_A, π_C)`.
     Pour `{0, 0, Z}` : projette vers `Surprise (0, 0, 1)` si `Z = 1` et vers `(0, 0, Z)` si `Z ≥ 2`. -/
 def projectAttentionalDomain
     (d : AttentionalPossibilityDomain) (piA piC : Nat) : CoreAffectPoint :=
@@ -160,87 +423,8 @@ theorem projectAttentionalDomain_z
           | (exfalso; apply h_not_neut; rfl)
           | (simp [deployCouplingWithPrecision]; try omega)
 
-/-- Court-circuitage direct du niveau d'opérabilité `Z` : `directProjectToAttentional` atteint
-    directement toute strate cible `zReq ≥ 1` (ascendante ou descendante) en un seul saut,
-    sans incrémentation séquentielle intermédiaire. -/
-theorem directProjectToAttentional_preserves_z
-    (respA respC : IsolatedCircuitResponse) (zReq : Nat) (h_z : zReq ≥ 1) :
-    (directProjectToAttentional respA respC zReq h_z).z = zReq ∧
-    (projectAttentionalDomain (directProjectToAttentional respA respC zReq h_z) 1 1).z = zReq := by
-  refine ⟨rfl, projectAttentionalDomain_z _ 1 1⟩
-
-/-- Témoin constructif de court-circuitage direct ascendant (`Z = 0 → Z = 5`) et descendant
-    (`Z = 7 → Z = 2`), sans passage séquentiel par les strates intermédiaires. -/
-theorem direct_z_jump_ascent_and_descent_witness :
-    let respA : IsolatedCircuitResponse := ⟨.expectationLoop, .neg, 5⟩
-    let respC : IsolatedCircuitResponse := ⟨.controlLoop, .pos, 5⟩
-    let domUp := directProjectToAttentional respA respC 5 (by decide)
-    let domDown := directProjectToAttentional
-      ⟨.expectationLoop, .pos, 2⟩ ⟨.controlLoop, .pos, 2⟩ 2 (by decide)
-    domUp.z = 5 ∧ domDown.z = 2 ∧
-    (projectAttentionalDomain domUp 1 3).z = 5 ∧
-    (projectAttentionalDomain domDown 1 1).z = 2 := by
-  decide
-
-/-- Mesure discrète de réduction d'information sur un ensemble fini de possibles comprimé
-    de `cardPossibles` vers `cardReduced` alternatives. -/
-def informationReductionGap (cardPossibles cardReduced : Nat) : Nat :=
-  cardPossibles - cardReduced
-
-/-- Monotonie de l'entropie discrète : toute compression `cardR ≤ cardP` assure
-    une réduction non négative et la conservation exacte du reste. -/
-theorem informationReduction_nonneg
-    (cardPossibles cardReduced : Nat)
-    (h_le : cardReduced ≤ cardPossibles) :
-    informationReductionGap cardPossibles cardReduced ≥ 0 ∧
-    informationReductionGap cardPossibles cardReduced + cardReduced = cardPossibles := by
-  unfold informationReductionGap
-  omega
-
-private theorem two_pow_pos (n : Nat) : 0 < 2 ^ n := by
-  induction n with
-  | zero => exact Nat.le_refl 1
-  | succ k ih => simp [Nat.pow_succ]; omega
-
-private theorem two_pow_lt_of_lt {a b : Nat} (h : a < b) : 2 ^ a < 2 ^ b := by
-  induction b with
-  | zero => omega
-  | succ b ih =>
-    have h_le : a ≤ b := Nat.lt_succ_iff.mp h
-    have h_succ : 2 ^ (b + 1) = 2 ^ b * 2 := Nat.pow_succ 2 b
-    have hb_pos : 0 < 2 ^ b := two_pow_pos b
-    rcases Nat.eq_or_lt_of_le h_le with rfl | h_lt
-    · rw [h_succ]; omega
-    · have h_ih := ih h_lt
-      rw [h_succ]
-      omega
-
-/-- Compression stricte en bits (`2^kR ≤ 2^kP → kR ≤ kP` et `kP - kR ≥ 0`) pour l'opérateur
-    de réduction de l'information `R(P)`. -/
-theorem hartley_bits_reduction_nonneg (kP kR : Nat) (h_pow : 2 ^ kR ≤ 2 ^ kP) :
-    kR ≤ kP ∧ kP - kR ≥ 0 := by
-  rcases Nat.lt_or_ge kP kR with h_lt | h_le
-  · have h_pow_lt : 2 ^ kP < 2 ^ kR := two_pow_lt_of_lt h_lt
-    omega
-  · exact ⟨h_le, Nat.zero_le _⟩
-
-/-- Tout ensemble de possibles attentionnel comprimé vers une politique d'action unique (`1`)
-    vérifie `Δ_card ≥ 0`, avec réduction strictement positive dès `Z ≥ 3` et double engagement. -/
-theorem attentional_domain_compression_nonneg (d : AttentionalPossibilityDomain) :
-    informationReductionGap d.domainCardinality 1 + 1 = d.domainCardinality ∧
-    (d.z ≥ 3 → d.coupling.isDualEngaged = true →
-      informationReductionGap d.domainCardinality 1 > 0) := by
-  have h_pos := d.domainCardinality_pos
-  refine ⟨?_, ?_⟩
-  · unfold informationReductionGap; omega
-  · intro hz hdual
-    unfold informationReductionGap AttentionalPossibilityDomain.domainCardinality
-    have hnot1 : ¬ (d.z ≤ 1) := by omega
-    simp only [hnot1, ↓reduceIte, hdual]
-    omega
-
 /-!
-## 2. Les 5 Invariants canoniques des Arbitrages A1–A4
+## 2. Les Invariants structurels du Moteur Prédictif Canonique
 -/
 
 /-- **Invariant 1 (Bijection `Φ` entre Croisement II `[A/C]` et Croisement I `(X_0, Y_0, 0)`)** :
@@ -289,14 +473,14 @@ theorem canonical_l1_zero_iff_veille (c : EngineCoupling) :
   | mk a ctrl =>
     cases a <;> cases ctrl <;> decide
 
-/-- **Invariant 3 (Loi d'échelle de couronne — A2)** :
+/-- **Invariant 3 (Postulat géométrique d'échelle de couronne sur `ℤ`)** :
     Dans le plan perceptible de l'`INTERFACE ATTENTIONNELLE`, tout état actif à la strate `Z ≥ 2`
-    vérifie exactement `|π_A| + |π_C| = 2 * Z - 2`. -/
+    vérifie exactement `|X| + |Y| = 2 * Z - 2` en arithmétique signée exacte sur `ℤ`. -/
 theorem canonical_crown_scaling_law
     (c : EngineCoupling) (z piA piC : Nat) (susp : Bool)
     (h_active : c ≠ ⟨.zero, .zero⟩) (hz : z ≥ 2) :
     let pt := projectPerceptible c z piA piC susp
-    pt.x.natAbs + pt.y.natAbs = 2 * z - 2 := by
+    (pt.x.natAbs : Int) + (pt.y.natAbs : Int) = 2 * (z : Int) - 2 := by
   dsimp
   have h_non_neut : c.isGlobalNeutrality = false := by
     cases c with
@@ -317,13 +501,12 @@ theorem canonical_crown_scaling_law
       unfold CoreAffectPoint.displacementSum at hb
       omega
 
-/-- Loi d'échelle exacte de `apportionRay` sur toute couronne `Z ≥ 2`. -/
-theorem canonical_apportionRay_scaling (z piA piC : Nat) (hz : z ≥ 2) :
-    let pair := apportionRay (z - 2) piA piC
-    pair.1 + pair.2 = 2 * z - 2 := by
+/-- Loi d'échelle exacte de `apportionRay` sur toute couronne `Z = d + 2 ≥ 2`. -/
+theorem canonical_apportionRay_scaling (d piA piC : Nat) :
+    let pair := apportionRay d piA piC
+    pair.1 + pair.2 = 2 * d + 2 := by
   dsimp
-  have hb := apportionRay_bounds (z - 2) piA piC
-  omega
+  exact (apportionRay_bounds d piA piC).2.2
 
 /-- **Invariant 4 (Disjonction stricte entre `Veille (0,0,0)` et tout domaine attentionnel `Z ≥ 1`)** :
     Aucun point dont la profondeur vérifie `z ≥ 1` ne peut être `Veille (0,0,0)`. -/
@@ -501,9 +684,10 @@ theorem passive_extinction_requires_delta_pos
     | zero => rw [hdc] at hc_pos; omega
     | succ _ => exact Nat.zero_lt_succ _
 
-/-- Signature différentielle entre résolution active et extinction passive depuis `(A-, C0)` :
-    - Résolution active `(A-, C0) → (A+, C0)` : `ΔV = 1` et `activeResolutionCount = 1` (passe par la Décharge) ;
-    - Extinction passive `(A-, C0) → (A0, C0)` : `ΔV = 2` et `activeResolutionCount = 0` (saut sans Décharge). -/
+/-- Signature différentielle signée exacte sur `ℤ` entre résolution active et extinction passive
+    depuis `(A-, C0)` :
+    - Résolution active `(A-, C0) → (A+, C0)` : `V(src) - V(dst) = 1` sur `ℤ` et `activeResolutionCount = 1` ;
+    - Extinction passive `(A-, C0) → (A0, C0)` : `V(src) - V(dst) = 2` sur `ℤ` et `activeResolutionCount = 0`. -/
 theorem active_vs_passive_energy_signature :
     let src : EngineCoupling := ⟨.neg, .zero⟩
     let dstActive : EngineCoupling := ⟨.pos, .zero⟩
@@ -512,52 +696,57 @@ theorem active_vs_passive_energy_signature :
     isPassiveExtinctionStep src dstPassive ∧
     activeResolutionCount src dstActive = 1 ∧
     activeResolutionCount src dstPassive = 0 ∧
-    lyapunovPotential src - lyapunovPotential dstActive = 1 ∧
-    lyapunovPotential src - lyapunovPotential dstPassive = 2 := by
+    (lyapunovPotential src : Int) - (lyapunovPotential dstActive : Int) = 1 ∧
+    (lyapunovPotential src : Int) - (lyapunovPotential dstPassive : Int) = 2 := by
   refine ⟨⟨by decide, Or.inr rfl, Or.inl rfl⟩, Or.inl rfl, rfl, rfl, rfl, rfl⟩
 
 /-!
-## 2bis. Ponts canoniques A1–A4 → Opérants, Taxonomie et Lexicon176
+## 3. Ponts v3.0 vers `Z2ContingencyRegime` et `TaxonomicState` (Options 1A & 4)
 -/
 
-/-- Tout domaine attentionnel `d` projeté en strate `Z ≥ 2` hérite exactement de la contingence
-    opérante `{R+, R-, P+, P-}` portée par son couplage sous-jacent `d.coupling`. -/
-theorem canonical_direct_project_preserves_operant
-    (d : AttentionalPossibilityDomain) (piA piC : Nat) (hz : d.z ≥ 2) :
-    let pt := projectAttentionalDomain d piA piC
-    quadrantContingency pt.x pt.y = couplingToContingency d.coupling := by
-  dsimp only
-  unfold projectAttentionalDomain
-  split
-  · rename_i hneut
-    have hnone : couplingToContingency d.coupling = none := by
-      rcases d with ⟨⟨a, ctrl⟩, z, hzpos⟩
-      cases a <;> cases ctrl <;>
-        first
-        | rfl
-        | (dsimp only [EngineCoupling.isGlobalNeutrality, Polarity.isEngaged] at hneut; cases hneut)
-    rw [hnone]
-    rfl
-  · cases hzs : d.z with
-    | zero => omega
-    | succ n =>
-      cases n with
-      | zero => omega
-      | succ k =>
-        exact (circuit_coupling_operant_bridge d.coupling k piA piC true).2
+/-- Pont borné à `Z = 2` pour la projection des domaines attentionnels :
+    - En `d.z = 2`, `diagToContingency` coïncide exactement avec `couplingToZ2Contingency d.coupling` ;
+    - En toute autre strate `d.z ≠ 2` (`d.z = 1` ou `d.z ≥ 3`), `diagToContingency` renvoie `none`
+      (aucun relèvement universel des contingences opérantes sur `Z ≥ 3`). -/
+theorem canonical_project_z2_contingency_bound
+    (d : AttentionalPossibilityDomain) (piA piC : Nat) :
+    (d.z = 2 → diagToContingency (projectAttentionalDomain d piA piC) = couplingToZ2Contingency d.coupling) ∧
+    (d.z ≠ 2 → diagToContingency (projectAttentionalDomain d piA piC) = none) := by
+  constructor
+  · intro hz2
+    unfold projectAttentionalDomain
+    split
+    · rename_i hneut
+      rw [hz2]
+      have hnone : couplingToZ2Contingency d.coupling = none := by
+        rcases d with ⟨⟨a, ctrl⟩, z, hzpos⟩
+        cases a <;> cases ctrl <;>
+          first
+          | rfl
+          | (dsimp only [EngineCoupling.isGlobalNeutrality, Polarity.isEngaged] at hneut; cases hneut)
+      rw [hnone]
+      rfl
+    · rw [hz2]
+      exact (circuit_coupling_z2_contingency_bridge d.coupling 2 piA piC true).1
+  · intro hne2
+    apply active_r_minus_vs_pavlovian_safety_and_z2_bound.2.2
+    rw [projectAttentionalDomain_z d piA piC]
+    exact hne2
 
 /-- Toute projection d'un domaine attentionnel produit un état taxonomique terminal valide,
-    strictement disjoint du `Point de Veille` (`stratum ≠ .z0_pointDeVeille`), dont le sous-secteur
-    raffine le groupe et détermine la valence hédonique. -/
+    strictement disjoint du `Point de Veille` (`stratum ≠ .z0_pointDeVeille`), indépendant du canal
+    autonome `a : Nat` (`A ≥ 0`, Option 1A), et rattaché aux régimes discrets normatifs `0..5` ssi `d.z ≤ 5`. -/
 theorem canonical_attentional_domain_to_taxonomy_coherent
-    (d : AttentionalPossibilityDomain) (piA piC : Nat) :
+    (d : AttentionalPossibilityDomain) (piA piC a : Nat) :
     let st : CoreAffectState := ⟨projectAttentionalDomain d piA piC, projectAttentionalDomain_valid d piA piC⟩
-    let ts := evaluateTaxonomy (evaluateMatrix st canonicalMapping)
+    let ts := evaluateTaxonomy (evaluateMatrix st a canonicalMapping)
     let cp := ts.matrix.core.point
     let ap := ts.matrix.antagonist.point
     isValidCoreAffect cp ∧
     isValidCoreAffect ap ∧
+    ts.matrix.autonomousActivation = a ∧
     ts.stratum ≠ .z0_pointDeVeille ∧
+    (d.z ≤ 5 ↔ ts.stratum ≠ .zExploratoryExtension d.z) ∧
     ts.subsector.toTaxonomicGroup = ts.group ∧
     ts.subsector.toHedonicPolarity = ts.matrix.valence ∧
     matchesTaxonomicGroup cp ts.group ∧
@@ -581,87 +770,33 @@ theorem canonical_attentional_domain_to_taxonomy_coherent
         cases m with | zero => simp [classifyStratum] | succ m =>
         cases m with | zero => simp [classifyStratum] | succ m =>
         cases m with | zero => simp [classifyStratum] | succ m =>
-        cases m with | zero => simp [classifyStratum] | succ m =>
-        cases m with | zero => simp [classifyStratum] | succ m =>
         cases m with | zero => simp [classifyStratum] | succ _ => simp [classifyStratum]
-  exact ⟨hvc, hva, h_not_z0, classifySubsector_refines_group _,
+  have h_norm5 : d.z ≤ 5 ↔ classifyStratum (projectAttentionalDomain d piA piC).z ≠ .zExploratoryExtension d.z := by
+    rw [hz_eq]
+    cases hdz : d.z with
+    | zero => omega
+    | succ n =>
+      cases n with
+      | zero => simp [classifyStratum]
+      | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ m =>
+        cases m with | zero => simp [classifyStratum] | succ k => simp [classifyStratum]
+  exact ⟨hvc, hva, rfl, h_not_z0, h_norm5, classifySubsector_refines_group _,
     classifySubsector_determines_valence _ _,
     classifyTaxonomicGroup_correct _, classifyTaxonomicGroup_correct _⟩
 
-private theorem canonical_pdv_unique_point :
-    (all176Entries.all (fun e => !(e.label == "Point de Veille") || (e.point == ⟨0, 0, 0⟩))) = true := by
-  decide
-
-private theorem canonical_nodup_point_inj {l : List LexiconEntry}
-    (hnodup : (l.map (·.point)).Nodup) {a b : LexiconEntry}
-    (ha : a ∈ l) (hb : b ∈ l) (heq : a.point = b.point) : a = b := by
-  induction l with
-  | nil => cases ha
-  | cons x xs ih =>
-    simp only [List.map_cons, List.nodup_cons] at hnodup
-    rcases List.mem_cons.mp ha with rfl | ha' <;> rcases List.mem_cons.mp hb with rfl | hb'
-    · rfl
-    · exfalso; apply hnodup.1; rw [heq]; exact List.mem_map_of_mem hb'
-    · exfalso; apply hnodup.1; rw [← heq]; exact List.mem_map_of_mem ha'
-    · exact ih hnodup.2 ha' hb'
-
-/-- Pour tout domaine attentionnel dans les 7 premières strates (`1 ≤ d.z ≤ 7`), sa réalisation et
-    son antagoniste désignent chacun une entrée nominale unique dans `all176Entries`, distincte de
-    `"Point de Veille"`. -/
-theorem canonical_attentional_domain_in_lexicon176
-    (d : AttentionalPossibilityDomain) (piA piC : Nat) (hz7 : d.z ≤ 7) :
-    let cp := projectAttentionalDomain d piA piC
-    let ap := antagonistPoint cp
-    (∃ e ∈ all176Entries, e.point = cp ∧ e.label ≠ "Point de Veille" ∧
-      ∀ e' ∈ all176Entries, e'.point = cp → e' = e) ∧
-    (∃ ae ∈ all176Entries, ae.point = ap ∧ ae.label ≠ "Point de Veille" ∧
-      ∀ ae' ∈ all176Entries, ae'.point = ap → ae' = ae) := by
-  have hvc : isValidCoreAffect (projectAttentionalDomain d piA piC) :=
-    projectAttentionalDomain_valid d piA piC
-  have hva : isValidCoreAffect (antagonistPoint (projectAttentionalDomain d piA piC)) :=
-    antagonistPoint_preserves_validity _ hvc
-  have hz_eq : (projectAttentionalDomain d piA piC).z = d.z :=
-    projectAttentionalDomain_z d piA piC
-  have hcp_z : (projectAttentionalDomain d piA piC).z ≤ 7 := by rw [hz_eq]; exact hz7
-  have hap_z : (antagonistPoint (projectAttentionalDomain d piA piC)).z ≤ 7 := by
-    rw [antagonistPoint_preserves_z]; exact hcp_z
-  have hmem_cp := all176Entries_spatial_completeness _ hcp_z hvc
-  have hmem_ap := all176Entries_spatial_completeness _ hap_z hva
-  rcases List.mem_map.mp hmem_cp with ⟨e, he_mem, he_pt⟩
-  rcases List.mem_map.mp hmem_ap with ⟨ae, hae_mem, hae_pt⟩
-  have hcp_ne : projectAttentionalDomain d piA piC ≠ ⟨0, 0, 0⟩ :=
-    (attentional_domain_disjoint_from_veille d piA piC).2.2
-  have hap_ne : antagonistPoint (projectAttentionalDomain d piA piC) ≠ ⟨0, 0, 0⟩ := by
-    intro h0
-    have hz0 : (antagonistPoint (projectAttentionalDomain d piA piC)).z = 0 :=
-      congrArg CoreAffectPoint.z h0
-    rw [antagonistPoint_preserves_z, hz_eq] at hz0
-    have hzpos := d.h_z_pos
-    omega
-  have he_lbl : e.label ≠ "Point de Veille" := by
-    intro hl
-    have hchk := List.all_eq_true.mp canonical_pdv_unique_point e he_mem
-    simp only [hl, beq_self_eq_true, Bool.not_true, Bool.false_or, beq_iff_eq] at hchk
-    exact hcp_ne (he_pt.symm.trans hchk)
-  have hae_lbl : ae.label ≠ "Point de Veille" := by
-    intro hl
-    have hchk := List.all_eq_true.mp canonical_pdv_unique_point ae hae_mem
-    simp only [hl, beq_self_eq_true, Bool.not_true, Bool.false_or, beq_iff_eq] at hchk
-    exact hap_ne (hae_pt.symm.trans hchk)
-  refine ⟨⟨e, he_mem, he_pt, he_lbl, fun e' he' hpt' =>
-      canonical_nodup_point_inj all176Entries_unique_points he' he_mem (hpt'.trans he_pt.symm)⟩,
-    ⟨ae, hae_mem, hae_pt, hae_lbl, fun ae' hae' hpt' =>
-      canonical_nodup_point_inj all176Entries_unique_points hae' hae_mem (hpt'.trans hae_pt.symm)⟩⟩
-
 /-!
-## 3. Audit axiomatique (#print axioms)
+## 4. Audit axiomatique (#print axioms)
 -/
 
-#print axioms directProjectToAttentional_preserves_z
-#print axioms direct_z_jump_ascent_and_descent_witness
-#print axioms informationReduction_nonneg
-#print axioms hartley_bits_reduction_nonneg
-#print axioms attentional_domain_compression_nonneg
+#print axioms assembleIsolatedResponses_iff
+#print axioms attentional_domain_realizations_valid_and_card
+#print axioms stepAttentionalDomain2a_sound_and_no_jump
+#print axioms cascadeAscentSteps_reaches_and_obeys_2a
+#print axioms projectAttentionalDomain_valid
+#print axioms projectAttentionalDomain_z
 #print axioms canonicalPhi_left_inv
 #print axioms canonicalPhi_right_inv
 #print axioms canonical_l1_conservation
@@ -675,9 +810,8 @@ theorem canonical_attentional_domain_in_lexicon176
 #print axioms lyapunov_strict_decrease_active_free
 #print axioms passive_extinction_requires_delta_pos
 #print axioms active_vs_passive_energy_signature
-#print axioms canonical_direct_project_preserves_operant
+#print axioms canonical_project_z2_contingency_bound
 #print axioms canonical_attentional_domain_to_taxonomy_coherent
-#print axioms canonical_attentional_domain_in_lexicon176
 
 end PredictiveEngineCanonical
 

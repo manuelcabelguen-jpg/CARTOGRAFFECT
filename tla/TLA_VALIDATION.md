@@ -4,11 +4,15 @@
   Author: Manuel Cabelguen
 -->
 
-# Rapport de Validation Formelle Croisée — TLA+ / TLC 2.19 (`tla/`)
+# Rapport de Validation Formelle — TLA+ / TLC 2.19 (`tla/`) [Requalification v3.0 : Bounded Model Checking fini]
+
+> [!IMPORTANT]
+> **Statut épistémique et requalification méthodologique (v3.0 — `DECISIONS_V3.md`) :**
+> Dans l'architecture **CARTOGRAFFECT (v3.0)**, **Lean 4 (`Cartograffect/`) constitue l'unique prouveur déductif de référence**. Les spécifications `tla/specs/` ci-dessous sont conservées à l'identique (archive figée du périmètre `v2.1.0`, hors cœur normatif v3.0) et sont explicitement requalifiées en **vérification de modèle bornée sur espaces d'états finis (*finite bounded model checking*)** : l'évaluateur TLC 2.19 inspecte exhaustivement des domaines finis bornés ($Z \in \{0..7\}$, instances paramétriques fixées `DefaultKernelParams20` / `DefaultKernelParams100`), et ne constitue donc pas une preuve déductive universelle sur domaines entiers non bornés ($\mathbb{Z}, \mathbb{N}$).
 
 ## 1. Synthèse Exécutive
 
-Ce dossier `tla/` fournit une **validation formelle croisée indépendante** de l'architecture **CARTOGRAFFECT** via **TLA+ (SANY 2.1 + TLC 2.19)** sur **Temurin Java 21.0.13**. Il complète les preuves déductives en théorie des types (Lean 4, Rocq 9.0, Agda 2.9), par contrat/Boogie (Dafny 4.11) et par réfutation SMT-LIB (Z3 5.3.3) par du **model checking explicite d'états finis et de propriétés temporelles LTL** (`[]`, `<>`, `~>`, équité faible `WF`).
+Ce dossier `tla/` documente le **bounded model checking explicite sur espaces d'états finis** de l'archive `v2.1.0` de **CARTOGRAFFECT** via **TLA+ (SANY 2.1 + TLC 2.19)** sur **Temurin Java 21.0.13**, vérifiant des invariants d'état bornés et des propriétés temporelles LTL (`[]`, `<>`, `~>`, équité faible `WF`) sur domaines finis.
 
 - **Analyse syntaxique et sémantique SANY :** **14 / 14 modules `.tla`** validés sans erreur.
 - **Théorèmes audités :** **113 / 113 prédicats `Thm_*`** vérifiés par TLC (`ASSUME` + `INVARIANT Inv_All113Theorems`) sans aucun `AXIOM`.

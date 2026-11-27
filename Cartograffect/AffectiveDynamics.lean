@@ -19,24 +19,27 @@ open AffectiveMatrix
 open AffectiveTaxonomy
 
 /-!
-# Dynamique stochastique inter-strates (`DepthTransitionKernel`)
+# Dynamique stochastique inter-strates (`DepthTransitionKernel`) — Alignement v3.0 (Options 1A, 2a, 3b)
 
-Ce module formalise la **surcouche stochastique** de l'Arbitrage 4 (Audit §5d) sans dépendance
-externe (uniquement noyau Lean 4 et `Init`) :
-- Une structure abstraite à poids entiers `DepthTransitionKernel` capturant les invariants
-  structurels d'une transition Markovienne inter-strates `Z → Z + 1` :
-  support géométriquement valide, adjacence verticale d'une strate, conservation du quadrant
-  et équivariance exacte sous l'opérateur antagoniste `antagonistPoint`.
-- Une réalisation canonique `canonicalDepthKernel : DepthTransitionKernel` satisfaisant
-  P2 (instabilité axiale), la bifurcation vers les filières diagonales et les positions latérales
-  (notamment `Colère (-1, 1, 2) → {Exaspération (-2, 2, 3), Consternation (-1, 3, 3), Panique (-3, 1, 3)}`),
-  ainsi que l'atteignabilité de toute position latérale ou de couronne dès `Z ≥ 3`.
+Ce module formalise la **surcouche stochastique** inter-strates `Z → Z + 1` sans dépendance externe
+(uniquement noyau Lean 4 et `Init`) :
+- Une structure abstraite à poids entiers `DepthTransitionKernel` capturant les trois invariants
+  structurels d'une transition markovienne d'approfondissement d'un pas (`ΔZ = +1`, Option 2a) :
+  support géométriquement valide (`support_valid`), adjacence verticale stricte (`support_adjacent`),
+  et conservation du quadrant (`quadrant_preserved`).
+- Conformément à l'**Option 3b** (`DECISIONS_V3.md`), `DepthTransitionKernel` n'impose **pas**
+  d'équivariance dynamique sous `antagonistPoint` : l'antagonisme demeure une **symétrie géométrique
+  statique**, tandis que la dynamique assume la **brisure de symétrie Charge / Décharge** (biais de
+  négativité). L'instabilité axiale (`χ > 0`, P2) porte exclusivement sur les **2 pôles axiaux en
+  Charge négative** (`Peur (-2, 0, 2)` et `Tristesse (0, -2, 2)`), en parité exacte avec
+  `PredictiveCircuit.lean` et `python/cartograffect_predictive_engine.py`.
 - Une fonction de somme sortante `DepthTransitionKernel.outgoingWeight` prouvée strictement
-  positive sur tout état valide, fournissant une normalisation rationnelle discrète exacte.
+  positive sur tout état valide, et la mesure d'appartenance graduée `attractorMembership` sur les
+  9 groupes fonctionnels neutres de l'**Option 1A**.
 -/
 
 /-!
-## 1. Prédicat booléen de validité et lemmes de symétrie antagoniste
+## 1. Prédicat booléen de validité géométrique
 -/
 
 /-- Version décidable (`Bool`) de l'invariant géométrique `isValidCoreAffect`. -/
@@ -48,197 +51,41 @@ theorem isValidCoreAffectB_iff (p : CoreAffectPoint) :
   simp only [isValidCoreAffectB, Bool.or_eq_true, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq,
     isValidCoreAffect, CoreAffectPoint.isCentral, CoreAffectPoint.isOnCrown]
 
-private theorem neg_beq_zero (z : Int) : (-z == 0) = (z == 0) := by
-  cases z with
-  | ofNat m =>
-    cases m with
-    | zero => rfl
-    | succ _ => rfl
-  | negSucc _ => rfl
-
-theorem antagonist_z (p : CoreAffectPoint) : (antagonistPoint p).z = p.z := by
-  unfold antagonistPoint
-  split
-  · rfl
-  · split <;> rfl
-
-theorem antagonist_displacementSum (p : CoreAffectPoint) :
-    (antagonistPoint p).displacementSum = p.displacementSum := by
-  unfold antagonistPoint CoreAffectPoint.displacementSum
-  split
-  · dsimp only; simp only [Int.natAbs_neg]
-  · split
-    · dsimp only; omega
-    · dsimp only; simp only [Int.natAbs_neg]; omega
-
-theorem antagonist_validB (p : CoreAffectPoint) :
-    isValidCoreAffectB (antagonistPoint p) = isValidCoreAffectB p := by
-  unfold isValidCoreAffectB antagonistPoint CoreAffectPoint.displacementSum
-  split
-  · dsimp only
-    simp only [neg_beq_zero, Int.natAbs_neg]
-  · split
-    · dsimp only
-      rw [Bool.and_comm (p.y == 0) (p.x == 0), Nat.add_comm p.y.natAbs p.x.natAbs]
-    · dsimp only
-      simp only [neg_beq_zero, Int.natAbs_neg]
-      rw [Bool.and_comm (p.y == 0) (p.x == 0), Nat.add_comm p.y.natAbs p.x.natAbs]
-
-theorem antagonist_zero_x_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).x = 0 ↔ p.x = 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · rename_i h_not
-    simp only [not_or] at h_not
-    split <;> (dsimp only; omega)
-
-theorem antagonist_zero_y_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).y = 0 ↔ p.y = 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · rename_i h_not
-    simp only [not_or] at h_not
-    split <;> (dsimp only; omega)
-
-private theorem antagonist_pos_x_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).x > 0 ↔ p.x < 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · split <;> (dsimp only; omega)
-
-private theorem antagonist_neg_x_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).x < 0 ↔ p.x > 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · split <;> (dsimp only; omega)
-
-private theorem antagonist_pos_y_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).y > 0 ↔ p.y < 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · split <;> (dsimp only; omega)
-
-private theorem antagonist_neg_y_iff (p : CoreAffectPoint) :
-    (antagonistPoint p).y < 0 ↔ p.y > 0 := by
-  unfold antagonistPoint
-  split
-  · dsimp only; omega
-  · split <;> (dsimp only; omega)
-
-private theorem int_mul_nonneg_iff (a b : Int) :
-    a * b ≥ 0 ↔ ¬((a > 0 ∧ b < 0) ∨ (a < 0 ∧ b > 0)) := by
-  rcases (by omega : a > 0 ∨ a < 0 ∨ a = 0) with ha | ha | ha <;>
-  rcases (by omega : b > 0 ∨ b < 0 ∨ b = 0) with hb | hb | hb
-  · have hmul : a * b > 0 := Int.mul_pos ha hb; omega
-  · have hmul : a * b < 0 := Int.mul_neg_of_pos_of_neg ha hb; omega
-  · subst hb; simp
-  · have hmul : a * b < 0 := Int.mul_neg_of_neg_of_pos ha hb; omega
-  · have hmul : a * b > 0 := Int.mul_pos_of_neg_of_neg ha hb; omega
-  · subst hb; simp
-  · subst ha; simp
-  · subst ha; simp
-  · subst ha hb; simp
-
-theorem antagonist_mul_nonneg_x_iff (p q : CoreAffectPoint) :
-    (antagonistPoint p).x * (antagonistPoint q).x ≥ 0 ↔ p.x * q.x ≥ 0 := by
-  rw [int_mul_nonneg_iff, int_mul_nonneg_iff]
-  simp only [antagonist_pos_x_iff, antagonist_neg_x_iff]
-  constructor
-  · rintro h (⟨h1, h2⟩ | ⟨h1, h2⟩)
-    · exact h (Or.inr ⟨h1, h2⟩)
-    · exact h (Or.inl ⟨h1, h2⟩)
-  · rintro h (⟨h1, h2⟩ | ⟨h1, h2⟩)
-    · exact h (Or.inr ⟨h1, h2⟩)
-    · exact h (Or.inl ⟨h1, h2⟩)
-
-theorem antagonist_mul_nonneg_y_iff (p q : CoreAffectPoint) :
-    (antagonistPoint p).y * (antagonistPoint q).y ≥ 0 ↔ p.y * q.y ≥ 0 := by
-  rw [int_mul_nonneg_iff, int_mul_nonneg_iff]
-  simp only [antagonist_pos_y_iff, antagonist_neg_y_iff]
-  constructor
-  · rintro h (⟨h1, h2⟩ | ⟨h1, h2⟩)
-    · exact h (Or.inr ⟨h1, h2⟩)
-    · exact h (Or.inl ⟨h1, h2⟩)
-  · rintro h (⟨h1, h2⟩ | ⟨h1, h2⟩)
-    · exact h (Or.inr ⟨h1, h2⟩)
-    · exact h (Or.inl ⟨h1, h2⟩)
-
-theorem antagonist_diag_iff (p : CoreAffectPoint) :
-    ((antagonistPoint p).x.natAbs == (antagonistPoint p).y.natAbs) = (p.x.natAbs == p.y.natAbs) := by
-  unfold antagonistPoint
-  split
-  · dsimp only; simp only [Int.natAbs_neg]
-  · split
-    · dsimp only
-      by_cases hxy : p.x.natAbs = p.y.natAbs
-      · simp [hxy]
-      · have h1 : (p.y.natAbs == p.x.natAbs) = false := beq_false_of_ne (Ne.symm hxy)
-        have h2 : (p.x.natAbs == p.y.natAbs) = false := beq_false_of_ne hxy
-        rw [h1, h2]
-    · dsimp only; simp only [Int.natAbs_neg]
-      by_cases hxy : p.x.natAbs = p.y.natAbs
-      · simp [hxy]
-      · have h1 : (p.y.natAbs == p.x.natAbs) = false := beq_false_of_ne (Ne.symm hxy)
-        have h2 : (p.x.natAbs == p.y.natAbs) = false := beq_false_of_ne hxy
-        rw [h1, h2]
-
-private theorem antagonist_nonaxial_natAbs {r : CoreAffectPoint} (hx : r.x ≠ 0) (hy : r.y ≠ 0) :
-    (antagonistPoint r).x.natAbs = r.y.natAbs ∧ (antagonistPoint r).y.natAbs = r.x.natAbs := by
-  unfold antagonistPoint
-  split
-  · rename_i h
-    dsimp only
-    simp only [Int.natAbs_neg]
-    rcases h with h0 | h0 | hdiag
-    · exact absurd h0 hx
-    · exact absurd h0 hy
-    · exact ⟨hdiag, hdiag.symm⟩
-  · split
-    · dsimp only; exact ⟨rfl, rfl⟩
-    · dsimp only; simp only [Int.natAbs_neg]; exact ⟨trivial, trivial⟩
-
 /-!
 ## 2. Structure abstraite du noyau de transition inter-strates (`DepthTransitionKernel`)
 -/
 
 /--
-Structure de noyau de transition inter-strates à poids entiers (`Z → Z + 1`, Audit §5d) :
-formalise la dynamique d'approfondissement stochastique sans dépendance Mathlib en exigeant :
+Structure de noyau de transition inter-strates à poids entiers (`Z → Z + 1`, Options 2a & 3b) :
+formalise la dynamique d'approfondissement pas-à-pas sans dépendance Mathlib en exigeant :
 1. `support_valid` : tout état cible de poids non nul est géométriquement valide (`isValidCoreAffect`).
 2. `support_adjacent` : toute transition de poids non nul progresse d'une unique strate (`q.z = p.z + 1`).
 3. `quadrant_preserved` : toute transition conserve l'orientation des signes (`p.x * q.x ≥ 0 ∧ p.y * q.y ≥ 0`).
-4. `antagonist_equivariant` : la dynamique commute exactement avec la dualité régulatrice `antagonistPoint`.
+(Conformément à l'Option 3b, aucune équivariance dynamique sous `antagonistPoint` n'est postulée.)
 -/
 structure DepthTransitionKernel where
   weight : CoreAffectPoint → CoreAffectPoint → Nat
   -- (i) support admissible : on n'atteint que des états valides
   support_valid : ∀ p q, weight p q ≠ 0 → isValidCoreAffect q
-  -- (ii) adjacence verticale : approfondissement d'une seule strate
+  -- (ii) adjacence verticale stricte (Option 2a : pas unitaire Z → Z + 1)
   support_adjacent : ∀ p q, weight p q ≠ 0 → q.z = p.z + 1
   -- (iii) conservation du quadrant (« une même orientation conserve son signe », §5.2)
   quadrant_preserved : ∀ p q, weight p q ≠ 0 → p.x * q.x ≥ 0 ∧ p.y * q.y ≥ 0
-  -- (iv) équivariance antagoniste : la dynamique respecte la dualité régulatrice
-  antagonist_equivariant : ∀ p q,
-    weight (antagonistPoint p) (antagonistPoint q) = weight p q
 
 /-!
-## 3. Noyau canonique d'approfondissement (`canonicalDepthKernel`)
+## 3. Noyau canonique d'approfondissement asymétrique Charge / Décharge (`canonicalDepthKernel`)
 -/
 
 /--
-Fonction de poids canonique pour le noyau inter-strates `Z → Z + 1` :
+Fonction de poids canonique pour le noyau inter-strates `Z → Z + 1` (Option 3b) :
 - `(0, 0, Z) → (0, 0, Z + 1)` : poids `1` (maintien sur l'axe central des opérateurs).
-- `(0, 0, 1) → couronne(Z = 2)` : poids `1` (amorçage depuis la Surprise vers les 8 affects primaires).
-- Position axiale `Z ≥ 2` → axe aligné : poids `1`, vers diagonales adjacentes : poids `2`
-  (modélisation quantitative de P2 — instabilité axiale).
+- `(0, 0, 1) → couronne(Z = 2)` : poids `1` (amorçage depuis la Surprise vers les 8 prototypes primaires).
+- Position axiale en **Charge négative** (`p.x < 0` ou `p.y < 0`, dont `Peur (-2, 0, 2)` et `Tristesse (0, -2, 2)`) :
+  poids `1` vers l'axe aligné, poids `2` vers les deux diagonales adjacentes (instabilité axiale P2 induite par `χ > 0`).
+- Position axiale en **Décharge positive** (`p.x > 0` ou `p.y > 0`, dont `Courage (2, 0, 2)` et `Joie (0, 2, 2)`) :
+  poids `2` sur l'axe aligné et poids `0` d'auto-déstabilisation vers les diagonales à bruit nul (`χ` inactif hors Charge).
 - Position non axiale `Z ≥ 2` → position non axiale dans le même quadrant strict (`|q.x| ≥ |p.x| ∧ |q.y| ≥ |p.y|`) :
-  poids `2` pour la poursuite diagonale → diagonale de filière, poids `1` pour les bifurcations
-  vers les 120 positions latérales et leur prolongation.
+  poids `2` pour la poursuite diagonale → diagonale, poids `1` pour les bifurcations latérales.
 -/
 def canonicalDepthWeight (p q : CoreAffectPoint) : Nat :=
   if isValidCoreAffectB p && isValidCoreAffectB q && (q.z == p.z + 1) &&
@@ -249,9 +96,12 @@ def canonicalDepthWeight (p q : CoreAffectPoint) : Nat :=
       if p.z == 1 then 1 else 0
     else if p.x == 0 || p.y == 0 then
       if (p.x == 0 || q.x != 0) && (p.y == 0 || q.y != 0) then
-        if q.x == 0 || q.y == 0 then 1
-        else if q.x.natAbs == q.y.natAbs then 2
-        else 0
+        if decide (p.x < 0 || p.y < 0) then
+          if q.x == 0 || q.y == 0 then 1
+          else if q.x.natAbs == q.y.natAbs then 2
+          else 0
+        else
+          if q.x == 0 || q.y == 0 then 2 else 0
       else 0
     else
       if q.x != 0 && q.y != 0 &&
@@ -260,70 +110,9 @@ def canonicalDepthWeight (p q : CoreAffectPoint) : Nat :=
       else 0
   else 0
 
-private theorem beq_zero_eq_of_iff {a b : Int} (h : a = 0 ↔ b = 0) : (a == 0) = (b == 0) := by
-  by_cases ha : a = 0
-  · have hb : b = 0 := h.mp ha
-    rw [ha, hb]
-  · have hb : b ≠ 0 := fun hb0 => ha (h.mpr hb0)
-    rw [beq_false_of_ne ha, beq_false_of_ne hb]
-
-theorem canonicalDepthWeight_antagonist (p q : CoreAffectPoint) :
-    canonicalDepthWeight (antagonistPoint p) (antagonistPoint q) = canonicalDepthWeight p q := by
-  unfold canonicalDepthWeight
-  have hv_p := antagonist_validB p
-  have hv_q := antagonist_validB q
-  have hz_p := antagonist_z p
-  have hz_q := antagonist_z q
-  have hmx : decide ((antagonistPoint p).x * (antagonistPoint q).x ≥ 0) = decide (p.x * q.x ≥ 0) :=
-    decide_eq_decide.mpr (antagonist_mul_nonneg_x_iff p q)
-  have hmy : decide ((antagonistPoint p).y * (antagonistPoint q).y ≥ 0) = decide (p.y * q.y ≥ 0) :=
-    decide_eq_decide.mpr (antagonist_mul_nonneg_y_iff p q)
-  have hpx0 : ((antagonistPoint p).x == 0) = (p.x == 0) :=
-    beq_zero_eq_of_iff (antagonist_zero_x_iff p)
-  have hpy0 : ((antagonistPoint p).y == 0) = (p.y == 0) :=
-    beq_zero_eq_of_iff (antagonist_zero_y_iff p)
-  have hqx0 : ((antagonistPoint q).x == 0) = (q.x == 0) :=
-    beq_zero_eq_of_iff (antagonist_zero_x_iff q)
-  have hqy0 : ((antagonistPoint q).y == 0) = (q.y == 0) :=
-    beq_zero_eq_of_iff (antagonist_zero_y_iff q)
-  have hdp := antagonist_diag_iff p
-  have hdq := antagonist_diag_iff q
-  rw [hv_p, hv_q, hz_p, hz_q, hmx, hmy]
-  cases hguard : (isValidCoreAffectB p && isValidCoreAffectB q && (q.z == p.z + 1) &&
-      (decide (p.x * q.x ≥ 0) && decide (p.y * q.y ≥ 0)))
-  · rfl
-  · simp only [↓reduceIte, hpx0, hpy0, hqx0, hqy0, hdp, hdq, bne]
-    cases hqc : (q.x == 0 && q.y == 0)
-    · cases hpc : (p.x == 0 && p.y == 0)
-      · cases hpa : (p.x == 0 || p.y == 0)
-        · simp only [Bool.false_eq_true, ↓reduceIte]
-          have hpnz : p.x ≠ 0 ∧ p.y ≠ 0 := by
-            simp only [Bool.or_eq_false_iff, beq_eq_false_iff_ne, ne_eq] at hpa
-            exact hpa
-          rcases antagonist_nonaxial_natAbs hpnz.1 hpnz.2 with ⟨hpx_abs, hpy_abs⟩
-          by_cases hqnz : q.x ≠ 0 ∧ q.y ≠ 0
-          · have hqxb : (q.x == 0) = false := beq_false_of_ne hqnz.1
-            have hqyb : (q.y == 0) = false := beq_false_of_ne hqnz.2
-            rcases antagonist_nonaxial_natAbs hqnz.1 hqnz.2 with ⟨hqx_abs, hqy_abs⟩
-            simp only [hqxb, hqyb, Bool.not_false, Bool.true_and, hqx_abs, hqy_abs, hpx_abs, hpy_abs]
-            have hcomm : (decide (q.y.natAbs ≥ p.y.natAbs) && decide (q.x.natAbs ≥ p.x.natAbs)) =
-                         (decide (q.x.natAbs ≥ p.x.natAbs) && decide (q.y.natAbs ≥ p.y.natAbs)) :=
-              Bool.and_comm _ _
-            rw [hcomm]
-          · have hq0 : ¬(q.x != 0 && q.y != 0) = true := by
-              simp only [Bool.and_eq_true, bne_iff_ne, ne_eq]
-              exact hqnz
-            have hq0f : (q.x != 0 && q.y != 0) = false := Bool.eq_false_iff.mpr hq0
-            simp only [bne] at hq0f
-            simp only [hq0f]
-            rfl
-        · rfl
-      · rfl
-    · rfl
-
 /--
 Noyau canonique de transition inter-strates (`canonicalDepthKernel`), certifiant mécaniquement
-les quatre propriétés structurelles de `DepthTransitionKernel` sans Mathlib.
+les trois propriétés structurelles de `DepthTransitionKernel` en conformité avec l'Option 3b.
 -/
 def canonicalDepthKernel : DepthTransitionKernel where
   weight := canonicalDepthWeight
@@ -351,13 +140,12 @@ def canonicalDepthKernel : DepthTransitionKernel where
       simp only [Bool.and_eq_true, decide_eq_true_eq] at hguard
       exact hguard.2
     · exact absurd rfl hw
-  antagonist_equivariant := canonicalDepthWeight_antagonist
 
 instance : Inhabited DepthTransitionKernel where
   default := canonicalDepthKernel
 
 /-!
-## 4. Lemmes partagés de positivité et théorèmes dynamiques
+## 4. Lemmes de positivité, atteignabilité pas-à-pas et asymétrie P2 (Option 3b)
 -/
 
 private theorem same_sign_mul_nonneg {a b : Int}
@@ -385,7 +173,7 @@ private theorem canonicalDepthWeight_pos_of_axial_y (py qy : Int) (pz : Nat)
   simp only [hp_b, hq_b, hpy0, hqy0, hqyn, hmul, beq_self_eq_true, Int.le_refl,
     decide_true, Bool.true_and, Bool.and_false, Bool.or_true, Bool.or_false,
     Bool.false_eq_true, ↓reduceIte]
-  decide
+  split <;> decide
 
 private theorem canonicalDepthWeight_pos_of_axial_x (px qx : Int) (pz : Nat)
     (hpv : isValidCoreAffect ⟨px, 0, pz⟩) (hqv : isValidCoreAffect ⟨qx, 0, pz + 1⟩)
@@ -400,7 +188,7 @@ private theorem canonicalDepthWeight_pos_of_axial_x (px qx : Int) (pz : Nat)
   simp only [hp_b, hq_b, hpx0, hqx0, hqxn, hmul, beq_self_eq_true, Int.le_refl,
     decide_true, Bool.true_and, Bool.false_and, Bool.or_true, Bool.or_false,
     Bool.false_eq_true, ↓reduceIte]
-  decide
+  split <;> decide
 
 private theorem canonicalDepthWeight_pos_of_nonaxial (px py qx qy : Int) (pz : Nat)
     (hpv : isValidCoreAffect ⟨px, py, pz⟩) (hqv : isValidCoreAffect ⟨qx, qy, pz + 1⟩)
@@ -425,8 +213,8 @@ private theorem canonicalDepthWeight_pos_of_nonaxial (px py qx qy : Int) (pz : N
   split <;> decide
 
 /--
-Atteignabilité de toute position de couronne en strate `Z ≥ 3` (et en particulier de toutes les
-positions latérales) par au moins un antécédent valide via `canonicalDepthKernel`.
+Atteignabilité pas-à-pas de toute position de couronne en strate `Z ≥ 3` par au moins un
+antécédent valide en strate `Z - 1` via `canonicalDepthKernel`.
 -/
 theorem canonicalDepthKernel_reaches_crown (q : CoreAffectPoint)
     (h_valid : isValidCoreAffect q) (hz : q.z ≥ 3) (h_crown : ¬q.isCentral) :
@@ -556,7 +344,7 @@ theorem canonicalDepthKernel_reaches_crown (q : CoreAffectPoint)
             hpx_nz hpy_nz hqx0 hqy0 hmul_x hmul_y
             (by rw [hpx_abs]; exact h_ax_hi) (by rw [hpy_abs]; exact h_ay_hi)
 
-/-- Corollaire : l'ensemble des 120 positions latérales du modèle est atteint par `canonicalDepthKernel`. -/
+/-- Toute position latérale valide `q` est atteinte en un pas (`p.z + 1 = q.z`) par `canonicalDepthKernel`. -/
 theorem canonicalDepthKernel_reaches_lateral (q : CoreAffectPoint)
     (h_valid : isValidCoreAffect q) (h_lat : q.classifyGeometry = .lateral) :
     ∃ p : CoreAffectPoint, isValidCoreAffect p ∧ p.z + 1 = q.z ∧ canonicalDepthKernel.weight p q ≠ 0 := by
@@ -595,17 +383,7 @@ theorem canonicalDepthKernel_reaches_lateral (q : CoreAffectPoint)
           | succ _ => omega
   exact canonicalDepthKernel_reaches_crown q h_valid hz3 hnc
 
-/--
-Résolution R8 (`E-d3`, voie stochastique — saut d'une strate) :
-Toute position latérale valide `q` est atteignable avec poids positif par `canonicalDepthKernel`
-depuis au moins un antécédent valide `p` à la strate précédente (`p.z + 1 = q.z`).
--/
-theorem lateral_reachable (q : CoreAffectPoint)
-    (h_valid : isValidCoreAffect q) (h_lat : q.classifyGeometry = .lateral) :
-    ∃ p : CoreAffectPoint, isValidCoreAffect p ∧ p.z + 1 = q.z ∧ canonicalDepthKernel.weight p q ≠ 0 :=
-  canonicalDepthKernel_reaches_lateral q h_valid h_lat
-
-/-- Clôture transitive des transitions de poids non nul d'un noyau `DepthTransitionKernel`. -/
+/-- Clôture transitive des transitions pas-à-pas de poids non nul d'un noyau `DepthTransitionKernel`. -/
 inductive DepthTransitionKernel.Reachable (K : DepthTransitionKernel) :
     CoreAffectPoint → CoreAffectPoint → Prop where
   | refl (p : CoreAffectPoint) : K.Reachable p p
@@ -613,8 +391,8 @@ inductive DepthTransitionKernel.Reachable (K : DepthTransitionKernel) :
       K.Reachable p m → K.weight m q ≠ 0 → K.Reachable p q
 
 /--
-Atteignabilité multi-pas depuis la Surprise `(0, 0, 1)` vers toute position de couronne valide
-(centralités exclues), par récurrence sur la strate `Z = d + 2 ≥ 2`.
+Atteignabilité pas-à-pas (`1 → 2 → … → Z`) depuis la Surprise `(0, 0, 1)` vers toute position de
+couronne valide, par récurrence sur la strate `Z = d + 2 ≥ 2` (Option 2a : cascades séquentielles).
 -/
 theorem canonicalDepthKernel_crown_from_surprise :
     ∀ (d : Nat) (q : CoreAffectPoint),
@@ -662,8 +440,7 @@ theorem canonicalDepthKernel_crown_from_surprise :
     exact .step (ih p hpv (by omega) hp_nc) hwpq
 
 /--
-Atteignabilité stochastique multi-pas depuis la Surprise `(0, 0, 1)` vers l'ensemble des
-positions latérales valides via `canonicalDepthKernel`.
+Atteignabilité pas-à-pas depuis la Surprise `(0, 0, 1)` vers l'ensemble des positions latérales valides.
 -/
 theorem lateral_reachable_from_surprise (q : CoreAffectPoint)
     (h_valid : isValidCoreAffect q) (h_lat : q.classifyGeometry = .lateral) :
@@ -680,9 +457,9 @@ theorem lateral_reachable_from_surprise (q : CoreAffectPoint)
   exact canonicalDepthKernel_crown_from_surprise (q.z - 2) q h_valid (by omega) hnc
 
 /--
-Bifurcation canonique depuis la Colère `(-1, 1, 2)` en strate `Z = 3` (Audit §5d) :
-vers Exaspération `(-2, 2, 3)` dans sa filière (poids 2), Consternation `(-1, 3, 3)`
-dans le groupe JOIE (poids 1) et Panique `(-3, 1, 3)` dans le groupe PEUR (poids 1).
+Bifurcation canonique dans le quadrant d'affrontement agentique `(-X, +Y)` depuis la Colère `(-1, 1, 2)`
+en strate `Z = 3` : vers la diagonale `(-2, 2, 3)` (poids 2) et les deux positions latérales
+`(-1, 3, 3)` dans `sectorControlPos` (poids 1) et `(-3, 1, 3)` dans `sectorExpectationNeg` (poids 1).
 -/
 theorem canonicalDepthKernel_colere_bifurcates :
     canonicalDepthKernel.weight ⟨-1, 1, 2⟩ ⟨-2, 2, 3⟩ = 2 ∧
@@ -691,14 +468,30 @@ theorem canonicalDepthKernel_colere_bifurcates :
   decide
 
 /--
-Formalisation de P2 (Instabilité axiale, Audit §5b & §5d) :
-Depuis la position axiale Joie `(0, 2, 2)`, la bifurcation vers les diagonales adjacentes
-Attrait `(2, 2, 3)` et Exaspération `(-2, 2, 3)` possède un poids double (2) par rapport
-au maintien dans la filière axiale Enthousiasme `(0, 4, 3)` (poids 1).
+Formalisation exacte de P2 selon l'Option 3b (`DECISIONS_V3.md`, Arbitrage 3) :
+1. L'instabilité axiale (`χ > 0` : poids diagonal strictement supérieur au maintien axial) porte
+   **exclusivement sur les 2 pôles en Charge négative** :
+   - `Peur (-2, 0, 2)` : poids `2` vers `(-2, 2, 3)` et `(-2, -2, 3)` contre `1` vers `(-4, 0, 3)` ;
+   - `Tristesse (0, -2, 2)` : poids `2` vers `(2, -2, 3)` et `(-2, -2, 3)` contre `1` vers `(0, -4, 3)`.
+2. Les **2 pôles en Décharge positive** (`Courage (2, 0, 2)` et `Joie (0, 2, 2)`) ne subissent
+   aucune auto-déstabilisation croisée vers les diagonales à bruit nul (`poids = 0`), actant la
+   brisure de symétrie dynamique Charge / Décharge face à la symétrie géométrique statique `antagonistPoint`.
 -/
 theorem canonicalDepthKernel_axial_instability_p2 :
-    canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨2, 2, 3⟩ > canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨0, 4, 3⟩ ∧
-    canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨-2, 2, 3⟩ > canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨0, 4, 3⟩ := by
+    -- (1) Peur (-2, 0, 2) : instabilité axiale vers (-2, 2, 3) et (-2, -2, 3)
+    (canonicalDepthKernel.weight ⟨-2, 0, 2⟩ ⟨-2, 2, 3⟩ > canonicalDepthKernel.weight ⟨-2, 0, 2⟩ ⟨-4, 0, 3⟩ ∧
+     canonicalDepthKernel.weight ⟨-2, 0, 2⟩ ⟨-2, -2, 3⟩ > canonicalDepthKernel.weight ⟨-2, 0, 2⟩ ⟨-4, 0, 3⟩) ∧
+    -- (2) Tristesse (0, -2, 2) : instabilité axiale vers (2, -2, 3) et (-2, -2, 3)
+    (canonicalDepthKernel.weight ⟨0, -2, 2⟩ ⟨2, -2, 3⟩ > canonicalDepthKernel.weight ⟨0, -2, 2⟩ ⟨0, -4, 3⟩ ∧
+     canonicalDepthKernel.weight ⟨0, -2, 2⟩ ⟨-2, -2, 3⟩ > canonicalDepthKernel.weight ⟨0, -2, 2⟩ ⟨0, -4, 3⟩) ∧
+    -- (3) Courage (2, 0, 2) & Joie (0, 2, 2) : zéro auto-déstabilisation vers les diagonales à bruit nul
+    (canonicalDepthKernel.weight ⟨2, 0, 2⟩ ⟨2, 2, 3⟩ = 0 ∧
+     canonicalDepthKernel.weight ⟨2, 0, 2⟩ ⟨2, -2, 3⟩ = 0 ∧
+     canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨2, 2, 3⟩ = 0 ∧
+     canonicalDepthKernel.weight ⟨0, 2, 2⟩ ⟨-2, 2, 3⟩ = 0) ∧
+    -- (4) Brisure explicite de l'équivariance dynamique sous l'antagoniste statique
+    (canonicalDepthKernel.weight ⟨-2, 0, 2⟩ ⟨-2, 2, 3⟩ ≠
+     canonicalDepthKernel.weight (antagonistPoint ⟨-2, 0, 2⟩) (antagonistPoint ⟨-2, 2, 3⟩)) := by
   decide
 
 /-!
@@ -806,8 +599,7 @@ theorem DepthTransitionKernel.outgoingWeight_pos_of_witness (K : DepthTransition
 
 /--
 Normalisation stricte du noyau canonique : tout état géométriquement valide `p` dispose
-d'un poids sortant strictement positif (`outgoingWeight p > 0`), définissant une loi
-rationnelle discrète bien formée `(weight p q, outgoingWeight p)` sur la strate `p.z + 1`.
+d'un poids sortant strictement positif (`outgoingWeight p > 0`).
 -/
 theorem canonicalDepthKernel_outgoingWeight_pos (p : CoreAffectPoint) (h : isValidCoreAffect p) :
     canonicalDepthKernel.outgoingWeight p > 0 := by
@@ -890,19 +682,12 @@ theorem canonicalDepthKernel_outgoingWeight_pos (p : CoreAffectPoint) (h : isVal
               h hqv hpx_nz hpy_nz hqx_nz hqy_nz hmul_x hmul_y (by omega) (by omega))
 
 /-!
-## 6. Appartenance graduée aux attracteurs probabilistes (Résolution R1)
+## 6. Appartenance graduée aux 9 attracteurs fonctionnels (Résolution R1 & Option 1A)
 -/
 
 /--
-Degré d'appartenance gradué d'un point `p : CoreAffectPoint` aux 9 attracteurs taxonomiques (`R1`),
-sans modifier la partition géométrique stricte `taxonomy_group_exclusive` d'`AffectiveTaxonomy.lean`.
-Mesure la proximité directionnelle discrète sur le losange de rayon `r = |X| + |Y|` vis-à-vis des
-axes et diagonales canoniques de chaque groupe dans le quadrant ou demi-plan actif :
-- au centre `(0, 0, Z)`, seul `.operateurCentral` obtient `1` ;
-- sur toute couronne de rayon `r`, l'attracteur correspondant à `classifyTaxonomicGroup p` obtient
-  le score maximal strict `r`, tandis que toute position diagonale active partiellement ses deux
-  axes adjacents (`r / 2`) et toute position latérale chevauche l'attracteur diagonal de son
-  quadrant (`2 * min |X| |Y| = r - ||X| - |Y||`) ainsi que son axe subordonné (`min |X| |Y|`).
+Degré d'appartenance gradué d'un point `p : CoreAffectPoint` aux 9 groupes fonctionnels (`R1`, Option 1A),
+sans modifier la partition géométrique stricte `taxonomy_group_exclusive`.
 -/
 def attractorMembership (p : CoreAffectPoint) (g : TaxonomicGroup) : Nat :=
   let ax := p.x.natAbs
@@ -910,19 +695,17 @@ def attractorMembership (p : CoreAffectPoint) (g : TaxonomicGroup) : Nat :=
   let r  := ax + ay
   let m  := if ax ≤ ay then ax else ay
   match g with
-  | .operateurCentral => if p.x = 0 then (if p.y = 0 then 1 else 0) else 0
-  | .groupeJoie       => if p.y > 0 then (if ay > ax then r else ay) else 0
-  | .groupeTristesse  => if p.y < 0 then (if ay > ax then r else ay) else 0
-  | .groupeCourage    => if p.x > 0 then (if ax > ay then r else ax) else 0
-  | .groupePeur       => if p.x < 0 then (if ax > ay then r else ax) else 0
-  | .groupeDesir      => if p.x > 0 then (if p.y > 0 then 2 * m else 0) else 0
-  | .groupeDegout     => if p.x < 0 then (if p.y < 0 then 2 * m else 0) else 0
-  | .groupeColere     => if p.x < 0 then (if p.y > 0 then 2 * m else 0) else 0
-  | .groupeCalme      => if p.x > 0 then (if p.y < 0 then 2 * m else 0) else 0
+  | .centralOperator         => if p.x = 0 then (if p.y = 0 then 1 else 0) else 0
+  | .sectorControlPos        => if p.y > 0 then (if ay > ax then r else ay) else 0
+  | .sectorControlNeg        => if p.y < 0 then (if ay > ax then r else ay) else 0
+  | .sectorExpectationPos    => if p.x > 0 then (if ax > ay then r else ax) else 0
+  | .sectorExpectationNeg    => if p.x < 0 then (if ax > ay then r else ax) else 0
+  | .diagonalSynergyPos      => if p.x > 0 then (if p.y > 0 then 2 * m else 0) else 0
+  | .diagonalSynergyNeg      => if p.x < 0 then (if p.y < 0 then 2 * m else 0) else 0
+  | .diagonalAgenticConfront => if p.x < 0 then (if p.y > 0 then 2 * m else 0) else 0
+  | .diagonalAccommodation   => if p.x > 0 then (if p.y < 0 then 2 * m else 0) else 0
 
-/--
-Unicité stricte du maximum d'appartenance (décoder le maximum restitue exactement `classifyTaxonomicGroup`).
--/
+/-- Unicité stricte du maximum d'appartenance (décoder le maximum restitue `classifyTaxonomicGroup`). -/
 theorem classifyTaxonomicGroup_unique_maximizer (p : CoreAffectPoint) (g : TaxonomicGroup)
     (h_ne : g ≠ classifyTaxonomicGroup p) :
     attractorMembership p g < attractorMembership p (classifyTaxonomicGroup p) := by
@@ -933,11 +716,7 @@ theorem classifyTaxonomicGroup_unique_maximizer (p : CoreAffectPoint) (g : Taxon
     cases g <;> unfold attractorMembership <;> dsimp only <;> repeat' split
     all_goals first | exact absurd rfl h_ne | contradiction | omega
 
-/--
-Résolution R1 (Compatibilité descendante stricte) :
-Pour tout point `p : CoreAffectPoint` et tout groupe `g : TaxonomicGroup`, le groupe déterministe
-retourné par `classifyTaxonomicGroup p` maximise `attractorMembership p g`.
--/
+/-- Pour tout point `p` et tout groupe `g`, `classifyTaxonomicGroup p` maximise `attractorMembership`. -/
 theorem classifyTaxonomicGroup_maximizes_membership (p : CoreAffectPoint) (g : TaxonomicGroup) :
     attractorMembership p g ≤ attractorMembership p (classifyTaxonomicGroup p) := by
   by_cases h : g = classifyTaxonomicGroup p
@@ -945,10 +724,8 @@ theorem classifyTaxonomicGroup_maximizes_membership (p : CoreAffectPoint) (g : T
   · exact Nat.le_of_lt (classifyTaxonomicGroup_unique_maximizer p g h)
 
 /--
-Résolution R1 (Chevauchement des attracteurs sur toute position latérale) :
-Pour toute position latérale (`p.classifyGeometry = .lateral`, donc en particulier dès `Z ≥ 3`),
-au moins deux groupes taxonomiques distincts possèdent un degré d'appartenance
-`attractorMembership` strictement positif.
+Pour toute position latérale (`p.classifyGeometry = .lateral`), au moins deux groupes fonctionnels
+distincts possèdent un degré d'appartenance `attractorMembership` strictement positif.
 -/
 theorem lateral_has_overlapping_attractors (p : CoreAffectPoint)
     (h_lat : p.classifyGeometry = .lateral) :
@@ -962,13 +739,13 @@ theorem lateral_has_overlapping_attractors (p : CoreAffectPoint)
     simp [h] at h_lat; split at h_lat <;> cases h_lat
   rcases (by omega : p.x > 0 ∨ p.x < 0) with hx | hx <;>
   rcases (by omega : p.y > 0 ∨ p.y < 0) with hy | hy
-  · refine ⟨.groupeJoie, .groupeDesir, by decide, ?_, ?_⟩ <;>
+  · refine ⟨.sectorControlPos, .diagonalSynergyPos, by decide, ?_, ?_⟩ <;>
       (unfold attractorMembership; dsimp only; repeat' split) <;> omega
-  · refine ⟨.groupeTristesse, .groupeCalme, by decide, ?_, ?_⟩ <;>
+  · refine ⟨.sectorControlNeg, .diagonalAccommodation, by decide, ?_, ?_⟩ <;>
       (unfold attractorMembership; dsimp only; repeat' split) <;> omega
-  · refine ⟨.groupeJoie, .groupeColere, by decide, ?_, ?_⟩ <;>
+  · refine ⟨.sectorControlPos, .diagonalAgenticConfront, by decide, ?_, ?_⟩ <;>
       (unfold attractorMembership; dsimp only; repeat' split) <;> omega
-  · refine ⟨.groupeTristesse, .groupeDegout, by decide, ?_, ?_⟩ <;>
+  · refine ⟨.sectorControlNeg, .diagonalSynergyNeg, by decide, ?_, ?_⟩ <;>
       (unfold attractorMembership; dsimp only; repeat' split) <;> omega
 
 end AffectiveDynamics

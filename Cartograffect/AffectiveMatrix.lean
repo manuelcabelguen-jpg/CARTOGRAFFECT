@@ -31,12 +31,13 @@ inductive LivedExpectationPole : Type where
   | epistemicDischarge : LivedExpectationPole
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 1, §6 (La Matrice affective - Transduction sur le gradient de Contrôle)
+-- Source : Document 1, §6 & DECISIONS_V3 (Option 1A — Contrôlabilité instrumentale perçue stricte)
 /--
-Traduction vécue (hypothèse de correspondance) du pôle computationnel sur l'Axe Y (Contrôle) :
-- `pragmaticCharge`    (Y < 0) : impuissance perçue, hésitation ou inhibition de l'action.
-- `pragmaticNeutral`   (Y = 0) : absence de contribution polarisée propre sur la dimension pragmatique.
-- `pragmaticDischarge` (Y > 0) : puissance d'agir et mobilisation énergétique ciblée.
+Traduction vécue (hypothèse de correspondance) du pôle computationnel sur l'Axe Y (Contrôle instrumental perçu) :
+- `pragmaticCharge`    (Y < 0) : faible contrôlabilité instrumentale perçue face à une limite objective d'action.
+- `pragmaticNeutral`   (Y = 0) : absence de contribution polarisée propre sur la dimension instrumentale.
+- `pragmaticDischarge` (Y > 0) : contrôlabilité instrumentale perçue élevée (capacité d'agir sur la situation).
+L'activation physiologique / mobilisation allostatique est externalisée dans le canal autonome `A ≥ 0`.
 -/
 inductive LivedControlPole : Type where
   | pragmaticCharge    : LivedControlPole
@@ -44,25 +45,26 @@ inductive LivedControlPole : Type where
   | pragmaticDischarge : LivedControlPole
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 1, Résumé, §6, §6.2 & §6.3 ; Document 2, §2 (Découplage Régime Énergétique et Polarité Hédonique)
-/-- Régime énergétique et cinétique du couplage entre Attente (X) et Contrôle (Y). -/
+-- Source : Document 1, §6 & DECISIONS_V3 (Option 1A — Symétrie sémantique totale sur Y−)
+/-- Régime d'interaction fonctionnelle du couplage entre Attente (X) et Contrôle instrumental (Y),
+    découplé du canal d'activation autonome `A ≥ 0`. -/
 inductive EnergyRegime where
   | neutralBasal           -- X = 0 ∧ Y = 0 (Point de Veille / Opérateurs centraux)
   | axialPure              -- (X = 0 ∧ Y ≠ 0) ∨ (X ≠ 0 ∧ Y = 0)
-  | positiveSynergy        -- X > 0 ∧ Y > 0 (Congruence de décharge : Désir, Attrait, Estime...)
-  | negativeSynergy        -- X < 0 ∧ Y < 0 (Congruence de charge : Dégoût, Retrait, Rejet...)
-  | ergotropicCompensation -- X < 0 ∧ Y > 0 (Modèle en échec, mobilisation d'urgence : Colère, Haine, Terreur...)
-  | trophotropicRelease    -- X > 0 ∧ Y < 0 (Modèle révisé, relâchement moteur : Calme, Sérénité, Béatitude...)
+  | positiveSynergy        -- X > 0 ∧ Y > 0 (Congruence de décharge : Désir, maîtrise instrumentale)
+  | negativeSynergy        -- X < 0 ∧ Y < 0 (Congruence de charge : Dégoût, rejet/détresse à faible contrôle)
+  | agenticConfrontation   -- X < 0 ∧ Y > 0 (Affrontement agentique : Colère, Frustration, Hostilité, Révolte)
+  | secondaryAccommodation -- X > 0 ∧ Y < 0 (Accommodation / contrôle secondaire face à une limite d'action : Calme adaptatif, Acceptation, Lâcher-prise)
   deriving DecidableEq, Repr, Inhabited
 
-/-- Calcul du régime énergétique à partir des coordonnées (X, Y). -/
+/-- Calcul du régime d'interaction à partir des coordonnées (X, Y). -/
 def computeEnergyRegime (x y : Int) : EnergyRegime :=
   if x == 0 && y == 0 then .neutralBasal
   else if x == 0 || y == 0 then .axialPure
   else if x > 0 && y > 0 then .positiveSynergy
   else if x < 0 && y < 0 then .negativeSynergy
-  else if x < 0 && y > 0 then .ergotropicCompensation
-  else .trophotropicRelease
+  else if x < 0 && y > 0 then .agenticConfrontation
+  else .secondaryAccommodation
 
 /-- Polarité hédonique phénoménologique (Valence vécue). -/
 inductive HedonicPolarity where
@@ -92,7 +94,7 @@ abbrev computeValence (x y : Int) : HedonicPolarity :=
   computeHedonicPolarity x y
 
 -- ============================================================================
--- THÉORÈMES CONSTRUCTIFS ASSOCIÉS À LA POLARITÉ HÉDONIQUE
+-- THÉORÈMES ASSOCIÉS À LA POLARITÉ HÉDONIQUE ET AU CANAL AUTONOME (OPTION 1A)
 -- ============================================================================
 
 /-- L'inversion de la polarité hédonique est strictement involutive. -/
@@ -114,25 +116,6 @@ theorem x_negative_determines_negative_valence (x y : Int) (hx : x < 0) :
   have hnot : ¬(x > 0) := Int.not_lt.mpr (Int.le_of_lt hx)
   simp [hnot, hx]
 
--- Source : Document 1, Résumé & §6 (Activation et sélection d'une politique d'action)
-/--
-Niveau d'activation qualifiant l'amplitude de mobilisation de la trajectoire :
-- `basalWakefulness`   : maintien homéostatique de fond au Point de Veille (0, 0, 0).
-- `ascendingRupture`   : rupture de veille et saillance perceptive à la Surprise (0, 0, 1).
-- `operatorSuspension` : suspension descendante de la décharge immédiate au centre opérateur (0, 0, Z ≥ 2).
-- `lowInhibition`      : repli, réduction ou suspension de l'effort moteur (Y < 0).
-- `epistemicVigilance` : mobilisation purement épistémique à Contrôle neutre (Y = 0 et X ≠ 0).
-- `highMobilization`   : mobilisation énergétique et motrice active (Y > 0).
--/
-inductive PhenomenologicalActivation : Type where
-  | basalWakefulness   : PhenomenologicalActivation
-  | ascendingRupture   : PhenomenologicalActivation
-  | operatorSuspension : PhenomenologicalActivation
-  | lowInhibition      : PhenomenologicalActivation
-  | epistemicVigilance : PhenomenologicalActivation
-  | highMobilization   : PhenomenologicalActivation
-  deriving DecidableEq, Repr, Inhabited
-
 -- Source : Document 1, §6 (La Matrice affective)
 /-- Transduction de la coordonnée X en pôle vécu d'Attente. -/
 def transduceExpectation (x : Int) : LivedExpectationPole :=
@@ -140,26 +123,12 @@ def transduceExpectation (x : Int) : LivedExpectationPole :=
   else if x > 0 then .epistemicDischarge
   else .epistemicNeutral
 
--- Source : Document 1, §6 (La Matrice affective)
-/-- Transduction de la coordonnée Y en pôle vécu de Contrôle. -/
+-- Source : Document 1, §6 & DECISIONS_V3 (Option 1A)
+/-- Transduction de la coordonnée Y en pôle vécu de Contrôle instrumental perçu. -/
 def transduceControl (y : Int) : LivedControlPole :=
   if y < 0 then .pragmaticCharge
   else if y > 0 then .pragmaticDischarge
   else .pragmaticNeutral
-
--- Source : Document 1, §6 (Activation et orientation de la politique d'action)
-/-- Calcul du profil d'activation phénoménologique à partir de la position dans le Noyau. -/
-def computeActivation (p : CoreAffectPoint) : PhenomenologicalActivation :=
-  if p.x = 0 ∧ p.y = 0 then
-    if p.z = 0 then .basalWakefulness
-    else if p.z = 1 then .ascendingRupture
-    else .operatorSuspension
-  else if p.y > 0 then
-    .highMobilization
-  else if p.y < 0 then
-    .lowInhibition
-  else
-    .epistemicVigilance
 
 /-!
 ## 2. Les huit prototypes de la première couronne (Z = 2)
@@ -568,7 +537,7 @@ l'ensemble des positions diagonales et latérales), `antagonistPoint p` coïncid
 leurs valeurs absolues. Sur les axes et au centre (`XY = 0`), la branche exacte est `(-X, -Y, Z)`
 (voir `antagonistPoint_piecewise`).
 -/
-theorem antagonistPoint_unified (p : CoreAffectPoint) (hx : p.x ≠ 0) (hy : p.y ≠ 0) :
+theorem antagonistPoint_off_axis (p : CoreAffectPoint) (hx : p.x ≠ 0) (hy : p.y ≠ 0) :
     antagonistPoint p =
       ⟨-p.x.sign * (p.y.natAbs : Int), -p.y.sign * (p.x.natAbs : Int), p.z⟩ := by
   obtain ⟨x, y, z⟩ := p
@@ -613,7 +582,7 @@ theorem antagonistPoint_piecewise (p : CoreAffectPoint) :
   · rename_i hxy
     have hx : p.x ≠ 0 := fun h => hxy (by simp [h])
     have hy : p.y ≠ 0 := fun h => hxy (by simp [h])
-    exact antagonistPoint_unified p hx hy
+    exact antagonistPoint_off_axis p hx hy
 
 /--
 Théorème 9 (Invariance de l'antagonisme sous les deux régimes de ressources, Doc. 1, §5.2 & §7.1) :
@@ -685,59 +654,61 @@ theorem transferUnitYtoX_preserves_sum (p : CoreAffectPoint) :
   · dsimp; omega
   · rfl
 
--- Source : Document 1, §6 (La Matrice affective)
+-- Source : Document 1, §6 & DECISIONS_V3 (Option 1A — Canal d'activation autonome indépendant `A ≥ 0`)
 /--
 État complet de la Matrice affective (`AffectiveMatrixState`), couplant un état certifié
 du Noyau affectif (`CoreAffectState`) à sa transduction phénoménologique (pôles vécus,
-régime énergétique, polarité hédonique / valence, activation) et à son antagoniste régulateur certifié.
+régime d'interaction, polarité hédonique / valence), à un canal autonome d'activation
+physiologique / allostatique `autonomousActivation : Nat` (`A ≥ 0`, strictement indépendant
+des coordonnées `(X, Y)`) et à son antagoniste régulateur géométrique certifié.
 -/
 structure AffectiveMatrixState where
-  core            : CoreAffectState
-  expectationPole : LivedExpectationPole
-  controlPole     : LivedControlPole
-  energyRegime    : EnergyRegime
-  valence         : HedonicPolarity
-  activation      : PhenomenologicalActivation
-  antagonist      : CoreAffectState
+  core                 : CoreAffectState
+  expectationPole      : LivedExpectationPole
+  controlPole          : LivedControlPole
+  energyRegime         : EnergyRegime
+  valence              : HedonicPolarity
+  autonomousActivation : Nat
+  antagonist           : CoreAffectState
 
--- Source : Résolution R3 (Paramétrisation formelle des hypothèses de correspondance phénoménologique)
+-- Source : Résolution R3 & Option 1A (Paramétrisation formelle des hypothèses de correspondance phénoménologique)
 /--
 Structure encapsulant explicitement les conventions d'interprétation phénoménologique (R3) :
-isole les quatre règles de transduction vécue (`expectationFn`, `controlFn`, `valenceFn`,
-`activationFn`) des lois géométriques et antagonistes intrinsèques du Noyau affectif.
+isole les trois règles de transduction vécue des coordonnées (`expectationFn`, `controlFn`,
+`valenceFn`) des lois géométriques du Noyau et du canal autonome `autonomousActivation`.
 -/
 structure PhenomenologicalMapping where
   expectationFn : Int → LivedExpectationPole
   controlFn     : Int → LivedControlPole
   valenceFn     : Int → Int → HedonicPolarity
-  activationFn  : CoreAffectPoint → PhenomenologicalActivation
 
 /-- Instance canonique reprenant les conventions phénoménologiques établies du modèle. -/
 def canonicalMapping : PhenomenologicalMapping :=
   { expectationFn := transduceExpectation
     controlFn     := transduceControl
-    valenceFn     := computeValence
-    activationFn  := computeActivation }
+    valenceFn     := computeValence }
 
 instance : Inhabited PhenomenologicalMapping where
   default := canonicalMapping
 
--- Source : Document 1, §6 (La Matrice affective)
+-- Source : Document 1, §6 & Option 1A
 /--
 Opérateur de transduction projetant tout état valide du Noyau affectif (`CoreAffectState`)
+et tout niveau du canal d'activation autonome `autonomousActivation : Nat` (`A ≥ 0`)
 dans un état complet de la Matrice affective (`AffectiveMatrixState`), paramétré par une
 instance explicite de correspondance phénoménologique `mapping` (par défaut `canonicalMapping`).
 -/
 def evaluateMatrix (cs : CoreAffectState)
+    (autonomousActivation : Nat := 0)
     (mapping : PhenomenologicalMapping := canonicalMapping) : AffectiveMatrixState :=
   let p := cs.point
-  { core            := cs
-    expectationPole := mapping.expectationFn p.x
-    controlPole     := mapping.controlFn p.y
-    energyRegime    := computeEnergyRegime p.x p.y
-    valence         := mapping.valenceFn p.x p.y
-    activation      := mapping.activationFn p
-    antagonist      := {
+  { core                 := cs
+    expectationPole      := mapping.expectationFn p.x
+    controlPole          := mapping.controlFn p.y
+    energyRegime         := computeEnergyRegime p.x p.y
+    valence              := mapping.valenceFn p.x p.y
+    autonomousActivation := autonomousActivation
+    antagonist           := {
       point   := antagonistPoint p
       h_valid := antagonistPoint_preserves_validity p cs.h_valid
     } }
@@ -747,41 +718,108 @@ instance : Inhabited AffectiveMatrixState where
   default := evaluateMatrix default
 
 /--
-Théorème 10 (Indépendance structurale de l'état de Noyau, du régime énergétique et de
-l'antagoniste vis-à-vis du choix de `PhenomenologicalMapping`, R3) :
+Inversion universelle de la polarité hédonique lexicographique par l'opérateur d'antagonisme
+géométrique `antagonistPoint` sur tout point `(X, Y, Z) ∈ ℤ × ℤ × ℕ` (axial, diagonal, latéral ou central).
+-/
+private theorem computeHedonicPolarity_zero_x (y : Int) :
+    computeHedonicPolarity 0 (-y) = (computeHedonicPolarity 0 y).invert := by
+  unfold computeHedonicPolarity
+  simp only [Int.lt_irrefl, ↓reduceIte]
+  repeat' split
+  all_goals first | rfl | omega
+
+theorem antagonistPoint_inverts_hedonic_polarity (p : CoreAffectPoint) :
+    computeHedonicPolarity (antagonistPoint p).x (antagonistPoint p).y =
+      (computeHedonicPolarity p.x p.y).invert := by
+  obtain ⟨x, y, z⟩ := p
+  unfold antagonistPoint
+  dsimp only
+  split
+  · dsimp only
+    rcases (by omega : x > 0 ∨ x < 0 ∨ x = 0) with hxp | hxn | hx0
+    · rw [x_negative_determines_negative_valence (-x) (-y) (by omega),
+          x_positive_determines_positive_valence x y hxp]
+      rfl
+    · rw [x_positive_determines_positive_valence (-x) (-y) (by omega),
+          x_negative_determines_negative_valence x y hxn]
+      rfl
+    · subst hx0
+      exact computeHedonicPolarity_zero_x y
+  · rename_i h_lat
+    have hx_nz : x ≠ 0 := fun h => h_lat (Or.inl h)
+    have hy_nz : y ≠ 0 := fun h => h_lat (Or.inr (Or.inl h))
+    split
+    · rename_i h_opp
+      dsimp only
+      rcases h_opp with ⟨hxp, hyn⟩ | ⟨hxn, hyp⟩
+      · rw [x_negative_determines_negative_valence y x hyn,
+            x_positive_determines_positive_valence x y hxp]
+        rfl
+      · rw [x_positive_determines_positive_valence y x hyp,
+            x_negative_determines_negative_valence x y hxn]
+        rfl
+    · rename_i h_same
+      dsimp only
+      rcases (by omega : x > 0 ∨ x < 0) with hxp | hxn
+      · have hyp : y > 0 := by omega
+        rw [x_negative_determines_negative_valence (-y) (-x) (by omega),
+            x_positive_determines_positive_valence x y hxp]
+        rfl
+      · have hyn : y < 0 := by omega
+        rw [x_positive_determines_positive_valence (-y) (-x) (by omega),
+            x_negative_determines_negative_valence x y hxn]
+        rfl
+
+/--
+Orthogonalité fonctionnelle du canal d'activation autonome `A ≥ 0` (Option 1A) :
+Pour tout état valide `cs : CoreAffectState` et tous niveaux autonomes `a1 a2 : Nat`,
+`evaluateMatrix` réalise indépendamment `a1` et `a2` tout en laissant strictement invariants
+les coordonnées du Noyau, la valence, les pôles vécus et l'antagoniste géométrique.
+-/
+theorem autonomousActivation_decoupled_from_core
+    (cs : CoreAffectState) (a1 a2 : Nat) (mapping : PhenomenologicalMapping) :
+    (evaluateMatrix cs a1 mapping).autonomousActivation = a1 ∧
+    (evaluateMatrix cs a2 mapping).autonomousActivation = a2 ∧
+    (evaluateMatrix cs a1 mapping).core = (evaluateMatrix cs a2 mapping).core ∧
+    (evaluateMatrix cs a1 mapping).valence = (evaluateMatrix cs a2 mapping).valence ∧
+    (evaluateMatrix cs a1 mapping).controlPole = (evaluateMatrix cs a2 mapping).controlPole ∧
+    (evaluateMatrix cs a1 mapping).antagonist = (evaluateMatrix cs a2 mapping).antagonist :=
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+
+/--
+Théorème 10 (Indépendance structurale de l'état de Noyau, du régime d'interaction, du canal
+autonome et de l'antagoniste vis-à-vis du choix de `PhenomenologicalMapping`, R3) :
 Deux interprétations phénoménologiques arbitraires `m1` et `m2` produisent exactement
-le même état du Noyau `core`, le même régime énergétique et le même antagoniste régulateur.
+le même état du Noyau `core`, le même régime d'interaction, la même activation autonome
+et le même antagoniste régulateur.
 -/
 theorem evaluateMatrix_core_antagonist_independent
-    (cs : CoreAffectState) (m1 m2 : PhenomenologicalMapping) :
-    (evaluateMatrix cs m1).core = (evaluateMatrix cs m2).core ∧
-    (evaluateMatrix cs m1).energyRegime = (evaluateMatrix cs m2).energyRegime ∧
-    (evaluateMatrix cs m1).antagonist = (evaluateMatrix cs m2).antagonist :=
-  ⟨rfl, rfl, rfl⟩
+    (cs : CoreAffectState) (a : Nat) (m1 m2 : PhenomenologicalMapping) :
+    (evaluateMatrix cs a m1).core = (evaluateMatrix cs a m2).core ∧
+    (evaluateMatrix cs a m1).energyRegime = (evaluateMatrix cs a m2).energyRegime ∧
+    (evaluateMatrix cs a m1).autonomousActivation = (evaluateMatrix cs a m2).autonomousActivation ∧
+    (evaluateMatrix cs a m1).antagonist = (evaluateMatrix cs a m2).antagonist :=
+  ⟨rfl, rfl, rfl, rfl⟩
 
 /--
 Théorème 11 (Indépendance complète des invariants géométriques et antagonistes vis-à-vis
-du `PhenomenologicalMapping` choisi, R3) :
-Pour tout état valide `cs : CoreAffectState` et tout `mapping : PhenomenologicalMapping`,
-les trois théorèmes structurels (`antagonistPoint_preserves_validity`, `antagonistPoint_involutive`,
-`antagonistPoint_unified`) s'appliquent à l'antagoniste produit par `evaluateMatrix cs mapping`
-de façon strictement indépendante de `mapping`.
+du `PhenomenologicalMapping` choisi et du canal autonome `a`, R3 & Option 1A).
 -/
 theorem mapping_independent_antagonist_invariants
-    (cs : CoreAffectState) (mapping : PhenomenologicalMapping) :
-    isValidCoreAffect (evaluateMatrix cs mapping).antagonist.point ∧
-    (evaluateMatrix (evaluateMatrix cs mapping).antagonist mapping).antagonist.point = cs.point ∧
+    (cs : CoreAffectState) (a : Nat) (mapping : PhenomenologicalMapping) :
+    isValidCoreAffect (evaluateMatrix cs a mapping).antagonist.point ∧
+    (evaluateMatrix (evaluateMatrix cs a mapping).antagonist a mapping).antagonist.point = cs.point ∧
     (cs.point.x ≠ 0 → cs.point.y ≠ 0 →
-      (evaluateMatrix cs mapping).antagonist.point =
+      (evaluateMatrix cs a mapping).antagonist.point =
         ⟨-cs.point.x.sign * (cs.point.y.natAbs : Int),
          -cs.point.y.sign * (cs.point.x.natAbs : Int),
          cs.point.z⟩) ∧
-    (evaluateMatrix cs mapping).antagonist = (evaluateMatrix cs canonicalMapping).antagonist := by
+    (evaluateMatrix cs a mapping).antagonist = (evaluateMatrix cs 0 canonicalMapping).antagonist := by
   refine ⟨?_, ?_, ?_, rfl⟩
   · exact antagonistPoint_preserves_validity cs.point cs.h_valid
   · exact antagonistPoint_involutive cs.point
   · intro hx hy
-    exact antagonistPoint_unified cs.point hx hy
+    exact antagonistPoint_off_axis cs.point hx hy
 
 end AffectiveMatrix
 

@@ -1,31 +1,30 @@
 """
 cartograffect_predictive_engine.py
 ==================================
-Moteur prédictif cybernétique en boucle fermée pour le modèle CARTOGRAFFECT®.
+Moteur prédictif cybernétique en boucle fermée pour le modèle CARTOGRAFFECT (v3.0).
 
 Strictement isomorphe à la formalisation Lean 4 (`Cartograffect/PredictiveCircuit.lean`,
 `Cartograffect/CoreAffect.lean`, `Cartograffect/AffectiveMatrix.lean`,
-`Cartograffect/OperantFactorization.lean`, `Cartograffect/EndToEndBridge.lean`) et fidèle au
-circuit continu de la Figure 1 (2 boucles × 3 circuits, 6 opérations de frontière).
+`Cartograffect/AffectiveTaxonomy.lean`, `Cartograffect/AffectiveDynamics.lean`,
+`Cartograffect/OperantFactorization.lean`, `Cartograffect/EndToEndBridge.lean`) et fidèle aux
+quatre arbitrages verrouillés de `DECISIONS_V3.md` (Options 1A, 2a, 3b, 4) :
 
 Implémente :
   1. L'isomorphisme exact Phi : Omega_II ([A/C]) <-> Omega_I ((X,Y,0)) sous contrainte L1 = 2,
-     ainsi que la dualité transposée exacte entre le Croisement I et le Croisement II.
+     la dualité transposée exacte entre le Croisement I et le Croisement II, et le canal
+     d'activation autonome indépendant `activation_autonome >= 0` (Option 1A).
   2. La projection perceptible certifiée Pi_Z : (A,C,Z,pi_A,pi_C,susp) -> (X,Y,Z) conforme
-     à la loi des couronnes (Z = 0 Veille, Z = 1 Surprise, Z >= 2 avec R(Z) = 2Z - 2) et
-     l'opérateur d'antagonisme exact (axial, diagonal, controlatéral).
-  3. Les 6 opérations du circuit computationnel continu :
-       - Op. 1 : Sortie interne de l'Interface Subjective (+X / -X / 0 via Anticipation)
-       - Op. 2 : Sortie interne de l'Interface Perceptive (+Y / -Y / 0 via Surprise)
-       - Op. 3 : Croisement Attentionnel I (perceptible par l'Agent) -> voies réflexive & action
-       - Op. 4 : Croisement Attentionnel II (rétroactif sub-personnel) -> 9 canaux A/C et C/A
-       - Op. 5 : Entrée externe dans les [États cachés] subjectifs
-       - Op. 6 : Entrée externe dans les [États cachés] perceptifs (+ Corps & Environnement)
-  4. Le noyau entier exact `construire_noyau_entier` (factorisation exacte 4*scale^6, miroir de `circuitWeight`),
-     la matrice de transition markovienne couplée T (9x9), le spectre exact, le contrôle
-     d'ergodicité globale (0 < epsilon < 1) et la simulation du circuit continu fermé.
-  5. Le pont de bout en bout `EndToEndBridge` vers les contingences opérantes {R+, R-, P+, P-}
-     (`contingence_couplage`, `contingence_quadrant`, `contingence_diagonale_z2`, `classifier_role_operant`).
+     au postulat géométrique des couronnes (Z = 0 Veille, Z = 1 Surprise, Z >= 2 avec R(Z) = 2Z - 2,
+     régimes continus discrets par défaut 0..5) et l'antagonisme statique involutif.
+  3. Les 6 opérations du circuit computationnel continu et la dynamique verticale pas-à-pas
+     stricte `est_transition_verticale_valide_2a` (Option 2a : Delta_Z in {-1, 0, +1} avec unique
+     court-circuit descendant 2 -> 0 évitant Surprise Z = 1).
+  4. Le noyau entier exact `construire_noyau_entier` (4*scale^6, miroir de `circuitWeight`) et le
+     noyau inter-strates `noyau_profondeur_canonique_poids` (Option 3b : instabilité axiale P2
+     restreinte exclusivement aux 2 pôles en Charge négative Peur et Tristesse).
+  5. Le pont de bout en bout v3.0 borné à la fondation Z = 2 (`RegimeContingenceZ2`, séparant
+     le renforcement négatif opérant actif R- exigeant Y > 0 de la sécurité pavlovienne passive
+     en Calme (+1, -1, 2) sous Y < 0, sans relèvement sur Z >= 3) et les secteurs fonctionnels neutres.
 
 Dépendances : numpy >= 1.24 (bibliothèque standard Python >= 3.10).
 """
@@ -900,19 +899,24 @@ class InterfaceAttentionnelle:
 
 @dataclass(frozen=True)
 class EtatCircuitCirculaire:
-    """État global fermé du circuit continu à 6 opérateurs."""
+    """État global fermé du circuit continu à 6 opérateurs (Option 1A : canal autonome indépendant)."""
     subjectif_cache: EtatsCachesSubjectifs
     perceptif_cache: EtatsCachesPerceptifs
     corps_env: EtatCorpsEnvironnement
     seuil_sensoriel: int = 1
     seuil_resorption: int = 1
     attention: InterfaceAttentionnelle = InterfaceAttentionnelle()
+    activation_autonome: float = 0.0
 
     def __post_init__(self) -> None:
         if self.seuil_resorption > self.seuil_sensoriel:
             raise ValueError(
                 f"Invariant d'hystérésis violé : seuil_resorption ({self.seuil_resorption}) > "
                 f"seuil_sensoriel ({self.seuil_sensoriel})."
+            )
+        if self.activation_autonome < 0.0:
+            raise ValueError(
+                f"Le canal d'activation autonome A doit être >= 0.0 (reçu : {self.activation_autonome})."
             )
 
     @classmethod
@@ -921,6 +925,7 @@ class EtatCircuitCirculaire:
             subjectif_cache=EtatsCachesSubjectifs(0, True, False),
             perceptif_cache=EtatsCachesPerceptifs(0, True),
             corps_env=EtatCorpsEnvironnement(0),
+            activation_autonome=0.0,
         )
 
 
@@ -936,6 +941,7 @@ class TraceCycle6Operations:
     coord_proto_spatiale: Tuple[int, int, int]
     coord_noyau_affectif: Tuple[int, int, int]
     coord_antagoniste: Tuple[int, int, int]
+    activation_autonome: float
     voie_ascendante_reflexive: str
     voie_descendante_politique: str
     # Op. 4 : Croisement II rétroactif sub-personnel
@@ -1055,6 +1061,13 @@ class CircuitCirculaireCartograffect:
         next_subj = self.op5_entree_subjective(etat, ch_subj, coord_z)
         next_perc, next_env = self.op6_entree_perceptive(etat, ch_perc, coord_z)
 
+        retour_veille_basale = (
+            next_subj.ecart_modele < etat.seuil_resorption
+            and next_perc.ecart_afferent < etat.seuil_resorption
+            and not next_subj.suspension_descendante
+        )
+        next_activation = 0.0 if retour_veille_basale else etat.activation_autonome
+
         etat_suivant = EtatCircuitCirculaire(
             subjectif_cache=next_subj,
             perceptif_cache=next_perc,
@@ -1062,6 +1075,7 @@ class CircuitCirculaireCartograffect:
             seuil_sensoriel=etat.seuil_sensoriel,
             seuil_resorption=etat.seuil_resorption,
             attention=etat.attention,
+            activation_autonome=next_activation,
         )
         a_next = self.op1_sortie_subjective(etat_suivant)
         c_next = self.op2_sortie_perceptive(etat_suivant)
@@ -1083,6 +1097,7 @@ class CircuitCirculaireCartograffect:
             coord_proto_spatiale=proto,
             coord_noyau_affectif=coord_z,
             coord_antagoniste=coord_ant,
+            activation_autonome=etat.activation_autonome,
             voie_ascendante_reflexive=voie_asc,
             voie_descendante_politique=voie_desc,
             canal_subjectif=ch_subj,
@@ -1111,7 +1126,7 @@ class CircuitCirculaireCartograffect:
     def vers_coordonnees_cartograffect(trace: TraceCycle6Operations) -> Dict[str, Any]:
         """
         Exporte un état du circuit au format standardisé `CoreAffect` / `AffectiveMatrix`
-        (strictement valide au sens d'`isValidCoreAffect`).
+        (strictement valide au sens d'`isValidCoreAffect`, avec canal autonome indépendant).
         """
         x, y, z = trace.coord_noyau_affectif
         ax, ay, az = trace.coord_antagoniste
@@ -1121,6 +1136,7 @@ class CircuitCirculaireCartograffect:
             "couplage_AC": trace.noeud_courant.couplage_croisement_ii,
             "coordonnees_noyau": {"X": x, "Y": y, "Z": z},
             "coordonnees_antagoniste": {"X": ax, "Y": ay, "Z": az},
+            "activation_autonome": trace.activation_autonome,
             "valide_noyau_affectif": est_valide_noyau_affectif(x, y, z),
             "rayon_couronne_z": rayon_couronne(z),
             "coherence_interne_externe": trace.noeud_courant.coherence_interne_externe,
@@ -1219,16 +1235,34 @@ def mettre_a_jour_accumulateur(
     return max(0.0, lam * r + contrib - relief)
 
 
+def est_transition_verticale_valide_2a(z_src: int, z_dst: int) -> bool:
+    """
+    Prédicat exact `EndToEndBridge.isValidVerticalStep2a` (Option 2a) :
+      - maintien (`z_dst == z_src`),
+      - montée unitaire (`z_dst == z_src + 1`),
+      - descente unitaire depuis `z_src >= 3` (`z_dst == z_src - 1`),
+      - unique court-circuit descendant `Z in {1, 2} -> 0` (sans jamais visiter Surprise Z = 1).
+    """
+    if z_src < 0 or z_dst < 0:
+        return False
+    return (
+        z_dst == z_src
+        or z_dst == z_src + 1
+        or (z_src >= 3 and z_dst + 1 == z_src)
+        or (z_src in (1, 2) and z_dst == 0)
+    )
+
+
 def mettre_a_jour_strate_r5(
     z: int,
     r_next: float,
     seuils_montee: Tuple[float, ...] = SEUILS_MONTEE_DEFAUT,
     seuils_descente: Tuple[float, ...] = SEUILS_DESCENTE_DEFAUT,
-    z_max: int = 7,
+    z_max: int = 5,
 ) -> int:
     """
-    Équation 2 avec hystérésis et court-circuit explicite R5 :
-      - Montée si R_{t+1} > theta_up(Z)
+    Équation 2 avec hystérésis et court-circuit explicite R5 (Option 2a, défaut z_max = 5) :
+      - Montée unitaire si R_{t+1} > theta_up(Z)
       - Descente si R_{t+1} < theta_down(Z), avec court-circuit direct Z in {1, 2} -> 0
         afin de ne jamais transiter par la Surprise (Z = 1) en redescente.
     """
@@ -1267,13 +1301,13 @@ def mettre_a_jour_efficacites(
 
 @dataclass(frozen=True)
 class ParametresLoiUnifiee:
-    """Paramètres de la loi unifiée couplant R_t, Z_t et le partage dynamique (pi_A, pi_C)."""
+    """Paramètres de la loi unifiée couplant R_t, Z_t (régimes normatifs 0..5 par défaut) et (pi_A, pi_C)."""
     lam: float = 0.80
     eta: float = 0.60
     beta: float = 2.0
     alpha: float = 0.25
     mu_efficacite: float = 0.25
-    z_max: int = 7
+    z_max: int = 5
     scale_quantification: int = 1000
     seuils_montee: Tuple[float, ...] = SEUILS_MONTEE_DEFAUT
     seuils_descente: Tuple[float, ...] = SEUILS_DESCENTE_DEFAUT
@@ -1479,29 +1513,26 @@ class SimulateurUnifieCartograffect:
 
 
 # =============================================================================
-# 6B. ARBITRAGES A1–A4 : RÉPONSES ISOLÉES, PROJECTION DIRECTE DE Z, ΔH ET
-#     DIAGNOSTIC AUTOMATIQUE DES 5 RUPTURES D'ERGODICITÉ
+# 6B. RÉPONSES ISOLÉES, DOMAINES ATTENTIONNELS PAS-À-PAS (OPTION 2a),
+#     NOYAU INTER-STRATES ASYMÉTRIQUE (OPTION 3b) ET RUPTURES D'ERGODICITÉ
 # =============================================================================
 
 @dataclass(frozen=True)
 class ReponseIsoleeCircuit:
     """
-    Réponse isolée émise sur 3 circuits par une interface cachée (Arbitrages A1 & A3) :
+    Réponse isolée émise sur 3 circuits par une interface cachée (miroir de
+    `PredictiveEngineCanonical.IsolatedCircuitResponse`, sans saut direct de Z) :
       - Boucle A (Interface Subjective) : A0 / A- / A+
       - Boucle C (Interface Perceptive) : C0 / C- / C+
-    Projette directement le niveau d'opérabilité `z_projete` requis sans incrémentation forcée.
     """
     boucle: str
     polarite: int
-    z_projete: int = 2
 
     def __post_init__(self) -> None:
         if self.boucle not in ("A", "C"):
             raise ValueError(f"Boucle invalide : {self.boucle!r}. Attendue : 'A' ou 'C'.")
         if self.polarite not in (-1, 0, +1):
             raise ValueError(f"Polarité invalide : {self.polarite}. Attendue dans {{0, -1, +1}}.")
-        if self.z_projete < 0:
-            raise ValueError(f"Le niveau d'opérabilité z_projete doit être >= 0 (reçu : {self.z_projete}).")
 
     @property
     def etiquette_circuit(self) -> str:
@@ -1519,9 +1550,10 @@ _SYMBOLES_CONTROLE: Dict[int, str] = {0: "0", -1: "-Y", +1: "+Y"}
 @dataclass(frozen=True)
 class DomainePossiblesAttentionnel:
     """
-    Région symbolique `{±X, ±Y, Z}` dans l'INTERFACE ATTENTIONNELLE (Arbitrages A1 & A2).
+    Région symbolique `{s_X, s_Y, Z}` dans l'INTERFACE ATTENTIONNELLE.
     L'invariant `z >= 1` exclut strictement `Z = 0` (`Veille (0,0,0)` siège exclusivement
-    au Croisement I).
+    au Croisement I). Utilise le typage bayésien rigoureux : polarités signées
+    `(s_X, s_Y) in {-1, 0, +1}^2` et précisions strictement positives `(pi_A, pi_C) in R_+^2`.
     """
     a: int
     c: int
@@ -1540,10 +1572,10 @@ class DomainePossiblesAttentionnel:
         return f"{{{_SYMBOLES_AXES[self.a]}, {_SYMBOLES_CONTROLE[self.c]}, Z}}"
 
     @property
-    def notation_double_a2(self) -> str:
-        signe_a = "0" if self.a == 0 else ("+π_A" if self.a > 0 else "-π_A")
-        signe_c = "0" if self.c == 0 else ("+π_C" if self.c > 0 else "-π_C")
-        return f"{self.notation_symbolique} <-> ({signe_a}, {signe_c}, {self.z})"
+    def typage_bayesien_v3(self) -> str:
+        sx = "0" if self.a == 0 else f"{self.a:+d}"
+        sy = "0" if self.c == 0 else f"{self.c:+d}"
+        return f"(s_X={sx}, s_Y={sy}) in {{-1,0,+1}}^2, (pi_A, pi_C) in R_+^2, Z={self.z}"
 
     @property
     def base_projective_croisement_i(self) -> Tuple[int, int, int]:
@@ -1587,10 +1619,7 @@ def calculer_reduction_information(
     distribution_reduite: Optional[Sequence[float]] = None,
 ) -> Tuple[float, float, float]:
     """
-    Calcule la réduction d'information en bits opérée par l'INTERFACE ATTENTIONNELLE :
-        ΔH = H(P) - H(R(P)) >= 0.
-    Si `distribution_reduite` est None, correspond à la sélection déterministe d'une action
-    (H(R(P)) = 0, ΔH = H(P)).
+    Calcule la réduction d'information en bits H(P) - H(R(P)) >= 0 sur distributions continues.
     """
     h_p = entropie_shannon_bits(distribution_possibles)
     h_r = 0.0 if distribution_reduite is None else entropie_shannon_bits(distribution_reduite)
@@ -1604,10 +1633,11 @@ def calculer_reduction_information(
 
 @dataclass(frozen=True)
 class AssemblageReponsesIsolees:
-    """Résultat de l'assemblage des réponses isolées `(A, C)`, projection directe de Z et ΔH."""
+    """Résultat de l'assemblage pas-à-pas des réponses isolées `(A, C)` (Option 2a)."""
     reponse_a: ReponseIsoleeCircuit
     reponse_c: ReponseIsoleeCircuit
-    z_projete: int
+    z_precedent: int
+    z_courant: int
     domaine: DomainePossiblesAttentionnel
     coord_octaedrique: Tuple[int, int, int]
     coord_antagoniste: Tuple[int, int, int]
@@ -1616,7 +1646,7 @@ class AssemblageReponsesIsolees:
     delta_h_bits: float
 
     def vers_export_octaedrique(self) -> Dict[str, Any]:
-        """Pont d'export vers les coordonnées octaédriques certifiées CARTOGRAFFECT®."""
+        """Pont d'export vers les coordonnées certifiées CARTOGRAFFECT (v3.0)."""
         x, y, z = self.coord_octaedrique
         ax, ay, az = self.coord_antagoniste
         return {
@@ -1625,8 +1655,10 @@ class AssemblageReponsesIsolees:
             "croisement_ii_couplage": f"[{self.reponse_a.etiquette_circuit}/{self.reponse_c.etiquette_circuit}]",
             "croisement_i_base": self.domaine.base_projective_croisement_i,
             "domaine_attentionnel": self.domaine.notation_symbolique,
-            "notation_double_a2": self.domaine.notation_double_a2,
-            "niveau_z_projete": self.z_projete,
+            "typage_bayesien_v3": self.domaine.typage_bayesien_v3,
+            "z_precedent": self.z_precedent,
+            "z_courant": self.z_courant,
+            "transition_2a_valide": est_transition_verticale_valide_2a(self.z_precedent, self.z_courant),
             "rayon_couronne": self.domaine.rayon_couronne,
             "coordonnees_octaedriques": {"X": x, "Y": y, "Z": z},
             "coordonnees_antagoniste": {"X": ax, "Y": ay, "Z": az},
@@ -1641,7 +1673,8 @@ class AssemblageReponsesIsolees:
 def assembler_reponses_isolees(
     reponse_a: ReponseIsoleeCircuit | int,
     reponse_c: ReponseIsoleeCircuit | int,
-    z_operabilite: Optional[int] = None,
+    z_precedent: int = 1,
+    z_cible: int = 2,
     pi_a: int = 1,
     pi_c: int = 1,
     distribution_possibles: Optional[Sequence[float]] = None,
@@ -1649,37 +1682,46 @@ def assembler_reponses_isolees(
     nb_possibles_contexte: int = 9,
 ) -> AssemblageReponsesIsolees:
     """
-    Opérateur d'assemblage des réponses isolées `(reponse_a, reponse_c)` avec projection
-    directe du niveau d'opérabilité `Z` (`Z >= 1` pour l'INTERFACE ATTENTIONNELLE), calcul de
-    la réduction d'information `ΔH = H(P) - H(R(P)) >= 0` et pont vers les coordonnées
-    octaédriques CARTOGRAFFECT®.
+    Opérateur d'assemblage des réponses isolées `(reponse_a, reponse_c)` soumis strictement
+    à la loi verticale pas-à-pas de l'Option 2a (`est_transition_verticale_valide_2a(z_precedent, z_cible)`
+    avec `z_cible >= 1`). Rejette tout saut direct court-circuitant les strates intermédiaires.
     """
     resp_a = (
         reponse_a
         if isinstance(reponse_a, ReponseIsoleeCircuit)
-        else ReponseIsoleeCircuit("A", int(reponse_a), z_operabilite if z_operabilite is not None else 2)
+        else ReponseIsoleeCircuit("A", int(reponse_a))
     )
     resp_c = (
         reponse_c
         if isinstance(reponse_c, ReponseIsoleeCircuit)
-        else ReponseIsoleeCircuit("C", int(reponse_c), z_operabilite if z_operabilite is not None else 2)
+        else ReponseIsoleeCircuit("C", int(reponse_c))
     )
     if resp_a.boucle != "A" or resp_c.boucle != "C":
         raise ValueError("Les réponses isolées doivent correspondre respectivement aux boucles 'A' et 'C'.")
+    if pi_a <= 0 or pi_c <= 0:
+        raise ValueError(f"Les précisions bayésiennes (pi_a, pi_c) doivent appartenir à R_+^* (reçu : {pi_a}, {pi_c}).")
+    if z_cible < 1:
+        raise ValueError(
+            f"z_cible = {z_cible} invalide dans l'INTERFACE ATTENTIONNELLE (exige z_cible >= 1)."
+        )
+    if not est_transition_verticale_valide_2a(z_precedent, z_cible):
+        raise ValueError(
+            f"Transition verticale {z_precedent} -> {z_cible} interdite par l'Option 2a "
+            "(seuls Delta_Z in {-1, 0, +1} sans 2 -> 1 sont autorisés vers Z >= 1)."
+        )
 
-    z_eff = z_operabilite if z_operabilite is not None else max(resp_a.z_projete, resp_c.z_projete)
-    domaine = DomainePossiblesAttentionnel(a=resp_a.polarite, c=resp_c.polarite, z=z_eff)
+    domaine = DomainePossiblesAttentionnel(a=resp_a.polarite, c=resp_c.polarite, z=z_cible)
 
-    if resp_a.polarite == 0 and resp_c.polarite == 0 and z_eff == 1:
+    if resp_a.polarite == 0 and resp_c.polarite == 0 and z_cible == 1:
         coord = (0, 0, 1)
     else:
         coord = projeter_noyau_affectif(
             resp_a.polarite,
             resp_c.polarite,
-            z_eff,
+            z_cible,
             pi_a=pi_a,
             pi_c=pi_c,
-            suspension_descendante=(z_eff >= 2),
+            suspension_descendante=(z_cible >= 2),
         )
     ant = antagoniste_noyau(*coord)
 
@@ -1691,7 +1733,8 @@ def assembler_reponses_isolees(
     return AssemblageReponsesIsolees(
         reponse_a=resp_a,
         reponse_c=resp_c,
-        z_projete=z_eff,
+        z_precedent=z_precedent,
+        z_courant=z_cible,
         domaine=domaine,
         coord_octaedrique=coord,
         coord_antagoniste=ant,
@@ -1699,6 +1742,48 @@ def assembler_reponses_isolees(
         h_reduite_bits=h_r,
         delta_h_bits=delta_h,
     )
+
+
+def noyau_profondeur_canonique_poids(
+    p: Tuple[int, int, int],
+    q: Tuple[int, int, int],
+) -> int:
+    """
+    Miroir exact de `AffectiveDynamics.canonicalDepthWeight` (Options 2a & 3b) :
+      - Adjacence verticale stricte `q.z == p.z + 1` et conservation du quadrant ;
+      - Instabilité axiale P2 (`poids = 2` vers les diagonales adjacentes contre `1` sur l'axe)
+        restreinte exclusivement aux pôles axiaux en Charge négative (`px < 0` ou `py < 0`,
+        dont Peur (-2, 0, 2) et Tristesse (0, -2, 2)) ;
+      - Zéro auto-déstabilisation diagonale (`poids = 0`) depuis les pôles en Décharge positive
+        (`Courage (2, 0, 2)` et `Joie (0, 2, 2)`).
+    """
+    px, py, pz = p
+    qx, qy, qz = q
+    if not (
+        est_valide_noyau_affectif(px, py, pz)
+        and est_valide_noyau_affectif(qx, qy, qz)
+        and qz == pz + 1
+        and px * qx >= 0
+        and py * qy >= 0
+    ):
+        return 0
+    if qx == 0 and qy == 0:
+        return 1 if (px == 0 and py == 0) else 0
+    if px == 0 and py == 0:
+        return 1 if pz == 1 else 0
+    if px == 0 or py == 0:
+        if (px == 0 or qx != 0) and (py == 0 or qy != 0):
+            if px < 0 or py < 0:
+                if qx == 0 or qy == 0:
+                    return 1
+                if abs(qx) == abs(qy):
+                    return 2
+                return 0
+            return 2 if (qx == 0 or qy == 0) else 0
+        return 0
+    if qx != 0 and qy != 0 and abs(qx) >= abs(px) and abs(qy) >= abs(py):
+        return 2 if (abs(px) == abs(py) and abs(qx) == abs(qy)) else 1
+    return 0
 
 
 @dataclass(frozen=True)
@@ -1781,105 +1866,103 @@ MoteurPredictifCartograffect.diagnostiquer_ruptures_ergodicite = _diagnostiquer_
 
 
 # =============================================================================
-# 6C. PONT DE BOUT EN BOUT (EndToEndBridge & OperantFactorization)
+# 6C. PONT DE BOUT EN BOUT v3.0 (Fondation Z = 2 & Secteurs fonctionnels Option 1A)
 # =============================================================================
 
+_REGIMES_Z2_VALIDES = (
+    "activeOperantReinforcement",
+    "agenticOmissionPunishment",
+    "pavlovianPassiveSafety",
+    "inescapableAversivePunishment",
+)
+
+
 @dataclass(frozen=True)
-class ContingenceOperante:
+class RegimeContingenceZ2:
     """
-    Contingence opérante élémentaire `{R+, R-, P+, P-}` miroir de
-    `OperantFactorization.OperantContingency` (`effect` in {'Reinforcement', 'Punishment'},
-    `op` in {'Addition', 'Removal'}).
+    Miroir exact de `OperantFactorization.Z2ContingencyRegime` borné à la fondation Z = 2 :
+      - `activeOperantReinforcement` en (+1, +1, 2) [Désir] : englobe R+ ET le renforcement
+        négatif opérant actif R- (évitement/échappement actif exigeant Y > 0) ;
+      - `agenticOmissionPunishment` en (-1, +1, 2) [Colère] : P- / blocage frustratif sous Y > 0 ;
+      - `pavlovianPassiveSafety` en (+1, -1, 2) [Calme] : soulagement pavlovien passif / sécurité
+        passive et accommodation face à une limite objective d'action (Y < 0, distinct de R-) ;
+      - `inescapableAversivePunishment` en (-1, -1, 2) [Dégoût] : P+ aversif subi sous Y < 0.
     """
-    effect: str
-    op: str
+    code: str
 
     def __post_init__(self) -> None:
-        if self.effect not in ("Reinforcement", "Punishment"):
-            raise ValueError(f"Effet opérant invalide : {self.effect!r}.")
-        if self.op not in ("Addition", "Removal"):
-            raise ValueError(f"Opérateur opérant invalide : {self.op!r}.")
+        if self.code not in _REGIMES_Z2_VALIDES:
+            raise ValueError(f"Régime Z=2 invalide : {self.code!r}.")
 
     @property
-    def code_court(self) -> str:
-        prefix = "R" if self.effect == "Reinforcement" else "P"
-        suffix = "+" if self.op == "Addition" else "-"
-        return f"{prefix}{suffix}"
+    def issue_adaptative(self) -> str:
+        return (
+            "favorable"
+            if self.code in ("activeOperantReinforcement", "pavlovianPassiveSafety")
+            else "aversive"
+        )
+
+    @property
+    def agentivite_instrumentale(self) -> str:
+        return (
+            "activeOperant"
+            if self.code in ("activeOperantReinforcement", "agenticOmissionPunishment")
+            else "nonOperantAccommodation"
+        )
 
 
-def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[ContingenceOperante]:
-    """Miroir exact de `OperantFactorization.diagToContingency` sur la couronne Z = 2."""
+def mode_renforcement_actif_vers_regime(mode: str) -> RegimeContingenceZ2:
+    """
+    Miroir de `OperantFactorization.activeModeToRegime` :
+    tant `R+` ('positiveAddition') que `R-` opérant ('negativeEscapeAvoidance') exigent `Y > 0`
+    et relèvent exclusivement de `activeOperantReinforcement` (jamais de `pavlovianPassiveSafety`).
+    """
+    if mode not in ("positiveAddition", "negativeEscapeAvoidance"):
+        raise ValueError(f"Mode de renforcement opérant actif invalide : {mode!r}.")
+    return RegimeContingenceZ2("activeOperantReinforcement")
+
+
+def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[RegimeContingenceZ2]:
+    """
+    Miroir exact de `OperantFactorization.diagToContingency` :
+    borné strictement aux 4 diagonales de `Z = 2` (retourne `None` pour tout `z != 2`,
+    sans aucun relèvement universel sur les strates `Z >= 3`).
+    """
     if z != 2:
         return None
     if (x, y) == (1, 1):
-        return ContingenceOperante("Reinforcement", "Addition")
-    if (x, y) == (1, -1):
-        return ContingenceOperante("Reinforcement", "Removal")
-    if (x, y) == (-1, -1):
-        return ContingenceOperante("Punishment", "Addition")
+        return RegimeContingenceZ2("activeOperantReinforcement")
     if (x, y) == (-1, 1):
-        return ContingenceOperante("Punishment", "Removal")
+        return RegimeContingenceZ2("agenticOmissionPunishment")
+    if (x, y) == (1, -1):
+        return RegimeContingenceZ2("pavlovianPassiveSafety")
+    if (x, y) == (-1, -1):
+        return RegimeContingenceZ2("inescapableAversivePunishment")
     return None
 
 
-def contingence_couplage(a: int, c: int) -> Optional[ContingenceOperante]:
-    """Miroir exact de `EndToEndBridge.couplingToContingency`."""
+def contingence_couplage_z2(a: int, c: int) -> Optional[RegimeContingenceZ2]:
+    """Miroir exact de `EndToEndBridge.couplingToZ2Contingency`."""
     _valider_modalites(a, c)
     if (a, c) == (+1, +1):
-        return ContingenceOperante("Reinforcement", "Addition")
-    if (a, c) == (+1, -1):
-        return ContingenceOperante("Reinforcement", "Removal")
-    if (a, c) == (-1, -1):
-        return ContingenceOperante("Punishment", "Addition")
+        return RegimeContingenceZ2("activeOperantReinforcement")
     if (a, c) == (-1, +1):
-        return ContingenceOperante("Punishment", "Removal")
-    return None
-
-
-def contingence_quadrant(x: int, y: int) -> Optional[ContingenceOperante]:
-    """Miroir exact de `EndToEndBridge.quadrantContingency` sur toute strate Z."""
-    if x > 0 and y > 0:
-        return ContingenceOperante("Reinforcement", "Addition")
-    if x > 0 and y < 0:
-        return ContingenceOperante("Reinforcement", "Removal")
-    if x < 0 and y < 0:
-        return ContingenceOperante("Punishment", "Addition")
-    if x < 0 and y > 0:
-        return ContingenceOperante("Punishment", "Removal")
+        return RegimeContingenceZ2("agenticOmissionPunishment")
+    if (a, c) == (+1, -1):
+        return RegimeContingenceZ2("pavlovianPassiveSafety")
+    if (a, c) == (-1, -1):
+        return RegimeContingenceZ2("inescapableAversivePunishment")
     return None
 
 
 def secteur_dominant_xy(x: int, y: int) -> Optional[str]:
-    """Miroir exact de `CoreAffectPoint.dominantSector?`."""
+    """Miroir exact de `CoreAffectPoint.dominantSector?` (nomenclature neutre Option 1A)."""
     ax, ay = abs(x), abs(y)
     if ay > ax:
-        return "joie" if y > 0 else "tristesse"
+        return "controlPos" if y > 0 else "controlNeg"
     if ax > ay:
-        return "peur" if x < 0 else "courage"
+        return "expectationNeg" if x < 0 else "expectationPos"
     return None
-
-
-@dataclass(frozen=True)
-class RoleOperant:
-    """Miroir exact de `EndToEndBridge.OperantRole`."""
-    kind: str
-    sector: Optional[str] = None
-    contingency: Optional[ContingenceOperante] = None
-
-
-def classifier_role_operant(x: int, y: int, z: int) -> RoleOperant:
-    """Miroir exact de `EndToEndBridge.classifyOperantRole`."""
-    if z < 0:
-        raise ValueError(f"Strate Z invalide : {z}")
-    qc = contingence_quadrant(x, y)
-    sec = secteur_dominant_xy(x, y)
-    if qc is not None and sec is not None:
-        return RoleOperant("blendedLateral", sector=sec, contingency=qc)
-    if qc is not None and sec is None:
-        return RoleOperant("pureOperant", sector=None, contingency=qc)
-    if qc is None and sec is not None:
-        return RoleOperant("preOperantAxial", sector=sec, contingency=None)
-    return RoleOperant("centralOperator", sector=None, contingency=None)
 
 
 # =============================================================================
@@ -1937,7 +2020,7 @@ if __name__ == "__main__":
             f"| V={payload['energie_libre_lyapunov']}"
         )
 
-    print("\n=== 5. LOI UNIFIÉE (R_t, Z_t, partage logistique) & LATÉRALE CONSTERNATION ===")
+    print("\n=== 5. LOI UNIFIÉE (R_t, Z_t, partage logistique) & AFFRONTEMENT AGENTIQUE LATÉRAL (-1, 3, 3) ===")
     sim = SimulateurUnifieCartograffect()
     e0 = EtatLoiUnifiee(ac=(-1, -1), r_accumulateur=0.0, z_strate=0, rho_hat=0.1, kappa_hat=0.9)
     seq = [(-1, -1), (-1, -1), (-1, -1), (-1, +1), (+1, +1), (0, 0), (0, 0), (0, 0), (0, 0)]

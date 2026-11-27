@@ -122,22 +122,23 @@ inductive GeometryType : Type where
   | lateral  : GeometryType
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 2, §2 (Groupes d'orientation géométrique)
+-- Source : DECISIONS_V3 (Option 1A — Nomenclature fonctionnelle neutre des secteurs dominants)
 /--
-Secteurs d'orientation géométrique définis par l'axe dominant et son signe :
-- `joie`      : Y positif dominant (|Y| > |X| et Y > 0).
-- `tristesse` : Y négatif dominant (|Y| > |X| et Y < 0).
-- `peur`      : X négatif dominant (|X| > |Y| et X < 0).
-- `courage`   : X positif dominant (|X| > |Y| et X > 0).
+Secteurs d'orientation géométrique définis exclusivement par l'axe dominant et son signe
+(Option 1A, sans rattachement nominal à un affect particulier) :
+- `controlPos`     : Contrôle instrumental positif dominant (`|Y| > |X|` et `Y > 0`).
+- `controlNeg`     : Faible contrôle instrumental perçu dominant (`|Y| > |X|` et `Y < 0`).
+- `expectationNeg` : Charge épistémique / non-révisabilité dominante (`|X| > |Y|` et `X < 0`).
+- `expectationPos` : Décharge épistémique / révisabilité dominante (`|X| > |Y|` et `X > 0`).
 -/
 inductive OrientationSector : Type where
-  | joie      : OrientationSector
-  | tristesse : OrientationSector
-  | peur      : OrientationSector
-  | courage   : OrientationSector
+  | controlPos     : OrientationSector
+  | controlNeg     : OrientationSector
+  | expectationNeg : OrientationSector
+  | expectationPos : OrientationSector
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 2, §2 (Groupes d'orientation géométrique par axe dominant)
+-- Source : DECISIONS_V3 (Option 1A)
 /--
 Détermine le secteur d'orientation dominant d'un point lorsque l'un des deux axes
 domine strictement l'autre en valeur absolue (`|Y| > |X|` ou `|X| > |Y|`).
@@ -145,9 +146,9 @@ Renvoie `none` pour les opérateurs centraux et les positions diagonales.
 -/
 def CoreAffectPoint.dominantSector? (p : CoreAffectPoint) : Option OrientationSector :=
   if p.y.natAbs > p.x.natAbs then
-    if p.y > 0 then some .joie else some .tristesse
+    if p.y > 0 then some .controlPos else some .controlNeg
   else if p.x.natAbs > p.y.natAbs then
-    if p.x < 0 then some .peur else some .courage
+    if p.x < 0 then some .expectationNeg else some .expectationPos
   else
     none
 
@@ -766,34 +767,35 @@ theorem symmetric_precision_never_lateral (s : PredictiveEngineState)
     · rw [h_sym, deployCouplingWithPrecision_symm_eq]
       exact deployCouplingAtDepth_not_lateral s.currentCoupling s.attentional.persistenceDepth
 
--- Source : Arbitrage 4 (Atteignabilité déterministe des 176 positions via (π_A, π_C))
+/-- Indépendance stricte de la projection spatiale `(X, Y, Z)` vis-à-vis du canal autonome `A ≥ 0` (Option 1A). -/
+theorem projectToCoreAffect_independent_of_activation (s : PredictiveEngineState) (a : Nat) :
+    projectToCoreAffect (s.withAutonomousActivation a) = projectToCoreAffect s := rfl
+
+-- Source : Arbitrage 4 & Option 1A (Atteignabilité déterministe avec canal autonome indépendant `a ≥ 0`)
 /--
 Construit un témoin explicite du Moteur prédictif (`PredictiveEngineState`) atteignant
-déterministement toute coordonnée géométriquement valide `p` via `projectToCoreAffect`.
-- `(0, 0, 0)` : maintien au Point de Veille.
-- `(0, 0, 1)` : rupture ascendante de Surprise sous le seuil d'engagement.
-- `(0, 0, d + 2)` : suspension descendante endogène (`descendingSuspension = true`).
-- Position de couronne `(X, Y, Z ≥ 2)` : engagement attentionnel (`allocatedPrecision = 1`),
-  polarités issues des signes de `(X, Y)` et précisions relatives `(precisionA, precisionC) = (|X|, |Y|)`
-  (ou `(1, 1)` sur les axes).
+déterministement toute coordonnée géométriquement valide `p` via `projectToCoreAffect`
+avec un niveau d'activation autonome arbitraire `a : Nat` (`a ≥ 0`).
 -/
-def witnessEngineForPoint (p : CoreAffectPoint) : PredictiveEngineState :=
+def witnessEngineForPoint (p : CoreAffectPoint) (a : Nat := 0) : PredictiveEngineState :=
   let polOf (v : Int) : Polarity :=
     if v > 0 then .pos else if v < 0 then .neg else .zero
   if p.x == 0 && p.y == 0 then
     match p.z with
-    | 0 => default
+    | 0 => { (default : PredictiveEngineState) with autonomousActivation := a }
     | 1 => {
         discrepancy := { magnitude := 2, sensoryThreshold := 1, resorptionThreshold := 1, h_hysteresis := Nat.le_refl 1 }
         perceptive  := { controleGradient := .zero }
         subjective  := { attenteGradient := .pos, descendingSuspension := false }
         attentional := { allocatedPrecision := 0, engagementThreshold := 1, persistenceDepth := 0, precisionA := 1, precisionC := 1 }
+        autonomousActivation := a
       }
     | d + 2 => {
         discrepancy := { magnitude := 2, sensoryThreshold := 1, resorptionThreshold := 1, h_hysteresis := Nat.le_refl 1 }
         perceptive  := { controleGradient := .zero }
         subjective  := { attenteGradient := .pos, descendingSuspension := true }
         attentional := { allocatedPrecision := 0, engagementThreshold := 1, persistenceDepth := d, precisionA := 1, precisionC := 1 }
+        autonomousActivation := a
       }
   else
     let ax := p.x.natAbs
@@ -810,16 +812,18 @@ def witnessEngineForPoint (p : CoreAffectPoint) : PredictiveEngineState :=
         precisionA          := piA
         precisionC          := piC
       }
+      autonomousActivation := a
     }
 
-private theorem project_engaged_crown (a ctrl : Polarity) (d piA piC : Nat)
-    (h_non_neut : EngineCoupling.isGlobalNeutrality ⟨a, ctrl⟩ = false) :
+private theorem project_engaged_crown (att ctrl : Polarity) (d piA piC a : Nat)
+    (h_non_neut : EngineCoupling.isGlobalNeutrality ⟨att, ctrl⟩ = false) :
     projectToCoreAffect {
       discrepancy := { magnitude := 2, sensoryThreshold := 1, resorptionThreshold := 1, h_hysteresis := Nat.le_refl 1 }
       perceptive  := { controleGradient := ctrl }
-      subjective  := { attenteGradient := a, descendingSuspension := true }
+      subjective  := { attenteGradient := att, descendingSuspension := true }
       attentional := { allocatedPrecision := 1, engagementThreshold := 1, persistenceDepth := d, precisionA := piA, precisionC := piC }
-    } = deployCouplingWithPrecision ⟨a, ctrl⟩ d piA piC := by
+      autonomousActivation := a
+    } = deployCouplingWithPrecision ⟨att, ctrl⟩ d piA piC := by
   dsimp [projectToCoreAffect, PredictiveEngineState.currentCoupling,
     SalientDiscrepancy.isSensorilySalient, AttentionalInterface.isEngaged]
   have h12 : decide (1 ≤ 2) = true := rfl
@@ -832,128 +836,137 @@ private theorem neg_ofNat_natAbs_neg (x : Int) (hx : x < 0) : -Int.ofNat x.natAb
   change -(x.natAbs : Int) = x; omega
 
 /--
-Théorème de surjectivité déterministe du Moteur vers le Noyau affectif (Arbitrage 4) :
-Tout point géométriquement valide `p` du Noyau affectif (central, axial, diagonal ou latéral
-à toute strate `Z`) est déterministement atteint par `projectToCoreAffect (witnessEngineForPoint p) = p`.
+Théorème de surjectivité déterministe du Moteur vers le Noyau affectif avec canal autonome `a ≥ 0`
+(Arbitrage 4 & Option 1A) :
+Tout point géométriquement valide `p` du Noyau affectif et tout niveau d'activation autonome `a : Nat`
+sont conjointement réalisés par `witnessEngineForPoint p a`.
 -/
-theorem projectToCoreAffect_surjective (p : CoreAffectPoint) (h : isValidCoreAffect p) :
-    projectToCoreAffect (witnessEngineForPoint p) = p := by
-  rcases p with ⟨x, y, z⟩
-  rcases h with ⟨hx, hy⟩ | ⟨hz, hsum⟩
-  · dsimp [CoreAffectPoint.isCentral] at hx hy
-    subst hx hy
-    cases z with
-    | zero => rfl
-    | succ n =>
-      cases n with
+theorem projectToCoreAffect_surjective (p : CoreAffectPoint) (h : isValidCoreAffect p) (a : Nat := 0) :
+    projectToCoreAffect (witnessEngineForPoint p a) = p ∧
+    (witnessEngineForPoint p a).autonomousActivation = a := by
+  refine ⟨?_, ?_⟩
+  · rcases p with ⟨x, y, z⟩
+    rcases h with ⟨hx, hy⟩ | ⟨hz, hsum⟩
+    · dsimp [CoreAffectPoint.isCentral] at hx hy
+      subst hx hy
+      cases z with
       | zero => rfl
-      | succ d => rfl
-  · dsimp [CoreAffectPoint.isOnCrown, CoreAffectPoint.displacementSum] at hz hsum
-    cases z with
-    | zero => omega
-    | succ n =>
-      cases n with
+      | succ n =>
+        cases n with
+        | zero => rfl
+        | succ d => rfl
+    · dsimp [CoreAffectPoint.isOnCrown, CoreAffectPoint.displacementSum] at hz hsum
+      cases z with
       | zero => omega
-      | succ d =>
-        have hsum' : x.natAbs + y.natAbs = 2 * d + 2 := by
-          dsimp [crownRadius] at hsum
-          exact hsum
-        have hxy_nz : ¬(x == 0 && y == 0) = true := by
-          intro h0
-          simp only [Bool.and_eq_true, beq_iff_eq] at h0
-          omega
-        have hxy_f : (x == 0 && y == 0) = false := Bool.eq_false_iff.mpr hxy_nz
-        unfold witnessEngineForPoint
-        dsimp only
-        rw [hxy_f]
-        simp only [Bool.false_eq_true, ↓reduceIte]
-        have hd : Nat.succ (Nat.succ d) - 2 = d := rfl
-        rcases (by omega : x > 0 ∨ x < 0 ∨ x = 0) with hx_pos | hx_neg | hx_zero <;>
-        rcases (by omega : y > 0 ∨ y < 0 ∨ y = 0) with hy_pos | hy_neg | hy_zero
-        · have hax : x.natAbs ≥ 1 := by omega
-          have hay : y.natAbs ≥ 1 := by omega
-          have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
-            simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
-          simp only [hx_pos, hy_pos, h_ax0, Bool.false_eq_true, ↓reduceIte]
-          rw [project_engaged_crown .pos .pos (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          exact ⟨ofNat_natAbs_pos x hx_pos, ofNat_natAbs_pos y hy_pos⟩
-        · have hax : x.natAbs ≥ 1 := by omega
-          have hay : y.natAbs ≥ 1 := by omega
-          have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
-            simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
-          have hnoty : ¬(y > 0) := by omega
-          simp only [hx_pos, hnoty, hy_neg, h_ax0, Bool.false_eq_true, ↓reduceIte]
-          rw [project_engaged_crown .pos .neg (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          exact ⟨ofNat_natAbs_pos x hx_pos, neg_ofNat_natAbs_neg y hy_neg⟩
-        · subst hy_zero
-          simp only [hx_pos, Int.lt_irrefl, Int.natAbs_zero,
-            beq_self_eq_true, Bool.or_true, ↓reduceIte]
-          rw [project_engaged_crown .pos .zero (Nat.succ (Nat.succ d) - 2) 1 1 rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          have hxr : 2 * d + 2 = x.natAbs := by omega
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          rw [hxr]
-          exact ofNat_natAbs_pos x hx_pos
-        · have hax : x.natAbs ≥ 1 := by omega
-          have hay : y.natAbs ≥ 1 := by omega
-          have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
-            simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
-          have hnotx : ¬(x > 0) := by omega
-          simp only [hnotx, hx_neg, hy_pos, h_ax0, Bool.false_eq_true, ↓reduceIte]
-          rw [project_engaged_crown .neg .pos (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          exact ⟨neg_ofNat_natAbs_neg x hx_neg, ofNat_natAbs_pos y hy_pos⟩
-        · have hax : x.natAbs ≥ 1 := by omega
-          have hay : y.natAbs ≥ 1 := by omega
-          have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
-            simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
-          have hnotx : ¬(x > 0) := by omega
-          have hnoty : ¬(y > 0) := by omega
-          simp only [hnotx, hx_neg, hnoty, hy_neg, h_ax0, Bool.false_eq_true, ↓reduceIte]
-          rw [project_engaged_crown .neg .neg (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          exact ⟨neg_ofNat_natAbs_neg x hx_neg, neg_ofNat_natAbs_neg y hy_neg⟩
-        · subst hy_zero
-          have hnotx : ¬(x > 0) := by omega
-          simp only [hnotx, hx_neg, Int.lt_irrefl, Int.natAbs_zero,
-            beq_self_eq_true, Bool.or_true, ↓reduceIte]
-          rw [project_engaged_crown .neg .zero (Nat.succ (Nat.succ d) - 2) 1 1 rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          have hxr : 2 * d + 2 = x.natAbs := by omega
-          simp only [CoreAffectPoint.mk.injEq, and_true]
-          rw [hxr]
-          exact neg_ofNat_natAbs_neg x hx_neg
-        · subst hx_zero
-          simp only [Int.lt_irrefl, hy_pos, Int.natAbs_zero,
-            beq_self_eq_true, Bool.true_or, ↓reduceIte]
-          rw [project_engaged_crown .zero .pos (Nat.succ (Nat.succ d) - 2) 1 1 rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          have hyr : 2 * d + 2 = y.natAbs := by omega
-          simp only [CoreAffectPoint.mk.injEq, true_and, and_true]
-          rw [hyr]
-          exact ofNat_natAbs_pos y hy_pos
-        · subst hx_zero
-          have hnoty : ¬(y > 0) := by omega
-          simp only [Int.lt_irrefl, hnoty, hy_neg, Int.natAbs_zero,
-            beq_self_eq_true, Bool.true_or, ↓reduceIte]
-          rw [project_engaged_crown .zero .neg (Nat.succ (Nat.succ d) - 2) 1 1 rfl, hd]
-          unfold deployCouplingWithPrecision signedAmplitude
-          have hyr : 2 * d + 2 = y.natAbs := by omega
-          simp only [CoreAffectPoint.mk.injEq, true_and, and_true]
-          rw [hyr]
-          exact neg_ofNat_natAbs_neg y hy_neg
-        · subst hx_zero hy_zero
-          exact absurd rfl hxy_nz
+      | succ n =>
+        cases n with
+        | zero => omega
+        | succ d =>
+          have hsum' : x.natAbs + y.natAbs = 2 * d + 2 := by
+            dsimp [crownRadius] at hsum
+            exact hsum
+          have hxy_nz : ¬(x == 0 && y == 0) = true := by
+            intro h0
+            simp only [Bool.and_eq_true, beq_iff_eq] at h0
+            omega
+          have hxy_f : (x == 0 && y == 0) = false := Bool.eq_false_iff.mpr hxy_nz
+          unfold witnessEngineForPoint
+          dsimp only
+          rw [hxy_f]
+          simp only [Bool.false_eq_true, ↓reduceIte]
+          have hd : Nat.succ (Nat.succ d) - 2 = d := rfl
+          rcases (by omega : x > 0 ∨ x < 0 ∨ x = 0) with hx_pos | hx_neg | hx_zero <;>
+          rcases (by omega : y > 0 ∨ y < 0 ∨ y = 0) with hy_pos | hy_neg | hy_zero
+          · have hax : x.natAbs ≥ 1 := by omega
+            have hay : y.natAbs ≥ 1 := by omega
+            have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
+              simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
+            simp only [hx_pos, hy_pos, h_ax0, Bool.false_eq_true, ↓reduceIte]
+            rw [project_engaged_crown .pos .pos (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            exact ⟨ofNat_natAbs_pos x hx_pos, ofNat_natAbs_pos y hy_pos⟩
+          · have hax : x.natAbs ≥ 1 := by omega
+            have hay : y.natAbs ≥ 1 := by omega
+            have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
+              simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
+            have hnoty : ¬(y > 0) := by omega
+            simp only [hx_pos, hnoty, hy_neg, h_ax0, Bool.false_eq_true, ↓reduceIte]
+            rw [project_engaged_crown .pos .neg (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            exact ⟨ofNat_natAbs_pos x hx_pos, neg_ofNat_natAbs_neg y hy_neg⟩
+          · subst hy_zero
+            simp only [hx_pos, Int.lt_irrefl, Int.natAbs_zero,
+              beq_self_eq_true, Bool.or_true, ↓reduceIte]
+            rw [project_engaged_crown .pos .zero (Nat.succ (Nat.succ d) - 2) 1 1 a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            have hxr : 2 * d + 2 = x.natAbs := by omega
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            rw [hxr]
+            exact ofNat_natAbs_pos x hx_pos
+          · have hax : x.natAbs ≥ 1 := by omega
+            have hay : y.natAbs ≥ 1 := by omega
+            have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
+              simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
+            have hnotx : ¬(x > 0) := by omega
+            simp only [hnotx, hx_neg, hy_pos, h_ax0, Bool.false_eq_true, ↓reduceIte]
+            rw [project_engaged_crown .neg .pos (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            exact ⟨neg_ofNat_natAbs_neg x hx_neg, ofNat_natAbs_pos y hy_pos⟩
+          · have hax : x.natAbs ≥ 1 := by omega
+            have hay : y.natAbs ≥ 1 := by omega
+            have h_ax0 : (x.natAbs == 0 || y.natAbs == 0) = false := by
+              simp [Nat.ne_of_gt hax, Nat.ne_of_gt hay]
+            have hnotx : ¬(x > 0) := by omega
+            have hnoty : ¬(y > 0) := by omega
+            simp only [hnotx, hx_neg, hnoty, hy_neg, h_ax0, Bool.false_eq_true, ↓reduceIte]
+            rw [project_engaged_crown .neg .neg (Nat.succ (Nat.succ d) - 2) x.natAbs y.natAbs a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            rw [apportionRay_exact d x.natAbs y.natAbs hax hay hsum']
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            exact ⟨neg_ofNat_natAbs_neg x hx_neg, neg_ofNat_natAbs_neg y hy_neg⟩
+          · subst hy_zero
+            have hnotx : ¬(x > 0) := by omega
+            simp only [hnotx, hx_neg, Int.lt_irrefl, Int.natAbs_zero,
+              beq_self_eq_true, Bool.or_true, ↓reduceIte]
+            rw [project_engaged_crown .neg .zero (Nat.succ (Nat.succ d) - 2) 1 1 a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            have hxr : 2 * d + 2 = x.natAbs := by omega
+            simp only [CoreAffectPoint.mk.injEq, and_true]
+            rw [hxr]
+            exact neg_ofNat_natAbs_neg x hx_neg
+          · subst hx_zero
+            simp only [Int.lt_irrefl, hy_pos, Int.natAbs_zero,
+              beq_self_eq_true, Bool.true_or, ↓reduceIte]
+            rw [project_engaged_crown .zero .pos (Nat.succ (Nat.succ d) - 2) 1 1 a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            have hyr : 2 * d + 2 = y.natAbs := by omega
+            simp only [CoreAffectPoint.mk.injEq, true_and, and_true]
+            rw [hyr]
+            exact ofNat_natAbs_pos y hy_pos
+          · subst hx_zero
+            have hnoty : ¬(y > 0) := by omega
+            simp only [Int.lt_irrefl, hnoty, hy_neg, Int.natAbs_zero,
+              beq_self_eq_true, Bool.true_or, ↓reduceIte]
+            rw [project_engaged_crown .zero .neg (Nat.succ (Nat.succ d) - 2) 1 1 a rfl, hd]
+            unfold deployCouplingWithPrecision signedAmplitude
+            have hyr : 2 * d + 2 = y.natAbs := by omega
+            simp only [CoreAffectPoint.mk.injEq, true_and, and_true]
+            rw [hyr]
+            exact neg_ofNat_natAbs_neg y hy_neg
+          · subst hx_zero hy_zero
+            exact absurd rfl hxy_nz
+  · unfold witnessEngineForPoint
+    split
+    · cases p.z with
+      | zero => rfl
+      | succ n => cases n <;> rfl
+    · rfl
 
 private theorem deployCouplingWithPrecision_nonneutral_crown (c : EngineCoupling)
     (h_non_neut : c.isGlobalNeutrality = false) (d piA piC : Nat) :
@@ -1249,9 +1262,10 @@ theorem dissipation_strictly_decreases (p : CoreAffectPoint) (h : p ≠ ⟨0, 0,
       | succ m =>
         cases m <;> (dsimp; omega)
 
-/-- Vérification exacte du saut de potentiel `ΔV = -4` sur le palier court-circuité `Z = 2 → 0`. -/
+/-- Vérification exacte (sur `ℤ`, sans soustraction tronquée) du saut de potentiel `ΔV = 4` sur `Z = 2 → 0`. -/
 theorem dissipationPotential_short_circuit_jump :
-    dissipationPotential ⟨0, 0, 2⟩ - dissipationPotential (dissipationStep ⟨0, 0, 2⟩) = 4 := rfl
+    (dissipationPotential ⟨0, 0, 2⟩ : Int) -
+      (dissipationPotential (dissipationStep ⟨0, 0, 2⟩) : Int) = 4 := rfl
 
 private theorem repeat_succ_apply {α : Type} (f : α → α) (n : Nat) (a : α) :
     Nat.repeat f (n + 1) a = Nat.repeat f n (f a) := by
