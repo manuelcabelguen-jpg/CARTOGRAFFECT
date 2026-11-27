@@ -245,15 +245,23 @@ def allCouplings : List EngineCoupling := [
 
 -- Source : Document 1, §4 (Le Moteur prédictif) & §7 (Boucle d'inférence active)
 /--
-État global du Moteur prédictif réunissant la grandeur d'entrée (écart de prédiction)
-et les trois interfaces fonctionnelles (Perceptive, Subjective et Attentionnelle).
+État global du Moteur prédictif réunissant la grandeur d'entrée (écart de prédiction),
+les trois interfaces fonctionnelles (Perceptive, Subjective et Attentionnelle) et le canal
+d'activation autonome `autonomousActivation` (`A ≥ 0`, mobilisation physiologique / allostatique
+indépendante des coordonnées `(X, Y)`, Option 1A).
 -/
 structure PredictiveEngineState where
-  discrepancy : SalientDiscrepancy
-  perceptive  : PerceptiveInterface
-  subjective  : SubjectiveInterface
-  attentional : AttentionalInterface
+  discrepancy          : SalientDiscrepancy
+  perceptive           : PerceptiveInterface
+  subjective           : SubjectiveInterface
+  attentional          : AttentionalInterface
+  autonomousActivation : Nat := 0
   deriving Repr, Inhabited
+
+/-- Met à jour le canal d'activation autonome `a ≥ 0` indépendamment des gradients `(A, C)`. -/
+def PredictiveEngineState.withAutonomousActivation
+    (s : PredictiveEngineState) (a : Nat) : PredictiveEngineState :=
+  { s with autonomousActivation := a }
 
 -- Source : Document 1, §4 (Le Moteur prédictif)
 /-- Extrait le couplage (A, C) courant produit par les Interfaces Subjective et Perceptive. -/
@@ -320,9 +328,10 @@ def engineStep (s : PredictiveEngineState) : PredictiveEngineState :=
       s
     else
       { s with
-        perceptive  := { controleGradient := .zero }
-        subjective  := { attenteGradient := .zero, descendingSuspension := false }
-        attentional := { s.attentional with allocatedPrecision := 0, persistenceDepth := 0 } }
+        perceptive           := { controleGradient := .zero }
+        subjective           := { attenteGradient := .zero, descendingSuspension := false }
+        attentional          := { s.attentional with allocatedPrecision := 0, persistenceDepth := 0 }
+        autonomousActivation := 0 }
   else if c.isGlobalNeutrality then
     { s with perceptive := { controleGradient := .pos } }
   else if !s.subjective.descendingSuspension && !s.attentional.isEngaged then

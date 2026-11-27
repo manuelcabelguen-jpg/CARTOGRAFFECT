@@ -805,13 +805,37 @@ private theorem effectiveEpsScaled_zero (M : Nat) (b : Bool) :
   unfold effectiveEpsScaled
   split <;> simp
 
-/--
-Loi exacte de conservation de la dérive de Lyapunov (résolution active pure `deltaA = deltaC = 0`) :
-sous paramètres symétriques `r` en régime libre (`epsilon = 0, chi = 0`), la perte moyenne d'énergie
-libre par cycle vaut exactement `r / scale` sur tout état actif (`4 * scale ^ 5 * r` sur le
-dénominateur `4 * scale ^ 6`), que l'état soit axial ou mixte (conséquence du goulot `L1`).
--/
-theorem lyapunov_expected_drift_constant (p : CircuitKernelParams) (r : Nat)
+private theorem natCast_add_eq (a b : Nat) : (a : Int) + (b : Int) = ((a + b : Nat) : Int) := rfl
+
+private theorem natCast_mul_eq (a b : Nat) : (a : Int) * (b : Int) = ((a * b : Nat) : Int) := rfl
+
+private theorem natCast_pow5_eq (M : Nat) : ((M ^ 5 : Nat) : Int) = (M : Int) ^ 5 := by
+  have hpN : M ^ 5 = M * M * M * M * M := by simp [Nat.pow_succ]
+  have hpI : (M : Int) ^ 5 = (M : Int) * (M : Int) * (M : Int) * (M : Int) * (M : Int) := by
+    simp [Int.pow_succ]
+  rw [hpN, hpI]
+  rfl
+
+private theorem nat_to_int_drift_term (w vSrc vDst : Nat) (h : w > 0 → vDst ≤ vSrc) :
+    (w : Int) * ((vSrc : Int) - (vDst : Int)) = ↑(w * (vSrc - vDst)) := by
+  cases w with
+  | zero => simp
+  | succ k =>
+    have hle : vDst ≤ vSrc := h (Nat.zero_lt_succ k)
+    have hsub : (vSrc : Int) - (vDst : Int) = ((vSrc - vDst : Nat) : Int) := by omega
+    rw [hsub, natCast_mul_eq]
+
+private theorem foldl_int_eq_of_nat {α : Type} (l : List α) (fI : α → Int) (fN : α → Nat)
+    (acc : Nat) (h : ∀ x ∈ l, fI x = ↑(fN x)) :
+    (l.map fI).foldl (· + ·) (acc : Int) = ↑((l.map fN).foldl (· + ·) acc) := by
+  induction l generalizing acc with
+  | nil => rfl
+  | cons x xs ih =>
+    simp only [List.map_cons, List.foldl_cons]
+    rw [h x (List.Mem.head xs), natCast_add_eq]
+    exact ih (acc + fN x) (fun y hy => h y (List.Mem.tail x hy))
+
+private theorem lyapunov_expected_drift_constant_nat (p : CircuitKernelParams) (r : Nat)
     (h_eps : p.epsilon = 0) (h_chi : p.chi = 0)
     (h_da : p.deltaA = 0) (h_dc : p.deltaC = 0)
     (h_rho : p.rho = r) (h_kap : p.kappa = r) (h_ga : p.gammaA = r) (h_gc : p.gammaC = r)
@@ -841,12 +865,30 @@ theorem lyapunov_expected_drift_constant (p : CircuitKernelParams) (r : Nat)
            | (rw [← hmix]; omega))
 
 /--
-Axe (i) — Effet de l'extinction passive `deltaA` sur la perte apparente d'énergie libre :
-en régime libre (`epsilon = 0, chi = 0`) depuis la Charge épistémique pure `(A-, C0)`, la dérive
-vaut exactement `4 * scale ^ 5 * (rho + 2 * deltaA)`, car `Charge -> Neutre` fait chuter `V`
-de 2 unités d'un coup (pseudo-veille sans consolidation par Décharge).
+Loi exacte de conservation de la dérive de Lyapunov sur `ℤ` (sans soustraction tronquée `Nat`,
+résolution active pure `deltaA = deltaC = 0`) :
+sous paramètres symétriques `r` en régime libre (`epsilon = 0, chi = 0`), la perte moyenne signée
+d'énergie par cycle vaut exactement `4 * scale ^ 5 * r` (sur le dénominateur `4 * scale ^ 6`),
+que l'état actif soit axial ou mixte (conséquence du goulot `L1`).
 -/
-theorem lyapunov_drift_charge_with_passive_extinction (p : CircuitKernelParams)
+theorem lyapunov_expected_drift_constant (p : CircuitKernelParams) (r : Nat)
+    (h_eps : p.epsilon = 0) (h_chi : p.chi = 0)
+    (h_da : p.deltaA = 0) (h_dc : p.deltaC = 0)
+    (h_rho : p.rho = r) (h_kap : p.kappa = r) (h_ga : p.gammaA = r) (h_gc : p.gammaC = r)
+    (src : EngineCoupling) (h_act : src.isGlobalNeutrality = false) :
+    (allCouplings.map (fun dst =>
+      (circuitWeight p src dst : Int) *
+        ((lyapunovPotential src : Int) - (lyapunovPotential dst : Int)))).foldl (· + ·) (0 : Int) =
+      (4 * p.scale ^ 5 * r : Int) := by
+  have h0 : (0 : Int) = ((0 : Nat) : Int) := rfl
+  rw [h0, foldl_int_eq_of_nat allCouplings _ _ 0 (fun dst _ =>
+    nat_to_int_drift_term _ _ _ (lyapunov_monotone_free p h_eps h_chi src dst))]
+  have heq := lyapunov_expected_drift_constant_nat p r h_eps h_chi h_da h_dc h_rho h_kap h_ga h_gc src h_act
+  rw [heq]
+  have h4 : (4 : Int) = ((4 : Nat) : Int) := rfl
+  rw [h4, ← natCast_pow5_eq p.scale, natCast_mul_eq, natCast_mul_eq]
+
+private theorem lyapunov_drift_charge_with_passive_extinction_nat (p : CircuitKernelParams)
     (h_eps : p.epsilon = 0) (h_chi : p.chi = 0) :
     (allCouplings.map (fun dst =>
       circuitWeight p ⟨.neg, .zero⟩ dst *
@@ -871,6 +913,27 @@ theorem lyapunov_drift_charge_with_passive_extinction (p : CircuitKernelParams)
   omega
 
 /--
+Axe (i) — Effet de l'extinction passive `deltaA` sur la perte signée d'énergie sur `ℤ` :
+en régime libre (`epsilon = 0, chi = 0`) depuis la Charge épistémique pure `(A-, C0)`, la dérive
+signée vaut exactement `4 * scale ^ 5 * (rho + 2 * deltaA)`, car `Charge -> Neutre` fait chuter `V`
+de 2 unités d'un coup (pseudo-veille sans consolidation par Décharge).
+-/
+theorem lyapunov_drift_charge_with_passive_extinction (p : CircuitKernelParams)
+    (h_eps : p.epsilon = 0) (h_chi : p.chi = 0) :
+    (allCouplings.map (fun dst =>
+      (circuitWeight p ⟨.neg, .zero⟩ dst : Int) *
+        ((lyapunovPotential ⟨.neg, .zero⟩ : Int) - (lyapunovPotential dst : Int)))).foldl (· + ·) (0 : Int) =
+      (4 * p.scale ^ 5 * (p.rho + 2 * p.deltaA) : Int) := by
+  have h0 : (0 : Int) = ((0 : Nat) : Int) := rfl
+  rw [h0, foldl_int_eq_of_nat allCouplings _ _ 0 (fun dst _ =>
+    nat_to_int_drift_term _ _ _ (lyapunov_monotone_free p h_eps h_chi ⟨.neg, .zero⟩ dst))]
+  have heq := lyapunov_drift_charge_with_passive_extinction_nat p h_eps h_chi
+  rw [heq]
+  have h4 : (4 : Int) = ((4 : Nat) : Int) := rfl
+  have h2 : (2 : Int) = ((2 : Nat) : Int) := rfl
+  rw [h4, h2, ← natCast_pow5_eq p.scale, natCast_mul_eq, natCast_mul_eq, natCast_add_eq, natCast_mul_eq]
+
+/--
 Axe (ii) — Indépendance logique P1 sans P2 : lorsque `chi = 0`, la surprise effective d'une boucle
 vaut uniformément `M * eps`, strictement indépendante de l'état de Charge de l'autre boucle.
 -/
@@ -880,9 +943,11 @@ theorem p1_without_p2_eps_independent (M eps : Nat) (otherCharged : Bool) :
   cases otherCharged <;> simp
 
 /--
-Bifurcation axiale → diagonale (Prédiction P2) : depuis la `Peur (-2, 0)` (`(A-, C0)`),
-le couplage croisé `chi > 0` porté par la Charge épistémique `A-` autorise directement la bascule
-vers la `Colère (-1, +1)` (`(A-, C+)`) et vers le `Dégoût (-1, -1)` (`(A-, C-)`).
+Bifurcation axiale → diagonale en Charge négative (Prédiction P2, Option 3b) :
+1. Depuis la `Peur (-2, 0)` (`(A-, C0)`), `chi > 0` induit la bascule vers `Colère (-1, +1)` et `Dégoût (-1, -1)` ;
+2. Depuis la `Tristesse (0, -2)` (`(A0, C-)`), `chi > 0` induit la bascule vers `Calme (+1, -1)` et `Dégoût (-1, -1)` ;
+3. À bruit exogène nul (`epsilon = 0`), les 2 pôles en Décharge positive (`Courage (A+, C0)` et `Joie (A0, C+)`)
+   ne subissent aucune contagion croisée vers les diagonales (`circuitWeight = 0`) quel que soit `chi`.
 -/
 theorem axial_peur_bifurcates_p2 (p : CircuitKernelParams)
     (h_chi : p.chi > 0) (h_q_pos : p.qPosC > 0) (h_q_lt : p.qPosC < p.scale)
@@ -908,6 +973,46 @@ theorem axial_peur_bifurcates_p2 (p : CircuitKernelParams)
   refine ⟨?_, ?_⟩
   · exact Nat.mul_pos (Nat.mul_pos hMM h_sub) (Nat.mul_pos (Nat.mul_pos (by decide) h_e2) h_q_pos)
   · exact Nat.mul_pos (Nat.mul_pos hMM h_sub) (Nat.mul_pos (Nat.mul_pos (by decide) h_e2) h_qsub)
+
+/--
+Second volet de P2 (Option 3b) et brisure de symétrie Charge / Décharge sur le noyau 9×9 :
+la `Tristesse (A0, C-)` bifurque vers `Calme (A+, C-)` et `Dégoût (A-, C-)` sous `chi > 0`,
+tandis qu'à `epsilon = 0`, `Courage (A+, C0)` et `Joie (A0, C+)` ont un poids nul vers leurs
+diagonales adjacentes quel que soit `chi`.
+-/
+theorem axial_tristesse_and_discharge_asymmetry_p2 (p : CircuitKernelParams)
+    (h_chi : p.chi > 0) (h_qa_pos : p.qPosA > 0) (h_qa_lt : p.qPosA < p.scale)
+    (h_stay_c : p.kappa + p.deltaC < p.scale) :
+    (circuitWeight p ⟨.zero, .neg⟩ ⟨.pos, .neg⟩ > 0 ∧
+     circuitWeight p ⟨.zero, .neg⟩ ⟨.neg, .neg⟩ > 0) ∧
+    (p.epsilon = 0 →
+      circuitWeight p ⟨.pos, .zero⟩ ⟨.pos, .pos⟩ = 0 ∧
+      circuitWeight p ⟨.pos, .zero⟩ ⟨.pos, .neg⟩ = 0 ∧
+      circuitWeight p ⟨.zero, .pos⟩ ⟨.pos, .pos⟩ = 0 ∧
+      circuitWeight p ⟨.zero, .pos⟩ ⟨.neg, .pos⟩ = 0) := by
+  have hM := p.h_scale_pos
+  have hMM : p.scale * p.scale > 0 := Nat.mul_pos hM hM
+  have h_e2 : effectiveEpsScaled p.scale p.epsilon p.chi true > 0 := by
+    unfold effectiveEpsScaled
+    dsimp
+    by_cases he : p.epsilon = p.scale
+    · rw [he]; omega
+    · have hme : p.scale - p.epsilon > 0 := by have := p.h_eps_le; omega
+      have hcp : p.chi * (p.scale - p.epsilon) > 0 := Nat.mul_pos h_chi hme
+      omega
+  have h_sub : 2 * p.scale - 2 * p.kappa - 2 * p.deltaC > 0 := by omega
+  have h_qsub : p.scale - p.qPosA > 0 := by omega
+  refine ⟨⟨?_, ?_⟩, ?_⟩
+  · unfold circuitWeight marginalWeight attentionalWeightX2 attentionalWeightY2
+    dsimp [phiL1, isCharged]
+    exact Nat.mul_pos (Nat.mul_pos (Nat.mul_pos (by decide) h_e2) h_qa_pos) (Nat.mul_pos hMM h_sub)
+  · unfold circuitWeight marginalWeight attentionalWeightX2 attentionalWeightY2
+    dsimp [phiL1, isCharged]
+    exact Nat.mul_pos (Nat.mul_pos (Nat.mul_pos (by decide) h_e2) h_qsub) (Nat.mul_pos hMM h_sub)
+  · intro h_eps0
+    unfold circuitWeight marginalWeight effectiveEpsScaled
+    dsimp [isCharged]
+    simp [h_eps0]
 
 /-- Apériodicité du régime ergodique : tant que `epsilon < scale`, la Veille possède une boucle de séjour > 0. -/
 theorem veille_self_loop_ergodic (p : CircuitKernelParams) (h_lt : p.epsilon < p.scale) :
@@ -1372,7 +1477,7 @@ structure UnifiedDynamicsParams where
   h_zmax_ge2  : zMax ≥ 2
   h_hyst      : ∀ z, thetaDown z < thetaUp z
 
-/-- Paramétrisation canonique de la loi unifiée (échelle normalisée `S = 1000`, `Z_max = 7`). -/
+/-- Paramétrisation canonique de la loi unifiée (échelle normalisée `S = 1000`, horizon discret `Z_max = 5`, Arbitrage 4). -/
 instance : Inhabited UnifiedDynamicsParams where
   default := {
     halfScale   := 500
@@ -1381,7 +1486,7 @@ instance : Inhabited UnifiedDynamicsParams where
     betaAtt     := 2
     alphaCharge := 50
     sigmoidK    := 100
-    zMax        := 7
+    zMax        := 5
     thetaUp     := fun z => 600 + 200 * z
     thetaDown   := fun z => 300 + 200 * z
     h_half_pos  := by decide
@@ -1422,17 +1527,25 @@ theorem passive_extinction_zero_relief :
   decide
 
 /--
-À précision et charge égales, la résolution active `(A-, C0) -> (A+, C0)` réduit strictement
-davantage `R_{t+1}` que l'extinction passive `(A-, C0) -> (A0, C0)` dès que `etaScaled > 0`
-et que l'accumulateur avant apaisement est strictement positif (pseudo-veille évitée).
+À précision `(piAScaled, piCScaled)` et état source `src` quelconques, toute transition de résolution
+active (`activeResolutionCount src dstAct > 0`) réduit strictement davantage l'accumulateur `R_{t+1}`
+qu'une transition sans résolution active (`activeResolutionCount src dstPass = 0`, dont l'extinction
+passive) dès que `etaScaled > 0` et que l'accumulateur avant apaisement est strictement positif.
 -/
 theorem active_resolution_beats_passive_extinction (p : UnifiedDynamicsParams)
-    (r piAScaled piCScaled : Nat) (h_eta : p.etaScaled > 0)
-    (h_pos : (p.lambdaNum * r) / (2 * p.halfScale) + piAScaled > 0) :
-    nextChargeAccumulator p r piAScaled piCScaled ⟨.neg, .zero⟩ ⟨.pos, .zero⟩ <
-    nextChargeAccumulator p r piAScaled piCScaled ⟨.neg, .zero⟩ ⟨.zero, .zero⟩ := by
-  unfold nextChargeAccumulator activeResolutionCount
-  dsimp
+    (r piAScaled piCScaled : Nat) (src dstAct dstPass : EngineCoupling)
+    (h_eta : p.etaScaled > 0)
+    (h_act : activeResolutionCount src dstAct > 0)
+    (h_pass : activeResolutionCount src dstPass = 0)
+    (h_pos : (p.lambdaNum * r) / (2 * p.halfScale) +
+      (if src.attente == .neg then piAScaled else 0) +
+      (if src.controle == .neg then piCScaled else 0) > 0) :
+    nextChargeAccumulator p r piAScaled piCScaled src dstAct <
+    nextChargeAccumulator p r piAScaled piCScaled src dstPass := by
+  unfold nextChargeAccumulator
+  dsimp only
+  rw [h_pass, Nat.mul_zero, Nat.sub_zero]
+  have h_rel_pos : p.etaScaled * activeResolutionCount src dstAct > 0 := Nat.mul_pos h_eta h_act
   omega
 
 /--
@@ -1671,11 +1784,11 @@ theorem projectUnifiedState_crown_budget (p : UnifiedDynamicsParams) (c : Engine
       omega
 
 /--
-Témoin constructif d'accessibilité latérale (R8) par la loi unifiée :
-en `Colère (A-, C+)` à `Z = 3`, lorsque l'efficacité pragmatique domine l'efficacité épistémique
-(`rhoHat = 10`, `kappaHat = 90`), le partage logistique place exactement l'agent sur **Consternation `(-1, 3, 3)`**.
+Témoin d'accessibilité latérale (R8 & Option 1A) par la loi unifiée :
+en couplage `(A-, C+)` à `Z = 3`, lorsque l'efficacité pragmatique domine l'efficacité épistémique
+(`rhoHat = 10`, `kappaHat = 90`), le partage logistique projette l'agent en `(-1, 3, 3)` (affrontement agentique latéral).
 -/
-theorem projectUnifiedState_reaches_lateral_consternation :
+theorem projectUnifiedState_reaches_lateral_agentic_confront :
     (projectUnifiedState (default : UnifiedDynamicsParams) ⟨.neg, .pos⟩ 3 10 90 true).point =
       ⟨-1, 3, 3⟩ := by
   decide

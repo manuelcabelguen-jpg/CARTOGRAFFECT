@@ -17,37 +17,31 @@ open CoreAffect
 open AffectiveMatrix
 
 /-!
-## 1. Catégories de strates (Profondeur Z) et Groupes taxonomiques d'orientation
+## 1. Régimes discrets de profondeur (`⌊Z⌋`) et Groupes fonctionnels d'orientation (Option 1A)
 -/
 
--- Source : Document 1, §2 & §7.2 (Les cinq couches et extensions Z=6, Z=7)
--- Source : Document 2, §1, §3 & §5 (Répertoire systématique des strates Z = 0 à Z = 7)
+-- Source : Document 1, §7.2 & DECISIONS_V3 (Arbitrage 4 : Z continu 0..5, discrétisation canonique Z ∈ {0, 1, 2})
 /--
-Strates hiérarchiques de la Taxonomie affective indexées sur l'Axe Z :
-- `z0_pointDeVeille`           (Z = 0) : Maintien homéostatique basal (Origine).
-- `z1_saillancePerceptive`     (Z = 1) : Rupture de veille sous l'effet de la Surprise.
-- `z2_affectsPrimaires`        (Z = 2) : Affects primaires et prototypes fondamentaux (autour de l'Anticipation).
-- `z3_emotionsReactives`       (Z = 3) : Émotions réactives rattachées à une cause inférée (autour de l'Émoi).
-- `z4_sentimentsReflexifs`     (Z = 4) : Sentiments réflexifs et états relationnels (autour de la Réserve).
-- `z5_orientationsDurables`    (Z = 5) : Dispositions, orientations durables et humeurs (autour du Recul).
-- `z6_identitesAffectives`     (Z = 6) : Identités affectives (autour du Saisissement).
-- `z7_sentimentsTranscendants` (Z = 7) : Sentiments transcendantaux (autour de la Suspension).
-- `zDeepProlongation`          (Z ≥ 8) : Prolongement géométrique ouvert au-delà de la 7e strate (§7.2).
+Abstraction par régimes discrets de la profondeur hiérarchique continue `Z` :
+- `z0_pointDeVeille`        (`⌊Z⌋ = 0`) : Maintien homéostatique basal (discrétisation canonique).
+- `z1_saillancePerceptive`  (`⌊Z⌋ = 1`) : Rupture de veille sous la Surprise (discrétisation canonique).
+- `z2_affectsPrimaires`     (`⌊Z⌋ = 2`) : Couronne des 8 prototypes affectifs primaires (discrétisation canonique).
+- `z3_emotionsReactives`    (`⌊Z⌋ = 3`) : Émotions réactives rattachées à une cause inférée (régime continu, repères illustratifs).
+- `z4_sentimentsReflexifs`  (`⌊Z⌋ = 4`) : Sentiments réflexifs et états relationnels (régime continu, repères illustratifs).
+- `z5_orientationsDurables` (`⌊Z⌋ = 5`) : Dispositions durables et humeurs (régime continu, repères illustratifs).
+- `zExploratoryExtension`   (`⌊Z⌋ ≥ 6`) : Prolongement géométrique exploratoire hors cœur normatif v3.0 (Annexe A).
 -/
 inductive TaxonomicStratum : Type where
-  | z0_pointDeVeille           : TaxonomicStratum
-  | z1_saillancePerceptive     : TaxonomicStratum
-  | z2_affectsPrimaires        : TaxonomicStratum
-  | z3_emotionsReactives       : TaxonomicStratum
-  | z4_sentimentsReflexifs     : TaxonomicStratum
-  | z5_orientationsDurables    : TaxonomicStratum
-  | z6_identitesAffectives     : TaxonomicStratum
-  | z7_sentimentsTranscendants : TaxonomicStratum
-  | zDeepProlongation          : Nat → TaxonomicStratum
+  | z0_pointDeVeille        : TaxonomicStratum
+  | z1_saillancePerceptive  : TaxonomicStratum
+  | z2_affectsPrimaires     : TaxonomicStratum
+  | z3_emotionsReactives    : TaxonomicStratum
+  | z4_sentimentsReflexifs  : TaxonomicStratum
+  | z5_orientationsDurables : TaxonomicStratum
+  | zExploratoryExtension   : Nat → TaxonomicStratum
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 1, §7.2 & Document 2, §3 & §5
-/-- Projection de la coordonnée verticale Z vers sa strate taxonomique. -/
+/-- Projection du régime discret `z = ⌊Z⌋` vers sa strate taxonomique. -/
 def classifyStratum : Nat → TaxonomicStratum
   | 0     => .z0_pointDeVeille
   | 1     => .z1_saillancePerceptive
@@ -55,182 +49,178 @@ def classifyStratum : Nat → TaxonomicStratum
   | 3     => .z3_emotionsReactives
   | 4     => .z4_sentimentsReflexifs
   | 5     => .z5_orientationsDurables
-  | 6     => .z6_identitesAffectives
-  | 7     => .z7_sentimentsTranscendants
-  | d + 8 => .zDeepProlongation (d + 8)
+  | d + 6 => .zExploratoryExtension (d + 6)
 
--- Source : Document 2, §2 (Typologie géométrique et groupes d'orientation) & §3 (Répertoire)
+-- Source : DECISIONS_V3 (Option 1A — Nomenclature fonctionnelle neutre sans rattachement hédonique croisé)
 /--
-Les 9 groupes structurels d'orientation de la Taxonomie affective :
-- `operateurCentral` : Point de Veille (Z = 0) et opérateurs centraux (0, 0, Z).
-- 4 groupes sectoriels (positions axiales et latérales où un axe domine en valeur absolue) :
-  `groupeJoie` (Y+ dominant), `groupeTristesse` (Y- dominant),
-  `groupePeur` (X- dominant), `groupeCourage` (X+ dominant).
-- 4 groupes diagonaux (positions diagonales où `|X| = |Y| > 0`) :
-  `groupeDesir` (X+, Y+), `groupeDegout` (X-, Y-),
-  `groupeColere` (X-, Y+), `groupeCalme` (X+, Y-).
+Les 9 macro-groupes fonctionnels d'orientation de l'espace `(X, Y)` (Option 1A) :
+- `centralOperator` : Point de Veille `(0, 0, 0)` et opérateurs centraux `(0, 0, Z)`.
+- 4 groupes sectoriels définis par l'axe dominant et son signe (sans assimilation de `(-X, +Y)` à la joie ni de `(+X, -Y)` à la tristesse) :
+  `sectorControlPos` (`|Y| > |X|, Y > 0`), `sectorControlNeg` (`|Y| > |X|, Y < 0`),
+  `sectorExpectationNeg` (`|X| > |Y|, X < 0`), `sectorExpectationPos` (`|X| > |Y|, X > 0`).
+- 4 groupes diagonaux (`|X| = |Y| > 0`) :
+  `diagonalSynergyPos` (`X > 0, Y > 0`), `diagonalSynergyNeg` (`X < 0, Y < 0`),
+  `diagonalAgenticConfront` (`X < 0, Y > 0`), `diagonalAccommodation` (`X > 0, Y < 0`).
 -/
 inductive TaxonomicGroup : Type where
-  | operateurCentral : TaxonomicGroup
-  | groupeJoie       : TaxonomicGroup
-  | groupeTristesse  : TaxonomicGroup
-  | groupePeur       : TaxonomicGroup
-  | groupeCourage    : TaxonomicGroup
-  | groupeDesir      : TaxonomicGroup
-  | groupeDegout     : TaxonomicGroup
-  | groupeColere     : TaxonomicGroup
-  | groupeCalme      : TaxonomicGroup
+  | centralOperator         : TaxonomicGroup
+  | sectorControlPos        : TaxonomicGroup
+  | sectorControlNeg        : TaxonomicGroup
+  | sectorExpectationNeg    : TaxonomicGroup
+  | sectorExpectationPos    : TaxonomicGroup
+  | diagonalSynergyPos      : TaxonomicGroup
+  | diagonalSynergyNeg      : TaxonomicGroup
+  | diagonalAgenticConfront : TaxonomicGroup
+  | diagonalAccommodation   : TaxonomicGroup
   deriving DecidableEq, Repr, Inhabited
 
--- Source : Document 2, §2 & §3
 /--
 Prédicat formel d'appartenance d'une coordonnée `CoreAffectPoint` à chacun des 9 groupes
-taxonomiques, défini directement à partir des relations d'ordre et de dominance sur (X, Y).
+fonctionnels d'orientation, défini à partir des relations d'ordre et de dominance sur `(X, Y)`.
 -/
 def matchesTaxonomicGroup (p : CoreAffectPoint) : TaxonomicGroup → Prop
-  | .operateurCentral => p.x = 0 ∧ p.y = 0
-  | .groupeJoie       => p.y.natAbs > p.x.natAbs ∧ p.y > 0
-  | .groupeTristesse  => p.y.natAbs > p.x.natAbs ∧ p.y < 0
-  | .groupePeur       => p.x.natAbs > p.y.natAbs ∧ p.x < 0
-  | .groupeCourage    => p.x.natAbs > p.y.natAbs ∧ p.x > 0
-  | .groupeDesir      => p.x.natAbs = p.y.natAbs ∧ p.x > 0 ∧ p.y > 0
-  | .groupeDegout     => p.x.natAbs = p.y.natAbs ∧ p.x < 0 ∧ p.y < 0
-  | .groupeColere     => p.x.natAbs = p.y.natAbs ∧ p.x < 0 ∧ p.y > 0
-  | .groupeCalme      => p.x.natAbs = p.y.natAbs ∧ p.x > 0 ∧ p.y < 0
+  | .centralOperator         => p.x = 0 ∧ p.y = 0
+  | .sectorControlPos        => p.y.natAbs > p.x.natAbs ∧ p.y > 0
+  | .sectorControlNeg        => p.y.natAbs > p.x.natAbs ∧ p.y < 0
+  | .sectorExpectationNeg    => p.x.natAbs > p.y.natAbs ∧ p.x < 0
+  | .sectorExpectationPos    => p.x.natAbs > p.y.natAbs ∧ p.x > 0
+  | .diagonalSynergyPos      => p.x.natAbs = p.y.natAbs ∧ p.x > 0 ∧ p.y > 0
+  | .diagonalSynergyNeg      => p.x.natAbs = p.y.natAbs ∧ p.x < 0 ∧ p.y < 0
+  | .diagonalAgenticConfront => p.x.natAbs = p.y.natAbs ∧ p.x < 0 ∧ p.y > 0
+  | .diagonalAccommodation   => p.x.natAbs = p.y.natAbs ∧ p.x > 0 ∧ p.y < 0
 
--- Source : Document 2, §2 & §3
-/-- Fonction déterministe assignant à tout point de la Matrice son groupe taxonomique. -/
+/-- Fonction déterministe assignant à tout point de la Matrice son groupe d'orientation fonctionnel. -/
 def classifyTaxonomicGroup (p : CoreAffectPoint) : TaxonomicGroup :=
   if p.x = 0 ∧ p.y = 0 then
-    .operateurCentral
+    .centralOperator
   else if p.y.natAbs > p.x.natAbs then
-    if p.y > 0 then .groupeJoie else .groupeTristesse
+    if p.y > 0 then .sectorControlPos else .sectorControlNeg
   else if p.x.natAbs > p.y.natAbs then
-    if p.x < 0 then .groupePeur else .groupeCourage
+    if p.x < 0 then .sectorExpectationNeg else .sectorExpectationPos
   else if p.x > 0 then
-    if p.y > 0 then .groupeDesir else .groupeCalme
+    if p.y > 0 then .diagonalSynergyPos else .diagonalAccommodation
   else
-    if p.y > 0 then .groupeColere else .groupeDegout
+    if p.y > 0 then .diagonalAgenticConfront else .diagonalSynergyNeg
 
--- Source : Document 1, §6 & §7 ; Document 2, §2 & §3 (Affinement Orientation géométrique vs Valence)
-/-- Sous-secteurs fonctionnels affinant les groupes d'orientation géométrique
-    en croisant la dominance d'axe (|Y| > |X| vs |X| > |Y|) et la polarité hédonique (sgn X). -/
+-- Source : DECISIONS_V3 (Option 1A — Symétrie sémantique totale sur Y− et canal autonome indépendant A ≥ 0)
+/--
+Les 17 sous-secteurs fonctionnels affinant la partition de `(X, Y)` en croisant la dominance
+d'axe (`|Y| > |X|` vs `|X| > |Y|`) et la polarité de chaque coordonnée conformément à l'Option 1A :
+- `(X < 0, Y > 0)` est restreint à l'affrontement agentique (`diagonalAgenticConfront`,
+  `lateralAgenticConfront`, `lateralActiveContest` : Colère, Frustration, Hostilité, Révolte) ;
+- les états aversifs à faible contrôle perçu (`Angoisse`, `Terreur`, `Horreur`, `Détresse`)
+  résident en `(X < 0, Y < 0)` avec activation autonome `A` élevée (`lateralAversiveDistress`, `lateralEpistemicClosure`) ;
+- `(X > 0, Y < 0)` code exclusivement l'accommodation / contrôle secondaire face à une limite
+  objective d'action (`diagonalAccommodation`, `lateralSecondaryAccomm`, `lateralReceptiveAccomm` :
+  Calme adaptatif, Acceptation, Lâcher-prise), tandis que la sécurité/maîtrise apaisée
+  (`Sécurité`, `Plénitude`, `Sérénité` hors limite d'action) réside en `Y ≥ 0` avec `A` bas.
+-/
 inductive FunctionalSubsector where
-  | centralOperator          -- X = 0, Y = 0 (Opérateurs de suspens Z = 0..7)
-  | axialElan                -- X = 0, Y > 0 (Joie, Enthousiasme, Exaltation, Puissance, Élan, Infini)
-  | axialWithdrawal          -- X = 0, Y < 0 (Tristesse, Ennui, Langueur, Impuissance, Inertie, Néant)
-  | axialOpening             -- X > 0, Y = 0 (Courage, Curiosité, Assurance, Confiance, Affirmation, Communion)
-  | axialThreat              -- X < 0, Y = 0 (Peur, Crainte, Doute, Méfiance, Effacement, Déréliction)
-  | diagonalDesire           -- X = Y > 0 (Désir, Attrait, Estime, Intérêt, Triomphe, Sublimation)
-  | diagonalDisgust          -- X = Y < 0 (Dégoût, Retrait, Rejet, Désintérêt, Abattement, Dissolution)
-  | diagonalAnger            -- X = -Y < 0 (Colère, Exaspération, Frustration, Insatisfaction, Tourment, Rage)
-  | diagonalCalm             -- X = -Y > 0 (Calme, Détente, Acceptation, Satisfaction, Ataraxie, Impassibilité)
-  | lateralApproachSynergy   -- Y > |X|, X > 0 (Euphorie, Amour, Ferveur, Attachement, Allégresse, Transcendance...)
-  | lateralDefensiveUrgency  -- Y > |X|, X < 0 (Consternation, Haine, Envie, Fureur, Terreur, Horreur, Détresse...)
-  | lateralTrophotropicPeace -- Y < -|X|, X > 0 (Soulagement, Sérénité, Plénitude, Quiétude, Béatitude, Nirvana, Paix...)
-  | lateralAversiveDistress  -- Y < -|X|, X < 0 (Chagrin, Honte, Vide, Désespoir, Accablement, Prostration, Abîme...)
-  | lateralEpistemicMastery  -- X > |Y|, Y > 0 (Aplomb, Fierté, Épanouissement, Optimisme, Espoir, Extase...)
-  | lateralContemplativeOpen -- X > |Y|, Y < 0 (Émerveillement, Affection, Admiration, Tolérance, Équanimité, Épiphanie...)
-  | lateralVigilantAlert     -- X < -|Y|, Y > 0 (Panique, Anxiété, Manque, Inquiétude, Rancœur, Affolement, Sidération...)
-  | lateralEpistemicClosure  -- X < -|Y|, Y < 0 (Effroi, Mépris, Défiance, Vulnérabilité, Amertume, Mélancolie, Isolement...)
+  | centralOperator         -- X = 0, Y = 0 (Opérateurs centraux de suspens)
+  | axialControlPos         -- X = 0, Y > 0 (Contrôle positif pur ; Z=2 : Joie)
+  | axialControlNeg         -- X = 0, Y < 0 (Contrôle négatif pur ; Z=2 : Tristesse)
+  | axialExpectationPos     -- X > 0, Y = 0 (Attente positive pure ; Z=2 : Courage, Sécurité/Sérénité apaisée à A bas)
+  | axialExpectationNeg     -- X < 0, Y = 0 (Attente négative pure ; Z=2 : Peur)
+  | diagonalSynergyPos      -- X = Y > 0 (Z=2 : Désir, maîtrise instrumentale)
+  | diagonalSynergyNeg      -- X = Y < 0 (Z=2 : Dégoût, rejet aversif à faible contrôle)
+  | diagonalAgenticConfront -- X = -Y < 0 (Z=2 : Colère, Frustration — affrontement agentique équilibré)
+  | diagonalAccommodation   -- X = -Y > 0 (Z=2 : Calme adaptatif, Acceptation — accommodation face à une limite d'action)
+  | lateralApproachSynergy  -- Y > |X|, X > 0 (Engagement instrumental favorable ; Plénitude/Sécurité active à A bas)
+  | lateralAgenticConfront  -- Y > |X|, X < 0 (Affrontement agentique à contrôle dominant : Hostilité, Révolte)
+  | lateralSecondaryAccomm  -- Y < -|X|, X > 0 (Accommodation / contrôle secondaire à limite d'action dominante : Lâcher-prise)
+  | lateralAversiveDistress -- Y < -|X|, X < 0 (Faible contrôle aversif : Angoisse/Terreur/Horreur/Détresse [A haut], Désespoir/Résignation [A bas])
+  | lateralEpistemicMastery -- X > |Y|, Y > 0 (Ouverture épistémique maîtrisée : Aplomb, Fierté, Sérénité maîtrisée à A bas)
+  | lateralReceptiveAccomm  -- X > |Y|, Y < 0 (Accommodation réceptive face à une limite d'action : Admiration, Consentement)
+  | lateralActiveContest    -- X < -|Y|, Y > 0 (Menace épistémique sous maintien d'action : Contestation, Rancœur active)
+  | lateralEpistemicClosure -- X < -|Y|, Y < 0 (Fermeture épistémique à faible contrôle : Effroi/Sidération [A haut], Méfiance repliée [A bas])
   deriving DecidableEq, Repr, Inhabited
 
-/-- Classification fonctionnelle fine de toute coordonnée (X, Y). -/
+/-- Classification fonctionnelle fine de toute coordonnée `(X, Y)`. -/
 def classifySubsector (x y : Int) : FunctionalSubsector :=
   if x == 0 && y == 0 then .centralOperator
-  else if x == 0 && y > 0 then .axialElan
-  else if x == 0 && y < 0 then .axialWithdrawal
-  else if x > 0 && y == 0 then .axialOpening
-  else if x < 0 && y == 0 then .axialThreat
-  else if x == y && x > 0 then .diagonalDesire
-  else if x == y && x < 0 then .diagonalDisgust
-  else if x == -y && x < 0 then .diagonalAnger
-  else if x == -y && x > 0 then .diagonalCalm
+  else if x == 0 && y > 0 then .axialControlPos
+  else if x == 0 && y < 0 then .axialControlNeg
+  else if x > 0 && y == 0 then .axialExpectationPos
+  else if x < 0 && y == 0 then .axialExpectationNeg
+  else if x == y && x > 0 then .diagonalSynergyPos
+  else if x == y && x < 0 then .diagonalSynergyNeg
+  else if x == -y && x < 0 then .diagonalAgenticConfront
+  else if x == -y && x > 0 then .diagonalAccommodation
   else if y > Int.natAbs x && x > 0 then .lateralApproachSynergy
-  else if y > Int.natAbs x && x < 0 then .lateralDefensiveUrgency
-  else if -y > Int.natAbs x && x > 0 then .lateralTrophotropicPeace
+  else if y > Int.natAbs x && x < 0 then .lateralAgenticConfront
+  else if -y > Int.natAbs x && x > 0 then .lateralSecondaryAccomm
   else if -y > Int.natAbs x && x < 0 then .lateralAversiveDistress
   else if x > Int.natAbs y && y > 0 then .lateralEpistemicMastery
-  else if x > Int.natAbs y && y < 0 then .lateralContemplativeOpen
-  else if -x > Int.natAbs y && y > 0 then .lateralVigilantAlert
+  else if x > Int.natAbs y && y < 0 then .lateralReceptiveAccomm
+  else if -x > Int.natAbs y && y > 0 then .lateralActiveContest
   else .lateralEpistemicClosure
 
-/-- Projection canonique d'un sous-secteur fonctionnel vers son groupe taxonomique d'orientation. -/
+/-- Projection canonique d'un sous-secteur fonctionnel vers son groupe d'orientation. -/
 def FunctionalSubsector.toTaxonomicGroup : FunctionalSubsector → TaxonomicGroup
-  | .centralOperator          => .operateurCentral
-  | .axialElan                => .groupeJoie
-  | .lateralApproachSynergy   => .groupeJoie
-  | .lateralDefensiveUrgency  => .groupeJoie
-  | .axialWithdrawal          => .groupeTristesse
-  | .lateralTrophotropicPeace => .groupeTristesse
-  | .lateralAversiveDistress  => .groupeTristesse
-  | .axialOpening             => .groupeCourage
-  | .lateralEpistemicMastery  => .groupeCourage
-  | .lateralContemplativeOpen => .groupeCourage
-  | .axialThreat              => .groupePeur
-  | .lateralVigilantAlert     => .groupePeur
-  | .lateralEpistemicClosure  => .groupePeur
-  | .diagonalDesire           => .groupeDesir
-  | .diagonalDisgust          => .groupeDegout
-  | .diagonalAnger            => .groupeColere
-  | .diagonalCalm             => .groupeCalme
+  | .centralOperator         => .centralOperator
+  | .axialControlPos         => .sectorControlPos
+  | .lateralApproachSynergy  => .sectorControlPos
+  | .lateralAgenticConfront  => .sectorControlPos
+  | .axialControlNeg         => .sectorControlNeg
+  | .lateralSecondaryAccomm  => .sectorControlNeg
+  | .lateralAversiveDistress => .sectorControlNeg
+  | .axialExpectationPos     => .sectorExpectationPos
+  | .lateralEpistemicMastery => .sectorExpectationPos
+  | .lateralReceptiveAccomm  => .sectorExpectationPos
+  | .axialExpectationNeg     => .sectorExpectationNeg
+  | .lateralActiveContest    => .sectorExpectationNeg
+  | .lateralEpistemicClosure => .sectorExpectationNeg
+  | .diagonalSynergyPos      => .diagonalSynergyPos
+  | .diagonalSynergyNeg      => .diagonalSynergyNeg
+  | .diagonalAgenticConfront => .diagonalAgenticConfront
+  | .diagonalAccommodation   => .diagonalAccommodation
 
 /-- Projection canonique d'un sous-secteur fonctionnel vers sa polarité hédonique (Valence). -/
 def FunctionalSubsector.toHedonicPolarity : FunctionalSubsector → HedonicPolarity
-  | .centralOperator          => .neutral
-  | .axialElan                => .positive
-  | .axialOpening             => .positive
-  | .diagonalDesire           => .positive
-  | .diagonalCalm             => .positive
-  | .lateralApproachSynergy   => .positive
-  | .lateralTrophotropicPeace => .positive
-  | .lateralEpistemicMastery  => .positive
-  | .lateralContemplativeOpen => .positive
-  | .axialWithdrawal          => .negative
-  | .axialThreat              => .negative
-  | .diagonalDisgust          => .negative
-  | .diagonalAnger            => .negative
-  | .lateralDefensiveUrgency  => .negative
-  | .lateralAversiveDistress  => .negative
-  | .lateralVigilantAlert     => .negative
-  | .lateralEpistemicClosure  => .negative
+  | .centralOperator         => .neutral
+  | .axialControlPos         => .positive
+  | .axialExpectationPos     => .positive
+  | .diagonalSynergyPos      => .positive
+  | .diagonalAccommodation   => .positive
+  | .lateralApproachSynergy  => .positive
+  | .lateralSecondaryAccomm  => .positive
+  | .lateralEpistemicMastery => .positive
+  | .lateralReceptiveAccomm  => .positive
+  | .axialControlNeg         => .negative
+  | .axialExpectationNeg     => .negative
+  | .diagonalSynergyNeg      => .negative
+  | .diagonalAgenticConfront => .negative
+  | .lateralAgenticConfront  => .negative
+  | .lateralAversiveDistress => .negative
+  | .lateralActiveContest    => .negative
+  | .lateralEpistemicClosure => .negative
 
 /-!
-## 2. Certification de la loi des effectifs et des 176 entrées (Z = 0 à Z = 7)
+## 2. Loi générale des effectifs de couronne et discrétisation canonique `Z ∈ {0, 1, 2}` (Arbitrage 4)
 -/
 
--- Source : Document 2, §1 & §5 (Règle géométrique de l'effectif des couronnes)
-/--
-Effectif des positions périphériques sur la couronne de la strate Z :
-Pour Z ≥ 2, le nombre de positions à coordonnées entières sur chaque losange s'élève au
-quadruple du rayon `crownRadius Z` (soit 8 * (Z - 1)). Aux strates Z = 0 et Z = 1, il est nul.
--/
+/-- Effectif des positions entières périphériques sur le losange `L1` de la strate `z`. -/
 def crownPeripheralCount (z : Nat) : Nat :=
   4 * crownRadius z
 
--- Source : Document 2, §1 & §5
-/-- Effectif total d'une strate Z (1 opérateur central + positions périphériques de la couronne). -/
+/-- Effectif total d'une strate discrétisée `z` (1 opérateur central + couronne périphérique). -/
 def stratumTotalCount (z : Nat) : Nat :=
   1 + crownPeripheralCount z
 
 /--
-Vérification formelle des effectifs périphériques des couronnes Z = 2 à Z = 7
-(8, 16, 24, 32, 40 et 48 positions périphériques, totalisant 168 positions périphériques)
-et du bilan global des 176 entrées (8 centres + 168 positions périphériques, Doc. 2, §3 & §5).
+Loi combinatoire des effectifs de la discrétisation canonique `Z ∈ {0, 1, 2}` (Veille = 1,
+Surprise = 1, première couronne = 8 prototypes périphériques, soit 11 états canoniques)
+et formule exacte `8 * (d + 1)` pour toute couronne `z = d + 2 ≥ 2`.
 -/
-theorem inventory_176_certified :
+theorem canonical_crown_counts_certified (d : Nat) :
+    stratumTotalCount 0 = 1 ∧
+    stratumTotalCount 1 = 1 ∧
     crownPeripheralCount 2 = 8 ∧
-    crownPeripheralCount 3 = 16 ∧
-    crownPeripheralCount 4 = 24 ∧
-    crownPeripheralCount 5 = 32 ∧
-    crownPeripheralCount 6 = 40 ∧
-    crownPeripheralCount 7 = 48 ∧
-    (crownPeripheralCount 2 + crownPeripheralCount 3 + crownPeripheralCount 4 +
-     crownPeripheralCount 5 + crownPeripheralCount 6 + crownPeripheralCount 7 = 168) ∧
-    (stratumTotalCount 0 + stratumTotalCount 1 + stratumTotalCount 2 +
-     stratumTotalCount 3 + stratumTotalCount 4 + stratumTotalCount 5 +
-     stratumTotalCount 6 + stratumTotalCount 7 = 176) := by
-  decide
+    stratumTotalCount 0 + stratumTotalCount 1 + stratumTotalCount 2 = 11 ∧
+    crownPeripheralCount (d + 2) = 8 * (d + 1) := by
+  refine ⟨rfl, rfl, rfl, rfl, ?_⟩
+  dsimp [crownPeripheralCount, crownRadius]
+  omega
 
 /-!
 ## 3. Preuves de cohérence terminale : Exhaustivité et Exclusivité mutuelle
@@ -239,7 +229,7 @@ theorem inventory_176_certified :
 /--
 Théorème d'adéquation taxonomique :
 Pour tout point `p : CoreAffectPoint`, le groupe assigné par `classifyTaxonomicGroup p`
-satisfait le prédicat sémantique `matchesTaxonomicGroup p`.
+satisfait le prédicat `matchesTaxonomicGroup p`.
 -/
 theorem classifyTaxonomicGroup_correct (p : CoreAffectPoint) :
     matchesTaxonomicGroup p (classifyTaxonomicGroup p) := by
@@ -255,17 +245,16 @@ theorem classifyTaxonomicGroup_correct (p : CoreAffectPoint) :
         · split <;> (dsimp [matchesTaxonomicGroup]; omega)
 
 /--
-Théorème d'Exhaustivité des catégories taxonomiques :
-Tout point de l'espace affectif appartient à au moins un groupe de la Taxonomie.
+Théorème d'Exhaustivité des catégories d'orientation :
+Tout point de l'espace affectif appartient à au moins un groupe de `TaxonomicGroup`.
 -/
 theorem taxonomy_group_exhaustive (p : CoreAffectPoint) :
     ∃ g : TaxonomicGroup, matchesTaxonomicGroup p g :=
   ⟨classifyTaxonomicGroup p, classifyTaxonomicGroup_correct p⟩
 
 /--
-Théorème d'Exclusivité mutuelle des catégories taxonomiques :
-Les 9 prédicats de groupes taxonomiques forment une partition disjointe : aucune position
-ne peut appartenir simultanément à deux groupes distincts.
+Théorème d'Exclusivité mutuelle des catégories d'orientation :
+Les 9 prédicats `matchesTaxonomicGroup` forment une partition disjointe de `CoreAffectPoint`.
 -/
 theorem taxonomy_group_exclusive (p : CoreAffectPoint) (g1 g2 : TaxonomicGroup)
     (h1 : matchesTaxonomicGroup p g1) (h2 : matchesTaxonomicGroup p g2) :
@@ -274,11 +263,7 @@ theorem taxonomy_group_exclusive (p : CoreAffectPoint) (g1 g2 : TaxonomicGroup)
     | rfl
     | (exfalso; unfold matchesTaxonomicGroup at h1 h2; omega)
 
-/--
-Théorème de Caractérisation Bijective (Partition exacte) :
-Un groupe taxonomique `g` correspond au point `p` si et seulement s'il est égal à
-`classifyTaxonomicGroup p`.
--/
+/-- Caractérisation bijective de la partition en 9 groupes fonctionnels. -/
 theorem matchesTaxonomicGroup_iff (p : CoreAffectPoint) (g : TaxonomicGroup) :
     matchesTaxonomicGroup p g ↔ g = classifyTaxonomicGroup p := by
   constructor
@@ -290,13 +275,13 @@ theorem matchesTaxonomicGroup_iff (p : CoreAffectPoint) (g : TaxonomicGroup) :
 
 /--
 Correspondance exacte entre les 4 secteurs d'orientation géométrique (`OrientationSector`)
-du Noyau affectif et les 4 groupes sectoriels de la Taxonomie (`TaxonomicGroup`, Doc. 2, §2).
+du Noyau affectif et les 4 groupes sectoriels fonctionnels (`TaxonomicGroup`, Option 1A).
 -/
 theorem dominantSector_iff_taxonomicGroup (p : CoreAffectPoint) :
-    (p.dominantSector? = some .joie ↔ matchesTaxonomicGroup p .groupeJoie) ∧
-    (p.dominantSector? = some .tristesse ↔ matchesTaxonomicGroup p .groupeTristesse) ∧
-    (p.dominantSector? = some .peur ↔ matchesTaxonomicGroup p .groupePeur) ∧
-    (p.dominantSector? = some .courage ↔ matchesTaxonomicGroup p .groupeCourage) := by
+    (p.dominantSector? = some .controlPos ↔ matchesTaxonomicGroup p .sectorControlPos) ∧
+    (p.dominantSector? = some .controlNeg ↔ matchesTaxonomicGroup p .sectorControlNeg) ∧
+    (p.dominantSector? = some .expectationNeg ↔ matchesTaxonomicGroup p .sectorExpectationNeg) ∧
+    (p.dominantSector? = some .expectationPos ↔ matchesTaxonomicGroup p .sectorExpectationPos) := by
   unfold CoreAffectPoint.dominantSector?
   dsimp [matchesTaxonomicGroup]
   refine ⟨?_, ?_, ?_, ?_⟩
@@ -311,23 +296,23 @@ theorem dominantSector_iff_taxonomicGroup (p : CoreAffectPoint) :
   )
 
 /--
-Théorème des quatre liaisons fixes controlatérales entre groupes perpendiculaires (Doc. 2, §4.3) :
-Pour toute position latérale (`x ≠ 0`, `y ≠ 0`, `|x| ≠ |y|`), l'opérateur d'antagonisme
-associe systématiquement chaque groupe sectoriel au groupe d'orientation perpendiculaire :
-- `groupeJoie` avec `X > 0` ↔ `groupePeur` avec `Y < 0`
-- `groupeJoie` avec `X < 0` ↔ `groupeCourage` avec `Y < 0`
-- `groupeTristesse` avec `X > 0` ↔ `groupePeur` avec `Y > 0`
-- `groupeTristesse` avec `X < 0` ↔ `groupeCourage` avec `Y > 0`
+Théorème des quatre liaisons controlatérales entre secteurs perpendiculaires sous `antagonistPoint` :
+Pour toute position latérale (`x ≠ 0`, `y ≠ 0`, `|x| ≠ |y|`), l'antagoniste statique permute
+systématiquement la dominance de Contrôle (`|Y| > |X|`) et la dominance d'Attente (`|X| > |Y|`) :
+- `sectorControlPos` avec `X > 0` ↔ `sectorExpectationNeg` avec `Y < 0`
+- `sectorControlPos` avec `X < 0` ↔ `sectorExpectationPos` avec `Y < 0`
+- `sectorControlNeg` avec `X > 0` ↔ `sectorExpectationNeg` avec `Y > 0`
+- `sectorControlNeg` avec `X < 0` ↔ `sectorExpectationPos` avec `Y > 0`
 -/
 theorem contralateral_group_bindings (p : CoreAffectPoint) :
-    (matchesTaxonomicGroup p .groupeJoie ∧ p.x > 0 →
-      matchesTaxonomicGroup (antagonistPoint p) .groupePeur ∧ (antagonistPoint p).y < 0) ∧
-    (matchesTaxonomicGroup p .groupeJoie ∧ p.x < 0 →
-      matchesTaxonomicGroup (antagonistPoint p) .groupeCourage ∧ (antagonistPoint p).y < 0) ∧
-    (matchesTaxonomicGroup p .groupeTristesse ∧ p.x > 0 →
-      matchesTaxonomicGroup (antagonistPoint p) .groupePeur ∧ (antagonistPoint p).y > 0) ∧
-    (matchesTaxonomicGroup p .groupeTristesse ∧ p.x < 0 →
-      matchesTaxonomicGroup (antagonistPoint p) .groupeCourage ∧ (antagonistPoint p).y > 0) := by
+    (matchesTaxonomicGroup p .sectorControlPos ∧ p.x > 0 →
+      matchesTaxonomicGroup (antagonistPoint p) .sectorExpectationNeg ∧ (antagonistPoint p).y < 0) ∧
+    (matchesTaxonomicGroup p .sectorControlPos ∧ p.x < 0 →
+      matchesTaxonomicGroup (antagonistPoint p) .sectorExpectationPos ∧ (antagonistPoint p).y < 0) ∧
+    (matchesTaxonomicGroup p .sectorControlNeg ∧ p.x > 0 →
+      matchesTaxonomicGroup (antagonistPoint p) .sectorExpectationNeg ∧ (antagonistPoint p).y > 0) ∧
+    (matchesTaxonomicGroup p .sectorControlNeg ∧ p.x < 0 →
+      matchesTaxonomicGroup (antagonistPoint p) .sectorExpectationPos ∧ (antagonistPoint p).y > 0) := by
   dsimp [matchesTaxonomicGroup]
   refine ⟨?_, ?_, ?_, ?_⟩
   all_goals (
@@ -342,27 +327,25 @@ theorem contralateral_group_bindings (p : CoreAffectPoint) :
       )
   )
 
-/--
-Prédicat formel d'appartenance d'un couple `(x, y)` à chacun des 17 sous-secteurs fonctionnels.
--/
+/-- Prédicat formel d'appartenance d'un couple `(x, y)` à chacun des 17 sous-secteurs fonctionnels. -/
 def matchesSubsector (x y : Int) : FunctionalSubsector → Prop
-  | .centralOperator          => x = 0 ∧ y = 0
-  | .axialElan                => x = 0 ∧ y > 0
-  | .axialWithdrawal          => x = 0 ∧ y < 0
-  | .axialOpening             => x > 0 ∧ y = 0
-  | .axialThreat              => x < 0 ∧ y = 0
-  | .diagonalDesire           => x = y ∧ x > 0
-  | .diagonalDisgust          => x = y ∧ x < 0
-  | .diagonalAnger            => x = -y ∧ x < 0
-  | .diagonalCalm             => x = -y ∧ x > 0
-  | .lateralApproachSynergy   => y > x.natAbs ∧ x > 0
-  | .lateralDefensiveUrgency  => y > x.natAbs ∧ x < 0
-  | .lateralTrophotropicPeace => -y > x.natAbs ∧ x > 0
-  | .lateralAversiveDistress  => -y > x.natAbs ∧ x < 0
-  | .lateralEpistemicMastery  => x > y.natAbs ∧ y > 0
-  | .lateralContemplativeOpen => x > y.natAbs ∧ y < 0
-  | .lateralVigilantAlert     => -x > y.natAbs ∧ y > 0
-  | .lateralEpistemicClosure  => -x > y.natAbs ∧ y < 0
+  | .centralOperator         => x = 0 ∧ y = 0
+  | .axialControlPos         => x = 0 ∧ y > 0
+  | .axialControlNeg         => x = 0 ∧ y < 0
+  | .axialExpectationPos     => x > 0 ∧ y = 0
+  | .axialExpectationNeg     => x < 0 ∧ y = 0
+  | .diagonalSynergyPos      => x = y ∧ x > 0
+  | .diagonalSynergyNeg      => x = y ∧ x < 0
+  | .diagonalAgenticConfront => x = -y ∧ x < 0
+  | .diagonalAccommodation   => x = -y ∧ x > 0
+  | .lateralApproachSynergy  => y > x.natAbs ∧ x > 0
+  | .lateralAgenticConfront  => y > x.natAbs ∧ x < 0
+  | .lateralSecondaryAccomm  => -y > x.natAbs ∧ x > 0
+  | .lateralAversiveDistress => -y > x.natAbs ∧ x < 0
+  | .lateralEpistemicMastery => x > y.natAbs ∧ y > 0
+  | .lateralReceptiveAccomm  => x > y.natAbs ∧ y < 0
+  | .lateralActiveContest    => -x > y.natAbs ∧ y > 0
+  | .lateralEpistemicClosure => -x > y.natAbs ∧ y < 0
 
 private theorem step_subsector (x y : Int) (c : Prop) [Decidable c] (t e : FunctionalSubsector)
     (ht : c → matchesSubsector x y t) (he : ¬c → matchesSubsector x y e) :
@@ -373,8 +356,7 @@ private theorem step_subsector (x y : Int) (c : Prop) [Decidable c] (t e : Funct
 
 /--
 Théorème d'adéquation des sous-secteurs fonctionnels :
-Pour toute coordonnée `(x, y)`, le sous-secteur `classifySubsector x y` satisfait
-le prédicat `matchesSubsector x y`.
+Pour toute coordonnée `(x, y)`, `classifySubsector x y` satisfait `matchesSubsector x y`.
 -/
 theorem classifySubsector_correct (x y : Int) :
     matchesSubsector x y (classifySubsector x y) := by
@@ -428,10 +410,7 @@ theorem classifySubsector_correct (x y : Int) :
   dsimp [matchesSubsector]
   omega
 
-/--
-Théorème d'Exclusivité mutuelle des 17 sous-secteurs fonctionnels :
-Les 17 sous-secteurs forment une partition disjointe du plan (X, Y).
--/
+/-- Exclusivité mutuelle des 17 sous-secteurs fonctionnels sur le plan `(X, Y)`. -/
 theorem subsector_exclusive (x y : Int) (s1 s2 : FunctionalSubsector)
     (h1 : matchesSubsector x y s1) (h2 : matchesSubsector x y s2) :
     s1 = s2 := by
@@ -439,11 +418,7 @@ theorem subsector_exclusive (x y : Int) (s1 s2 : FunctionalSubsector)
     | rfl
     | (exfalso; unfold matchesSubsector at h1 h2; omega)
 
-/--
-Caractérisation bijective des sous-secteurs fonctionnels :
-Un sous-secteur `s` satisfait `matchesSubsector x y s` si et seulement s'il coïncide
-avec `classifySubsector x y`.
--/
+/-- Caractérisation bijective des 17 sous-secteurs fonctionnels. -/
 theorem matchesSubsector_iff (x y : Int) (s : FunctionalSubsector) :
     matchesSubsector x y s ↔ s = classifySubsector x y := by
   constructor
@@ -453,29 +428,19 @@ theorem matchesSubsector_iff (x y : Int) (s : FunctionalSubsector) :
     subst h
     exact classifySubsector_correct x y
 
-/--
-Tout sous-secteur fonctionnel vérifiant `matchesSubsector p.x p.y s` se projette sur le
-groupe taxonomique correspondant de `p`.
--/
+/-- Tout sous-secteur fonctionnel vérifiant `matchesSubsector p.x p.y s` se projette sur le groupe correspondant. -/
 theorem matchesSubsector_toTaxonomicGroup (p : CoreAffectPoint) (s : FunctionalSubsector)
     (h : matchesSubsector p.x p.y s) :
     matchesTaxonomicGroup p s.toTaxonomicGroup := by
   cases s <;> (dsimp [matchesSubsector, FunctionalSubsector.toTaxonomicGroup, matchesTaxonomicGroup] at h ⊢; omega)
 
-/--
-Théorème de raffinement taxonomique des sous-secteurs fonctionnels :
-Pour tout point `p : CoreAffectPoint`, la projection du sous-secteur fonctionnel
-`classifySubsector p.x p.y` sur `TaxonomicGroup` restitue exactement `classifyTaxonomicGroup p`.
--/
+/-- Raffinement exact des groupes d'orientation par les 17 sous-secteurs fonctionnels. -/
 theorem classifySubsector_refines_group (p : CoreAffectPoint) :
     (classifySubsector p.x p.y).toTaxonomicGroup = classifyTaxonomicGroup p :=
   (matchesTaxonomicGroup_iff p _).mp
     (matchesSubsector_toTaxonomicGroup p (classifySubsector p.x p.y) (classifySubsector_correct p.x p.y))
 
-/--
-Tout sous-secteur fonctionnel vérifiant `matchesSubsector x y s` détermine de manière univoque
-la polarité hédonique `computeHedonicPolarity x y`.
--/
+/-- Tout sous-secteur fonctionnel vérifiant `matchesSubsector x y s` détermine la polarité hédonique. -/
 theorem matchesSubsector_toHedonicPolarity (x y : Int) (s : FunctionalSubsector)
     (h : matchesSubsector x y s) :
     s.toHedonicPolarity = computeHedonicPolarity x y := by
@@ -491,11 +456,7 @@ theorem matchesSubsector_toHedonicPolarity (x y : Int) (s : FunctionalSubsector)
         · split <;> first | rfl | (exfalso; omega)
   )
 
-/--
-Théorème de consistance hédonique des sous-secteurs fonctionnels :
-Pour toute coordonnée `(x, y)`, la polarité hédonique associée au sous-secteur
-`classifySubsector x y` coïncide exactement avec `computeHedonicPolarity x y`.
--/
+/-- Consistance hédonique des 17 sous-secteurs fonctionnels avec la règle lexicographique sur X. -/
 theorem classifySubsector_determines_valence (x y : Int) :
     (classifySubsector x y).toHedonicPolarity = computeHedonicPolarity x y :=
   matchesSubsector_toHedonicPolarity x y (classifySubsector x y) (classifySubsector_correct x y)
@@ -504,13 +465,12 @@ theorem classifySubsector_determines_valence (x y : Int) :
 ## 4. Structure finale `TaxonomicState` et Théorème Maître (`end_to_end_coherence`)
 -/
 
--- Source : Document 1, §7 (La Taxonomie affective hiérarchique) & Document 2, §2 & §3
 /--
 Entrée terminale de la Taxonomie affective (`TaxonomicState`), intégrant l'état de la
-Matrice affective (`AffectiveMatrixState`), sa strate hiérarchique (`TaxonomicStratum`),
-sa typologie géométrique (`GeometryType`), son groupe d'orientation (`TaxonomicGroup`),
-son sous-secteur fonctionnel (`FunctionalSubsector`), ainsi que le groupe d'orientation
-et le sous-secteur fonctionnel de son antagoniste régulateur.
+Matrice affective (`AffectiveMatrixState` muni du canal autonome `autonomousActivation`),
+son régime discret de strate (`TaxonomicStratum`), sa typologie géométrique (`GeometryType`),
+son groupe fonctionnel d'orientation (`TaxonomicGroup`), son sous-secteur fonctionnel
+(`FunctionalSubsector`), ainsi que ceux de son antagoniste régulateur statique.
 -/
 structure TaxonomicState where
   matrix              : AffectiveMatrixState
@@ -521,7 +481,6 @@ structure TaxonomicState where
   antagonistGroup     : TaxonomicGroup
   antagonistSubsector : FunctionalSubsector
 
--- Source : Document 1, §7 (La Taxonomie affective hiérarchique)
 /-- Projection d'un état de la Matrice affective dans la Taxonomie hiérarchique. -/
 def evaluateTaxonomy (ms : AffectiveMatrixState) : TaxonomicState :=
   let p := ms.core.point
@@ -534,27 +493,28 @@ def evaluateTaxonomy (ms : AffectiveMatrixState) : TaxonomicState :=
     antagonistGroup     := classifyTaxonomicGroup ap
     antagonistSubsector := classifySubsector ap.x ap.y }
 
-/-- Preuve d'inhabitation de `TaxonomicState` centrée sur le Point de Veille (0, 0, 0). -/
+/-- Preuve d'inhabitation de `TaxonomicState` centrée sur le Point de Veille `(0, 0, 0)`. -/
 instance : Inhabited TaxonomicState where
   default := evaluateTaxonomy default
 
--- Source : Document 1, Résumé, §1, §4, §5, §6 & §7 (Architecture emboîtée à 4 composantes)
 /--
 Pipeline fonctionnel complet de bout en bout (`PredictiveEngine` → `CoreAffect` →
-`AffectiveMatrix` → `AffectiveTaxonomy`).
+`AffectiveMatrix` → `AffectiveTaxonomy`), transmettant le canal d'activation autonome
+`s.autonomousActivation` (`A ≥ 0`) indépendamment de la projection `(X, Y, Z)` (Option 1A).
 -/
 def runCartograffectPipeline (s : PredictiveEngineState) : TaxonomicState :=
-  evaluateTaxonomy (evaluateMatrix (evaluateCoreAffect s))
+  evaluateTaxonomy (evaluateMatrix (evaluateCoreAffect s) s.autonomousActivation)
 
 /--
 Prédicat de cohérence intégrale d'un état taxonomique `ts` vis-à-vis d'un état initial `s`
-du Moteur prédictif :
-1. Le point du Noyau est exactement la projection de `s` et respecte `isValidCoreAffect`.
-2. Son antagoniste est `antagonistPoint`, respecte `isValidCoreAffect`, appartient à la même
-   strate Z et conserve le rayon de couronne `|X| + |Y|`.
-3. Les pôles vécus, la valence, l'activation, la strate, la géométrie et les sous-secteurs
-   fonctionnels sont exactement transduits.
-4. Le groupe taxonomique de la position et celui de son antagoniste satisfont de manière
+du Moteur prédictif (Option 1A) :
+1. Le point du Noyau est exactement `projectToCoreAffect s` et respecte `isValidCoreAffect`.
+2. Son antagoniste statique est `antagonistPoint`, respecte `isValidCoreAffect`, appartient à la
+   même strate `Z` et conserve le rayon `|X| + |Y|`.
+3. Les pôles vécus, le régime d'interaction, la valence, la strate, la géométrie et les
+   sous-secteurs sont exactement transduits, tandis que le canal d'activation autonome
+   `ts.matrix.autonomousActivation` reproduit `s.autonomousActivation` indépendamment de `(X, Y)`.
+4. Le groupe d'orientation de la position et celui de son antagoniste satisfont de manière
    unique le prédicat de partition `matchesTaxonomicGroup`.
 -/
 def isCoherentTerminalState (s : PredictiveEngineState) (ts : TaxonomicState) : Prop :=
@@ -568,7 +528,7 @@ def isCoherentTerminalState (s : PredictiveEngineState) (ts : TaxonomicState) : 
   ts.matrix.controlPole = transduceControl ts.matrix.core.point.y ∧
   ts.matrix.energyRegime = computeEnergyRegime ts.matrix.core.point.x ts.matrix.core.point.y ∧
   ts.matrix.valence = computeHedonicPolarity ts.matrix.core.point.x ts.matrix.core.point.y ∧
-  ts.matrix.activation = computeActivation ts.matrix.core.point ∧
+  ts.matrix.autonomousActivation = s.autonomousActivation ∧
   ts.stratum = classifyStratum ts.matrix.core.point.z ∧
   ts.geometry = ts.matrix.core.point.classifyGeometry ∧
   ts.subsector = classifySubsector ts.matrix.core.point.x ts.matrix.core.point.y ∧
@@ -579,11 +539,10 @@ def isCoherentTerminalState (s : PredictiveEngineState) (ts : TaxonomicState) : 
 
 /--
 THÉORÈME MAÎTRE (`end_to_end_coherence`) :
-Tout état initial valide du Moteur prédictif (`s : PredictiveEngineState`) traverse
-de manière déterministe le Noyau affectif (`CoreAffect`) et la Matrice affective
-(`AffectiveMatrix`) pour aboutir à un unique état terminal cohérent dans la Taxonomie
-affective hiérarchique (`TaxonomicState`), muni de toutes ses garanties géométriques,
-phénoménologiques et d'antagonisme régulateur.
+Tout état initial du Moteur prédictif (`s : PredictiveEngineState`) traverse de manière
+déterministe le Noyau affectif et la Matrice affective pour aboutir à un unique état
+terminal cohérent dans `TaxonomicState`, découplant strictement le canal autonome `A ≥ 0`
+des coordonnées `(X, Y)` tout en certifiant les invariants géométriques et antagonistes.
 -/
 theorem end_to_end_coherence (s : PredictiveEngineState) :
     ∃ ts : TaxonomicState,
@@ -592,7 +551,7 @@ theorem end_to_end_coherence (s : PredictiveEngineState) :
   refine ⟨runCartograffectPipeline s, ?_, ?_⟩
   · refine ⟨rfl, ?_, rfl, ?_, ?_, ?_, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_, ?_⟩
     · exact (evaluateCoreAffect s).h_valid
-    · exact (evaluateMatrix (evaluateCoreAffect s)).antagonist.h_valid
+    · exact (evaluateMatrix (evaluateCoreAffect s) s.autonomousActivation).antagonist.h_valid
     · exact antagonistPoint_preserves_z (projectToCoreAffect s)
     · exact antagonistPoint_preserves_displacementSum (projectToCoreAffect s)
     · exact classifyTaxonomicGroup_correct (projectToCoreAffect s)
@@ -602,7 +561,7 @@ theorem end_to_end_coherence (s : PredictiveEngineState) :
         hg (classifyTaxonomicGroup_correct (projectToCoreAffect s))
     · exact classifyTaxonomicGroup_correct (antagonistPoint (projectToCoreAffect s))
   · intro ts' hts'
-    rcases ts' with ⟨⟨⟨cp, hcp⟩, ep, ctrlp, ereg, val, act, ⟨ap, hap⟩⟩, strat, geom, grp, sub, agrp, asub⟩
+    rcases ts' with ⟨⟨⟨cp, hcp⟩, ep, ctrlp, ereg, val, aAct, ⟨ap, hap⟩⟩, strat, geom, grp, sub, agrp, asub⟩
     rcases hts' with ⟨h_cp, _, h_ap, _, _, _, h_ep, h_ctrl, h_ereg, h_val, h_act, h_strat, h_geom, h_sub, h_asub, h_grp, _, h_agrp⟩
     dsimp at *
     subst h_cp h_ap h_ep h_ctrl h_ereg h_val h_act h_strat h_geom h_sub h_asub
@@ -612,6 +571,18 @@ theorem end_to_end_coherence (s : PredictiveEngineState) :
       (matchesTaxonomicGroup_iff (antagonistPoint (projectToCoreAffect s)) agrp).mp h_agrp
     subst h_grp_eq h_agrp_eq
     rfl
+
+/--
+Réalisation conjointe découplée de toute position géométriquement valide `p` et de tout
+niveau d'activation autonome `a : Nat` (`A ≥ 0`) dans le pipeline complet (Option 1A).
+-/
+theorem pipeline_decouples_point_and_activation (p : CoreAffectPoint) (a : Nat)
+    (h : isValidCoreAffect p) :
+    ∃ s : PredictiveEngineState,
+      (runCartograffectPipeline s).matrix.core.point = p ∧
+      (runCartograffectPipeline s).matrix.autonomousActivation = a := by
+  have hsurj := projectToCoreAffect_surjective p h a
+  exact ⟨witnessEngineForPoint p a, hsurj.1, hsurj.2⟩
 
 end AffectiveTaxonomy
 

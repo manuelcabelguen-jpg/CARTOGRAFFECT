@@ -16,6 +16,13 @@ open CoreAffect
 open AffectiveMatrix
 open AffectiveTaxonomy
 
+/-!
+# Statut épistémique v3.0 : Annexe exploratoire hors cœur normatif (`DECISIONS_V3.md`, Arbitrage 4)
+Ce module conserve le répertoire illustratif historique à 176 entrées (`Z = 0..7`) exclusivement
+à titre d'annexe exploratoire hors du cœur théorique normatif v3.0 (lequel borne la discrétisation
+canonique à `Z ∈ {0, 1, 2}` et modélise `Z ∈ [0, 5]` comme profondeur continue).
+-/
+
 /-- Entrée lexicale associant un libellé phénoménologique à ses coordonnées (X, Y, Z). -/
 structure LexiconEntry where
   label : String
@@ -309,10 +316,9 @@ private theorem isValidCoreAffect_of_bool {p : CoreAffectPoint} (h : isValidPoin
   · exact Or.inr hcr
 
 /--
-Certification de surjectivité complète sur le lexique (Arbitrage 4) :
-Chacune des 176 entrées de `all176Entries` (y compris les 120 positions latérales)
-est déterministement atteignable par le pipeline complet `runCartograffectPipeline`
-muni d'un couple de précisions relatives `(precisionA, precisionC)` approprié.
+Certification de surjectivité complète sur l'annexe lexicale à 176 entrées :
+Chacune des 176 entrées de `all176Entries` est déterministement atteignable par le pipeline
+`runCartograffectPipeline` muni d'un couple de précisions relatives `(precisionA, precisionC)`.
 -/
 theorem all176Entries_deterministically_reachable :
     ∀ e ∈ all176Entries, ∃ s : PredictiveEngineState,
@@ -321,20 +327,10 @@ theorem all176Entries_deterministically_reachable :
   have hbool : isValidPointBool e.point = true :=
     List.all_eq_true.mp all176Entries_geometrically_valid e he
   have hvalid : isValidCoreAffect e.point := isValidCoreAffect_of_bool hbool
-  exact ⟨witnessEngineForPoint e.point, projectToCoreAffect_surjective e.point hvalid⟩
+  exact ⟨witnessEngineForPoint e.point, (projectToCoreAffect_surjective e.point hvalid).1⟩
 
 /--
-Résolution R8 (Surjectivité sur le lexique via `(π_A, π_C)`) :
-Alias principal certifiant que chacune des 176 entrées de `Lexicon176` (y compris
-les 120 positions latérales) est atteignable par le pipeline déterministe `runCartograffectPipeline`.
--/
-theorem all176Entries_reachable_by_engine :
-    ∀ e ∈ all176Entries, ∃ s : PredictiveEngineState,
-      (runCartograffectPipeline s).matrix.core.point = e.point :=
-  all176Entries_deterministically_reachable
-
-/--
-Vérification computationnelle exhaustive sur les 176 entrées :
+Vérification computationnelle exhaustive sur les 176 entrées de l'annexe :
 le témoin explicite `witnessEngineForPoint` projette exactement chaque entrée `e` sur `e.point`.
 -/
 theorem all176Entries_witness_check :

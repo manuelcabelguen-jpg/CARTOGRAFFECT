@@ -15,25 +15,30 @@ open CoreAffect
 open AffectiveMatrix
 
 /-!
-## Factorisation structurale des contingences opérantes sur la couronne Z = 2
+## Articulation des contingences opérantes et pavloviennes sur la fondation `Z = 2` (v3.0)
 
-Ce module dérivé relie formellement les prototypes de la première couronne (`Z = 2`)
-aux quatre contingences du conditionnement opérant (`R+`, `R-`, `P+`, `P-`) sans
-altérer les modules existants du noyau :
-- L'Axe X discrimine l'issue fonctionnelle (`Reinforcement` pour `X = +1`, `Punishment` pour `X = -1`),
-  en coïncidence exacte avec la polarité hédonique lexicographique.
-- L'Axe Y discrimine la posture pragmatique d'engagement actif (`Y = +1` : `R+` ou `P-`)
-  versus désengagement/relâchement (`Y = -1` : `R-` ou `P+`).
-- Le produit `X * Y` discrimine l'opérateur d'ajout (`Addition`, diagonale de congruence)
-  et l'opérateur de retrait (`Removal`, diagonale de compensation), en correspondance exacte
-  avec `EnergyRegime`.
-- L'antagoniste régulateur `antagonistPoint` inverse `Reinforcement ↔ Punishment` tout en
-  conservant l'opérateur (`Addition` ou `Removal`).
-- Chaque pôle axial (`Courage`, `Peur`, `Joie`, `Tristesse`) se situe à distance `L1 = 2`
-  des deux diagonales partageant sa propriété génératrice et à distance `L1 = 4` des deux autres.
+Ce module relie formellement les quatre prototypes diagonaux de la **première couronne (`Z = 2`)**
+aux régimes d'apprentissage associatif et instrumental (Skinner, 1953 ; Rolls, 2005, 2014),
+conformément à l'**Option 1A** (`Y` = contrôlabilité instrumentale perçue stricte) et sans aucun
+relèvement universel sur les strates supérieures (`Z ≥ 3`) :
+
+1. **Régime opérant actif (`Y = +1 > 0`, contrôle instrumental perçu élevé) :**
+   - `activeOperantReinforcement` en `Désir (+1, +1, 2)` : englobe le **renforcement positif opérant
+     (`R+` : acquisition active d'une issue appétitive)** ET le **renforcement négatif opérant
+     (`R-` : évitement ou échappement actif réussi, exigeant `Y > 0`)**.
+   - `agenticOmissionPunishment` en `Colère (-1, +1, 2)` : **omission / blocage frustratif (`P-` /
+     sursaut d'extinction)** où une issue attendue est contrariée tandis que l'agent maintient une
+     prise instrumentale active (`Y > 0`) pour lever l'obstacle.
+2. **Régime non opérant / pavlovien et d'accommodation (`Y = -1 < 0`, faible contrôle instrumental) :**
+   - `pavlovianPassiveSafety` en `Calme (+1, -1, 2)` : **soulagement pavlovien passif** (cessation
+     exogène d'un stimulus aversif → signal de sécurité passive) et **accommodation / contrôle
+     secondaire face à une limite objective d'action**, rigoureusement distinct du renforcement
+     négatif opérant `R-` (qui exige `Y > 0`).
+   - `inescapableAversivePunishment` en `Dégoût (-1, -1, 2)` : **exposition aversive subie (`P+`
+     à faible contrôle)** face à un événement non révisable et non modifiable par l'action.
 -/
 
-/-- Distance de Manhattan intra-plan (métrique L1 sur `(X, Y)`) entre deux coordonnées du Noyau. -/
+/-- Distance de Manhattan intra-plan (métrique `L1` sur `(X, Y)`) entre deux coordonnées du Noyau. -/
 def manhattanDistXY (p q : CoreAffectPoint) : Nat :=
   (p.x - q.x).natAbs + (p.y - q.y).natAbs
 
@@ -43,35 +48,69 @@ theorem manhattanDistXY_origin (p : CoreAffectPoint) :
   dsimp [manhattanDistXY, CoreAffectPoint.displacementSum]
   simp only [Int.sub_zero]
 
-/-- Issue fonctionnelle de la contingence opérante : renforcement (`R`) ou punition (`P`). -/
-inductive OperantEffect : Type where
-  | Reinforcement : OperantEffect
-  | Punishment    : OperantEffect
+/-- Issue adaptative sur l'Axe X (`+X` favorable vs `-X` aversif/contrarié). -/
+inductive AdaptiveOutcome : Type where
+  | favorable : AdaptiveOutcome
+  | aversive  : AdaptiveOutcome
   deriving DecidableEq, Repr, Inhabited
 
-/-- Opérateur écologique de la contingence : ajout (`+`) ou retrait (`-`). -/
-inductive OperantOperator : Type where
-  | Addition : OperantOperator
-  | Removal  : OperantOperator
+/-- Régime d'agentivité instrumentale sur l'Axe Y (`+Y` opérant actif vs `-Y` passif/accommodation). -/
+inductive InstrumentalAgency : Type where
+  | activeOperant           : InstrumentalAgency -- Y > 0 : l'action modifie la contingence (inclut R+ et R- actif)
+  | nonOperantAccommodation : InstrumentalAgency -- Y < 0 : limite objective d'action (sécurité pavlovienne ou P+ subi)
   deriving DecidableEq, Repr, Inhabited
 
-/-- Structure d'une contingence opérante élémentaire `{R+, R-, P+, P-}`. -/
-structure OperantContingency where
-  effect : OperantEffect
-  op     : OperantOperator
+/-- Les deux sous-modalités du renforcement opérant actif exigeant toutes deux `Y > 0` et `X > 0`. -/
+inductive ActiveReinforcementMode : Type where
+  | positiveAddition        : ActiveReinforcementMode -- R+ : obtention active d'une issue appétitive
+  | negativeEscapeAvoidance : ActiveReinforcementMode -- R- : évitement / échappement actif d'un aversif (exige Y > 0)
   deriving DecidableEq, Repr, Inhabited
 
-/-- Projection algébrique exacte des 4 positions diagonales de `Z = 2` sur `{R+, R-, P+, P-}`. -/
-def diagToContingency (p : CoreAffectPoint) : Option OperantContingency :=
-  match p.x, p.y, p.z with
-  |  1,  1, 2 => some ⟨.Reinforcement, .Addition⟩ -- Désir (R+)
-  |  1, -1, 2 => some ⟨.Reinforcement, .Removal⟩  -- Calme (R-)
-  | -1, -1, 2 => some ⟨.Punishment,    .Addition⟩ -- Dégoût (P+)
-  | -1,  1, 2 => some ⟨.Punishment,    .Removal⟩  -- Colère (P-)
-  | _,   _, _ => none
+/-- Les quatre régimes écologiques fondamentaux bornés exclusivement aux diagonales de `Z = 2`. -/
+inductive Z2ContingencyRegime : Type where
+  | activeOperantReinforcement    : Z2ContingencyRegime -- (+1, +1, 2) Désir : R+ et R- opérant actif (X > 0, Y > 0)
+  | agenticOmissionPunishment     : Z2ContingencyRegime -- (-1, +1, 2) Colère : P- / blocage sous prise active (X < 0, Y > 0)
+  | pavlovianPassiveSafety        : Z2ContingencyRegime -- (+1, -1, 2) Calme : sécurité pavlovienne passive / accommodation (X > 0, Y < 0)
+  | inescapableAversivePunishment : Z2ContingencyRegime -- (-1, -1, 2) Dégoût : P+ aversif subi à faible contrôle (X < 0, Y < 0)
+  deriving DecidableEq, Repr, Inhabited
 
-/-- Projection opérante d'un prototype de la première couronne `PrimaryCrownPrototype`. -/
-def prototypeToContingency (proto : PrimaryCrownPrototype) : Option OperantContingency :=
+/-- Issue adaptative associée à chaque régime de `Z = 2`. -/
+def Z2ContingencyRegime.outcome : Z2ContingencyRegime → AdaptiveOutcome
+  | .activeOperantReinforcement    => .favorable
+  | .pavlovianPassiveSafety        => .favorable
+  | .agenticOmissionPunishment     => .aversive
+  | .inescapableAversivePunishment => .aversive
+
+/-- Régime d'agentivité instrumentale associé à chaque régime de `Z = 2`. -/
+def Z2ContingencyRegime.agency : Z2ContingencyRegime → InstrumentalAgency
+  | .activeOperantReinforcement    => .activeOperant
+  | .agenticOmissionPunishment     => .activeOperant
+  | .pavlovianPassiveSafety        => .nonOperantAccommodation
+  | .inescapableAversivePunishment => .nonOperantAccommodation
+
+/-- Tout sous-mode de renforcement opérant actif (`R+` comme `R-` d'évitement/échappement) relève
+    exclusivement de `activeOperantReinforcement` (`Y > 0`), jamais de `pavlovianPassiveSafety` (`Y < 0`). -/
+def activeModeToRegime : ActiveReinforcementMode → Z2ContingencyRegime
+  | .positiveAddition        => .activeOperantReinforcement
+  | .negativeEscapeAvoidance => .activeOperantReinforcement
+
+/--
+Projection partielle stricte bornée à la fondation `Z = 2` :
+associe uniquement les 4 positions diagonales de `Z = 2` à leur `Z2ContingencyRegime`, et renvoie
+`none` sur les axes, les centres et **toutes les strates `Z ≠ 2`** (aucun relèvement en `Z = 3..7`).
+-/
+def diagToContingency (p : CoreAffectPoint) : Option Z2ContingencyRegime :=
+  if p.z == 2 then
+    if p.x == 1 && p.y == 1 then some .activeOperantReinforcement
+    else if p.x == -1 && p.y == 1 then some .agenticOmissionPunishment
+    else if p.x == 1 && p.y == -1 then some .pavlovianPassiveSafety
+    else if p.x == -1 && p.y == -1 then some .inescapableAversivePunishment
+    else none
+  else
+    none
+
+/-- Projection d'un prototype de la première couronne `PrimaryCrownPrototype` vers son régime `Z = 2`. -/
+def prototypeToContingency (proto : PrimaryCrownPrototype) : Option Z2ContingencyRegime :=
   diagToContingency proto.toPoint
 
 /-- Liste canonique des quatre coordonnées diagonales de la couronne `Z = 2`. -/
@@ -88,137 +127,173 @@ def z2AxialPoints : List CoreAffectPoint :=
   , PrimaryCrownPrototype.joie.toPoint
   , PrimaryCrownPrototype.tristesse.toPoint ]
 
-private theorem diagToContingency_desir :
-    diagToContingency PrimaryCrownPrototype.desir.toPoint = some ⟨.Reinforcement, .Addition⟩ := rfl
-
-private theorem diagToContingency_calme :
-    diagToContingency PrimaryCrownPrototype.calme.toPoint = some ⟨.Reinforcement, .Removal⟩ := rfl
-
-private theorem diagToContingency_degout :
-    diagToContingency PrimaryCrownPrototype.degout.toPoint = some ⟨.Punishment, .Addition⟩ := rfl
-
-private theorem diagToContingency_colere :
-    diagToContingency PrimaryCrownPrototype.colere.toPoint = some ⟨.Punishment, .Removal⟩ := rfl
-
 /--
-Loi 1 (Factorisation complète des contingences opérantes en `Z = 2`) :
+Loi 1 (Factorisation complète sur la fondation `Z = 2`) :
 Sur les 4 diagonales de la première couronne :
-- `X` détermine l'effet (`+1 ↔ Reinforcement`, `-1 ↔ Punishment`) ainsi que la valence hédonique ;
-- `X * Y` détermine l'opérateur (`+1 ↔ Addition`, `-1 ↔ Removal`) ;
-- `Y = +1` caractérise exactement les deux contingences d'engagement actif appétitif (`R+` ou `P-`).
+- `X` détermine l'issue adaptative (`+1 ↔ favorable`, `-1 ↔ aversive`) et la valence hédonique ;
+- `Y` détermine l'agentivité instrumentale (`+1 ↔ activeOperant`, `-1 ↔ nonOperantAccommodation`).
 -/
 theorem operant_factorization_law :
     ∀ p ∈ z2DiagonalPoints,
       match diagToContingency p with
       | some c =>
-          (c.effect = .Reinforcement ↔ p.x = 1) ∧
-          (c.effect = .Punishment ↔ p.x = -1) ∧
-          (c.op = .Addition ↔ p.x * p.y = 1) ∧
-          (c.op = .Removal ↔ p.x * p.y = -1) ∧
-          ((c = ⟨.Reinforcement, .Addition⟩ ∨ c = ⟨.Punishment, .Removal⟩) ↔ p.y = 1) ∧
-          (computeHedonicPolarity p.x p.y = .positive ↔ c.effect = .Reinforcement)
+          (c.outcome = .favorable ↔ p.x = 1) ∧
+          (c.outcome = .aversive ↔ p.x = -1) ∧
+          (c.agency = .activeOperant ↔ p.y = 1) ∧
+          (c.agency = .nonOperantAccommodation ↔ p.y = -1) ∧
+          (computeHedonicPolarity p.x p.y = .positive ↔ c.outcome = .favorable)
       | none => False := by
+  have h1 : diagToContingency PrimaryCrownPrototype.desir.toPoint = some .activeOperantReinforcement := rfl
+  have h2 : diagToContingency PrimaryCrownPrototype.calme.toPoint = some .pavlovianPassiveSafety := rfl
+  have h3 : diagToContingency PrimaryCrownPrototype.degout.toPoint = some .inescapableAversivePunishment := rfl
+  have h4 : diagToContingency PrimaryCrownPrototype.colere.toPoint = some .agenticOmissionPunishment := rfl
   intro p hp
   simp only [z2DiagonalPoints, List.mem_cons, List.not_mem_nil, or_false] at hp
   rcases hp with rfl | rfl | rfl | rfl
-  · rw [diagToContingency_desir]; dsimp only; decide
-  · rw [diagToContingency_calme]; dsimp only; decide
-  · rw [diagToContingency_degout]; dsimp only; decide
-  · rw [diagToContingency_colere]; dsimp only; decide
+  · rw [h1]; decide
+  · rw [h2]; decide
+  · rw [h3]; decide
+  · rw [h4]; decide
 
 /--
-Correspondance exacte entre l'opérateur écologique (`Addition` vs `Removal`) et les régimes
-énergétiques de `AffectiveMatrix` (diagonale de congruence vs diagonale de compensation).
+Loi 2 (Séparation stricte entre renforcement négatif opérant `R-` et sécurité pavlovienne passive,
+et absence de relèvement au-delà de `Z = 2`) :
+- Toute réalisation du renforcement négatif opérant `R-` (`negativeEscapeAvoidance`) exige `p.y > 0`
+  et se distingue formellement du pôle `Calme (+1, -1, 2)` (`pavlovianPassiveSafety`, `p.y < 0`) ;
+- Toute position située hors de `Z = 2` (`p.z ≠ 2`, incluant `Z ≥ 3`) renvoie `diagToContingency p = none`.
+-/
+theorem active_r_minus_vs_pavlovian_safety_and_z2_bound :
+    (∀ (p : CoreAffectPoint) (m : ActiveReinforcementMode),
+      diagToContingency p = some (activeModeToRegime m) →
+      p.x > 0 ∧ p.y > 0 ∧ p.z = 2 ∧ activeModeToRegime m ≠ .pavlovianPassiveSafety) ∧
+    (diagToContingency PrimaryCrownPrototype.calme.toPoint = some .pavlovianPassiveSafety ∧
+     PrimaryCrownPrototype.calme.toPoint.y < 0) ∧
+    (∀ p : CoreAffectPoint, p.z ≠ 2 → diagToContingency p = none) := by
+  refine ⟨?_, by decide, ?_⟩
+  · intro p m h
+    unfold diagToContingency activeModeToRegime at h
+    by_cases hz2 : p.z = 2
+    · have hbz : (p.z == 2) = true := beq_iff_eq.mpr hz2
+      rw [hbz] at h
+      simp only [↓reduceIte] at h
+      by_cases h11 : (p.x == 1 && p.y == 1) = true
+      · simp only [Bool.and_eq_true, beq_iff_eq] at h11
+        rcases h11 with ⟨hx1, hy1⟩
+        exact ⟨by omega, by omega, hz2, by cases m <;> decide⟩
+      · have hb11 : (p.x == 1 && p.y == 1) = false := Bool.eq_false_iff.mpr h11
+        rw [hb11] at h
+        simp only [Bool.false_eq_true, ↓reduceIte] at h
+        cases m <;> (
+          dsimp [activeModeToRegime] at h
+          split at h
+          · cases h
+          · split at h
+            · cases h
+            · split at h <;> cases h
+        )
+    · have hbz : (p.z == 2) = false := beq_false_of_ne hz2
+      rw [hbz] at h
+      cases h
+  · intro p hz
+    have hbz : (p.z == 2) = false := beq_false_of_ne hz
+    unfold diagToContingency
+    rw [hbz]
+    rfl
+
+/--
+Correspondance exacte entre les 4 régimes de `Z = 2` et les régimes d'interaction de `AffectiveMatrix`
+(`positiveSynergy`, `agenticConfrontation`, `secondaryAccommodation`, `negativeSynergy`).
 -/
 theorem energyRegime_matches_operant_operator :
     ∀ p ∈ z2DiagonalPoints,
       match diagToContingency p with
       | some c =>
-          (c.op = .Addition ↔
-            computeEnergyRegime p.x p.y = .positiveSynergy ∨
-            computeEnergyRegime p.x p.y = .negativeSynergy) ∧
-          (c.op = .Removal ↔
-            computeEnergyRegime p.x p.y = .ergotropicCompensation ∨
-            computeEnergyRegime p.x p.y = .trophotropicRelease)
+          (c = .activeOperantReinforcement ↔ computeEnergyRegime p.x p.y = .positiveSynergy) ∧
+          (c = .agenticOmissionPunishment ↔ computeEnergyRegime p.x p.y = .agenticConfrontation) ∧
+          (c = .pavlovianPassiveSafety ↔ computeEnergyRegime p.x p.y = .secondaryAccommodation) ∧
+          (c = .inescapableAversivePunishment ↔ computeEnergyRegime p.x p.y = .negativeSynergy)
       | none => False := by
+  have h1 : diagToContingency PrimaryCrownPrototype.desir.toPoint = some .activeOperantReinforcement := rfl
+  have h2 : diagToContingency PrimaryCrownPrototype.calme.toPoint = some .pavlovianPassiveSafety := rfl
+  have h3 : diagToContingency PrimaryCrownPrototype.degout.toPoint = some .inescapableAversivePunishment := rfl
+  have h4 : diagToContingency PrimaryCrownPrototype.colere.toPoint = some .agenticOmissionPunishment := rfl
   intro p hp
   simp only [z2DiagonalPoints, List.mem_cons, List.not_mem_nil, or_false] at hp
   rcases hp with rfl | rfl | rfl | rfl
-  · rw [diagToContingency_desir]; dsimp only; decide
-  · rw [diagToContingency_calme]; dsimp only; decide
-  · rw [diagToContingency_degout]; dsimp only; decide
-  · rw [diagToContingency_colere]; dsimp only; decide
+  · rw [h1]; decide
+  · rw [h2]; decide
+  · rw [h3]; decide
+  · rw [h4]; decide
 
 /--
-Loi 2 (Dualité antagoniste opérante) :
-L'opérateur natif `antagonistPoint` inverse `Reinforcement ↔ Punishment` tout en conservant
-strictement l'opérateur écologique d'ajout (`Addition`) ou de retrait (`Removal`).
+Loi 3 (Dualité antagoniste sur la couronne `Z = 2`) :
+Sur les 4 diagonales de `Z = 2`, l'antagoniste statique `antagonistPoint` inverse simultanément
+l'issue adaptative (`favorable ↔ aversive`) et le régime d'agentivité (`activeOperant ↔ nonOperantAccommodation`),
+appariant `Désir (R+/R- actif)` à `Dégoût (P+ subi)` et `Colère (P- actif)` à `Calme (sécurité pavlovienne)`.
 -/
-theorem antagonist_flips_effect_preserves_operator :
+theorem antagonist_flips_outcome_and_agency_z2 :
     ∀ p ∈ z2DiagonalPoints,
       match diagToContingency p, diagToContingency (antagonistPoint p) with
-      | some c1, some c2 => c1.effect ≠ c2.effect ∧ c1.op = c2.op
+      | some c1, some c2 => c1.outcome ≠ c2.outcome ∧ c1.agency ≠ c2.agency
       | _, _ => False := by
+  have ha1 : antagonistPoint PrimaryCrownPrototype.desir.toPoint = PrimaryCrownPrototype.degout.toPoint := by decide
+  have ha2 : antagonistPoint PrimaryCrownPrototype.calme.toPoint = PrimaryCrownPrototype.colere.toPoint := by decide
+  have ha3 : antagonistPoint PrimaryCrownPrototype.degout.toPoint = PrimaryCrownPrototype.desir.toPoint := by decide
+  have ha4 : antagonistPoint PrimaryCrownPrototype.colere.toPoint = PrimaryCrownPrototype.calme.toPoint := by decide
+  have h1 : diagToContingency PrimaryCrownPrototype.desir.toPoint = some .activeOperantReinforcement := rfl
+  have h2 : diagToContingency PrimaryCrownPrototype.calme.toPoint = some .pavlovianPassiveSafety := rfl
+  have h3 : diagToContingency PrimaryCrownPrototype.degout.toPoint = some .inescapableAversivePunishment := rfl
+  have h4 : diagToContingency PrimaryCrownPrototype.colere.toPoint = some .agenticOmissionPunishment := rfl
   intro p hp
   simp only [z2DiagonalPoints, List.mem_cons, List.not_mem_nil, or_false] at hp
   rcases hp with rfl | rfl | rfl | rfl
-  · change OperantEffect.Reinforcement ≠ OperantEffect.Punishment ∧
-      OperantOperator.Addition = OperantOperator.Addition; decide
-  · change OperantEffect.Reinforcement ≠ OperantEffect.Punishment ∧
-      OperantOperator.Removal = OperantOperator.Removal; decide
-  · change OperantEffect.Punishment ≠ OperantEffect.Reinforcement ∧
-      OperantOperator.Addition = OperantOperator.Addition; decide
-  · change OperantEffect.Punishment ≠ OperantEffect.Reinforcement ∧
-      OperantOperator.Removal = OperantOperator.Removal; decide
+  · rw [ha1, h1, h3]; decide
+  · rw [ha2, h2, h4]; decide
+  · rw [ha3, h3, h1]; decide
+  · rw [ha4, h4, h2]; decide
 
 /--
-Loi 3 (Pont géométrique L1 des pôles axiaux vers les paires opérantes) :
-Chaque pôle axial de `Z = 2` (`Courage`, `Peur`, `Joie`, `Tristesse`) est à distance `L1 = 2`
-des deux prototypes diagonaux partageant sa propriété génératrice et à distance `L1 = 4`
-des deux prototypes diagonaux opposés.
+Loi 4 (Pont géométrique `L1` des pôles axiaux vers les paires de régimes en `Z = 2`) :
+Chaque pôle axial de `Z = 2` se situe à distance `L1 = 2` des deux prototypes diagonaux partageant
+sa polarité engagée et à distance `L1 = 4` des deux prototypes opposés.
 -/
 theorem axial_poles_bridge_operant_pairs :
-    -- Courage (+2, 0, 2) amorce R+ (Désir) et R- (Calme) à L1 = 2 ; loin (L1 = 4) de P- et P+
     (manhattanDistXY PrimaryCrownPrototype.courage.toPoint PrimaryCrownPrototype.desir.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.courage.toPoint PrimaryCrownPrototype.calme.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.courage.toPoint PrimaryCrownPrototype.colere.toPoint = 4) ∧
     (manhattanDistXY PrimaryCrownPrototype.courage.toPoint PrimaryCrownPrototype.degout.toPoint = 4) ∧
-    -- Peur (-2, 0, 2) amorce P- (Colère) et P+ (Dégoût) à L1 = 2 ; loin (L1 = 4) de R+ et R-
     (manhattanDistXY PrimaryCrownPrototype.peur.toPoint PrimaryCrownPrototype.colere.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.peur.toPoint PrimaryCrownPrototype.degout.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.peur.toPoint PrimaryCrownPrototype.desir.toPoint = 4) ∧
     (manhattanDistXY PrimaryCrownPrototype.peur.toPoint PrimaryCrownPrototype.calme.toPoint = 4) ∧
-    -- Joie (0, +2, 2) amorce l'approche active R+ (Désir) et P- (Colère) à L1 = 2 ; loin (L1 = 4) de R- et P+
     (manhattanDistXY PrimaryCrownPrototype.joie.toPoint PrimaryCrownPrototype.desir.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.joie.toPoint PrimaryCrownPrototype.colere.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.joie.toPoint PrimaryCrownPrototype.calme.toPoint = 4) ∧
     (manhattanDistXY PrimaryCrownPrototype.joie.toPoint PrimaryCrownPrototype.degout.toPoint = 4) ∧
-    -- Tristesse (0, -2, 2) amorce le désengagement R- (Calme) et P+ (Dégoût) à L1 = 2 ; loin (L1 = 4) de R+ et P-
     (manhattanDistXY PrimaryCrownPrototype.tristesse.toPoint PrimaryCrownPrototype.calme.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.tristesse.toPoint PrimaryCrownPrototype.degout.toPoint = 2) ∧
     (manhattanDistXY PrimaryCrownPrototype.tristesse.toPoint PrimaryCrownPrototype.desir.toPoint = 4) ∧
     (manhattanDistXY PrimaryCrownPrototype.tristesse.toPoint PrimaryCrownPrototype.colere.toPoint = 4) := by
   decide
 
-/-- Les quatre orientations axiales précèdent la spécification complète d'une contingence `{R+, R-, P+, P-}`. -/
+/-- Les quatre orientations axiales précèdent la spécification d'un régime diagonal de `Z = 2`. -/
 theorem axial_poles_pre_operant :
     ∀ p ∈ z2AxialPoints, diagToContingency p = none := by
   decide
 
-/-- Bijection exacte entre les 4 positions diagonales de `Z = 2` et les 4 contingences opérantes. -/
-theorem operant_bijection_on_z2_diagonals :
-    (∀ c : OperantContingency,
+/-- Bijection exacte entre les 4 positions diagonales de `Z = 2` et les 4 régimes mixtes opérants-pavloviens `Z2ContingencyRegime`. -/
+theorem z2_contingency_regime_bijection :
+    (∀ c : Z2ContingencyRegime,
       ∃ p ∈ z2DiagonalPoints, diagToContingency p = some c) ∧
     (∀ p₁ ∈ z2DiagonalPoints, ∀ p₂ ∈ z2DiagonalPoints,
       diagToContingency p₁ = diagToContingency p₂ → p₁ = p₂) := by
   constructor
   · intro c
-    rcases c with ⟨e, o⟩
-    cases e <;> cases o
+    cases c
     · exact ⟨PrimaryCrownPrototype.desir.toPoint, by decide, rfl⟩
+    · exact ⟨PrimaryCrownPrototype.colere.toPoint, by decide, rfl⟩
     · exact ⟨PrimaryCrownPrototype.calme.toPoint, by decide, rfl⟩
     · exact ⟨PrimaryCrownPrototype.degout.toPoint, by decide, rfl⟩
-    · exact ⟨PrimaryCrownPrototype.colere.toPoint, by decide, rfl⟩
   · decide
 
 end OperantFactorization
