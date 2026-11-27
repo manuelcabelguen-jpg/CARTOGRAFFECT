@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Suite de tests unitaires pour `cartograffect_predictive_engine.py`,
 vérifiant la parité exacte v3.0 avec le noyau formel Lean 4 (`DECISIONS_V3.md` :

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Générateur déterministe du contrat web `site-payload.json` (Strate 0/1 -> Strate 2)
-pour le compendium unifié CARTOGRAFFECT® (bibliothèque standard Python 3.10+ uniquement).
+pour le compendium CARTOGRAFFECT v3.0.0 (bibliothèque standard Python 3.10+ uniquement).
 
 Sources lues et recoupées :
   - `VERSION`
@@ -9,8 +10,10 @@ Sources lues et recoupées :
   - `CITATION.cff`
   - `.zenodo.json`
   - `CHANGELOG.md`
-  - `Cartograffect/Lexicon176.lean`
+  - `FORMAL_AUDIT_PACK.md`
+  - `Cartograffect/Lexicon176.lean` (annexe exploratoire)
   - `docs/01-Article_Cartograffect.md`
+  - `docs/02-Inventaire_176.md`
 
 Utilisation :
   python scripts/export_site_payload.py --output <chemin/site-payload.json>
@@ -64,6 +67,23 @@ def _load_json(path: Path, label: str) -> dict[str, Any]:
 def _extract_cff_field(cff_text: str, key: str) -> str | None:
     m = re.search(rf'^{re.escape(key)}:\s*["\']?([^"\'\r\n]+)["\']?\s*$', cff_text, re.MULTILINE)
     return m.group(1).strip() if m else None
+
+
+def _extract_cff_licenses(cff_text: str) -> list[str]:
+    inline = re.search(r'^license:\s*\[([^\]]+)\]\s*$', cff_text, re.MULTILINE)
+    if inline:
+        return [item.strip().strip("\"'") for item in inline.group(1).split(",") if item.strip()]
+
+    block = re.search(r'^license:\s*\n((?:[ \t]+-\s+[^\r\n]+\n?)+)', cff_text, re.MULTILINE)
+    if block:
+        return [
+            re.sub(r'^[ \t]+-\s+', '', ln).strip().strip("\"'")
+            for ln in block.group(1).splitlines()
+            if ln.strip()
+        ]
+
+    single = _extract_cff_field(cff_text, "license")
+    return [single] if single else []
 
 
 def _extract_cff_preferred_version(cff_text: str) -> str | None:
@@ -164,9 +184,11 @@ def build_site_payload(root: Path) -> dict[str, Any]:
     zenodo = _load_json(resolved / ".zenodo.json", ".zenodo.json")
     cff_text = _read_text(resolved / "CITATION.cff")
     changelog_text = _read_text(resolved / "CHANGELOG.md")
+    audit_pack_text = _read_text(resolved / "FORMAL_AUDIT_PACK.md")
     lexicon_path = resolved / "Cartograffect/Lexicon176.lean"
     lexicon_text = _read_text(lexicon_path)
     article_text = _read_text(resolved / "docs/01-Article_Cartograffect.md")
+    _read_text(resolved / "docs/02-Inventaire_176.md")
 
     # 1. Validation croisée des dates et versions
     release_date = str(manifest.get("release_date", "")).strip()
@@ -184,7 +206,7 @@ def build_site_payload(root: Path) -> dict[str, Any]:
     cff_ver = _extract_cff_field(cff_text, "version")
     cff_pref_ver = _extract_cff_preferred_version(cff_text)
     cff_date = _extract_cff_field(cff_text, "date-released")
-    cff_license = _extract_cff_field(cff_text, "license")
+    cff_licenses = _extract_cff_licenses(cff_text)
     if cff_ver != version or (cff_pref_ver is not None and cff_pref_ver != version):
         raise ValueError(
             f"CITATION.cff version='{cff_ver}' / preferred='{cff_pref_ver}' != '{version}'."
@@ -222,74 +244,87 @@ def build_site_payload(root: Path) -> dict[str, Any]:
     if zenodo_article_doi not in related_ids or osf_url not in related_ids:
         raise ValueError(".zenodo.json related_identifiers incomplet vis-à-vis de manifest.json.")
 
-    # 4. Strate 0 Core + Lexicon176 SHA-256 + comptage
+    # 4. Strate 0 Core (Lean 4 unique prouveur de référence v3.0.0)
     s0 = manifest.get("strate_0_core", {})
-    theorems_verified = int(s0.get("theorems_verified", 0))
+    normative_modules_count = int(s0.get("normative_modules_count", 0))
+    theorems_substantial = int(s0.get("theorems_substantial", 0))
+    exported_declarations = int(s0.get("exported_declarations", 0))
+    auxiliary_lemmas = int(s0.get("auxiliary_lemmas", 0))
+    pillar_theorems_count = int(s0.get("pillar_theorems_count", 0))
     sorry_count = int(s0.get("sorry_count", -1))
+    native_decide_count = int(s0.get("native_decide_count", -1))
     custom_axioms_count = int(s0.get("custom_axioms_count", -1))
-    provers_raw = s0.get("provers", [])
-    lean_files = s0.get("lean_files", [])
-    lex_meta = s0.get("lexicon_176", {})
+    normative_lean_modules = list(s0.get("normative_lean_modules", []))
+    canonical_ext = s0.get("canonical_extension", {})
     manuscript_meta = s0.get("manuscript", {})
+    py_meta = s0.get("python_isomorphic_engine", {})
 
-    if theorems_verified <= 0 or sorry_count != 0 or custom_axioms_count != 0:
+    if (
+        normative_modules_count != 8
+        or theorems_substantial != 148
+        or exported_declarations != 169
+        or auxiliary_lemmas != 21
+        or pillar_theorems_count != 8
+        or sorry_count != 0
+        or native_decide_count != 0
+        or custom_axioms_count != 0
+    ):
         raise ValueError(
-            f"Invariants formels Strate 0 invalides dans manifest.json : "
-            f"theorems={theorems_verified}, sorry={sorry_count}, axioms={custom_axioms_count}"
+            "Invariants formels Strate 0 v3.0.0 invalides dans manifest.json : "
+            f"modules={normative_modules_count}, substantial={theorems_substantial}, "
+            f"exported={exported_declarations}, aux={auxiliary_lemmas}, pillars={pillar_theorems_count}, "
+            f"sorry={sorry_count}, native_decide={native_decide_count}, axioms={custom_axioms_count}"
         )
-    if f"{theorems_verified}/{theorems_verified} verified theorems" not in cff_text:
+
+    if len(normative_lean_modules) != 8:
         raise ValueError(
-            f"Incohérence théorèmes : manifest.json={theorems_verified} non recoupé dans CITATION.cff."
+            f"manifest.json doit lister exactement 8 modules normatifs Lean 4 (trouvé : {len(normative_lean_modules)})."
         )
-    if not isinstance(provers_raw, list) or len(provers_raw) != 6:
-        raise ValueError(f"manifest.json doit déclarer exactement 6 prouveurs (trouvé : {len(provers_raw)}).")
-    if not isinstance(lean_files, list) or len(lean_files) != 11:
-        raise ValueError(f"manifest.json doit lister exactement 11 fichiers Lean (trouvé : {len(lean_files)}).")
-    for lf in lean_files:
+    for lf in normative_lean_modules:
         if not (resolved / lf).is_file():
-            raise FileNotFoundError(f"Module Lean listé dans manifest.json introuvable : {lf}")
+            raise FileNotFoundError(f"Module normatif Lean 4 manquant sur disque : {lf}")
 
-    provers: list[dict[str, Any]] = []
-    for p in provers_raw:
-        entry: dict[str, Any] = {
-            "name": str(p["name"]),
-            "version": str(p["version"]),
-            "entrypoint": str(p["entrypoint"]),
-            "directory": str(p["directory"]),
-        }
-        for opt_key in (
-            "modules_count",
-            "theorems_count",
-            "closed_assumptions_count",
-            "lemmas_count",
-            "obligations_verified",
-            "consistency_sat_count",
-            "aux_unsat_count",
-            "predicates_count",
-            "eval_blocks_count",
-            "tlc_models_count",
-        ):
-            if opt_key in p:
-                entry[opt_key] = int(p[opt_key])
-        provers.append(entry)
+    if "148" not in audit_pack_text or "169" not in audit_pack_text:
+        raise ValueError("FORMAL_AUDIT_PACK.md ne recoupe pas les compteurs 148 / 169.")
+    if f"{theorems_substantial} substantial theorems" not in cff_text:
+        raise ValueError(
+            f"Incohérence théorèmes : manifest.json={theorems_substantial} non recoupé dans CITATION.cff."
+        )
 
+    ext_own = int(canonical_ext.get("theorems_own", 0))
+    ext_aux = int(canonical_ext.get("auxiliary_lemmas", 0))
+    ext_total = int(canonical_ext.get("exported_declarations", 0))
+    if ext_own != 16 or ext_aux != 5 or ext_total != 21:
+        raise ValueError(
+            f"Invariants PredictiveEngineCanonical invalides : own={ext_own}, aux={ext_aux}, total={ext_total}."
+        )
+
+    python_unit_tests = int(py_meta.get("unit_tests_count", 0))
+    if python_unit_tests != 11:
+        raise ValueError(f"python_isomorphic_engine.unit_tests_count={python_unit_tests} != 11.")
+
+    predictions_count = int(manuscript_meta.get("predictions_count", 0))
+    canonical_states_count = int(manuscript_meta.get("canonical_states_count", 0))
+    if predictions_count != 5 or canonical_states_count != 11:
+        raise ValueError(
+            f"Invariants manuscrit invalides : predictions={predictions_count}, canonical_states={canonical_states_count}."
+        )
+
+    # 4b. Annexe exploratoire Lexicon176 (hors cœur normatif)
+    annex_lex = manifest.get("exploratory_annexes", {}).get("lexicon_176", {})
     actual_sha256 = hashlib.sha256(lexicon_path.read_bytes()).hexdigest()
-    expected_sha256 = str(lex_meta.get("sha256", "")).strip()
+    expected_sha256 = str(annex_lex.get("sha256", "")).strip()
     if actual_sha256 != expected_sha256:
         raise ValueError(
             f"SHA-256 Lexicon176.lean ({actual_sha256}) != manifest.json ({expected_sha256})."
         )
 
     lean_entries = LEAN_ENTRY_RE.findall(lexicon_text)
-    states_count = int(lex_meta.get("states_count", 0))
-    if len(lean_entries) != states_count or states_count != 176:
+    annex_states_count = int(annex_lex.get("states_count", 0))
+    if len(lean_entries) != annex_states_count or annex_states_count != 176:
         raise ValueError(
-            f"Nombre d'entrées Lexicon176.lean ({len(lean_entries)}) != states_count ({states_count})."
+            f"Nombre d'entrées Lexicon176.lean ({len(lean_entries)}) != states_count ({annex_states_count})."
         )
-
-    predictions_count = int(manuscript_meta.get("predictions_count", 0))
-    if predictions_count != 5:
-        raise ValueError(f"manifest.json predictions_count={predictions_count} != 5.")
 
     author_affiliation = _extract_author_affiliation(article_text)
     art_low = article_text.lower()
@@ -307,67 +342,84 @@ def build_site_payload(root: Path) -> dict[str, Any]:
     insilico_status_file = str(
         insilico_ext.get("epistemic_status_file", "extensions/in_silico/EPISTEMIC_STATUS.md")
     )
+    archive_warning_file = str(
+        lex_ext.get("archive_warning_file", "extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md")
+    )
     if not (resolved / lex_status_file).is_file():
         raise FileNotFoundError(f"Charte Strate 1 manquante : {lex_status_file}")
     if not (resolved / insilico_status_file).is_file():
         raise FileNotFoundError(f"Charte Strate 1 manquante : {insilico_status_file}")
+    if not (resolved / archive_warning_file).is_file():
+        raise FileNotFoundError(f"Avertissement archive v2 manquant : {archive_warning_file}")
 
     predictions_tested = [str(p) for p in insilico_ext.get("predictions_tested", [])]
     experiments = list(insilico_ext.get("experiments", []))
+    quarantined_experiments = list(insilico_ext.get("quarantined_synthetic_experiments", []))
 
     strate_1_extensions = {
         "lexicon": {
             "path": str(lex_ext.get("path", "extensions/lexicon")),
             "status": str(lex_ext.get("status", "exploratory_subordinate")),
             "epistemic_status_file": lex_status_file,
+            "archive_warning_file": archive_warning_file,
+            "data_provenance_file": str(lex_ext.get("data_provenance_file", "DATA_PROVENANCE.md")),
             "theorems_verified": int(lex_ext.get("theorems_verified", 10)),
             "sorry_count": int(lex_ext.get("sorry_count", 0)),
             "lean_challenges_count": len(lex_ext.get("lean_challenges", [])),
             "summary": (
                 "Audit lexical et géométrique exploratoire de Strate 1 "
-                "(10/10 théorèmes géométriques Lean 4 dans extensions/lexicon/lean/, 0 sorry, "
-                "0 constante statistique Python codée en dur ; banc GEW 3.0 / Plutchik sans surcharges "
-                "manuelles avec H2 et H4 rapportées comme non corroborées) ; statut exploratoire "
-                "subordonné à la Strate 0 ; extension axiologique Z- (« Diamant 303 ») strictement "
-                "cloisonnée hors de l'axiomatique Z in {0..7}."
+                "(3 modules actifs dans extensions/lexicon/lean/, 10/10 théorèmes géométriques Lean 4, "
+                "0 sorry, 0 constante statistique Python codée en dur ; banc GEW 3.0 / Plutchik sans "
+                "surcharges manuelles avec H2 et H4 rapportées comme non corroborées ; tables TSV v2.1.0 "
+                "signalées comme archive historique sous ancien axe Y hybride)."
             ),
         },
         "in_silico": {
             "path": str(insilico_ext.get("path", "extensions/in_silico")),
             "status": str(insilico_ext.get("status", "exploratory_subordinate")),
             "epistemic_status_file": insilico_status_file,
+            "lockfile": str(insilico_ext.get("lockfile", "extensions/in_silico/uv.lock")),
             "predictions_tested": predictions_tested,
-            "experiments_count": len(experiments),
+            "active_experiments_count": len(experiments),
+            "quarantined_experiments_count": len(quarantined_experiments),
             "a4_sanctuaire_policy": (
                 "Respect absolu de l'arbitrage A4-Sanctuaire : aucune métrique quantitative "
                 "in silico (PXP, min r) n'est injectée dans le corps théorique de l'article "
-                "canonique ; Exp 4–5 DSM-5 / HiTOP isolées en quarantaine dans exploratory_synthetic/ "
+                "canonique ; Exp 4-5 DSM-5 / HiTOP isolées en quarantaine dans exploratory_synthetic/ "
                 "(SYNTHETIC EXPLORATORY ONLY — V3 = 0)."
             ),
             "summary": (
-                "Banc compagnon de simulation Active Inference (Exp 1–3 : test de cohérence numérique "
-                "du projecteur budgétaire P1, cohérence générative interne P2–P5 et identifiabilité "
-                "bayésienne ; Exp 4–5 DSM-5 / HiTOP en quarantaine exploratory_synthetic/ — "
+                "Banc compagnon de simulation Active Inference (Exp 1-3 : test de cohérence numérique "
+                "du projecteur budgétaire P1, cohérence générative interne P2-P5 et identifiabilité "
+                "bayésienne ; Exp 4-5 DSM-5 / HiTOP en quarantaine exploratory_synthetic/ — "
                 "SYNTHETIC EXPLORATORY ONLY, V3 = 0), strictement subordonné à la Strate 0."
             ),
         },
     }
 
-    # 6. Licences
+    # 6. Licences (séparation physique OSI / CC-BY-4.0, zéro clause NC)
     lic_manifest = manifest.get("licenses", {})
+    code_spdx = str(lic_manifest.get("code_spdx", "")).strip()
+    docs_spdx = str(lic_manifest.get("docs_and_data_spdx", "")).strip()
     spdx_expression = str(lic_manifest.get("spdx_expression", "")).strip()
-    if spdx_expression != "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0":
-        raise ValueError(f"Expression SPDX inattendue dans manifest.json : {spdx_expression!r}")
-    if cff_license != spdx_expression:
-        raise ValueError(f"CITATION.cff license='{cff_license}' != '{spdx_expression}'.")
+    if code_spdx != "AGPL-3.0-or-later" or docs_spdx != "CC-BY-4.0":
+        raise ValueError(
+            f"Séparation de licences invalide dans manifest.json : code={code_spdx!r}, docs={docs_spdx!r}"
+        )
+    if "AGPL-3.0-or-later" not in cff_licenses or "CC-BY-4.0" not in cff_licenses:
+        raise ValueError(
+            f"CITATION.cff licenses={cff_licenses!r} doit déclarer ['AGPL-3.0-or-later', 'CC-BY-4.0']."
+        )
+    if any("NC" in item.upper() for item in cff_licenses):
+        raise ValueError(f"Clause non commerciale (NC) interdite dans CITATION.cff : {cff_licenses!r}")
 
-    hybrid_clause_summary = str(lic_manifest.get("hybrid_separation_clause", "")).strip()
-    if not hybrid_clause_summary:
-        raise ValueError("manifest.json licenses.hybrid_separation_clause manquant.")
+    separation_policy = str(lic_manifest.get("physical_separation_policy", "")).strip()
+    if not separation_policy:
+        raise ValueError("manifest.json licenses.physical_separation_policy manquant.")
 
     tag = f"v{version}"
     return {
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "release": {
             "version": version,
             "tag": tag,
@@ -383,48 +435,80 @@ def build_site_payload(root: Path) -> dict[str, Any]:
             "github_release_url": f"{github_repo_url}/releases/tag/{tag}",
         },
         "strate_0_core": {
-            "theorems_verified": theorems_verified,
+            "reference_prover": "Lean 4",
+            "prover_version": str(s0.get("prover_version", "4.35.0")),
+            "normative_modules_count": normative_modules_count,
+            "normative_lean_modules": normative_lean_modules,
+            "theorems_substantial": theorems_substantial,
+            "exported_declarations": exported_declarations,
+            "auxiliary_lemmas": auxiliary_lemmas,
+            "pillar_theorems_count": pillar_theorems_count,
             "sorry_count": sorry_count,
+            "native_decide_count": native_decide_count,
             "custom_axioms_count": custom_axioms_count,
-            "provers": provers,
-            "lean_modules_count": len(lean_files),
-            "lean_modules": [str(lf) for lf in lean_files],
-            "states_count": states_count,
+            "audit_pack": str(s0.get("audit_pack", "FORMAL_AUDIT_PACK.md")),
+            "canonical_extension": {
+                "path": str(canonical_ext.get("path")),
+                "theorems_own": ext_own,
+                "auxiliary_lemmas": ext_aux,
+                "exported_declarations": ext_total,
+            },
+            "python_unit_tests_count": python_unit_tests,
+            "manuscript_path": str(manuscript_meta.get("path", "docs/01-Article_Cartograffect.md")),
+            "inventory_annex_path": str(manuscript_meta.get("inventory_annex_path", "docs/02-Inventaire_176.md")),
+            "continuous_depth_range": str(manuscript_meta.get("continuous_depth_range", "Z in [0, 5]")),
+            "canonical_discretization": str(manuscript_meta.get("canonical_discretization", "Z in {0, 1, 2}")),
+            "canonical_states_count": canonical_states_count,
             "predictions_count": predictions_count,
-            "lexicon176_sha256": actual_sha256,
             "author_affiliation": author_affiliation,
+            "legacy_v2_1_archived_provers": list(s0.get("legacy_v2_1_archived_provers", [])),
+        },
+        "exploratory_annexes": {
+            "lexicon_176": {
+                "status": str(annex_lex.get("status", "exploratory_annex_outside_normative_core")),
+                "path": str(annex_lex.get("path", "Cartograffect/Lexicon176.lean")),
+                "inventory_doc": str(annex_lex.get("inventory_doc", "docs/02-Inventaire_176.md")),
+                "states_count": annex_states_count,
+                "sha256": actual_sha256,
+            }
         },
         "strate_1_extensions": strate_1_extensions,
         "ai_disclosure": {
             "author_ownership": (
-                "L’architecture conceptuelle, la psychologie affective, la taxonomie des 176 états "
-                "et l’orientation théorique de CARTOGRAFFECT® sont entièrement conçues et assumées par l’auteur."
+                "L'architecture conceptuelle, la psychologie affective, les arbitrages taxonomiques "
+                "et l'orientation théorique de CARTOGRAFFECT sont entièrement conçus et assumés par l'auteur."
             ),
             "ai_assistance_scope": (
-                "Des outils d’IA générative ont servi d’assistants techniques pour la rédaction, le site web, "
-                "la traduction et la transposition exploratoire de propriétés du modèle vers des assistants de preuve "
-                "formelle (Lean 4, Rocq, Agda, Dafny, Z3, TLA+) et des scripts sur GitHub."
+                "Des outils d'IA générative ont servi d'assistants techniques pour l'aide à la rédaction, "
+                "la réalisation du site web vitrine, la traduction et la formalisation sous l'assistant de "
+                "preuve de référence Lean 4 (ainsi que pour les annexes exploratoires archivées sur GitHub)."
             ),
             "verification_and_audit_status": (
-                "Psychologue clinicien et non mathématicien formel, l’auteur n’a pas vérifié manuellement ligne par ligne "
-                "le code mathématique/formel généré ; la validité technique repose sur la compilation mécanique des prouveurs "
-                "et les tests automatisés. Ce matériel est publié en accès libre sur GitHub pour inviter l’audit indépendant "
-                "de mathématiciens et de spécialistes des méthodes formelles."
+                "Psychologue clinicien et non mathématicien formel, l'auteur n'a pas vérifié manuellement "
+                "ligne par ligne le code mathématique et formel généré ; la validité technique repose sur "
+                "la compilation et vérification mécanique par les prouveurs ainsi que sur les tests automatisés. "
+                "L'ensemble est publié en accès libre sur GitHub pour inviter l'audit indépendant de "
+                "mathématiciens et de spécialistes des méthodes formelles."
             ),
             "summary_en": (
-                "The conceptual architecture, affective psychology, taxonomy, and theoretical orientation of CARTOGRAFFECT® "
-                "are conceived and owned entirely by the author. Generative AI served as a technical assistant for writing, "
-                "website engineering, translation, and exploratory formal-method transposition (Lean 4, Rocq, Agda, Dafny, "
-                "Z3, TLA+) and GitHub scripts. As a clinical psychologist and not a formal mathematician, the author has not "
-                "manually verified generated formal code line by line; technical validity relies on mechanical prover compilation "
-                "and automated tests, and the code is open-sourced on GitHub to invite independent specialist audit."
+                "The conceptual architecture, affective psychology, taxonomic decisions, and theoretical "
+                "orientation of CARTOGRAFFECT are conceived and owned entirely by the author. Generative AI "
+                "served as a technical assistant for writing, website engineering, translation, and "
+                "formalization in the reference Lean 4 proof assistant (and archived exploratory annexes). "
+                "As a clinical psychologist and not a formal mathematician, the author has not manually "
+                "verified generated formal code line by line; technical validity relies on mechanical prover "
+                "compilation and automated tests, and all artifacts are open-sourced on GitHub to invite "
+                "independent specialist audit."
             ),
         },
         "licenses": {
+            "code_spdx": code_spdx,
+            "docs_and_data_spdx": docs_spdx,
             "spdx_expression": spdx_expression,
-            "code_license": "GNU AGPLv3",
-            "theory_license": "CC BY-NC-SA 4.0",
-            "hybrid_clause_summary": hybrid_clause_summary,
+            "code_license": "GNU AGPLv3 (AGPL-3.0-or-later)",
+            "docs_and_taxonomy_license": "Creative Commons Attribution 4.0 International (CC-BY-4.0)",
+            "physical_separation_policy": separation_policy,
+            "non_commercial_clauses_in_code": False,
         },
     }
 
@@ -436,7 +520,7 @@ def serialize_payload(payload: dict[str, Any]) -> str:
 def main(argv: list[str] | None = None) -> int:
     _configure_stdio()
     parser = argparse.ArgumentParser(
-        description="Exporte ou vérifie le contrat JSON déterministe site-payload.json."
+        description="Exporte ou vérifie le contrat JSON déterministe site-payload.json (v3.0.0)."
     )
     parser.add_argument(
         "--root",
@@ -478,11 +562,13 @@ def main(argv: list[str] | None = None) -> int:
                 return 1
         rel = payload["release"]
         s0 = payload["strate_0_core"]
+        ext = s0["canonical_extension"]
         print(
             f"PAYLOAD CHECK OK : schema={payload['schema_version']}, version={rel['version']}, "
-            f"theorems={s0['theorems_verified']}, provers={len(s0['provers'])}, "
-            f"lean_modules={s0['lean_modules_count']}, states={s0['states_count']}, "
-            f"predictions={s0['predictions_count']}."
+            f"normative_modules={s0['normative_modules_count']}, "
+            f"theorems={s0['theorems_substantial']}/{s0['exported_declarations']} (pillars={s0['pillar_theorems_count']}), "
+            f"canonical_ext={ext['theorems_own']}+{ext['auxiliary_lemmas']}={ext['exported_declarations']}, "
+            f"python_tests={s0['python_unit_tests_count']}, predictions={s0['predictions_count']}."
         )
         return 0
 
@@ -492,8 +578,8 @@ def main(argv: list[str] | None = None) -> int:
             fh.write(serialized)
         print(
             f"WROTE {args.output.as_posix()} (version={payload['release']['version']}, "
-            f"theorems={payload['strate_0_core']['theorems_verified']}, "
-            f"sha256={payload['strate_0_core']['lexicon176_sha256'][:16]}...)"
+            f"theorems={payload['strate_0_core']['theorems_substantial']}/{payload['strate_0_core']['exported_declarations']}, "
+            f"lexicon_annex_sha256={payload['exploratory_annexes']['lexicon_176']['sha256'][:16]}...)"
         )
         return 0
 

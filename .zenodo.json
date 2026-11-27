@@ -1,7 +1,7 @@
 {
-  "title": "CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory & Active Inference Benchmarks",
-  "version": "2.1.0",
-  "publication_date": "2026-11-22",
+  "title": "CARTOGRAFFECT: Research Compendium — Lean 4 Formal Core, Theory & Active Inference Benchmarks",
+  "version": "3.0.0",
+  "publication_date": "2026-11-26",
   "upload_type": "software",
   "license": "agpl-3.0-or-later",
   "creators": [
@@ -10,21 +10,17 @@
       "orcid": "0000-0002-4375-0886"
     }
   ],
-  "description": "CARTOGRAFFECT® v2.1.0 stratified Research Compendium. Strate 0 integrates six independent formal proof suites (Lean 4.35.0, Rocq 9.1.0, Agda 2.9.0, Dafny 4.11.0, SMT-LIB 2.6 / Z3 5.3.3, TLA+/TLC 2.19) certifying 130/130 theorems (132/132 Dafny/TLA+ lemmas/predicates, 3,021 Dafny verified obligations, 10/10 Z3 sat consistency & 2/2 AUX unsat, 8/8 TLC models, 11/11 evaluation blocks) with 0 sorry / 0 custom axioms, the isomorphic exact integer Python predictive engine, and the canonical theoretical manuscript (docs/01-Article_Cartograffect.md, 176 affective states on Z in {0,...,7}, predictions P1-P5). Strate 1 hosts subordinate exploratory extensions for affective lexical projection and psychometric benchmarks (extensions/lexicon/, including 4 Lean 4 modules certifying 36/36 theorems with 0 sorry) and Active Inference pymdp/JAX/NumPyro generative simulations (extensions/in_silico/). Dual licensing (SPDX: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0): software source code, scripts, and formal proof implementations are licensed under GNU AGPLv3 (agpl-3.0-or-later), whereas the theoretical architecture, manuscript, coordinate geometry, and 176-state taxonomy (including taxonomic tables embedded in hybrid lexicon/JSON/HTML artifacts) are licensed under CC BY-NC-SA 4.0 and excluded from commercial exploitation. Registered trademark and copyright: CARTOGRAFFECT® (CIPO / OPIC n° 1233199).",
-  "notes": "SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0. Note on Zenodo metadata: the single Zenodo SPDX field 'agpl-3.0-or-later' (GNU AGPLv3) covers the software repository code and formal proofs, while the theoretical framework, canonical manuscript (docs/01-Article_Cartograffect.md, docs/02-Inventaire_176.md), affective geometry, and the 176-state taxonomy remain strictly governed by Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0; see LICENSE-CC-BY-NC-SA-4.0.md and NOTICE). Hybrid files (Lexicon176 in Lean/Rocq/Agda/Dafny/SMT/TLA+, lexicon_176.json, interactive HTML explorers) are subject to the hybrid separation clause prohibiting commercial extraction of the taxonomy. Registered intellectual property: CARTOGRAFFECT® (CIPO / OPIC n° 1233199).",
+  "description": "CARTOGRAFFECT v3.0.0 Research Compendium. Strate 0 centers on Lean 4 (v4.35.0, Lake 5.0.0, Init only, warningAsError := true) as the single formal reference prover across 8 normative modules (Cartograffect/) certifying 148 substantial theorems (169 exported declarations, 21 elementary lemmas, 8 pillar theorems, 0 sorryAx, 0 native_decide, 0 custom axioms; exhaustive line-by-line audit in FORMAL_AUDIT_PACK.md), plus the canonical extension PredictiveEngineCanonical.lean (16 own theorems C1..C16 + 5 auxiliary lemmas CE1..CE5 = 21 declarations), the isomorphic exact integer Python engine (python/cartograffect_predictive_engine.py, 11 unit tests), and the realigned theoretical manuscript (docs/01-Article_Cartograffect.md: Option 1A strict instrumental Y with decoupled autonomous activation A >= 0, Option 2a stepwise vertical dynamics, Option 3b negative-Charge P2 symmetry breaking, continuous Z in [0, 5] with canonical discretization Z in {0, 1, 2}, predictions P1-P5). Exploratory annexes kept strictly outside the v3.0.0 normative core include Cartograffect/Lexicon176.lean and docs/02-Inventaire_176.md (176 entries, Z in {0..7}), Strate 1 lexical/in_silico satellites (extensions/lexicon/, extensions/in_silico/), and the frozen v2.1.0 multi-prover archive (rocq/, agda/, dafny/, smt/, tla/). Physical license separation (FAIR4RS / OSI / TOP): all source code, scripts, and formal proofs are licensed solely under OSI-approved AGPL-3.0-or-later (LICENSE), while the manuscript, documentation, and taxonomic tables are licensed under CC-BY-4.0 (LICENSE-CC-BY-4.0.md), with zero non-commercial (NC) restriction. Copyright registration: CIPO / OPIC No. 1233199.",
+  "notes": "Physical license separation (no NC restriction in code or v3.0.0 outputs): the Zenodo software license field 'agpl-3.0-or-later' (GNU AGPLv3, LICENSE) governs exclusively all source code, Python engines/scripts, and Lean 4 formal proofs; the theoretical manuscript (docs/01-Article_Cartograffect.md), exploratory inventory annex (docs/02-Inventaire_176.md), documentation, and taxonomic tables are licensed under Creative Commons Attribution 4.0 International (CC-BY-4.0; see LICENSE-CC-BY-4.0.md and NOTICE). Third-party non-redistributable corpora provenance is documented in DATA_PROVENANCE.md. Copyright registration: CIPO / OPIC No. 1233199.",
   "keywords": [
     "CARTOGRAFFECT",
     "formal verification",
     "Lean 4",
-    "Rocq",
-    "Agda",
-    "Dafny",
-    "SMT-LIB",
-    "Z3",
-    "TLA+",
     "active inference",
     "affective neuroscience",
     "computational psychiatry",
+    "predictive processing",
+    "FAIR4RS",
     "research compendium"
   ],
   "related_identifiers": [

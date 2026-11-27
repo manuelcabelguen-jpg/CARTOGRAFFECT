@@ -1,15 +1,6 @@
-name: TLA+ / TLC Formal Verification CI
+name: "[LEGACY v2.1 — ARCHIVED] TLA+ / TLC Formal Verification CI"
 
 on:
-  push:
-    branches: [ main, master ]
-    paths:
-      - 'tla/**'
-      - '.github/workflows/tla-ci.yml'
-  pull_request:
-    branches: [ main, master ]
-    paths:
-      - 'tla/**'
   workflow_dispatch:
 
 permissions:

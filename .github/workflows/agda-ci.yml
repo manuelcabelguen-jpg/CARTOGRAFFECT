@@ -1,15 +1,6 @@
-name: Agda 2.9 CI
+name: "[LEGACY v2.1 — ARCHIVED] Agda 2.9 CI"
 
 on:
-  push:
-    branches: [ main, master ]
-    paths:
-      - 'agda/**'
-      - '.github/workflows/agda-ci.yml'
-  pull_request:
-    paths:
-      - 'agda/**'
-      - '.github/workflows/agda-ci.yml'
   workflow_dispatch:
 
 jobs:

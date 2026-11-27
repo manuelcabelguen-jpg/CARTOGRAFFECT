@@ -269,7 +269,13 @@ def main():
             run_step(5, "06_build_interactive_3d_viewer.py", "Génération de l'explorateur interactif 3D de la Pyramide L1")
     else:
         run_step(1, "01_build_ref176.py", "Génération du référentiel des 176 prototypes depuis Lean 4")
-        run_step(2, "02_prefilter_nrc.py", "Préfiltrage lexical WordNet du lexique NRC-VAD v2.1")
+        if os.path.exists("NRC-VAD-Lexicon-v2.1.txt"):
+            run_step(2, "02_prefilter_nrc.py", "Préfiltrage lexical WordNet du lexique NRC-VAD v2.1")
+        else:
+            print(
+                "\n[SKIP] Étape 2 sautée : NRC-VAD-Lexicon-v2.1.txt absent localement "
+                "(fichier tiers non redistribuable — voir DATA_PROVENANCE.md)."
+            )
         
         if not args.skip_llm:
             run_step(3, "03_classify_batches_gemini.py", "Classification sémantique différentielle par lots via Gemini")

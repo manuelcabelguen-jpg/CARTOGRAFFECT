@@ -1,12 +1,12 @@
 ---
-title: CARTOGRAFFECT® mis à l'épreuve des Roues des Émotions (Scherer et al., 2013)
+title: CARTOGRAFFECT mis à l'épreuve des Roues des Émotions (Scherer et al., 2013)
 author: Manuel Cabelguen
 date: 2026-11-25
 license_code: GNU AGPLv3 (SPDX: AGPL-3.0-or-later)
-license_docs: CC BY-NC-SA 4.0
+license_docs: CC BY 4.0 (SPDX: CC-BY-4.0)
 ---
 
-# CARTOGRAFFECT® mis à l'épreuve des Roues des Émotions : Évaluation Critique (Strate 1 — Exploratoire)
+# CARTOGRAFFECT mis à l'épreuve des Roues des Émotions : Évaluation Critique (Strate 1 — Exploratoire)
 
 [![Status: Exploratory Audit](https://img.shields.io/badge/Status-Exploratory_Audit_(Strate_1)-blue)](#2-tableau-de-synthese-des-hypotheses-pre-enregistrees)
 [![Empirical Data: Scherer et al. 2013](https://img.shields.io/badge/Benchmark-Scherer_et_al._2013_OUP-blue)](#1-cadre-epistemologique-et-protocole-de-falsification)
@@ -18,7 +18,7 @@ license_docs: CC BY-NC-SA 4.0
 
 ## 1. Cadre Épistémologique et Protocole de Falsification
 
-Dans cette étude exploratoire, **CARTOGRAFFECT®** (OPIC n° 1233199 ; Cabelguen, 2026) est confronté aux quatre modèles circulaires colligés dans l'ouvrage de référence de Klaus R. Scherer et ses collaborateurs :
+Dans cette étude exploratoire, **CARTOGRAFFECT** (OPIC n° 1233199 ; Cabelguen, 2026) est confronté aux quatre modèles circulaires colligés dans l'ouvrage de référence de Klaus R. Scherer et ses collaborateurs :
 
 > **Source documentaire** : Scherer, K. R., Shuman, V., Fontaine, J. R. J., & Soriano, C. (2013). *The GRID meets the Wheel: Assessing emotional feeling via self-report*. In J. R. J. Fontaine, K. R. Scherer, & C. Soriano (Eds.), *Components of emotional meaning: A sourcebook* (ch. 18, pp. 289–305). Oxford University Press.
 

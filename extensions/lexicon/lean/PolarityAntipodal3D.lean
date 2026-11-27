@@ -10,10 +10,10 @@ lexical et rattachés directement au répertoire canonique `Cartograffect.Lexico
 de la Strate 0 (176 états, Z = 0 : `"Point de Veille"`).
 
 Ces lemmes résident dans `extensions/lexicon/lean/` (Strate 1) afin de préserver
-strictement la symétrie exacte des 113 théorèmes constructifs du noyau Hexa-Prover.
+strictement la séparation d'avec le cœur normatif v3.0.0 (`Cartograffect/`).
 
 Copyright (c) 2026 Manuel Cabelguen. All rights reserved.
-SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
+SPDX-License-Identifier: AGPL-3.0-or-later
 ================================================================================
 -/
 

@@ -24,7 +24,7 @@ Note d'intégrité probatoire (Phase 1, `v3.0.0-dev`) :
   `extensions/lexicon/src/validate_emotion_wheels.py`.
 
 Copyright (C) 2026  Projet CARTOGRAFFECT (Manuel Cabelguen)
-SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
+SPDX-License-Identifier: AGPL-3.0-or-later
 ================================================================================
 -/
 

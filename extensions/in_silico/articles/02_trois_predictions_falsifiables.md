@@ -1,6 +1,6 @@
 # Mini-article 2 — Trois paris scientifiques pour mettre le modèle à l'épreuve (Expérience 1)
 
-- **Série :** Vulgarisation scientifique CARTOGRAFFECT® *in silico* (2/5)
+- **Série :** Vulgarisation scientifique CARTOGRAFFECT *in silico* (2/5)
 - **Expérience associée :** Expérience 1 — Prédictions falsifiables Monte-Carlo (`N = 1 000` trajectoires / condition ; `17.52 s`)
 - **Mots-clés :** prédiction falsifiable, non-circularité, budget $L_1$, dynamique axiale, inertie hiérarchique
 - **Temps de lecture estimé :** 6 minutes
@@ -11,7 +11,7 @@
 
 **Contexte :** Une théorie psychologique informatisée n'a de valeur que si elle formule des **prédictions risquées** — c'est-à-dire des comportements précis que l'expérience pourrait contredire, et qui ne sont pas simplement recopiés en dur dans les équations.
 
-**Objectif :** Vérifier par simulation *in silico* (`V3 = 0`) trois signatures du simulateur CARTOGRAFFECT® : **(P1)** un **test de cohérence numérique du projecteur budgétaire** `apply_budget_constraint` entre Attente ($X$) et Contrôle ($Y$) à profondeur fixe, **(P2)** la brièveté des états axiaux en $Z=2$ par rapport aux états diagonaux sous $B(Z=2)$ symétrique, et **(P3)** la lenteur d'apaisement et la résistance aux contre-exemples lorsque la profondeur $Z$ augmente.
+**Objectif :** Vérifier par simulation *in silico* (`V3 = 0`) trois signatures du simulateur CARTOGRAFFECT : **(P1)** un **test de cohérence numérique du projecteur budgétaire** `apply_budget_constraint` entre Attente ($X$) et Contrôle ($Y$) à profondeur fixe, **(P2)** la brièveté des états axiaux en $Z=2$ par rapport aux états diagonaux sous $B(Z=2)$ symétrique, et **(P3)** la lenteur d'apaisement et la résistance aux contre-exemples lorsque la profondeur $Z$ augmente.
 
 **Méthode :** Chacune des trois prédictions est testée sur **$N = 1\,000$ trajectoires** indépendantes. En P1 ($Z = 4$, 240 essais), un protocole orthogonal alterne quatre conditions de contrôle et de volatilité avec ($\lambda = 1$) ou sans ($\lambda = 0$) contrainte budgétaire $L_1$. En P2 ($Z = 2$, 112 essais), l'agent part d'une matrice de transition $B(Z=2)$ strictement symétrique ($\Delta_{\text{prior}} = 8.33 \times 10^{-17}$). En P3 ($Z \in \{2, 4, 5\}$), le POMDP canonique à 176 états sous JAX subit d'abord une phase neutre (`DISSIPATE`), puis $K = 12$ observations positives contradictoires.
 
@@ -106,5 +106,5 @@ Testée directement sur le POMDP complet à 176 états sous JAX ($N = 1\,000$ tr
 
 ## Limites et portée
 
-Ces simulations vérifient la cohérence causale interne du modèle sur un environnement synthétique contrôlé ; elles démontrent que CARTOGRAFFECT® formule des prédictions mesurables et réfutables que des expériences comportementales humaines (mesures de dynamique affective sous variation orthogonale d'incertitude et de contrôle) pourront désormais tester directement.
+Ces simulations vérifient la cohérence causale interne du modèle sur un environnement synthétique contrôlé ; elles démontrent que CARTOGRAFFECT formule des prédictions mesurables et réfutables que des expériences comportementales humaines (mesures de dynamique affective sous variation orthogonale d'incertitude et de contrôle) pourront désormais tester directement.
 

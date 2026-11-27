@@ -1,15 +1,7 @@
-name: Rocq Formal Verification CI
+name: "[LEGACY v2.1 — ARCHIVED] Rocq Formal Verification CI"
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'rocq/**'
-      - '.github/workflows/rocq-ci.yml'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'rocq/**'
+  workflow_dispatch:
 
 jobs:
   verify-rocq:

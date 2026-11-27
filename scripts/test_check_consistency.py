@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Suite de tests adversariaux pour `scripts/check_consistency.py` et
-`scripts/sync_metadata.py` (bibliothèque standard Python 3.10+ uniquement).
+Suite de tests adversariaux pour `scripts/check_consistency.py`,
+`scripts/sync_metadata.py`, `scripts/export_site_payload.py` et le comportement
+de repli (`[SKIP]`) en l'absence des jeux de données tiers non redistribuables
+(bibliothèque standard Python 3.10+ uniquement).
 """
 
 from __future__ import annotations
@@ -20,24 +23,35 @@ CHECK_SCRIPT = REPO_ROOT / "scripts" / "check_consistency.py"
 SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_metadata.py"
 EXPORT_SCRIPT = REPO_ROOT / "scripts" / "export_site_payload.py"
 
-# Sous-ensemble complet de fichiers légers (< 256 KiB) + fichiers obligatoires
-# permettant de reconstruire un dépôt temporaire fidèle et rapide (< 0.3s/test).
 REQUIRED_COPY_PATHS = (
     "VERSION",
     "README.md",
+    "VALIDATION.md",
     "CITATION.cff",
     ".zenodo.json",
     "manifest.json",
     "NOTICE",
+    "LICENSE",
+    "LICENSE-CC-BY-4.0.md",
     "CHANGELOG.md",
+    "DECISIONS_V3.md",
+    "FORMAL_AUDIT_PACK.md",
+    "DATA_PROVENANCE.md",
     ".gitattributes",
     "Cartograffect.lean",
     "docs/01-Article_Cartograffect.md",
+    "docs/02-Inventaire_176.md",
     "docs/CONVERGENCE_MATRIX.md",
+    "extensions/predictive_engine/EPISTEMIC_STATUS.md",
+    "extensions/predictive_engine/PredictiveEngineCanonical.lean",
     "extensions/lexicon/EPISTEMIC_STATUS.md",
+    "extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md",
     "extensions/in_silico/EPISTEMIC_STATUS.md",
     "extensions/in_silico/pyproject.toml",
+    "extensions/in_silico/uv.lock",
     "extensions/in_silico/data/lexicon_176.json",
+    "python/cartograffect_predictive_engine.py",
+    "python/test_predictive_engine.py",
     "scripts/check_consistency.py",
     "scripts/sync_metadata.py",
     "scripts/export_site_payload.py",
@@ -45,6 +59,7 @@ REQUIRED_COPY_PATHS = (
 
 REQUIRED_COPY_DIRS = (
     "Cartograffect",
+    "extensions/lexicon/lean",
     "rocq/theories",
     "agda/src",
     "dafny/src",
@@ -55,9 +70,10 @@ REQUIRED_COPY_DIRS = (
 FORMAL_SOURCE_SUFFIXES = frozenset({".lean", ".v", ".agda", ".dfy", ".smt2", ".tla", ".cfg"})
 
 
-def _run_script(script: Path, *args: str) -> subprocess.CompletedProcess[str]:
+def _run_script(script: Path, *args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [sys.executable, str(script), *args],
+        cwd=str(cwd) if cwd is not None else None,
         capture_output=True,
         text=True,
         encoding="utf-8",
@@ -139,7 +155,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             repo = _make_temp_repo(Path(tmp))
             zpath = repo / ".zenodo.json"
             data = json.loads(zpath.read_text(encoding="utf-8"))
-            data["version"] = "2.0.2"
+            data["version"] = "3.0.1"
             zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             self._assert_check_fails_on_category(repo, "version_parity")
 
@@ -148,8 +164,20 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             repo = _make_temp_repo(Path(tmp))
             zpath = repo / ".zenodo.json"
             data = json.loads(zpath.read_text(encoding="utf-8"))
-            data["license"] = "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"
+            data["license"] = "AGPL-3.0-or-later AND CC-BY-4.0"
             zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            self._assert_check_fails_on_category(repo, "zenodo_cff_spdx")
+
+    def test_fault_nc_clause_injected_in_source_code(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = _make_temp_repo(Path(tmp))
+            core_path = repo / "Cartograffect/CoreAffect.lean"
+            text = core_path.read_text(encoding="utf-8")
+            injected_nc = "AGPL-3.0-or-later AND CC-BY-" + "NC-SA-4.0"
+            core_path.write_text(
+                text.replace("AGPL-3.0-or-later", injected_nc, 1),
+                encoding="utf-8",
+            )
             self._assert_check_fails_on_category(repo, "zenodo_cff_spdx")
 
     def test_fault_lexicon176_sha256_tamper(self) -> None:
@@ -160,13 +188,13 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             lex_path.write_bytes(raw + b"\n")
             self._assert_check_fails_on_category(repo, "strate0_integrity")
 
-    def test_fault_uncommented_sorry_in_lean(self) -> None:
+    def test_fault_uncommented_sorry_and_native_decide_in_lean(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = _make_temp_repo(Path(tmp))
             core_path = repo / "Cartograffect/CoreAffect.lean"
             text = core_path.read_text(encoding="utf-8")
             core_path.write_text(
-                text + "\ntheorem injected_gap : True := by sorry\n",
+                text + "\ntheorem injected_gap : True := by native_decide\n",
                 encoding="utf-8",
             )
             self._assert_check_fails_on_category(repo, "strate0_integrity")
@@ -178,7 +206,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             text = core_path.read_text(encoding="utf-8")
             core_path.write_text(
                 text
-                + "\n-- sorry Admitted postulate {:axiom} AXIOM\n"
+                + "\n-- sorry admit native_decide axiom\n"
                 + "/- outer /- nested sorry admit -/ outer -/\n",
                 encoding="utf-8",
             )
@@ -221,7 +249,7 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
     def test_sync_metadata_check_and_apply_roundtrip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = _make_temp_repo(Path(tmp))
-            (repo / "VERSION").write_text("2.0.2\n", encoding="utf-8")
+            (repo / "VERSION").write_text("3.0.1\n", encoding="utf-8")
 
             check_before = _run_script(SYNC_SCRIPT, "--check", "--root", str(repo))
             self.assertEqual(check_before.returncode, 1)
@@ -254,28 +282,36 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             self.assertIn("PAYLOAD CHECK OK", chk.stdout)
 
             payload = json.loads(bytes_a.decode("utf-8"))
-            self.assertEqual(payload["schema_version"], "1.0")
-            self.assertEqual(payload["release"]["version"], "2.1.0")
-            self.assertEqual(payload["release"]["tag"], "v2.1.0")
-            self.assertEqual(payload["release"]["date"], "2026-11-22")
+            self.assertEqual(payload["schema_version"], "2.0")
+            self.assertEqual(payload["release"]["version"], "3.0.0")
+            self.assertEqual(payload["release"]["tag"], "v3.0.0")
+            self.assertEqual(payload["release"]["date"], "2026-11-26")
             self.assertIn("non mathématicien formel", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertIn("ligne par ligne", payload["ai_disclosure"]["verification_and_audit_status"])
             self.assertEqual(payload["identifiers"]["cipo_registration"], "1233199")
-            self.assertEqual(payload["strate_0_core"]["theorems_verified"], 130)
+            self.assertEqual(payload["strate_0_core"]["normative_modules_count"], 8)
+            self.assertEqual(payload["strate_0_core"]["theorems_substantial"], 148)
+            self.assertEqual(payload["strate_0_core"]["exported_declarations"], 169)
+            self.assertEqual(payload["strate_0_core"]["auxiliary_lemmas"], 21)
+            self.assertEqual(payload["strate_0_core"]["pillar_theorems_count"], 8)
             self.assertEqual(payload["strate_0_core"]["sorry_count"], 0)
-            self.assertEqual(len(payload["strate_0_core"]["provers"]), 6)
-            self.assertEqual(payload["strate_0_core"]["lean_modules_count"], 11)
-            self.assertEqual(payload["strate_0_core"]["states_count"], 176)
+            self.assertEqual(payload["strate_0_core"]["native_decide_count"], 0)
+            self.assertEqual(payload["strate_0_core"]["canonical_extension"]["theorems_own"], 16)
+            self.assertEqual(payload["strate_0_core"]["canonical_extension"]["exported_declarations"], 21)
+            self.assertEqual(payload["strate_0_core"]["python_unit_tests_count"], 11)
             self.assertEqual(payload["strate_0_core"]["predictions_count"], 5)
+            self.assertEqual(payload["exploratory_annexes"]["lexicon_176"]["states_count"], 176)
             self.assertEqual(payload["strate_1_extensions"]["lexicon"]["theorems_verified"], 10)
-            self.assertEqual(payload["licenses"]["spdx_expression"], "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
+            self.assertEqual(payload["licenses"]["code_spdx"], "AGPL-3.0-or-later")
+            self.assertEqual(payload["licenses"]["docs_and_data_spdx"], "CC-BY-4.0")
+            self.assertFalse(payload["licenses"]["non_commercial_clauses_in_code"])
 
     def test_fault_site_payload_manifest_mismatch(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = _make_temp_repo(Path(tmp))
             mpath = repo / "manifest.json"
             data = json.loads(mpath.read_text(encoding="utf-8"))
-            data["strate_0_core"]["theorems_verified"] = 68
+            data["strate_0_core"]["theorems_substantial"] = 130
             mpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
             exp_fail = _run_script(EXPORT_SCRIPT, "--check", "--root", str(repo))
@@ -299,6 +335,36 @@ class TestCheckConsistencyGuardrails(unittest.TestCase):
             data["description"] = str(data["description"]).replace("1233199", "0000000")
             zpath.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             self._assert_check_fails_on_category(repo, "zenodo_cff_spdx")
+
+    def test_missing_third_party_datasets_skip_gracefully(self) -> None:
+        """Vérifie le comportement [SKIP] propre lorsque NRC-VAD/DIMA/FANCat sont absents."""
+        lex_dir = REPO_ROOT / "extensions" / "lexicon"
+        if not (lex_dir / "NRC-VAD-Lexicon-v2.1.txt").exists():
+            proc = _run_script(lex_dir / "02_prefilter_nrc.py", cwd=lex_dir)
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+            self.assertIn("[SKIP]", proc.stdout)
+            self.assertIn("DATA_PROVENANCE.md", proc.stdout)
+
+        # Vérifie load_dima_tables et load_fancat_table sur répertoire vide
+        with tempfile.TemporaryDirectory() as tmp:
+            code = (
+                f"import sys; sys.path.insert(0, {str(lex_dir)!r}); "
+                "import dima_mapping as dm; "
+                "d = dm.load_dima_tables('missing1.xlsx', 'missing2.xlsx'); "
+                "f = dm.load_fancat_table('missing_fan.xlsx'); "
+                "assert len(d) == 0 and len(f) == 0"
+            )
+            proc = subprocess.run(
+                [sys.executable, "-c", code],
+                cwd=tmp,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+            self.assertIn("[SKIP]", proc.stdout)
 
 
 if __name__ == "__main__":

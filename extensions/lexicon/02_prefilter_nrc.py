@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+import argparse
 import sys
 import subprocess
 import os
@@ -23,11 +25,23 @@ for _pkg in ("wordnet", "omw-1.4"):
 
 from nltk.corpus import wordnet as wn
 
-def main():
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Préfiltrage WordNet du lexique NRC-VAD v2.1.")
+    parser.add_argument(
+        "--require-raw",
+        action="store_true",
+        help="Échoue (code 1) si le fichier tiers non redistribuable NRC-VAD-Lexicon-v2.1.txt est absent.",
+    )
+    args = parser.parse_args(argv)
+
     nrc_file = "NRC-VAD-Lexicon-v2.1.txt"
     if not os.path.exists(nrc_file):
-        print(f"Erreur : fichier {nrc_file} introuvable.")
-        sys.exit(1)
+        msg = (
+            f"[SKIP] Fichier tiers non redistribuable absent : {nrc_file}. "
+            "Voir DATA_PROVENANCE.md à la racine du dépôt pour l'URL source canonique et la licence."
+        )
+        print(msg)
+        sys.exit(1 if args.require_raw else 0)
 
     # 2. Chargement du fichier NRC-VAD avec pandas
     df = pd.read_csv(nrc_file, sep="\t")

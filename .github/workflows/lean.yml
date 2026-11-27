@@ -2,7 +2,7 @@ name: Lean 4 CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main", "master", "v3.0.0-dev" ]
   pull_request:
     branches: [ "main", "master" ]
   workflow_dispatch:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Build & Formally Verify CARTOGRAFFECT
+    name: Build & Formally Verify CARTOGRAFFECT v3.0.0 (Lean 4)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,21 +28,39 @@ jobs:
           lean --version
           lake --version
 
-      - name: Build and verify Lean library
+      - name: Build Lean 4 normative core & canonical extension (lake build)
         run: |
           lake build
 
-      - name: Audit axioms & ensure zero sorry
+      - name: Execute exhaustive axiom & evaluation audit (Cartograffect/AuditTests.lean)
         run: |
-          echo "Checking for forbidden keywords (sorry, admit, axiom, unsafe, implemented_by, noncomputable, native_decide, partial)..."
-          if git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable|native_decide|partial)\b" -- Cartograffect/ Cartograffect.lean; then
-            echo "Error: Uncertified sorry, axiom, or unsafe construct found in Lean code!"
+          lake env lean Cartograffect/AuditTests.lean | tee audit_core.log
+          if grep -q "sorryAx" audit_core.log; then
+            echo "Error: sorryAx detected in Cartograffect/AuditTests.lean!"
             exit 1
           fi
-          echo "Audit passed: 0 sorry, 0 uncertified axioms, 100% computable."
+          rm -f audit_core.log
+
+      - name: Execute canonical extension audit (PredictiveEngineCanonical.lean)
+        run: |
+          lake env lean extensions/predictive_engine/PredictiveEngineCanonical.lean | tee audit_ext.log
+          if grep -q "sorryAx" audit_ext.log; then
+            echo "Error: sorryAx detected in PredictiveEngineCanonical.lean!"
+            exit 1
+          fi
+          rm -f audit_ext.log
+
+      - name: Static audit (0 sorry, 0 admit, 0 axiom, 0 native_decide, 0 noncomputable)
+        run: |
+          echo "Checking for forbidden keywords in Lean 4 core..."
+          if git grep -n -E "\b(sorry|admit|axiom|unsafe|implemented_by|noncomputable|native_decide|partial)\b" -- Cartograffect/ Cartograffect.lean; then
+            echo "Error: Uncertified sorry, axiom, native_decide, or unsafe construct found in Lean code!"
+            exit 1
+          fi
+          echo "Audit passed: 0 sorry, 0 native_decide, 0 uncertified axioms."
 
   python-tests:
-    name: Verify Isomorphic Python Engine
+    name: Verify Isomorphic Python Engine (11 unit tests)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -56,7 +74,7 @@ jobs:
       - name: Install NumPy
         run: python -m pip install --upgrade pip && pip install "numpy>=1.24"
 
-      - name: Run Python unit tests & parity check
+      - name: Run Python unit tests (11 tests) & parity check
         run: |
           python -m unittest discover -s python -v
           python python/cartograffect_predictive_engine.py

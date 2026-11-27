@@ -1,6 +1,6 @@
 # Mini-article 4 — Peut-on mesurer ces 8 paramètres et prouver que le modèle bat ses rivaux ? (Expérience 3)
 
-- **Série :** Vulgarisation scientifique CARTOGRAFFECT® *in silico* (4/5)
+- **Série :** Vulgarisation scientifique CARTOGRAFFECT *in silico* (4/5)
 - **Expérience associée :** Expérience 3 — *Parameter Recovery* (`M = 500` + `10` NUTS) & *Model Recovery* (`4 × 100`, `T = 280` essais ; `389.23 s`)
 - **Mots-clés :** identifiabilité bayésienne, NumPyro SVI, MCMC NUTS, sélection de modèles, WAIC, BIC, *pxp*
 - **Temps de lecture estimé :** 6 minutes
@@ -11,13 +11,13 @@
 
 **Contexte :** Avant d'utiliser un modèle computationnel sur des données humaines, deux vérifications indispensables s'imposent : s'assurer que la tâche expérimentale permet de **retrouver précisément les paramètres** d'un agent à partir de son comportement (*parameter recovery*), et vérifier que les critères statistiques savent **identifier le bon modèle générateur** face à des variantes concurrentes (*model recovery*).
 
-**Objectif :** Évaluer l'identifiabilité des 8 paramètres $\theta$ de CARTOGRAFFECT® et la discriminabilité de l'architecture complète ($M_1$) face à trois modèles alternatifs plus simples ($M_2, M_3, M_4$) sur une tâche en boucle fermée de $T = 280$ essais.
+**Objectif :** Évaluer l'identifiabilité des 8 paramètres $\theta$ de CARTOGRAFFECT et la discriminabilité de l'architecture complète ($M_1$) face à trois modèles alternatifs plus simples ($M_2, M_3, M_4$) sur une tâche en boucle fermée de $T = 280$ essais.
 
-**Méthode :** Cinq cents vecteurs de paramètres $\theta^*$ ont été simulés sur `NonStationaryBanditEnv` (sans accès aux labels cachés) puis inversés sous NumPyro par inférence variationnelle vectorisée (`SVI`, guide `AutoMultivariateNormal`) avec reparamétrisation centrée (`log_alpha_mid` à $z_{\text{ref}} = 3.5$, $\beta_X = \beta_Y + \Delta\beta$), complétée par une validation croisée MCMC `NUTS` sur 10 jeux (2 chaînes, 600 échauffements + 900 tirages). Pour le *model recovery*, $4 \times 100$ jeux ont été générés sous $M_1$ (CARTOGRAFFECT® 8p), $M_2$ (sans budget $\lambda = 0$, 7p), $M_3$ (continu sans seuils $\tau = 0$, 6p) et $M_4$ (valence scalaire 1D, 5p), comparés via BIC, WAIC et probabilité d'excédance protégée (*pxp*, Rigoux et al., 2014).
+**Méthode :** Cinq cents vecteurs de paramètres $\theta^*$ ont été simulés sur `NonStationaryBanditEnv` (sans accès aux labels cachés) puis inversés sous NumPyro par inférence variationnelle vectorisée (`SVI`, guide `AutoMultivariateNormal`) avec reparamétrisation centrée (`log_alpha_mid` à $z_{\text{ref}} = 3.5$, $\beta_X = \beta_Y + \Delta\beta$), complétée par une validation croisée MCMC `NUTS` sur 10 jeux (2 chaînes, 600 échauffements + 900 tirages). Pour le *model recovery*, $4 \times 100$ jeux ont été générés sous $M_1$ (CARTOGRAFFECT 8p), $M_2$ (sans budget $\lambda = 0$, 7p), $M_3$ (continu sans seuils $\tau = 0$, 6p) et $M_4$ (valence scalaire 1D, 5p), comparés via BIC, WAIC et probabilité d'excédance protégée (*pxp*, Rigoux et al., 2014).
 
 **Résultats :** Les 8 paramètres sont retrouvés avec des corrélations comprises entre **`r = 0.8915`** ($\beta_X$) et **`r = 0.9958`** ($\lambda$), dépassant toutes le seuil fixé ($\ge 0.80$), et une couverture des intervalles de crédibilité à 95 % comprise entre **`90.4 %`** ($\lambda$) et **`95.4 %`** ($\beta_Y$, critère $\ge 85\,\%$). Les contrôles MCMC `NUTS` confirment la convergence ($\max \hat{R} = 1.010 < 1.02$, $\min \text{ESS} = 804.7 \ge 400$). La matrice de confusion en BIC atteint **`100 %` (`1.000`)** sur les 4 modèles (WAIC : `1.000`, `0.840`, `0.990`, `1.000`), avec un minimum de $pxp_{\text{BIC}} = 1.0000$ et $pxp_{\text{WAIC}} = 1.0000$ ($> 0.95$).
 
-**Conclusion :** Le protocole expérimental de 280 essais rend CARTOGRAFFECT® à la fois quantitativement identifiable et nettement distinguable de versions simplifiées, autorisant son déploiement empirique.
+**Conclusion :** Le protocole expérimental de 280 essais rend CARTOGRAFFECT à la fois quantitativement identifiable et nettement distinguable de versions simplifiées, autorisant son déploiement empirique.
 
 ---
 
@@ -66,7 +66,7 @@ Malgré ces couplages structurels bien compris, **chaque paramètre pris individ
 
 ---
 
-## 3. Partie 2 — CARTOGRAFFECT® se distingue-t-il vraiment de 3 modèles rivaux plus simples ? (`4 × 100`)
+## 3. Partie 2 — CARTOGRAFFECT se distingue-t-il vraiment de 3 modèles rivaux plus simples ? (`4 × 100`)
 
 Pour vérifier que chaque brique de la théorie apporte une signature propre et mesurable, le modèle complet $M_1$ a affronté trois variantes amputées d'un mécanisme :
 
@@ -96,7 +96,7 @@ Pour vérifier que chaque brique de la théorie apporte une signature propre et 
 
 1. **Les 8 paramètres sont mesurables :** dans une session standardisée de 280 essais, chaque curseur $\theta$ est retrouvé avec une précision élevée ($r$ entre `0.89` et `0.996`) et des intervalles fiables (`90–95 %`).
 2. **L'inférence rapide SVI est validée par NUTS :** aucune convergence douteuse ($\hat{R} \le 1.010$, $\text{ESS} \ge 804.7$).
-3. **Chaque composante théorique laisse une empreinte distincte :** CARTOGRAFFECT® ($M_1$) ne se confond ni avec un modèle sans budget ($M_2$), ni sans seuils ($M_3$), ni avec une valence 1D ($M_4$) — $pxp = 1.0000$.
+3. **Chaque composante théorique laisse une empreinte distincte :** CARTOGRAFFECT ($M_1$) ne se confond ni avec un modèle sans budget ($M_2$), ni sans seuils ($M_3$), ni avec une valence 1D ($M_4$) — $pxp = 1.0000$.
 
 ## Limites et portée
 

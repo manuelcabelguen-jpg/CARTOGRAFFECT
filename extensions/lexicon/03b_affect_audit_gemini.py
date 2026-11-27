@@ -33,7 +33,7 @@ except ImportError:
 from google import genai
 from google.genai import types
 
-MODEL_ID = "gemini-3.8-flash"
+MODEL_ID = os.environ.get("GEMINI_MODEL_ID", "gemini-2.5-flash")
 BATCH_SIZE = 150
 CANDIDATES_FILE = "nrc_candidates_filtered.tsv"
 LLM_FILE = "nrc_llm_classified.tsv"

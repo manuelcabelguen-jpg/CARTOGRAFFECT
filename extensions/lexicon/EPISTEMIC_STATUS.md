@@ -1,53 +1,53 @@
-# Statut Épistémique — `extensions/lexicon/` (Strate 1 : Extensions Lexicales et Psychométriques)
+# Statut Épistémique — `extensions/lexicon/` (Strate 1 : Extensions Lexicales Exploratoires)
 
-Ce sous-projet appartient à la **Strate 1 (Extensions exploratoires et validations psychométriques)** du compendium unifié **CARTOGRAFFECT®**. Conformément à la hiérarchie épistémique stricte du projet, il est **asservi à la Strate 0 (Noyau formel canonique)** et ne modifie aucun axiome ni théorème de la fondation Hexa-Prover (113 théorèmes constructifs).
+Ce sous-projet appartient à la **Strate 1 (Extensions lexicales et explorations géométriques)** du compendium **CARTOGRAFFECT (`v3.0.0`)**. Conformément à la hiérarchie épistémique stricte du projet ([`../../DECISIONS_V3.md`](../../DECISIONS_V3.md)), il est **asservi à la Strate 0 (Cœur normatif Lean 4 : 8 modules normatifs, 148 théorèmes substantiels / 169 déclarations exportées, 0 `sorryAx`, 0 `native_decide`)** et n'introduit aucune validation empirique externe (`V3 = 0`).
+
+> [!WARNING]
+> **Archive historique sous ancien axe Y hybride v2.1.0 :** Voir [`ARCHIVE_V2_HYBRID_Y_WARNING.md`](ARCHIVE_V2_HYBRID_Y_WARNING.md). Les tables TSV historiques (`CARTOGRAFFECT_Full_Dictionary_MultiStrata.tsv`, `nrc_llm_classified.tsv`, `nrc_candidates_filtered.tsv`, etc.) ont été générées sous l'ancien axe `Y` hybride v2.1.0 avant le découplage Option 1A (`Y` contrôlabilité instrumentale stricte / canal autonome `A ≥ 0`). Elles sont conservées sans altération à titre d'archive exploratoire hors cœur normatif v3.0.0.
 
 ---
 
-## 1. Ce qui relève de la Strate 0 (Noyau Formel Certifié)
+## 1. Ce qui provient de l'annexe exploratoire `Cartograffect/Lexicon176.lean`
 
-Les invariants suivants sont importés directement depuis [`Cartograffect/Lexicon176.lean`](../../Cartograffect/Lexicon176.lean) et [`Cartograffect/CoreAffect.lean`](../../Cartograffect/CoreAffect.lean) sans réécriture ni altération :
+Les invariants combinatoires suivants sont importés depuis l'annexe exploratoire [`Cartograffect/Lexicon176.lean`](../../Cartograffect/Lexicon176.lean) (`Z ∈ {0, ..., 7}`, hors cœur normatif v3.0.0 dont la discrétisation canonique est bornée à `Z ∈ {0, 1, 2}`) :
 
-1. **Géométrie discrète $L_1$ des 176 états ($Z \in \{0, \dots, 7\}$) :**
+1. **Géométrie discrète $L_1$ des 176 entrées ($Z \in \{0, \dots, 7\}$) :**
    - Loi des couronnes $R(Z) = |X| + |Y| = 2(Z - 1)$ pour tout état périphérique ($Z \ge 2$).
    - Parité paire $(X + Y) \equiv 0 \pmod 2$ et cardinaux par strate $N(Z) = 8(Z - 1) + 1$ ($1 + 1 + 9 + 17 + 25 + 33 + 41 + 49 = 176$).
 2. **Nomenclature canonique du pôle d'origine $(0, 0, 0)$ :**
    - Le sommet basal à $Z = 0$ porte le libellé canonique **`"Point de Veille"`** dans [`Cartograffect/Lexicon176.lean`](../../Cartograffect/Lexicon176.lean).
-   - Le script [`01_build_ref176.py`](01_build_ref176.py) lit directement `../../Cartograffect/Lexicon176.lean`. Un alias de compatibilité en lecture (`"Veille"` $\leftrightarrow$ `"Point de Veille"`) est maintenu dans [`cartograffect_core.py`](cartograffect_core.py) et [`src/validate_emotion_wheels.py`](src/validate_emotion_wheels.py) uniquement pour permettre la lecture des tables `.tsv` historiques pré-générées.
-3. **Antagonisme involutif 3D $\mathcal{A}(P)$ :**
-   - Symétrie centrale pour les états axiaux et diagonaux, et réflexion controlatérale $(Y, X, Z)$ / $(-Y, -X, Z)$ pour les états intermédiaires ($\mathcal{A}(\mathcal{A}(P)) = P$).
-   - Les 4 lemmes algébriques supplémentaires sur `polarity3D` et `zAntipodal3D` sont isolés dans [`lean/PolarityAntipodal3D.lean`](lean/PolarityAntipodal3D.lean) (hors des 113 théorèmes du Noyau Hexa-Prover) en important `Cartograffect.Lexicon176`.
+   - Le script [`01_build_ref176.py`](01_build_ref176.py) lit directement `../../Cartograffect/Lexicon176.lean`, avec alias de lecture `"Veille"` $\leftrightarrow$ `"Point de Veille"` pour la compatibilité avec les tables `.tsv` historiques.
+3. **Antagonisme involutif par morceaux $\mathcal{A}(X, Y, Z)$ :**
+   - `(-X, -Y, Z)` si `XY = 0`, et `(-sgn(X)|Y|, -sgn(Y)|X|, Z)` si `XY ≠ 0`.
+   - Les 4 lemmes géométriques supplémentaires sur `polarity3D` et `zAntipodal3D` sont isolés dans [`lean/PolarityAntipodal3D.lean`](lean/PolarityAntipodal3D.lean) (Strate 1, hors cœur normatif v3.0.0).
 
 ---
 
-## 2. Ce qui relève de la Strate 1 (Projections Heuristiques, Psychométriques et Exploratoires)
-
-Les modules suivants constituent des **opérationnalisations empiriques, interpolations numériques ou extensions théoriques en cours d'arbitrage** :
+## 2. Ce qui relève de la Strate 1 (Projections Heuristiques et Audits Exploratoires — `V3 = 0`)
 
 ### 2.1 Épreuve exploratoire par les Roues des Émotions (Scherer et al., 2013) et retrait de GRID-24 / CPM-142
 - **Fichiers actifs :** [`lean/EmotionWheelsChallenge.lean`](lean/EmotionWheelsChallenge.lean), [`lean/AuditGeometricLexicalPlacement.lean`](lean/AuditGeometricLexicalPlacement.lean), [`lean/PolarityAntipodal3D.lean`](lean/PolarityAntipodal3D.lean), [`src/validate_emotion_wheels.py`](src/validate_emotion_wheels.py).
-- **Retrait Phase 1 (`v3.0.0-dev`) — Purge GRID-24 / CPM-142 :**
-  - Les anciens artefacts synthétiques GRID-24 / CPM-142 (vecteurs calibrés sur $Z$ avec réinjection sectorielle `0.45 * u_sector / v_sector`, ainsi que l'ancien module Lean `SchererGRID.lean` qui embarquait des scores statistiques Python codés en dur) ont été **retirés du périmètre actif** et archivés dans [`archive/deprecated_synthetic_v2/`](../../archive/deprecated_synthetic_v2/). Aucune validation empirique ou psychométrique externe (V3) n'est revendiquée sur la base de ces données synthétiques.
+- **Retrait Phase 1 — Purge GRID-24 / CPM-142 :**
+  - Les anciens artefacts synthétiques GRID-24 / CPM-142 (`grid_cpm_integration.py`, vecteurs calibrés sur $Z$ avec réinjection sectorielle `0.45 * u_sector / v_sector`, ainsi que l'ancien module `SchererGRID.lean` embarquant des scores statistiques Python figés par `decide`) ont été **retirés du périmètre actif** et archivés dans [`archive/deprecated_synthetic_v2/`](../../archive/deprecated_synthetic_v2/). Aucune validation empirique ou psychométrique externe (`V3`) n'est revendiquée à partir de ces données synthétiques.
 - **Statut épistémique actif :**
-  - Les 3 modules Lean 4 actifs de `extensions/lexicon/lean/` (**10 théorèmes, 0 `sorry`, 0 constante statistique Python codée en dur**) certifient exclusivement des invariants géométriques et combinatoires internes de la grille $L_1$ et du Diamant 303.
+  - Les 3 modules Lean 4 actifs de `extensions/lexicon/lean/` (**10 théorèmes géométriques/combinatoires, `0 sorryAx`, `0` constante statistique Python codée en dur**) certifient exclusivement des invariants géométriques internes.
   - Le script [`src/validate_emotion_wheels.py`](src/validate_emotion_wheels.py) confronte le lexique aux coordonnées publiées des roues de Scherer et al. (2013) sans surcharges manuelles cachées, en rapportant **H2** et **H4** strictement comme **non corroborées** sans recadrage post-hoc.
-  - De même, l'homéomorphisme radial $L_1 \leftrightarrow L_2$ (projection de la double pyramide polyédrique sur la sphère riemannienne centrée en $Z_{\text{eq}} = 7$) est un **outil géométrique continu de visualisation**, distinct de la métrique discrète $L_1$ du Noyau.
+  - L'homéomorphisme radial $L_1 \leftrightarrow L_2$ est un **outil continu de visualisation**, distinct de la métrique discrète $L_1$ du cœur normatif.
 
-### 2.2 Pipeline de projection lexicale (NRC-VAD v2.1, DIMA, FANCat, GLAWI/Lexique 3.83)
+### 2.2 Pipeline de projection lexicale historique v2 (NRC-VAD v2.1, DIMA, FANCat, GLAWI/Lexique 3.83)
 - **Fichiers :** [`02_prefilter_nrc.py`](02_prefilter_nrc.py), [`03_classify_batches_gemini.py`](03_classify_batches_gemini.py), [`03b_affect_audit_gemini.py`](03b_affect_audit_gemini.py), [`04_direct_l1_projection.py`](04_direct_l1_projection.py), [`dima_mapping.py`](dima_mapping.py), [`10_project_55k_nrc_vad_diamond_303.py`](10_project_55k_nrc_vad_diamond_303.py).
 - **Statut épistémique :**
-  - Les coordonnées $(V, A, D) \in [-1, +1]^3$ des lexiques tiers sont projetées sur $(X, Y, Z)$ au moyen d'une **combinaison linéaire heuristique** pour l'axe de Contrôle ($y_{\text{raw}} = 0.60\,D + 0.40\,A$ ou $0.60\,A + 0.40\,D$ selon le script) et d'une estimation continue de profondeur $z_{\text{ded}} = \text{clip}(1.2 + 3.2\,r_{L_1}, 1.5, 7.0)$, suivie d'une classification assistée par LLM (`gemini-3.8-flash`) et d'un appariement par paliers.
-  - Ces projections constituent un **atlas psycholinguistique empirique** et non une déduction formelle du Noyau.
-  - **Politique des données tierces :** Les fichiers bruts sous licence tierce (`NRC-VAD-Lexicon-v2.1.txt`, `DIMA_GROUPE_*.xlsx`, `FANCatdatabaseRevisee.xlsx`) ainsi que la projection intégrale `CARTOGRAFFECT_55K_NRC_VAD_Diamant_303.tsv` sont **exclus du suivi Git** (`.gitignore`).
+  - Les coordonnées $(V, A, D) \in [-1, +1]^3$ des lexiques tiers ont été projetées dans la version v2.1.0 au moyen d'une **combinaison linéaire heuristique hybride** (`y_raw = 0.60*D + 0.40*A` ou `0.60*A + 0.40*D`, obsolète vis-à-vis de l'Option 1A v3.0.0) et d'une estimation continue $z_{\text{ded}} = \text{clip}(1.2 + 3.2\,r_{L_1}, 1.5, 7.0)$, suivie d'une classification assistée par LLM (**famille Gemini Flash**, configurée via `GEMINI_MODEL_ID`, valeur par défaut `gemini-2.5-flash` ; l'ancien identifiant de modèle invalide de l'archive v2 a été corrigé en v3.0.0).
+  - Ces projections constituent un **atlas psycholinguistique exploratoire archivé (`V3 = 0`)** et non une déduction formelle du cœur normatif v3.0.0.
+  - **Politique des données tierces (FAIR4RS) :** Les fichiers bruts tiers non redistribuables (`NRC-VAD-Lexicon-v2.1.txt`, `DIMA_GROUPE_*.xlsx`, `FANCatdatabaseRevisee.xlsx`) ainsi que `CARTOGRAFFECT_55K_NRC_VAD_Diamant_303.tsv` sont **exclus du suivi Git** (`.gitignore`) et documentés dans [`../../DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md). En leur absence locale, les scripts (`02_prefilter_nrc.py`, `dima_mapping.py`, `run_pipeline.py`) effectuent un **`[SKIP]` explicite** propre.
 
 ### 2.3 Extension Axiologique $Z \in [-7, -1]$ (« Diamant 303 »)
 - **Fichiers :** [`01b_prepare_diamond_z_minus.py`](01b_prepare_diamond_z_minus.py), [`02b_audit_and_consolidate_databases.py`](02b_audit_and_consolidate_databases.py), [`08_project_diamond_303_lexicon.py`](08_project_diamond_303_lexicon.py), [`ref_303_diamant_z.tsv`](ref_303_diamant_z.tsv).
 - **Statut épistémique :**
-  - L'hémisphère supérieur à profondeur négative $Z \in \{-7, \dots, -1\}$ (127 pôles axiologiques de valeurs, forces et engagements, complétant les 176 états $Z \ge 0$ pour former un octaèdre de $303$ pôles recollé à l'équateur $Z = +7$) ainsi que la **structure triadique aristotélicienne à $Z = -6$** ($D_-$ déficit / $V$ valeur centrale / $D_+$ excès) constituent un **programme d'extension théorique de Strate 1**, non intégré à l'article canonique `v1.0.2` ni aux 113 théorèmes du Noyau Hexa-Prover.
-  - **Note d'alignement descendant (Arbitrage A1 — v2.0.0 ; révisé Phase 1 `v3.0.0-dev`) :** À l'Étape 2, `01b_prepare_diamond_z_minus.py` et les anciens scripts GRID/CPM (désormais archivés dans `archive/deprecated_synthetic_v2/`) substituaient localement deux libellés de $Z > 0$ (`(0, -6, 4)` *Langueur* $\to$ *Solitude* ; `(-6, 4, 6)` *Rancœur* $\to$ *Irritation*). Conformément à l'**Arbitrage A1**, la Strate 0 (`Cartograffect/Lexicon176.lean`) exerce son autorité descendante sur tout `extensions/lexicon/` : les noms de prototypes canoniques sont **`Langueur`** et **`Rancœur`** dans l'ensemble des scripts et tables actives.
+  - L'hémisphère supérieur à profondeur négative $Z \in \{-7, \dots, -1\}$ (127 pôles axiologiques complétant les 176 entrées $Z \ge 0$ pour former un octaèdre de 303 pôles) constitue un **chantier exploratoire de Strate 1 strictement hors cœur normatif v3.0.0**, conservé intact par principe d'économie (`DECISIONS_V3.md`).
 
 ---
 
-## 3. Source de citation unique
+## 3. Source de citation et séparation de licences (v3.0.0)
 
-Conformément à la gouvernance FAIR de la version `v2.0.0`, le fichier de citation unique du compendium se trouve à la racine du dépôt : [`../../CITATION.cff`](../../CITATION.cff) (`SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`).
+Source de citation unique : [`../../CITATION.cff`](../../CITATION.cff). Séparation physique des licences : code source Python et modules Lean 4 sous **`AGPL-3.0-or-later`** ([`../../LICENSE`](../../LICENSE)), documentation et tables taxonomiques sous **`CC-BY-4.0`** ([`../../LICENSE-CC-BY-4.0.md`](../../LICENSE-CC-BY-4.0.md)), voir [`../../NOTICE`](../../NOTICE).

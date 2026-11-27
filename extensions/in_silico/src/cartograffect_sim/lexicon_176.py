@@ -1,4 +1,4 @@
-"""Répertoire canonique des 176 entrées CARTOGRAFFECT® (isomorphe à `Cartograffect/Lexicon176.lean`).
+"""Répertoire canonique des 176 entrées CARTOGRAFFECT (isomorphe à `Cartograffect/Lexicon176.lean`).
 
 Expose le lexique complet des 176 états affectifs (Point de Veille en ``Z = 0``,
 7 opérateurs centraux de Surprise à Suspension en ``Z = 1..7``, et 168 positions

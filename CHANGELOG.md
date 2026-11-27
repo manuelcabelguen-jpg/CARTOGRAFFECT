@@ -1,9 +1,36 @@
 # Changelog
 
-All notable changes to the **CARTOGRAFFECT®** Research Compendium are documented in this file.
+All notable changes to the **CARTOGRAFFECT** Research Compendium are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.0.0] - 2026-11-26
+
+### Breaking Changes & Architectural Realignment (Phases 0–2)
+- **Phase 0 — Locking of the 4 Irreversible v3.0 Arbitrations ([`DECISIONS_V3.md`](DECISIONS_V3.md))**:
+  - **Option 1A (Strict Instrumental Controllability `Y` & Autonomous Activation Channel `A >= 0`)**: redefined `Y` strictly as perceived instrumental controllability, externalized physiological arousal / allostatic mobilization into an independent non-negative channel `A >= 0`, removed `computeActivation(p.y)` from `Cartograffect/AffectiveMatrix.lean`, refactored `isCoherentTerminalState` / `end_to_end_coherence` in `Cartograffect/AffectiveTaxonomy.lean`, and restored semantic symmetry on `Y-` (accommodation under objective action limits in `(X > 0, Y < 0)`; aversive low-control states relocated to `Y < 0` with elevated `A`).
+  - **Option 2a (Strict Stepwise Vertical Dynamics)**: unified vertical transitions under `ΔZ ∈ {-1, 0, +1}` with the sole downward short-circuit `2 → 0` bypassing `Surprise (Z = 1)`, removing direct multi-stratum jump projections from the manuscript, vector figures, Python engine, and `PredictiveEngineCanonical.lean`.
+  - **Option 3b (Charge/Discharge Symmetry Breaking for P2)**: restricted axial instability (`χ > 0`) exclusively to the two negative Charge poles (`Peur (-2,0,2)` and `Tristesse (0,-2,2)`), while positive Discharge poles (`Joie (0,2,2)` and `Courage (2,0,2)`) relax directly toward `Veille (0,0,0)` without spontaneous diagonal destabilization; removed `DepthTransitionKernel.antagonist_equivariant`.
+  - **Arbitration 4 (Publishable Scope `Z ∈ [0, 5]`, Canonical Discretization `Z ∈ {0, 1, 2}`)**: bounded the normative discretization to `Z ∈ {0, 1, 2}` (11 canonical positions: `Point de Veille`, `Surprise`, `Anticipation`, and the 8 primary crown prototypes) and `Z = 2` operant/Pavlovian contingencies (`active_r_minus_vs_pavlovian_safety_and_z2_bound`), separating `Cartograffect/Lexicon176.lean` and `docs/02-Inventaire_176.md` (`Z = 0..7`) strictly as exploratory annexes outside the normative core.
+- **Phase 1 — Probative Integrity Purges**:
+  - **Removal of Synthetic GRID-24 / CPM-142 Artifacts & Hardcoded Statistical Constants**: retired and archived `grid_cpm_integration.py`, `validate_grid_cartograffect_stats.py`, `build_full_cartograffect_dictionary.py`, `generate_publication_report.py`, and `SchererGRID.lean` (along with all hardcoded Python statistical scores certified by `decide`) into `archive/deprecated_synthetic_v2/`.
+  - **Sanitization of GEW 3.0 / Plutchik Exploratory Benchmark**: removed circular 2D refutation claims and hardcoded statistical scores from `extensions/lexicon/lean/EmotionWheelsChallenge.lean` (retaining 2 pure geometric invariants), removed hardcoded manual overrides in `extensions/lexicon/src/validate_emotion_wheels.py`, and reported hypotheses `H2` and `H4` strictly as non-corroborated without post-hoc reframing.
+  - **Quarantine of Synthetic DSM-5 / HiTOP Simulations & Requalification of In-Silico Exp 1**: isolated Experiments 4 and 5 (`04_dsm5_phenotyping.py`, `05_dsm5_full_nosology.py`, companion text) in `extensions/in_silico/exploratory_synthetic/` under explicit `SYNTHETIC EXPLORATORY ONLY — V3 = 0` banners, and requalified in-silico P1 as a numerical consistency check of the implemented budget projector `apply_budget_constraint`.
+  - **Exact Piecewise Antagonist Formula**: corrected the antagonist definition across code and documentation to `(-X, -Y, Z)` when `XY = 0` and `(-sgn(X)|Y|, -sgn(Y)|X|, Z)` when `XY ≠ 0`.
+- **Phase 2 — Single Reference Prover Lean 4 Core & Manuscript Realignment**:
+  - **Lean 4 Normative Core (`Cartograffect/`, Lean `v4.35.0`, Lake `5.0.0`, `Init` only, `warningAsError := true`)**: consolidated into **8 normative modules** certifying **148 substantial theorems** (**169 exported declarations**, **21 elementary/auxiliary lemmas**), highlighted by **8 pillar theorems** (`P1..P8`), with **0 `sorryAx`**, **0 `native_decide`**, **0 custom axioms**, and explicit axiomatic transparency on `Classical.choice` (removing the "constructive" epithet for classical theorems and retiring Martin-Löf intuitionistic claims from `docs/01-Article_Cartograffect.md`).
+  - **Dedicated Canonical Extension (`extensions/predictive_engine/PredictiveEngineCanonical.lean`)**: realigned to v3.0.0 (**16 own theorems `C1..C16`** + **5 auxiliary lemmas `CE1..CE5`** = **21 exported declarations**, `0 sorryAx`, `0 native_decide`, zero import of `Lexicon176`).
+  - **Audit Pack & Isomorphic Python Engine**: published [`FORMAL_AUDIT_PACK.md`](FORMAL_AUDIT_PACK.md) (exhaustive deduplicated theorem inventory with raw `#print axioms` traces), updated `docs/01-Article_Cartograffect.md`, `docs/02-Inventaire_176.md`, vector figures (`moteur_predictif_canonique.html`, `moteur_predictif_article.svg`), and `python/cartograffect_predictive_engine.py` verified by **11 unit tests** (`python/test_predictive_engine.py`).
+
+### Added (Phase 3 — Governance, CI, FAIR4RS & Licensing)
+- **Legacy Hybrid-Y Lexicon Archive Warning ([`extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md`](extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md))**: explicitly flags unmodified historical v2.1.0 tables (`CARTOGRAFFECT_Full_Dictionary_MultiStrata.tsv`, `nrc_llm_classified.tsv`, `nrc_candidates_filtered.tsv`) as exploratory archives generated under the deprecated v2 hybrid `Y` axis.
+- **FAIR4RS Reproducibility & Data Provenance**: pinned exact dependency versions (`==`) in `extensions/in_silico/pyproject.toml` and `extensions/in_silico/requirements.txt` with a reproducible lockfile, added [`DATA_PROVENANCE.md`](DATA_PROVENANCE.md) documenting canonical URLs, original licenses, and local SHA-256 verification instructions for non-redistributable third-party datasets (`NRC-VAD-Lexicon-v2.1.txt`, `DIMA_GROUPE_*.xlsx`, `FANCatdatabaseRevisee.xlsx`), and ensured graceful explicit `[SKIP]` behavior when raw third-party datasets are absent locally.
+- **Physical License Separation (OSI Code / CC-BY-4.0 Texts & Tables)**: added [`LICENSE-CC-BY-4.0.md`](LICENSE-CC-BY-4.0.md), removed `LICENSE-CC-BY-NC-SA-4.0.md` and every `CC-BY-NC-SA-4.0` hybrid clause from source code and active v3.0.0 metadata; all source code and Lean 4 proofs are now licensed strictly under OSI-approved **GNU AGPLv3 (`AGPL-3.0-or-later`)** while manuscript, documentation, and taxonomic tables are licensed under **CC BY 4.0 (`CC-BY-4.0`)**.
+
+### Changed (Phase 3)
+- **CI Workflows Unified & Legacy Provers Archived (Principle of Economy)**: updated `.github/workflows/lean.yml` to run both `lake build` and `lake env lean Cartograffect/AuditTests.lean`, aligned `.github/workflows/compendium-ci.yml` on the 11 Python unit tests and strict consistency checks, and switched legacy v2.1 secondary-prover workflows (`rocq-ci.yml`, `agda-ci.yml`, `dafny-ci.yml`, `smt-ci.yml`, `tla-ci.yml`) to manual `workflow_dispatch` only with prefix `[LEGACY v2.1 — ARCHIVED]` without modifying frozen secondary proof files.
+- **Consistency Scripts, Metadata & Documentation Realigned**: updated `scripts/sync_metadata.py`, `scripts/export_site_payload.py`, `scripts/check_consistency.py`, `scripts/test_check_consistency.py`, `.zenodo.json`, `CITATION.cff`, `manifest.json`, `NOTICE`, `README.md`, `VALIDATION.md`, `docs/CONVERGENCE_MATRIX.md`, `docs/02-Inventaire_176.md`, and all `EPISTEMIC_STATUS.md` files to v3.0.0 counters, AI transparency disclosures, Top 8 pillar theorem links (`FORMAL_AUDIT_PACK.md`), corrected invalid `gemini-3.8-flash` reference, and removed unregistered `®` symbols across active files (retaining CIPO / OPIC copyright registration No. `1233199`).
 
 ## [2.1.0] - 2026-11-22
 
@@ -58,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Lean 4 formalization of the CARTOGRAFFECT 176-state L1 affective taxonomy, core 17 founding theorems, and dual licensing (`AGPL-3.0-or-later` / `CC BY-NC-SA 4.0`).
 
+[3.0.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.1.0...v3.0.0
 [2.1.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT/compare/v1.0.1...v2.0.0

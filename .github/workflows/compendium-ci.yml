@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   consistency-and-guardrails:
-    name: Consistency Guardrails & Metadata Parity
+    name: Consistency Guardrails & Metadata Parity (v3.0.0)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,17 +21,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run consistency guardrails (--strict)
-        run: python scripts/check_consistency.py --strict
-
       - name: Check metadata & SHA-256 synchronization
         run: python scripts/sync_metadata.py --check
+
+      - name: Check deterministic site payload contract
+        run: python scripts/export_site_payload.py --check
+
+      - name: Run consistency guardrails (--strict)
+        run: python scripts/check_consistency.py --strict
 
       - name: Run adversarial guardrail unit tests
         run: python -m unittest scripts/test_check_consistency.py -v
 
   strate0-python-engine:
-    name: Strate 0 Exact Python Engine (12 unit tests)
+    name: Strate 0 Exact Python Engine (11 unit tests)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -45,7 +48,7 @@ jobs:
       - name: Install NumPy
         run: python -m pip install --upgrade pip && pip install "numpy>=1.24"
 
-      - name: Run Strate 0 Markov engine tests
+      - name: Run Strate 0 Markov engine tests (11 unit tests)
         run: python -m unittest discover -s python -v
 
   strate1-in-silico-suite:

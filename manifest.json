@@ -1,117 +1,130 @@
 {
-  "schema_version": "1.0.0",
-  "compendium": "CARTOGRAFFECT® Unified Research Compendium",
-  "version": "2.1.0",
-  "release_date": "2026-11-22",
+  "schema_version": "2.0.0",
+  "compendium": "CARTOGRAFFECT Research Compendium",
+  "version": "3.0.0",
+  "release_date": "2026-11-26",
   "single_source_of_truth": {
     "version_file": "VERSION",
     "changelog": "CHANGELOG.md",
     "citation": "CITATION.cff",
     "zenodo": ".zenodo.json",
+    "decisions_v3": "DECISIONS_V3.md",
+    "formal_audit_pack": "FORMAL_AUDIT_PACK.md",
+    "data_provenance": "DATA_PROVENANCE.md",
     "convergence_matrix": "docs/CONVERGENCE_MATRIX.md",
     "notice": "NOTICE"
   },
   "strate_0_core": {
     "status": "normative_verified_core",
-    "theorems_verified": 130,
+    "reference_prover": "Lean 4",
+    "prover_version": "4.35.0",
+    "normative_modules_count": 8,
+    "theorems_substantial": 148,
+    "exported_declarations": 169,
+    "auxiliary_lemmas": 21,
+    "pillar_theorems_count": 8,
     "sorry_count": 0,
+    "native_decide_count": 0,
     "custom_axioms_count": 0,
-    "provers": [
-      {
-        "name": "Lean 4",
-        "version": "4.35.0",
-        "entrypoint": "Cartograffect.lean",
-        "directory": "Cartograffect",
-        "modules_count": 11,
-        "theorems_count": 130
-      },
-      {
-        "name": "Rocq",
-        "version": "9.1.0",
-        "entrypoint": "rocq/theories/Cartograffect.v",
-        "directory": "rocq",
-        "modules_count": 11,
-        "theorems_count": 130,
-        "closed_assumptions_count": 131
-      },
-      {
-        "name": "Agda",
-        "version": "2.9.0",
-        "entrypoint": "agda/src/Cartograffect.agda",
-        "directory": "agda",
-        "modules_count": 12,
-        "theorems_count": 130,
-        "eval_blocks_count": 11
-      },
-      {
-        "name": "Dafny",
-        "version": "4.11.0",
-        "entrypoint": "dafny/src/Cartograffect.dfy",
-        "directory": "dafny",
-        "modules_count": 11,
-        "theorems_count": 130,
-        "lemmas_count": 132,
-        "obligations_verified": 3021,
-        "eval_blocks_count": 11
-      },
-      {
-        "name": "SMT/Z3",
-        "version": "5.3.3",
-        "entrypoint": "smt/theories/10_EndToEndBridge.smt2",
-        "directory": "smt",
-        "modules_count": 10,
-        "consistency_sat_count": 10,
-        "theorems_count": 130,
-        "aux_unsat_count": 2,
-        "eval_blocks_count": 11
-      },
-      {
-        "name": "TLA+/TLC",
-        "version": "2.19",
-        "entrypoint": "tla/specs/Cartograffect.tla",
-        "directory": "tla",
-        "modules_count": 18,
-        "theorems_count": 130,
-        "predicates_count": 132,
-        "eval_blocks_count": 11,
-        "tlc_models_count": 8
-      }
-    ],
-    "lean_files": [
-      "Cartograffect.lean",
+    "audit_pack": "FORMAL_AUDIT_PACK.md",
+    "audit_harness": "Cartograffect/AuditTests.lean",
+    "root_module": "Cartograffect.lean",
+    "normative_lean_modules": [
       "Cartograffect/PredictiveEngine.lean",
       "Cartograffect/CoreAffect.lean",
       "Cartograffect/AffectiveMatrix.lean",
       "Cartograffect/AffectiveTaxonomy.lean",
       "Cartograffect/AffectiveDynamics.lean",
-      "Cartograffect/Lexicon176.lean",
       "Cartograffect/PredictiveCircuit.lean",
-      "Cartograffect/AuditTests.lean",
       "Cartograffect/OperantFactorization.lean",
       "Cartograffect/EndToEndBridge.lean"
     ],
-    "lexicon_176": {
-      "path": "Cartograffect/Lexicon176.lean",
-      "sha256": "e66dbd6b6630e11d72f786b00025dd909f80ad98331083f3c5f80802f1755b65",
-      "states_count": 176,
-      "strata_range": "Z in {0, ..., 7}"
+    "canonical_extension": {
+      "path": "extensions/predictive_engine/PredictiveEngineCanonical.lean",
+      "epistemic_status_file": "extensions/predictive_engine/EPISTEMIC_STATUS.md",
+      "theorems_own": 16,
+      "auxiliary_lemmas": 5,
+      "exported_declarations": 21,
+      "sorry_count": 0,
+      "native_decide_count": 0
     },
+    "provers": [
+      {
+        "name": "Lean 4",
+        "version": "4.35.0",
+        "role": "single_reference_prover_v3",
+        "entrypoint": "Cartograffect.lean",
+        "directory": "Cartograffect",
+        "normative_modules_count": 8,
+        "theorems_substantial": 148,
+        "exported_declarations": 169,
+        "auxiliary_lemmas": 21,
+        "pillar_theorems_count": 8
+      }
+    ],
+    "legacy_v2_1_archived_provers": [
+      {
+        "name": "Rocq",
+        "version": "9.1.0",
+        "status": "archived_v2_1_frozen",
+        "directory": "rocq"
+      },
+      {
+        "name": "Agda",
+        "version": "2.9.0",
+        "status": "archived_v2_1_frozen",
+        "directory": "agda"
+      },
+      {
+        "name": "Dafny",
+        "version": "4.11.0",
+        "status": "archived_v2_1_frozen",
+        "directory": "dafny"
+      },
+      {
+        "name": "SMT/Z3",
+        "version": "5.3.3",
+        "status": "archived_v2_1_frozen",
+        "directory": "smt"
+      },
+      {
+        "name": "TLA+/TLC",
+        "version": "2.19",
+        "status": "archived_v2_1_frozen_bounded_model_checking",
+        "directory": "tla"
+      }
+    ],
     "manuscript": {
       "path": "docs/01-Article_Cartograffect.md",
-      "inventory_path": "docs/02-Inventaire_176.md",
-      "version": "2.1.0",
+      "inventory_annex_path": "docs/02-Inventaire_176.md",
+      "version": "3.0.0",
       "predictions_count": 5,
-      "states_count": 176
+      "continuous_depth_range": "Z in [0, 5]",
+      "canonical_discretization": "Z in {0, 1, 2}",
+      "canonical_states_count": 11
     },
     "python_isomorphic_engine": {
       "engine_path": "python/cartograffect_predictive_engine.py",
-      "tests_path": "python/test_predictive_engine.py"
+      "tests_path": "python/test_predictive_engine.py",
+      "unit_tests_count": 11
+    }
+  },
+  "exploratory_annexes": {
+    "lexicon_176": {
+      "status": "exploratory_annex_outside_normative_core",
+      "path": "Cartograffect/Lexicon176.lean",
+      "inventory_doc": "docs/02-Inventaire_176.md",
+      "sha256": "e318b1d02750b82c1d86859e7af1be81459c604099283d3b7c2a11af4987771a",
+      "states_count": 176,
+      "strata_range": "Z in {0, ..., 7}"
     }
   },
   "strate_1_extensions": {
     "lexicon": {
       "path": "extensions/lexicon",
       "epistemic_status_file": "extensions/lexicon/EPISTEMIC_STATUS.md",
+      "archive_warning_file": "extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md",
+      "data_provenance_file": "DATA_PROVENANCE.md",
       "status": "exploratory_subordinate",
       "canonical_reference": "Cartograffect/Lexicon176.lean",
       "theorems_verified": 10,
@@ -123,8 +136,7 @@
       ],
       "key_scripts": [
         "extensions/lexicon/01_build_ref176.py",
-        "extensions/lexicon/01b_prepare_diamond_z_minus.py",
-        "extensions/lexicon/08_project_diamond_303_lexicon.py"
+        "extensions/lexicon/src/validate_emotion_wheels.py"
       ]
     },
     "in_silico": {
@@ -132,12 +144,21 @@
       "epistemic_status_file": "extensions/in_silico/EPISTEMIC_STATUS.md",
       "status": "exploratory_subordinate",
       "pyproject": "extensions/in_silico/pyproject.toml",
+      "lockfile": "extensions/in_silico/uv.lock",
       "runner": "extensions/in_silico/run_all_validations.py",
-      "predictions_tested": ["P1", "P2", "P3", "P4", "P5"],
+      "predictions_tested": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
       "experiments": [
         "extensions/in_silico/experiments/01_falsifiable_predictions.py",
         "extensions/in_silico/experiments/02_clinical_phenotypes.py",
-        "extensions/in_silico/experiments/03_parameter_and_model_recovery.py",
+        "extensions/in_silico/experiments/03_parameter_and_model_recovery.py"
+      ],
+      "quarantined_synthetic_experiments": [
         "extensions/in_silico/exploratory_synthetic/04_dsm5_phenotyping.py",
         "extensions/in_silico/exploratory_synthetic/05_dsm5_full_nosology.py"
       ],
@@ -152,21 +173,12 @@
     "repository_url": "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
   },
   "licenses": {
-    "spdx_expression": "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0",
-    "code_and_proofs_license": "GNU AGPLv3 (AGPL-3.0-or-later) — LICENSE",
-    "theory_and_taxonomy_license": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) — LICENSE-CC-BY-NC-SA-4.0.md",
-    "hybrid_separation_clause": "For hybrid files containing both executable/formal structures and the theoretical taxonomy/coordinates, the formal/software structure is licensed under AGPL-3.0-or-later while the nomenclature, coordinates, and 176-state/303-pole taxonomic architecture remain exclusively governed by CC BY-NC-SA 4.0 (commercial extraction of the taxonomy is strictly prohibited).",
-    "hybrid_files": [
-      "Cartograffect/Lexicon176.lean",
-      "rocq/theories/Lexicon176.v",
-      "agda/src/Cartograffect/Lexicon176.agda",
-      "dafny/src/Lexicon176.dfy",
-      "smt/theories/06_Lexicon176.smt2",
-      "tla/specs/Lexicon176.tla",
-      "extensions/in_silico/data/lexicon_176.json",
-      "extensions/lexicon/CARTOGRAFFECT_Interactive_3D_Explorer.html",
-      "extensions/lexicon/CARTOGRAFFECT_Diamond_303_Brut.html",
-      "extensions/lexicon/CARTOGRAFFECT_Diamond_303_Complet.html"
-    ]
+    "code_spdx": "AGPL-3.0-or-later",
+    "docs_and_data_spdx": "CC-BY-4.0",
+    "spdx_expression": "AGPL-3.0-or-later AND CC-BY-4.0",
+    "code_and_proofs_license": "GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later) — LICENSE",
+    "docs_and_taxonomy_license": "Creative Commons Attribution 4.0 International (CC-BY-4.0) — LICENSE-CC-BY-4.0.md",
+    "physical_separation_policy": "Strict physical separation by file type (no hybrid NC clause): all source code, scripts, and formal proofs are licensed solely under OSI-approved AGPL-3.0-or-later; all texts, manuscript (docs/), documentation, and taxonomic tables are licensed under CC-BY-4.0. Zero non-commercial (NC) restriction applies to any source code or v3.0.0 artifact.",
+    "non_commercial_clauses_in_code": false
   }
 }

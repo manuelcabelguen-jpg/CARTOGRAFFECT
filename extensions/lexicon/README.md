@@ -149,6 +149,8 @@ L'option `--verify-only` exécute en continu 4 assertions mathématiques et sém
 
 ---
 
-## 7. Citation et Licences (Source Unique)
+## 7. Archive v2, Provenance des Données, Citation et Licences (v3.0.0)
 
-Ce module satellite (Strate 1) relève de la source de vérité et de citation unique située à la racine du compendium **CARTOGRAFFECT®** : voir [`../../CITATION.cff`](../../CITATION.cff), [`../../NOTICE`](../../NOTICE), [`EPISTEMIC_STATUS.md`](EPISTEMIC_STATUS.md) et `SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0`.
+- **Archive axe `Y` hybride v2.1.0 :** Voir [`ARCHIVE_V2_HYBRID_Y_WARNING.md`](ARCHIVE_V2_HYBRID_Y_WARNING.md) pour le statut exploratoire historique des tables TSV générées sous v2.1.0.
+- **Provenance des corpus tiers :** Voir [`../../DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md) pour les URLs canoniques, licences d'origine, instructions SHA-256 et comportement `[SKIP]` en l'absence des fichiers tiers non redistribuables.
+- **Citation et licences :** Source de citation unique [`../../CITATION.cff`](../../CITATION.cff) ; code source Python et modules Lean 4 sous **`AGPL-3.0-or-later`** ([`../../LICENSE`](../../LICENSE)), documentation et tables taxonomiques sous **`CC-BY-4.0`** ([`../../LICENSE-CC-BY-4.0.md`](../../LICENSE-CC-BY-4.0.md), [`../../NOTICE`](../../NOTICE), [`EPISTEMIC_STATUS.md`](EPISTEMIC_STATUS.md)).

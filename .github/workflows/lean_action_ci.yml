@@ -2,7 +2,7 @@ name: Lean 4 Formal Verification CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "v3.0.0-dev"]
   pull_request:
     branches: ["main"]
   workflow_dispatch:
@@ -21,3 +21,6 @@ jobs:
         uses: leanprover/lean-action@v1
         with:
           auto-config: true
+
+      - name: Execute exhaustive axiom audit (Cartograffect/AuditTests.lean)
+        run: lake env lean Cartograffect/AuditTests.lean

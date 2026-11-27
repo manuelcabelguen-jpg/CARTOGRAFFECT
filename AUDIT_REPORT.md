@@ -1,4 +1,7 @@
-# AUDIT_REPORT — Certification formelle de CARTOGRAFFECT
+# AUDIT_REPORT — Archive Historique d'Audit Formelle (v1.x / v2.x)
+
+> [!NOTE]
+> **Archive historique :** Ce rapport consigne l'audit des versions antérieures (`v1.x` / `v2.x`). Pour l'audit exhaustif, dédupliqué et vérifiable ligne par ligne du cœur normatif **v3.0.0** (Lean 4 `v4.35.0`, 8 modules normatifs, **148 théorèmes substantiels / 169 déclarations exportées**, Top 8 théorèmes piliers, `PredictiveEngineCanonical.lean` 16 + 5 = 21, `0 sorryAx`, `0 native_decide`), consulter [`FORMAL_AUDIT_PACK.md`](FORMAL_AUDIT_PACK.md) et [`VALIDATION.md`](VALIDATION.md).
 
 **Cartographie des affects — formalisation Lean 4**
 Rapport d'audit de vérification formelle et de fidélité épistémique · Phases 1 à 5 & Section 6 (`PredictiveCircuit`) · 2026-11-19

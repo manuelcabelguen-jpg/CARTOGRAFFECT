@@ -1,6 +1,6 @@
-# CARTOGRAFFECT® *in silico* — Série de mini-articles scientifiques vulgarisés
+# CARTOGRAFFECT *in silico* — Série de mini-articles scientifiques vulgarisés
 
-Cette collection rassemble **cinq mini-articles scientifiques accessibles** conçus pour expliquer clairement — sans jargon inutile mais sans rien sacrifier à l'exactitude des données — l'ensemble des simulations *in silico* réalisées sur le modèle **CARTOGRAFFECT®** en inférence active.
+Cette collection rassemble **cinq mini-articles scientifiques accessibles** conçus pour expliquer clairement — sans jargon inutile mais sans rien sacrifier à l'exactitude des données — l'ensemble des simulations *in silico* réalisées sur le modèle **CARTOGRAFFECT** en inférence active.
 
 Chaque mini-article s'ouvre sur un **résumé scientifique standard** structuré en cinq temps (*Contexte, Objectif, Méthode, Résultats, Conclusion*), suivi d'une explication intuitive par analogies, des tableaux de résultats vérifiés, d'un guide de lecture des figures générées et d'un bilan honnête des limites.
 
@@ -10,10 +10,10 @@ Chaque mini-article s'ouvre sur un **résumé scientifique standard** structuré
 
 | N° | Mini-article | Question scientifique vulgarisée | Jeu de données & résultats |
 | :---: | :--- | :--- | :--- |
-| **1** | [Cartographier les émotions en 3D : comment CARTOGRAFFECT® traduit le vécu affectif en inférence active](01_architecture_cartograffect_vulgarisation.md) | Comment transformer des notions psychologiques (*attente, contrôle, profondeur émotionnelle*) en un agent mathématique sans boîte noire ni « triche » ? | Architecture à **176 états** certifiée isomorphe à Lean 4, boucle POMDP à 2 niveaux, **8 paramètres** individuels $\theta$. |
+| **1** | [Cartographier les émotions en 3D : comment CARTOGRAFFECT traduit le vécu affectif en inférence active](01_architecture_cartograffect_vulgarisation.md) | Comment transformer des notions psychologiques (*attente, contrôle, profondeur émotionnelle*) en un agent mathématique sans boîte noire ni « triche » ? | Architecture à **176 états** certifiée isomorphe à Lean 4, boucle POMDP à 2 niveaux, **8 paramètres** individuels $\theta$. |
 | **2** | [Tests de cohérence *in silico* (Expérience 1)](02_trois_predictions_falsifiables.md) | P1 (test de cohérence numérique du projecteur budgétaire $L_1$) et P2–P3 (cohérence générative interne *in silico*, `V3 = 0`) | **Expérience 1** ($N = 1\,000$ trajectoires / condition) + [Figure 1](../results/fig1_falsifiable_predictions.png). |
 | **3** | [Quatre façons de traverser le stress : résilience, inhibition, agitation et rigidité](03_quatre_profils_cliniques.md) | En ne modifiant **que** les 8 réglages $\theta$ d'un même agent face aux mêmes épreuves, retrouve-t-on quatre trajectoires synthétiques distinctes et reproductibles ? | **Expérience 2** ($N = 20$ graines appariées × 4 profils) + [Figure 2](../results/fig2_clinical_phenotypes.png). |
-| **4** | [Peut-on mesurer ces 8 paramètres et prouver que le modèle bat ses rivaux ?](04_fiabilite_mesure_et_comparaison_modeles.md) | À partir des seuls choix et réactions d'un agent simulé dans une tâche de 280 essais, retrouve-t-on fidèlement ses 8 paramètres et distingue-t-on CARTOGRAFFECT® de modèles plus simples ? | **Expérience 3** ($M = 500$ + 10 NUTS + $4 \times 100$ modèles) + [Figures 3a](../results/fig3a_parameter_recovery.png) & [3b](../results/fig3b_model_recovery.png). |
+| **4** | [Peut-on mesurer ces 8 paramètres et prouver que le modèle bat ses rivaux ?](04_fiabilite_mesure_et_comparaison_modeles.md) | À partir des seuls choix et réactions d'un agent simulé dans une tâche de 280 essais, retrouve-t-on fidèlement ses 8 paramètres et distingue-t-on CARTOGRAFFECT de modèles plus simples ? | **Expérience 3** ($M = 500$ + 10 NUTS + $4 \times 100$ modèles) + [Figures 3a](../results/fig3a_parameter_recovery.png) & [3b](../results/fig3b_model_recovery.png). |
 | **5** | `[QUARANTAINE — SYNTHETIC EXPLORATORY ONLY — V3 = 0]` [Simulations synthétiques sur 8 et 26 régimes paramétriques inspirés du DSM-5](../exploratory_synthetic/05_psychiatrie_computationnelle_dsm5_et_interventions.md) | Exploration purement synthétique de lois *a priori* multivariées dans $\theta$ (`V3 = 0`, zéro donnée clinique humaine, isolée dans `exploratory_synthetic/`). | **Expériences 4 & 5** (quarantaine [`exploratory_synthetic/`](../exploratory_synthetic/)), [Figures 4a–4d](../results/dsm5_phenotyping/fig4a_xyz_occupation_densities.png) & [Figures 5a–5e](../results/dsm5_full_nosology/fig5a_xyz_occupation_atlas_26.png). |
 
 > **Statut global de validation :** les **18 critères prédéfinis** du cœur (Expériences 1–3) sont validés (`ALL_CRITERIA_PASSED = True`, [results/validation_summary.md](../results/validation_summary.md)), les campagnes pan-DSM-5 des **Expériences 4 & 5** ont abouti sans erreur ([rapport Exp. 4](../results/dsm5_phenotyping/dsm5_separability_and_phenotyping_summary.json), [rapport Exp. 5](../results/dsm5_full_nosology/full_dsm5_separability_and_nosology_summary.json)), et l'ensemble des **57 tests `pytest`** du dépôt réussit (`0` échec).
@@ -22,7 +22,7 @@ Chaque mini-article s'ouvre sur un **résumé scientifique standard** structuré
 
 ## Glossaire vulgarisé — Les 8 paramètres individuels ($\theta$)
 
-Dans CARTOGRAFFECT®, chaque individu simulé est décrit par **8 curseurs** regroupés sous la lettre $\theta$. Rien d'autre ne change d'un profil clinique à l'autre dans l'Expérience 2 (`pure_theta_only = True`).
+Dans CARTOGRAFFECT, chaque individu simulé est décrit par **8 curseurs** regroupés sous la lettre $\theta$. Rien d'autre ne change d'un profil clinique à l'autre dans l'Expérience 2 (`pure_theta_only = True`).
 
 | Paramètre | Nom simple | Métaphore du quotidien | Quand il est **élevé** | Quand il est **faible** |
 | :---: | :--- | :--- | :--- | :--- |

@@ -880,6 +880,10 @@ def load_xlsx_raw(path, sheet_xml="xl/worksheets/sheet1.xml"):
 def load_dima_tables(g1_path="DIMA_GROUPE_1_v35-new.xlsx", g2_path="DIMA_GROUPE_2_v35-new.xlsx"):
     """Charge et unifie les deux tables DIMA (Catégorie I et Catégorie II)."""
     if not (os.path.exists(g1_path) and os.path.exists(g2_path)):
+        print(
+            f"[SKIP] Fichiers tiers non redistribuables absents ({g1_path}, {g2_path}) — "
+            "voir DATA_PROVENANCE.md."
+        )
         return pd.DataFrame()
     d1 = load_xlsx_raw(g1_path)
     d2 = load_xlsx_raw(g2_path)
@@ -899,6 +903,10 @@ def load_dima_tables(g1_path="DIMA_GROUPE_1_v35-new.xlsx", g2_path="DIMA_GROUPE_
 def load_fancat_table(fancat_path="FANCatdatabaseRevisee.xlsx"):
     """Charge la base psychométrique française FANCat et normalise Valence/Arousal/Dominance dans [-1, 1]."""
     if not os.path.exists(fancat_path):
+        print(
+            f"[SKIP] Fichier tiers non redistribuable absent ({fancat_path}) — "
+            "voir DATA_PROVENANCE.md."
+        )
         return pd.DataFrame()
     f_raw = load_xlsx_raw(fancat_path, "xl/worksheets/sheet3.xml")
     fan_records = []

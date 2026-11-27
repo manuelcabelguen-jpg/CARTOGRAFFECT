@@ -1,9 +1,9 @@
 {
-  "project": "CARTOGRAFFECT® — Dictionnaire Vectoriel Complet Multi-Strates & Open-Data CNRS/Lexique/GLAWI",
+  "project": "CARTOGRAFFECT — Dictionnaire Vectoriel Complet Multi-Strates & Open-Data CNRS/Lexique/GLAWI (Archive v2)",
   "copyright_registration": "OPIC / CIPO Certificat n° 1233199 — Manuel Cabelguen",
-  "dual_license": {
+  "licenses": {
     "code_and_lean4_proofs": "GNU AGPLv3 (SPDX: AGPL-3.0-or-later)",
-    "theory_taxonomy_and_tables": "CC BY-NC-SA 4.0 (SPDX: CC-BY-NC-SA-4.0)"
+    "docs_and_tables": "CC BY 4.0 (SPDX: CC-BY-4.0)"
   },
   "nomenclature_compliance": "100% ressources ouvertes ou sous licence de recherche équitable (Lexique 3.83 CC BY-SA 4.0, GLAWI CLLE-CNRS CC BY-SA, Morphalou 3.1 / TLFi CNRS ATILF Licence Ouverte, NRC-VAD Research License, DIMA art. 29 LDA Canada, Scherer GRID/CPM CISA Genève). 0 dictionnaire commercial utilisé.",
   "total_entries": 16200,

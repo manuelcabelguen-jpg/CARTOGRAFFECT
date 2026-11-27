@@ -21,7 +21,7 @@ from google import genai
 from google.genai import types
 from cartograffect_core import NON_CANONICAL_PROTO_MAP
 
-MODEL_ID = "gemini-3.8-flash"
+MODEL_ID = os.environ.get("GEMINI_MODEL_ID", "gemini-2.5-flash")
 BATCH_SIZE = 150
 INPUT_FILE = "nrc_candidates_filtered.tsv"
 REF_FILE = "ref_176_cartograffect.tsv"
