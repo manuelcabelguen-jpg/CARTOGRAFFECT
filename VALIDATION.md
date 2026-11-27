@@ -23,7 +23,7 @@ L'audit exhaustif, dédupliqué et vérifiable ligne par ligne de chaque théor�
 > | **P5** | **Taxonomie neutre Option 1A** — Unicité terminale cohérente sur les 17 sous-secteurs | `end_to_end_coherence` | `Cartograffect/AffectiveTaxonomy.lean:547` | `[propext, Classical.choice, Quot.sound]` |
 > | **P6** | **Option 3b** — Instabilité axiale P2 restreinte à la Charge négative (`Peur`, `Tristesse`) | `canonicalDepthKernel_axial_instability_p2` *(+ `axial_tristesse_and_discharge_asymmetry_p2`)* | `Cartograffect/AffectiveDynamics.lean:480` *(`PredictiveCircuit.lean:983`)* | `[propext, Classical.choice, Quot.sound]` *(`[propext, Quot.sound]`)* |
 > | **P7** | **Dynamique de Lyapunov (P1)** — Constance signée sur `ℤ` de la dérive attendue par goulot `L1` | `lyapunov_expected_drift_constant` *(+ `lyapunov_monotone_free`)* | `Cartograffect/PredictiveCircuit.lean:874` *(`:699`)* | `[propext, Quot.sound]` *(sans `Classical.choice`)* |
-> | **P8** | **Articulation mixte `Z = 2` & Clôture v3.0** — `R-` actif vs sécurité pavlovienne et pont global | `active_r_minus_vs_pavlovian_safety_and_z2_bound` & `full_end_to_end_v3_coherence` | `Cartograffect/OperantFactorization.lean:165` & `Cartograffect/EndToEndBridge.lean:276` | `[propext, Classical.choice, Quot.sound]` |
+> | **P8** | **Bijection $2 \times 2$ de Rolls (`Z = 2`) & Clôture v3.0** — `Rew±/Pun±` bornés à `Z = 2` et pont global | `rolls_contingencies_z2_bound` & `full_end_to_end_v3_coherence` | `Cartograffect/OperantFactorization.lean:190` & `Cartograffect/EndToEndBridge.lean:277` | `[propext, Classical.choice, Quot.sound]` |
 
 ---
 
