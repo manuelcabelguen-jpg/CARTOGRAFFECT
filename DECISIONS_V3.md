@@ -1,6 +1,6 @@
 # DECISIONS_V3 — Verrouillage des 4 Arbitrages Théoriques (Phase 0)
 
-**Projet :** CARTOGRAFFECT® (v3.0) · **Date :** 2026-11-25 · **Statut :** Irréversible — Validé par l'auteur (Manuel Cabelguen)
+**Projet :** CARTOGRAFFECT (v3.0) · **Date :** 2026-11-25 · **Statut :** Irréversible — Validé par l'auteur (Manuel Cabelguen)
 **Garde-fous :** Tag `v2.1.0` immuable ; aucun chantier sur Rocq/Agda/Dafny/SMT/TLA+, le Diamant 303 ni les 26 profils DSM-5.
 
 ---

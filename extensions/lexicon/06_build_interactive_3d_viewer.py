@@ -37,12 +37,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorateur 3D Interactif — CARTOGRAFFECT® (Sphère Octaédrique Duale L1 ↔ L2 &amp; Taxonomie 6 Strates)</title>
+  <title>Explorateur 3D Interactif — CARTOGRAFFECT (Sphère Octaédrique Duale L1 ↔ L2 &amp; Taxonomie 6 Strates)</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 select-none">
   <div class="max-w-[1640px] mx-auto flex flex-col gap-4">
-    <!-- En-tête et métriques clés CARTOGRAFFECT® -->
+    <!-- En-tête et métriques clés CARTOGRAFFECT -->
     <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
       <div>
         <div class="flex flex-wrap items-center gap-2">
@@ -55,7 +55,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-500 border border-amber-500/40">
             Sphère Octaédrique Duale (L1 ↔ L2)
           </span>
-          <h1 class="text-lg font-bold text-[var(--foreground)]">CARTOGRAFFECT® — Sphère Octaédrique Duale (L1 ↔ L2) &amp; Taxonomie Multi-Strates (Z = 0 à 7)</h1>
+          <h1 class="text-lg font-bold text-[var(--foreground)]">CARTOGRAFFECT — Sphère Octaédrique Duale (L1 ↔ L2) &amp; Taxonomie Multi-Strates (Z = 0 à 7)</h1>
         </div>
         <p class="text-xs text-[var(--muted-foreground)] mt-1">
           Architecture géométrique souveraine (OPIC n° 1233199) • Loi d'enveloppe |X| + |Y| = 2(Z - 1) • 176 prototypes (8 couronnes Z₀–Z₇) • 1 991 lemmes 3D (CNRS GLAWI / Lexique 3.83 / DIMA / NRC-VAD)
@@ -63,7 +63,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       </div>
       <div class="flex flex-wrap gap-2 text-xs">
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
-          <span class="text-[var(--muted-foreground)]">Architecture CARTOGRAFFECT® :</span>
+          <span class="text-[var(--muted-foreground)]">Architecture CARTOGRAFFECT :</span>
           <span id="metricCcaBadge" class="font-bold text-[var(--foreground)] ml-1">176 pôles (Z₀–Z₇) • B(Z) = ‖u‖₁ = ‖u_Lp‖_p</span>
         </div>
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
@@ -76,7 +76,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg px-3 py-1.5">
           <span class="text-[var(--muted-foreground)]">Licences (OPIC n° 1233199) :</span>
-          <span class="font-bold text-[var(--foreground)] ml-1">AGPLv3 (Code) • CC BY-NC-SA 4.0 (Théorie)</span>
+          <span class="font-bold text-[var(--foreground)] ml-1">AGPLv3 (Code) • CC BY 4.0 (Docs & Tables)</span>
         </div>
       </div>
     </div>
@@ -181,7 +181,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       </div>
 
       <div class="lg:col-span-2">
-        <label class="block text-xs font-medium text-[var(--muted-foreground)] mb-1">Rechercher dans CARTOGRAFFECT®</label>
+        <label class="block text-xs font-medium text-[var(--muted-foreground)] mb-1">Rechercher dans CARTOGRAFFECT</label>
         <input id="searchInput" type="text" placeholder="Ex : citoyenneté, probité, équité, joie..."
           class="w-full bg-[var(--content)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-2.5 py-1.5 text-xs focus:outline-none" />
       </div>
@@ -210,7 +210,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <!-- Canvas 3D -->
       <div class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 shadow-sm flex flex-col">
         <div class="flex items-center justify-between mb-2 text-xs text-[var(--muted-foreground)]">
-          <span id="canvasStatus">Glisser pour pivoter • Molette pour zoomer • Cliquer sur un pôle CARTOGRAFFECT® pour inspecter sa couronne Z et ses lemmes</span>
+          <span id="canvasStatus">Glisser pour pivoter • Molette pour zoomer • Cliquer sur un pôle CARTOGRAFFECT pour inspecter sa couronne Z et ses lemmes</span>
           <span id="visibleCountBadge" class="font-medium text-[var(--foreground)]">176 prototypes affichés</span>
         </div>
         <div class="relative w-full h-[680px] rounded-lg overflow-hidden border border-[var(--border)] bg-[var(--content)]">
@@ -232,15 +232,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           </div>
           <div class="flex items-baseline justify-between mt-1.5">
             <h2 id="protoTitle" class="text-xl font-bold text-[var(--foreground)]">Joie</h2>
-            <span class="text-[11px] font-mono text-emerald-500 font-semibold">CARTOGRAFFECT® • Lean 4.35.0 Verified</span>
+            <span class="text-[11px] font-mono text-emerald-500 font-semibold">CARTOGRAFFECT • Lean 4.35.0 Verified</span>
           </div>
           <p id="protoCoords" class="text-xs text-[var(--muted-foreground)] mt-0.5 font-mono"></p>
         </div>
 
-        <!-- 1. Architecture & Symétrie Antagoniste CARTOGRAFFECT® (Lean 4 Intra-couronne Z) -->
+        <!-- 1. Architecture & Symétrie Antagoniste CARTOGRAFFECT (Lean 4 Intra-couronne Z) -->
         <div class="bg-[var(--content)] border border-[var(--border)] rounded-lg p-2.5 my-2.5 text-xs space-y-1">
           <div class="flex items-center justify-between">
-            <span class="text-[var(--muted-foreground)] font-medium">Antagoniste CARTOGRAFFECT® (même couronne Z) :</span>
+            <span class="text-[var(--muted-foreground)] font-medium">Antagoniste CARTOGRAFFECT (même couronne Z) :</span>
             <button id="jumpAntagBtn" class="font-semibold underline hover:opacity-80 text-[var(--foreground)]"></button>
           </div>
           <div class="flex items-center justify-between">
@@ -261,7 +261,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <!-- 3. Liste déroulante des affects ancrés (Dictionnaire Multi-Strates S1-S6) -->
         <div class="flex items-center justify-between mt-1 mb-1">
-          <span class="text-xs font-semibold text-[var(--foreground)]">Lemmes CARTOGRAFFECT® ancrés (<span id="anchoredCount">0</span>)</span>
+          <span class="text-xs font-semibold text-[var(--foreground)]">Lemmes CARTOGRAFFECT ancrés (<span id="anchoredCount">0</span>)</span>
           <span class="text-xs text-[var(--muted-foreground)]">Strates S1–S6 • Triés par distance L1</span>
         </div>
         <div id="anchoredList" class="flex-1 min-h-[180px] overflow-y-auto border border-[var(--border)] rounded-lg divide-y divide-[var(--border)] bg-[var(--content)] text-xs"></div>

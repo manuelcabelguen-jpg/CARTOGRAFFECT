@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Utilitaire de synchronisation des métadonnées de version et d'empreinte SHA-256
-pour le compendium CARTOGRAFFECT® (bibliothèque standard Python 3.10+ uniquement).
+Utilitaire de synchronisation des métadonnées de version, des compteurs v3.0.0
+et de l'empreinte SHA-256 de l'annexe exploratoire `Cartograffect/Lexicon176.lean`
+pour le compendium CARTOGRAFFECT (bibliothèque standard Python 3.10+ uniquement).
 
-Source de vérité :
+Sources de vérité :
   - `VERSION` (SemVer strict X.Y.Z)
-  - `Cartograffect/Lexicon176.lean` (SHA-256 brut)
+  - `Cartograffect/Lexicon176.lean` (SHA-256 brut de l'annexe exploratoire)
+  - Compteurs normatifs v3.0.0 issus de `FORMAL_AUDIT_PACK.md` :
+      8 modules normatifs, 148 théorèmes substantiels (169 déclarations exportées,
+      21 auxiliaires, 8 piliers), extension PredictiveEngineCanonical (16 + 5 = 21),
+      11 tests unitaires Python.
 
 Cibles synchronisées :
   - `CITATION.cff`
@@ -27,9 +33,20 @@ import json
 from pathlib import Path
 import re
 import sys
+from typing import Callable
 
 
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
+
+V3_NORMATIVE_MODULES = 8
+V3_THEOREMS_SUBSTANTIAL = 148
+V3_EXPORTED_DECLARATIONS = 169
+V3_AUXILIARY_LEMMAS = 21
+V3_PILLAR_THEOREMS = 8
+V3_CANONICAL_EXT_OWN = 16
+V3_CANONICAL_EXT_AUX = 5
+V3_CANONICAL_EXT_TOTAL = 21
+V3_PYTHON_UNIT_TESTS = 11
 
 
 def _configure_stdio() -> None:
@@ -49,7 +66,7 @@ def _replace_once(pattern: str, repl: str, text: str, label: str, flags: int = 0
     return new_text
 
 
-def _sync_citation_cff(text: str, version: str, theorems_verified: int = 130) -> str:
+def _sync_citation_cff(text: str, version: str) -> str:
     # 1. Champ racine `version: "..."`
     updated = _replace_once(
         r'^(version:\s*)"[^"\r\n]+"',
@@ -66,20 +83,20 @@ def _sync_citation_cff(text: str, version: str, theorems_verified: int = 130) ->
         "CITATION.cff manuscript DOI description",
         flags=re.MULTILINE,
     )
-    # 3. Mention CARTOGRAFFECT® vX.Y.Z dans l'abstract
+    # 3. Mention CARTOGRAFFECT vX.Y.Z dans l'abstract
     updated = _replace_once(
-        r'(abstract:\s*"CARTOGRAFFECT® v)\d+\.\d+\.\d+',
+        r'(abstract:\s*"CARTOGRAFFECT v)\d+\.\d+\.\d+',
         rf"\g<1>{version}",
         updated,
         "CITATION.cff abstract version",
         flags=re.MULTILINE,
     )
-    # 3b. Compteur X/X verified theorems dans l'abstract
+    # 3b. Compteurs v3.0.0 dans l'abstract
     updated = _replace_once(
-        r'\b\d+/\d+(\s+verified theorems)',
-        rf"{theorems_verified}/{theorems_verified}\g<1>",
+        r'\b\d+(\s+normative modules \(Cartograffect/\) certifying\s+)\d+(\s+substantial theorems\s+\()\d+(\s+exported declarations)',
+        rf"{V3_NORMATIVE_MODULES}\g<1>{V3_THEOREMS_SUBSTANTIAL}\g<2>{V3_EXPORTED_DECLARATIONS}\g<3>",
         updated,
-        "CITATION.cff abstract verified theorems count",
+        "CITATION.cff abstract normative theorem counts",
         flags=re.MULTILINE,
     )
     # 4. Champ `preferred-citation:` -> `  version: "..."`
@@ -93,7 +110,7 @@ def _sync_citation_cff(text: str, version: str, theorems_verified: int = 130) ->
     return updated
 
 
-def _sync_zenodo_json(text: str, version: str, theorems_verified: int = 130) -> str:
+def _sync_zenodo_json(text: str, version: str) -> str:
     updated = _replace_once(
         r'^(\s*"version":\s*)"[^"\r\n]+"',
         rf'\g<1>"{version}"',
@@ -102,17 +119,17 @@ def _sync_zenodo_json(text: str, version: str, theorems_verified: int = 130) -> 
         flags=re.MULTILINE,
     )
     updated = _replace_once(
-        r'("description":\s*"CARTOGRAFFECT® v)\d+\.\d+\.\d+',
+        r'("description":\s*"CARTOGRAFFECT v)\d+\.\d+\.\d+',
         rf"\g<1>{version}",
         updated,
         ".zenodo.json description version",
         flags=re.MULTILINE,
     )
     updated = _replace_once(
-        r'(certifying\s+)\d+/\d+(\s+theorems)',
-        rf"\g<1>{theorems_verified}/{theorems_verified}\g<2>",
+        r'\b\d+(\s+normative modules \(Cartograffect/\) certifying\s+)\d+(\s+substantial theorems\s+\()\d+(\s+exported declarations)',
+        rf"{V3_NORMATIVE_MODULES}\g<1>{V3_THEOREMS_SUBSTANTIAL}\g<2>{V3_EXPORTED_DECLARATIONS}\g<3>",
         updated,
-        ".zenodo.json description theorems count",
+        ".zenodo.json description normative theorem counts",
         flags=re.MULTILINE,
     )
     parsed = json.loads(updated)
@@ -133,7 +150,7 @@ def _sync_manifest_json(text: str, version: str, lexicon_sha256: str) -> str:
         r'("lexicon_176":\s*\{\s*\n(?:[ \t]+.*\n)*?[ \t]+"sha256":\s*)"[0-9a-fA-F]+"',
         rf'\g<1>"{lexicon_sha256}"',
         updated,
-        "manifest.json lexicon_176.sha256",
+        "manifest.json exploratory_annexes.lexicon_176.sha256",
         flags=re.MULTILINE,
     )
     updated = _replace_once(
@@ -148,8 +165,8 @@ def _sync_manifest_json(text: str, version: str, lexicon_sha256: str) -> str:
         raise ValueError("manifest.json version racine incohérente après synchronisation.")
     if parsed.get("strate_0_core", {}).get("manuscript", {}).get("version") != version:
         raise ValueError("manifest.json manuscript.version incohérente après synchronisation.")
-    if parsed.get("strate_0_core", {}).get("lexicon_176", {}).get("sha256") != lexicon_sha256:
-        raise ValueError("manifest.json lexicon_176.sha256 incohérent après synchronisation.")
+    if parsed.get("exploratory_annexes", {}).get("lexicon_176", {}).get("sha256") != lexicon_sha256:
+        raise ValueError("manifest.json exploratory_annexes.lexicon_176.sha256 incohérent après synchronisation.")
     return updated
 
 
@@ -181,7 +198,7 @@ def compute_sync_plan(root: Path) -> tuple[str, str, list[tuple[str, str, str]]]
 
     lexicon_sha256 = hashlib.sha256(lexicon_file.read_bytes()).hexdigest()
 
-    targets: list[tuple[str, callable]] = [
+    targets: list[tuple[str, Callable[[str], str]]] = [
         ("CITATION.cff", lambda t: _sync_citation_cff(t, version)),
         (".zenodo.json", lambda t: _sync_zenodo_json(t, version)),
         ("manifest.json", lambda t: _sync_manifest_json(t, version, lexicon_sha256)),
@@ -203,7 +220,7 @@ def compute_sync_plan(root: Path) -> tuple[str, str, list[tuple[str, str, str]]]
 def main(argv: list[str] | None = None) -> int:
     _configure_stdio()
     parser = argparse.ArgumentParser(
-        description="Synchronise VERSION et le SHA-256 de Lexicon176.lean dans les métadonnées."
+        description="Synchronise VERSION, compteurs v3.0.0 et SHA-256 de Lexicon176.lean dans les métadonnées."
     )
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument(
@@ -240,7 +257,8 @@ def main(argv: list[str] | None = None) -> int:
     if not changed:
         print(
             f"SYNC OK : 4/4 fichiers synchronisés sur VERSION={version} "
-            f"(Lexicon176.lean SHA-256={lexicon_sha256})."
+            f"(cœur normatif : {V3_NORMATIVE_MODULES} modules, {V3_THEOREMS_SUBSTANTIAL} th. substantiels / "
+            f"{V3_EXPORTED_DECLARATIONS} exportés ; Lexicon176.lean SHA-256={lexicon_sha256})."
         )
         return 0
 

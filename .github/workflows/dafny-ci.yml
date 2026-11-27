@@ -1,15 +1,6 @@
-name: Dafny Formal Verification CI
+name: "[LEGACY v2.1 — ARCHIVED] Dafny Formal Verification CI"
 
 on:
-  push:
-    branches: [ main, master ]
-    paths:
-      - 'dafny/**'
-      - '.github/workflows/dafny-ci.yml'
-  pull_request:
-    branches: [ main, master ]
-    paths:
-      - 'dafny/**'
   workflow_dispatch:
 
 permissions:

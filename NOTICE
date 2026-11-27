@@ -1,67 +1,58 @@
-CARTOGRAFFECT® — Unified Research Compendium (v2.1.0)
-=========================================================
+CARTOGRAFFECT — Unified Research Compendium (v3.0.0)
+====================================================
 
 Copyright (C) 2025-2026 Manuel Cabelguen. All rights reserved.
 
 Registered with the Canadian Intellectual Property Office (CIPO / OPIC),
 Copyright Registration No. 1233199.
+(Note: Registration No. 1233199 is a copyright registration, not a trademark
+registration; no ® trademark symbol is claimed.)
 
 Repository: https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT
 Zenodo Code & Compendium DOI: https://doi.org/10.5281/zenodo.23833938
 Zenodo Theoretical Article DOI: https://doi.org/10.5281/zenodo.24022795
 OSF Project: https://osf.io/z89sg
-SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
 
 
-Dual licensing
---------------
+Physical License Separation (OSI Code / CC-BY-4.0 Texts & Tables — FAIR4RS)
+---------------------------------------------------------------------------
 
-1. Software source code, simulation scripts and formal proof implementations
-   (Lean 4, Rocq 9, Agda 2.9, Dafny 4.11, SMT-LIB/Z3, TLA+, Python Strate 0,
-   and Strate 1 computational pipelines under extensions/lexicon/ and
-   extensions/in_silico/)
-   Licensed under the GNU Affero General Public License v3.0 or later
-   (AGPL-3.0-or-later). See LICENSE.
+Starting with v3.0.0, this repository enforces a strict physical separation by
+file type between software source code and non-software scientific outputs,
+with zero non-commercial (NC) restriction on any code or v3.0.0 artifact:
 
-2. Theoretical architecture, manuscript, crown geometry and taxonomy of the
-   176 affective states (and subordinate exploratory taxonomic extensions)
-   (docs/01-Article_Cartograffect.md, docs/02-Inventaire_176.md,
-   coordinate geometry and affective nomenclature)
-   Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike
-   4.0 International License (CC BY-NC-SA 4.0).
-   See LICENSE-CC-BY-NC-SA-4.0.md.
+1. Source code, scripts, and formal proofs (OSI-approved license):
+   - Cartograffect/ (8 normative Lean 4 modules, AuditTests.lean, and exploratory
+     annex Lexicon176.lean) and Cartograffect.lean
+   - extensions/predictive_engine/PredictiveEngineCanonical.lean
+   - python/ (cartograffect_predictive_engine.py, test_predictive_engine.py)
+   - scripts/ (sync_metadata.py, export_site_payload.py, check_consistency.py,
+     test_check_consistency.py)
+   - extensions/in_silico/ (Python package, simulation scripts, tests, pyproject.toml)
+   - extensions/lexicon/ (Python scripts and active Lean 4 geometric modules)
 
+   Licensed exclusively under the GNU Affero General Public License v3.0 or later
+   (SPDX-License-Identifier: AGPL-3.0-or-later). See LICENSE.
+   No non-commercial (NC) clause or restriction applies to any source code file.
 
-Hybrid files separation clause
-------------------------------
+2. Texts, manuscript, documentation, and taxonomic tables (CC-BY-4.0):
+   - docs/01-Article_Cartograffect.md, docs/02-Inventaire_176.md,
+     docs/CONVERGENCE_MATRIX.md, docs/assets/
+   - Root & extension documentation (README.md, VALIDATION.md, FORMAL_AUDIT_PACK.md,
+     DECISIONS_V3.md, DATA_PROVENANCE.md, CHANGELOG.md, EPISTEMIC_STATUS.md,
+     ARCHIVE_V2_HYBRID_Y_WARNING.md, extensions/lexicon/docs/,
+     extensions/in_silico/articles/)
+   - Project-authored taxonomic tables and derived TSV/JSON summaries
 
-The following hybrid artifacts embed both executable/formal structures and
-the affective nomenclature, coordinate system, or taxonomic architecture:
+   Licensed under the Creative Commons Attribution 4.0 International License
+   (SPDX-License-Identifier: CC-BY-4.0), aligned with Nature / TOP / FAIR4RS
+   open-science standards. See LICENSE-CC-BY-4.0.md.
 
-  - Cartograffect/Lexicon176.lean
-  - rocq/theories/Lexicon176.v
-  - agda/src/Cartograffect/Lexicon176.agda
-  - dafny/src/Lexicon176.dfy
-  - smt/theories/06_Lexicon176.smt2
-  - tla/specs/Lexicon176.tla
-  - extensions/in_silico/data/lexicon_176.json
-  - extensions/lexicon/CARTOGRAFFECT_Interactive_3D_Explorer.html
-  - extensions/lexicon/CARTOGRAFFECT_Diamond_303_Brut.html
-  - extensions/lexicon/CARTOGRAFFECT_Diamond_303_Complet.html
+3. Frozen v2.1.0 archival directories & third-party datasets:
+   - Legacy secondary-prover directories (rocq/, agda/, dafny/, smt/, tla/) are
+     preserved read-only from the frozen v2.1.0 snapshot (archived tag v2.1.0).
+   - Non-redistributable third-party datasets (NRC-VAD v2.1, DIMA, FANCat) are
+     excluded from Git tracking and documented in DATA_PROVENANCE.md and
+     extensions/lexicon/THIRD_PARTY_NOTICES.md.
 
-For all hybrid files, only the formal proof scaffolding, data schemas, and
-software rendering/indexing code fall under GNU AGPLv3 (AGPL-3.0-or-later).
-The affective nomenclature, coordinates, semantic polarity mappings, and
-176-state (or exploratory 303-pole) taxonomic architecture remain
-exclusively governed by CC BY-NC-SA 4.0. Any commercial extraction,
-repackaging, redistribution, or training-set exploitation of the taxonomy
-from these hybrid files is strictly prohibited without separate written
-commercial authorization.
-
-
-Commercial use
---------------
-
-Any commercial exploitation of the theoretical architecture, affective
-geometry or 176-state taxonomy is strictly reserved. For commercial
-licensing inquiries, contact the author: manuelcabelguen@gmail.com
+Contact: manuelcabelguen@gmail.com

@@ -1,36 +1,32 @@
 # Avis Juridiques, Propriété Intellectuelle et Attributions Tierces (THIRD-PARTY NOTICES)
 
-**Projet : CARTOGRAFFECT® — Modèle Formel, Pyramide Topologique 3D et Dictionnaire Vectoriel Multi-Strates**
+**Projet : CARTOGRAFFECT — Modèle Formel, Pyramide Topologique 3D et Dictionnaire Vectoriel Multi-Strates (v3.0.0)**
 
 ---
 
 ## 1. Titularité Principale et Enregistrement Officiel des Droits d'Auteur
 
 - **Titulaire exclusif des droits patrimoniaux et moraux** : **Manuel Cabelguen**
-- **Marque et œuvre protégée** : **CARTOGRAFFECT®**
-- **Enregistrement officiel** : Office de la propriété intellectuelle du Canada (**OPIC / CIPO**), **Certificat d'enregistrement de droit d'auteur n° 1233199**.
+- **Œuvre protégée** : **CARTOGRAFFECT**
+- **Enregistrement officiel** : Office de la propriété intellectuelle du Canada (**OPIC / CIPO**), **Certificat d'enregistrement de droit d'auteur n° 1233199** *(droit d'auteur, sans marque déposée distincte)*.
 - **Juridiction applicable** : *Loi sur le droit d'auteur* du Canada (L.R.C. (1985), ch. C-42) et conventions internationales applicables (Convention de Berne).
 
 ---
 
-## 2. Régime de Double Licence du Dépôt CARTOGRAFFECT®
+## 2. Séparation Physique des Licences du Dépôt CARTOGRAFFECT (v3.0.0 — OSI / CC-BY-4.0)
 
-Ce dépôt est placé sous un régime strict de **double licence** distinguant l'implémentation logicielle/formelle et le corpus théorique/taxonomique :
+À compter de la version **3.0.0**, ce dépôt applique une **séparation physique stricte** entre code logiciel (licence OSI pure) et documentation/tables (`CC-BY-4.0`), sans aucune clause non commerciale (`NC`) dans le code source :
 
-### 2.1 Code Source, Preuves Formelles Lean 4 et Visualiseurs (`GNU AGPLv3`)
-L'ensemble du code source algorithmique, des scripts de traitement, des preuves formelles mécanisées sous Lean 4 et des interfaces interactives est distribué sous licence **GNU Affero General Public License v3.0 (ou ultérieure)** (`SPDX-License-Identifier: AGPL-3.0-or-later`) :
-- `src/` (modules Python de projection géométrique, d'interpolation RBF/k-NN, de validation CCA/Procrustes et de construction du dictionnaire multi-strates)
-- `scripts/` et scripts d'orchestration à la racine (`*.py`)
-- `Cartograffect/*.lean`, `Cartograffect/Validation/*.lean` et `Lexicon176.lean` (spécifications et théorèmes certifiés sous Lean 4.35.0)
-- `*.html` (explorateurs topologiques 3D interactifs)
+### 2.1 Code Source, Preuves Formelles Lean 4 et Scripts (`AGPL-3.0-or-later`)
+L'ensemble du code source algorithmique, des scripts de traitement, des preuves formelles mécanisées sous Lean 4 et des outils logiciels est distribué exclusivement sous licence **GNU Affero General Public License v3.0 (ou ultérieure)** (`SPDX-License-Identifier: AGPL-3.0-or-later`, voir [`../../LICENSE`](../../LICENSE)) :
+- `src/` (modules Python de projection géométrique et de validation des roues des émotions)
+- `scripts/` et scripts d'orchestration (`*.py`)
+- `extensions/lexicon/lean/*.lean` (modules géométriques Lean 4.35.0 actifs)
 
-### 2.2 Architecture Théorique, Taxonomie et Tables Dérivées (`CC BY-NC-SA 4.0`)
-L'architecture théorique (modèle octaédrique $L_1$ à 176 prototypes, diamant 303, stratification verticale en 6 strates sémantiques de l'expérience humaine), la documentation scientifique et les tables de coordonnées géométriques dérivées sont mises à disposition sous licence **Creative Commons Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International** (`SPDX-License-Identifier: CC-BY-NC-SA-4.0`) :
+### 2.2 Documentation Scientifique et Tables Taxonomiques (`CC-BY-4.0`)
+La documentation scientifique, les textes et les tables taxonomiques propres au projet (hors données tierces non redistribuables listées dans [`../../DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md)) sont mis à disposition sous licence **Creative Commons Attribution 4.0 International** (`SPDX-License-Identifier: CC-BY-4.0`, voir [`../../LICENSE-CC-BY-4.0.md`](../../LICENSE-CC-BY-4.0.md) et [`../../NOTICE`](../../NOTICE)) :
 - `docs/` (documentation théorique, épistémologique et mathématique)
-- `tables/` et fichiers `.tsv` / `.json` de paramètres projetés et synthèses statistiques du modèle CARTOGRAFFECT®
-- Architecture conceptuelle et taxonomie des 6 strates verticales ($Z$)
-
-Toute exploitation commerciale de la taxonomie, des coordonnées géométriques ou du modèle théorique CARTOGRAFFECT® requiert une licence commerciale explicite accordée par le titulaire (Manuel Cabelguen).
+- `tables/` et fichiers `.tsv` / `.json` dérivés propres au modèle CARTOGRAFFECT (voir [`ARCHIVE_V2_HYBRID_Y_WARNING.md`](ARCHIVE_V2_HYBRID_Y_WARNING.md) pour les tables historiques v2.1.0)
 
 ---
 

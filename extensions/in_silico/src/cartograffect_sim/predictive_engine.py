@@ -1,4 +1,4 @@
-"""Moteur prédictif CARTOGRAFFECT® (isomorphe à `Cartograffect/PredictiveEngine.lean`).
+"""Moteur prédictif CARTOGRAFFECT (isomorphe à `Cartograffect/PredictiveEngine.lean`).
 
 Implémente les types discrets et opérateurs déterministes du Moteur prédictif :
 - Polarités discrètes des gradients (`Polarity`) et régimes fonctionnels (`FunctionalRegime`) ;

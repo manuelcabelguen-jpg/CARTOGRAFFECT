@@ -1,24 +1,26 @@
 cff-version: "1.2.0"
-title: "CARTOGRAFFECT®: Unified Research Compendium — Hexa-Prover Formal Verification, Theory, Lexicon & Active Inference Simulation"
-message: "If you use this software, formal proofs, theoretical framework, or 176-state taxonomy, please cite both the compendium and the reference theoretical article as below."
+title: "CARTOGRAFFECT: Research Compendium — Lean 4 Formal Core, Theory & Active Inference Benchmarks"
+message: "If you use this software, formal proofs, theoretical framework, or documentation, please cite both the compendium and the reference theoretical article as below."
 type: software
 authors:
   - family-names: "Cabelguen"
     given-names: "Manuel"
     email: "manuelcabelguen@gmail.com"
-version: "2.1.0"
-date-released: "2026-11-22"
+version: "3.0.0"
+date-released: "2026-11-26"
 doi: "10.5281/zenodo.23833938"
 url: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
 repository-code: "https://github.com/manuelcabelguen-jpg/CARTOGRAFFECT"
-license: "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"
+license:
+  - AGPL-3.0-or-later
+  - CC-BY-4.0
 identifiers:
   - type: doi
     value: "10.5281/zenodo.23833938"
     description: "Zenodo software & formal compendium concept/version DOI"
   - type: doi
     value: "10.5281/zenodo.24022795"
-    description: "Zenodo theoretical reference manuscript DOI (v2.1.0)"
+    description: "Zenodo theoretical reference manuscript DOI (v3.0.0)"
   - type: url
     value: "https://osf.io/z89sg"
     description: "Open Science Framework (OSF) companion project"
@@ -28,16 +30,12 @@ identifiers:
 keywords:
   - "formal verification"
   - "Lean 4"
-  - "Rocq"
-  - "Agda"
-  - "Dafny"
-  - "Z3"
-  - "TLA+"
   - "active inference"
   - "affective neuroscience"
   - "computational psychiatry"
   - "L1 geometry"
-abstract: "CARTOGRAFFECT® v2.1.0 stratified Research Compendium: Strate 0 unites six-prover formal verification (Lean 4.35.0, Rocq 9.1.0, Agda 2.9.0, Dafny 4.11.0, SMT-LIB/Z3 5.3.3, TLA+/TLC 2.19; 130/130 verified theorems, 132/132 Dafny/TLA+ lemmas/predicates, 2/2 Z3 AUX, 11/11 evaluation blocks, 0 sorry, 0 custom axioms), an isomorphic exact Python predictive engine, and the canonical theoretical manuscript (176 affective states across Z in {0,...,7}, predictions P1-P5). Strate 1 provides subordinate exploratory extensions for computational lexical projection/GRID-CPM challenges (extensions/lexicon/, including 36/36 verified Lean 4 theorems with 0 sorry) and in silico Active Inference pymdp/JAX/NumPyro simulations (extensions/in_silico/)."
+  - "FAIR4RS"
+abstract: "CARTOGRAFFECT v3.0.0 Research Compendium: Strate 0 centers on Lean 4 (v4.35.0, Lake 5.0.0, Init only) as single reference formal prover across 8 normative modules (Cartograffect/) certifying 148 substantial theorems (169 exported declarations, 21 elementary lemmas, 8 pillar theorems, 0 sorryAx, 0 native_decide, 0 custom axioms; FORMAL_AUDIT_PACK.md), the dedicated extension PredictiveEngineCanonical.lean (16 own theorems + 5 auxiliaries = 21 declarations), the isomorphic exact integer Python engine (11 unit tests), and the theoretical manuscript (docs/01-Article_Cartograffect.md, continuous Z in [0, 5], canonical discretization Z in {0, 1, 2}, Option 1A strict instrumental Y with decoupled A >= 0, predictions P1-P5). Exploratory annexes (Cartograffect/Lexicon176.lean, docs/02-Inventaire_176.md, Strate 1 lexicon/in_silico satellites, frozen v2.1.0 multi-prover archive) remain strictly separated from the normative core. Code is licensed solely under AGPL-3.0-or-later; texts, manuscript, documentation, and taxonomic tables are licensed under CC-BY-4.0."
 preferred-citation:
   type: article
   authors:
@@ -46,7 +44,7 @@ preferred-citation:
       email: "manuelcabelguen@gmail.com"
   title: "Cartographie des affects : une architecture hiérarchique de l'expérience affective fondée sur le traitement prédictif"
   year: 2026
-  version: "2.1.0"
+  version: "3.0.0"
   doi: "10.5281/zenodo.24022795"
   url: "https://doi.org/10.5281/zenodo.24022795"
-  notes: "Reference theoretical manuscript (docs/01-Article_Cartograffect.md); CIPO / OPIC Registration No. 1233199."
+  notes: "Reference theoretical manuscript (docs/01-Article_Cartograffect.md, CC-BY-4.0); CIPO / OPIC Copyright Registration No. 1233199."

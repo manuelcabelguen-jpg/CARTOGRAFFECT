@@ -1,4 +1,4 @@
-"""Matrice affective CARTOGRAFFECT® (isomorphe à `Cartograffect/AffectiveMatrix.lean`).
+"""Matrice affective CARTOGRAFFECT (isomorphe à `Cartograffect/AffectiveMatrix.lean`).
 
 Implémente la transduction phénoménologique et les opérateurs d'antagonisme :
 - Pôles vécus (`LivedExpectationPole`, `LivedControlPole`), régimes énergétiques

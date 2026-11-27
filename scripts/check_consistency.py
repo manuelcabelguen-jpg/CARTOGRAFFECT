@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Garde-fou automatisé de cohérence scientifique, formelle et d'archivage
-pour le compendium unifié CARTOGRAFFECT® (Strate 0 / Strate 1).
+Garde-fou automatisé de cohérence scientifique, formelle, juridique (OSI/FAIR4RS)
+et d'archivage pour le compendium CARTOGRAFFECT v3.0.0 (Strate 0 / Strate 1).
 
 Vérifie les 7 groupes d'invariants sans aucune dépendance externe
 (bibliothèque standard Python 3.10+ uniquement) :
-  1. version_parity               — Parité stricte de VERSION à travers le compendium
-  2. strate0_integrity            — SHA-256 de Lexicon176.lean, 11 fichiers Lean (130 th.), 0 trou/axiome sur 6 suites + Strate 1 Lean (36 th.)
-  3. zenodo_cff_spdx              — Validité .zenodo.json / manifest.json / CITATION.cff / NOTICE
-  4. epistemic_compartmentalization — Chartes Strate 1, CONVERGENCE_MATRIX.md, garde A4-Sanctuaire
+  1. version_parity               — Parité stricte de VERSION (3.0.0) à travers le compendium
+  2. strate0_integrity            — Compteurs v3.0.0 (8 modules normatifs, 148 th. substantiels / 169 exportés,
+                                    8 piliers, PredictiveEngineCanonical 16+5=21, 11 tests Python),
+                                    0 sorry / 0 native_decide / 0 computeActivation, isolation de Lexicon176.lean,
+                                    et contrôle lecture seule 0 trou des suites archivées v2.1
+  3. zenodo_cff_spdx              — Séparation physique OSI (AGPL-3.0-or-later code) / CC-BY-4.0 (docs & tables),
+                                    0 clause non commerciale (NC) dans le code source, FAIR4RS pins + lockfile + DATA_PROVENANCE.md
+  4. epistemic_compartmentalization — Chartes Strate 1, ARCHIVE_V2_HYBRID_Y_WARNING.md, CONVERGENCE_MATRIX.md,
+                                    garde A4-Sanctuaire, transparence IA & lien FORMAL_AUDIT_PACK.md
   5. zero_leak_zenodo_hygiene     — Zéro fuite locale, 0 .env, 0 brut tiers, <= 20 Mo, 0 filter=lfs
   6. tracked_results_json         — Validité JSON sous extensions/in_silico/results/ et 0 chemin Windows
   7. site_payload_contract        — Exécution et cohérence de scripts/export_site_payload.py --check
@@ -71,7 +77,17 @@ WIN_ABS_PATH_RE = re.compile(r"(?<![A-Za-z0-9_])[A-Za-z]:[/\\]")
 FILE_DRIVE_URI_RE = re.compile(r"file:///+[A-Za-z]:[/\\]", re.IGNORECASE)
 UNC_PATH_RE = re.compile(r"\\\\[A-Za-z0-9_.-]+\\[A-Za-z0-9_.-]+")
 
-FORBIDDEN_FORMAL_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+FORBIDDEN_LEAN_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("sorry", re.compile(r"\bsorry\b")),
+    ("admit", re.compile(r"\badmit\b")),
+    ("native_decide", re.compile(r"\bnative_decide\b")),
+    ("axiom", re.compile(r"\baxiom\b")),
+    ("unsafe", re.compile(r"\bunsafe\b")),
+    ("noncomputable", re.compile(r"\bnoncomputable\b")),
+    ("computeActivation", re.compile(r"\bcomputeActivation\b")),
+)
+
+FORBIDDEN_ARCHIVE_FORMAL_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("sorry", re.compile(r"\bsorry\b")),
     ("Admitted", re.compile(r"\bAdmitted\b")),
     ("admit", re.compile(r"\badmit\b")),
@@ -85,6 +101,16 @@ A4_FORBIDDEN_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("LaTeX PXP", re.compile(r"\\text\{\s*PXP\s*\}", re.IGNORECASE)),
     ("PXP_{BIC}", re.compile(r"PXP_?\{?BIC\}?", re.IGNORECASE)),
     ("min r", re.compile(r"(?:\\min\s*r\b|\bmin\s+r\b)", re.IGNORECASE)),
+)
+
+# Motifs construits dynamiquement afin d'éviter toute auto-détection dans ce fichier Python.
+LEGACY_NC_LICENSE_FILE = "LICENSE-" + "CC-BY-" + "NC-SA-4.0.md"
+NC_LICENSE_PATTERN = re.compile(r"CC[- ]BY[- ]N" + r"C[- ]SA", re.IGNORECASE)
+
+V3_OBSOLETE_DOC_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("invalid-llm-id", re.compile(r"gemini-3\." + r"8-flash", re.IGNORECASE)),
+    ("obsolete-constructive-epithet", re.compile(r"th[eé]or[eè]mes\s+(?:purement\s+)?con" + r"structifs", re.IGNORECASE)),
+    ("removed-activation-fn", re.compile(r"\bcompute" + r"Activation\b")),
 )
 
 
@@ -137,9 +163,15 @@ def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def _parse_pyproject_version(text: str) -> str | None:
+def _parse_pyproject_data(text: str) -> dict[str, Any] | None:
     if tomllib is not None:
-        data = tomllib.loads(text)
+        return tomllib.loads(text)
+    return None
+
+
+def _parse_pyproject_version(text: str) -> str | None:
+    data = _parse_pyproject_data(text)
+    if data is not None:
         project = data.get("project")
         if isinstance(project, dict):
             ver = project.get("version")
@@ -185,6 +217,21 @@ def _extract_cff_versions(cff_text: str) -> tuple[str | None, str | None]:
                 top_version = m_top.group(1)
 
     return top_version, pref_version
+
+
+def _extract_cff_licenses(cff_text: str) -> list[str]:
+    inline = re.search(r'^license:\s*\[([^\]]+)\]\s*$', cff_text, re.MULTILINE)
+    if inline:
+        return [item.strip().strip("\"'") for item in inline.group(1).split(",") if item.strip()]
+    block = re.search(r'^license:\s*\n((?:[ \t]+-\s+[^\r\n]+\n?)+)', cff_text, re.MULTILINE)
+    if block:
+        return [
+            re.sub(r'^[ \t]+-\s+', '', ln).strip().strip("\"'")
+            for ln in block.group(1).splitlines()
+            if ln.strip()
+        ]
+    m = re.search(r'^license:\s*["\']?([^"\'\r\n]+)["\']?\s*$', cff_text, re.MULTILINE)
+    return [m.group(1).strip()] if m else []
 
 
 def _strip_comments_and_strings(text: str, lang: str) -> str:
@@ -495,7 +542,6 @@ def _check_version_parity(
         return cat, version
     cat.ok(f"VERSION = {version} (SemVer strict)")
 
-    # CITATION.cff
     cff_path = root / "CITATION.cff"
     if not cff_path.is_file():
         cat.fail("CITATION.cff introuvable.")
@@ -510,7 +556,6 @@ def _check_version_parity(
         elif cff_pref == version:
             cat.ok(f"CITATION.cff preferred-citation.version = {cff_pref}")
 
-    # .zenodo.json
     if zenodo_data is None:
         cat.fail(".zenodo.json indisponible pour le contrôle de version.")
     else:
@@ -520,7 +565,6 @@ def _check_version_parity(
         else:
             cat.ok(f".zenodo.json version = {z_ver}")
 
-    # manifest.json
     if manifest_data is None:
         cat.fail("manifest.json indisponible pour le contrôle de version.")
     else:
@@ -532,26 +576,20 @@ def _check_version_parity(
 
         ms_ver = manifest_data.get("strate_0_core", {}).get("manuscript", {}).get("version")
         if ms_ver != version:
-            cat.fail(
-                f"manifest.json strate_0_core.manuscript.version='{ms_ver}' != '{version}'."
-            )
+            cat.fail(f"manifest.json strate_0_core.manuscript.version='{ms_ver}' != '{version}'.")
         else:
             cat.ok(f"manifest.json manuscript.version = {ms_ver}")
 
-    # extensions/in_silico/pyproject.toml
     pyproject_path = root / "extensions/in_silico/pyproject.toml"
     if not pyproject_path.is_file():
         cat.fail("extensions/in_silico/pyproject.toml introuvable.")
     else:
         py_ver = _parse_pyproject_version(_read_text(pyproject_path))
         if py_ver != version:
-            cat.fail(
-                f"extensions/in_silico/pyproject.toml version='{py_ver}' != '{version}'."
-            )
+            cat.fail(f"extensions/in_silico/pyproject.toml version='{py_ver}' != '{version}'.")
         else:
             cat.ok(f"extensions/in_silico/pyproject.toml version = {py_ver}")
 
-    # CHANGELOG.md
     changelog_path = root / "CHANGELOG.md"
     if not changelog_path.is_file():
         cat.fail("CHANGELOG.md introuvable.")
@@ -564,7 +602,6 @@ def _check_version_parity(
         else:
             cat.ok(f"CHANGELOG.md en-tête = [{m_chg.group(1)}]")
 
-    # docs/01-Article_Cartograffect.md
     article_path = root / "docs/01-Article_Cartograffect.md"
     if not article_path.is_file():
         cat.fail("docs/01-Article_Cartograffect.md introuvable.")
@@ -596,8 +633,18 @@ def _check_strate0_integrity(
 ) -> CategoryResult:
     cat = CategoryResult(
         "strate0_integrity",
-        "2. Intégrité cryptographique et formelle de la Strate 0",
+        "2. Intégrité cryptographique et formelle v3.0.0 (Lean 4 référence unique)",
     )
+
+    audit_pack = root / "FORMAL_AUDIT_PACK.md"
+    if not audit_pack.is_file():
+        cat.fail("FORMAL_AUDIT_PACK.md introuvable.")
+    else:
+        ap_text = _read_text(audit_pack)
+        if "148" in ap_text and "169" in ap_text and "Top 8" in ap_text:
+            cat.ok("FORMAL_AUDIT_PACK.md présent et cohérent (148 substantiels / 169 exportés / Top 8 piliers)")
+        else:
+            cat.fail("FORMAL_AUDIT_PACK.md incomplet vis-à-vis des compteurs v3.0.0 (148 / 169 / Top 8).")
 
     lexicon_rel = "Cartograffect/Lexicon176.lean"
     lexicon_path = root / lexicon_rel
@@ -607,39 +654,80 @@ def _check_strate0_integrity(
         cat.fail("manifest.json indisponible pour vérifier le SHA-256 de Lexicon176.lean.")
     else:
         actual_sha = hashlib.sha256(lexicon_path.read_bytes()).hexdigest()
-        lex_meta = manifest_data.get("strate_0_core", {}).get("lexicon_176", {})
+        lex_meta = manifest_data.get("exploratory_annexes", {}).get("lexicon_176", {})
         expected_sha = lex_meta.get("sha256")
         if actual_sha != expected_sha:
             cat.fail(
                 f"Rupture SHA-256 pour {lexicon_rel} : calculé={actual_sha}, attendu(manifest)={expected_sha}."
             )
         else:
-            cat.ok(f"{lexicon_rel} SHA-256 vérifié ({actual_sha[:16]}...)")
+            cat.ok(f"{lexicon_rel} (annexe exploratoire) SHA-256 vérifié ({actual_sha[:16]}...)")
 
-    # 11 fichiers Lean dans manifest.json (incluant EndToEndBridge.lean)
+    normative_modules: list[str] = []
     if manifest_data is not None:
         s0 = manifest_data.get("strate_0_core", {})
-        if s0.get("theorems_verified") != 130:
-            cat.fail(
-                f"manifest.json strate_0_core.theorems_verified doit valoir 130 (trouvé : {s0.get('theorems_verified')})."
-            )
-        else:
-            cat.ok("manifest.json strate_0_core.theorems_verified = 130")
-
-        lean_files = s0.get("lean_files")
-        if not isinstance(lean_files, list) or len(lean_files) != 11:
-            count = len(lean_files) if isinstance(lean_files, list) else "invalid"
-            cat.fail(f"manifest.json strate_0_core.lean_files doit lister 11 fichiers (trouvé : {count}).")
-        else:
-            missing = [lf for lf in lean_files if not (root / lf).is_file()]
-            if missing:
-                cat.fail(f"Fichiers Lean manquants sur disque : {missing}")
-            elif "Cartograffect/EndToEndBridge.lean" not in lean_files:
-                cat.fail("Cartograffect/EndToEndBridge.lean absent de manifest.json strate_0_core.lean_files.")
+        expected_counts = [
+            ("normative_modules_count", 8),
+            ("theorems_substantial", 148),
+            ("exported_declarations", 169),
+            ("auxiliary_lemmas", 21),
+            ("pillar_theorems_count", 8),
+            ("sorry_count", 0),
+            ("native_decide_count", 0),
+            ("custom_axioms_count", 0),
+        ]
+        for key, exp in expected_counts:
+            got = s0.get(key)
+            if got != exp:
+                cat.fail(f"manifest.json strate_0_core.{key}={got!r} != {exp}.")
             else:
-                cat.ok("11/11 fichiers Lean du manifest présents sur disque (dont EndToEndBridge.lean)")
+                cat.ok(f"manifest.json strate_0_core.{key} = {exp}")
 
-    # Unicité de Lexicon176.lean hors Cartograffect/
+        ext = s0.get("canonical_extension", {})
+        if (
+            ext.get("theorems_own") != 16
+            or ext.get("auxiliary_lemmas") != 5
+            or ext.get("exported_declarations") != 21
+        ):
+            cat.fail(f"manifest.json canonical_extension compteurs invalides : {ext!r}")
+        else:
+            cat.ok("manifest.json PredictiveEngineCanonical = 16 propres + 5 auxiliaires = 21")
+
+        py_tests = s0.get("python_isomorphic_engine", {}).get("unit_tests_count")
+        if py_tests != 11:
+            cat.fail(f"manifest.json python_isomorphic_engine.unit_tests_count={py_tests!r} != 11.")
+        else:
+            cat.ok("manifest.json python_isomorphic_engine.unit_tests_count = 11")
+
+        normative_modules = list(s0.get("normative_lean_modules", []))
+        if len(normative_modules) != 8:
+            cat.fail(f"manifest.json normative_lean_modules doit lister 8 fichiers (trouvé : {len(normative_modules)}).")
+        else:
+            missing = [lf for lf in normative_modules if not (root / lf).is_file()]
+            if missing:
+                cat.fail(f"Modules normatifs Lean 4 manquants sur disque : {missing}")
+            elif lexicon_rel in normative_modules:
+                cat.fail("Cartograffect/Lexicon176.lean ne doit pas figurer dans normative_lean_modules.")
+            else:
+                cat.ok("8/8 modules normatifs Lean 4 présents sur disque (Lexicon176 isolé en annexe)")
+
+    isolation_targets = [root / lf for lf in normative_modules if (root / lf).is_file()]
+    canon_ext_path = root / "extensions/predictive_engine/PredictiveEngineCanonical.lean"
+    if canon_ext_path.is_file():
+        isolation_targets.append(canon_ext_path)
+    else:
+        cat.fail("extensions/predictive_engine/PredictiveEngineCanonical.lean introuvable.")
+
+    lex_import_hits: list[str] = []
+    for path in isolation_targets:
+        stripped = _strip_comments_and_strings(_read_text(path), "lean")
+        if re.search(r"^\s*import\s+Cartograffect\.Lexicon176\b", stripped, re.MULTILINE):
+            lex_import_hits.append(path.relative_to(root).as_posix())
+    if lex_import_hits:
+        cat.fail(f"Import interdit de Lexicon176 dans le cœur normatif / extension : {lex_import_hits}")
+    else:
+        cat.ok("Isolation stricte : 0 import de Lexicon176 dans les 8 modules normatifs et PredictiveEngineCanonical")
+
     dup_lexicons = sorted({
         rel for rel in (set(tracked_files) | set(all_repo_files))
         if Path(rel).name.lower() == "lexicon176.lean" and rel != lexicon_rel
@@ -649,55 +737,80 @@ def _check_strate0_integrity(
     else:
         cat.ok("0 doublon Lexicon176.lean hors Cartograffect/")
 
-    # Scan des 6 suites formelles Strate 0 + extensions Strate 1 Lean hors commentaires et littéraux
-    suites: list[tuple[str, str, list[Path]]] = [
+    for retired in (
+        "extensions/lexicon/lean/SchererGRID.lean",
+        "extensions/lexicon/src/grid_cpm_integration.py",
+    ):
+        if (root / retired).is_file():
+            cat.fail(f"Artefact synthétique retiré encore présent hors archive/ : {retired}")
+    cat.ok("0 artefact synthétique retiré (SchererGRID.lean / grid_cpm_integration.py) hors archive/")
+
+    # Audit statique Lean 4 actif hors commentaires et littéraux
+    lean_suites: list[tuple[str, list[Path]]] = [
         (
-            "Lean 4",
-            "lean",
+            "Lean 4 cœur & annexe (Cartograffect/)",
             ([root / "Cartograffect.lean"] if (root / "Cartograffect.lean").is_file() else [])
             + sorted((root / "Cartograffect").rglob("*.lean") if (root / "Cartograffect").is_dir() else []),
         ),
-        ("Rocq", "rocq", sorted((root / "rocq/theories").rglob("*.v") if (root / "rocq/theories").is_dir() else [])),
-        ("Agda", "agda", sorted((root / "agda/src").rglob("*.agda") if (root / "agda/src").is_dir() else [])),
-        ("Dafny", "dafny", sorted((root / "dafny/src").rglob("*.dfy") if (root / "dafny/src").is_dir() else [])),
-        ("SMT-LIB 2", "smt", sorted((root / "smt/theories").rglob("*.smt2") if (root / "smt/theories").is_dir() else [])),
         (
-            "TLA+",
-            "tla",
-            sorted((root / "tla/specs").rglob("*.tla") if (root / "tla/specs").is_dir() else [])
-            + sorted((root / "tla/specs").rglob("*.cfg") if (root / "tla/specs").is_dir() else []),
+            "Lean 4 extension canonique (PredictiveEngineCanonical)",
+            [canon_ext_path] if canon_ext_path.is_file() else [],
         ),
     ]
-
     strate1_lean_paths = sorted(
         (root / "extensions/lexicon/lean").rglob("*.lean")
         if (root / "extensions/lexicon/lean").is_dir()
         else []
     )
     if strate1_lean_paths:
-        suites.append(("Lean 4 Strate 1 (extensions/lexicon/lean)", "lean", strate1_lean_paths))
+        lean_suites.append(("Lean 4 Strate 1 (extensions/lexicon/lean)", strate1_lean_paths))
 
-    total_formal_files = 0
-    for suite_name, lang, paths in suites:
+    for suite_name, paths in lean_suites:
         if not paths:
-            cat.fail(f"Aucun fichier formel trouvé pour la suite {suite_name}.")
+            cat.fail(f"Aucun fichier Lean trouvé pour {suite_name}.")
             continue
-        suite_hits: list[str] = []
+        hits: list[str] = []
         for path in paths:
-            total_formal_files += 1
+            rel = path.relative_to(root).as_posix()
+            stripped = _strip_comments_and_strings(_read_text(path), "lean")
+            for lineno, line in enumerate(stripped.splitlines(), 1):
+                for label, pattern in FORBIDDEN_LEAN_PATTERNS:
+                    if pattern.search(line):
+                        hits.append(f"{rel}:{lineno} ({label})")
+        if hits:
+            cat.fail(f"{suite_name} contient des marqueurs interdits : {hits}")
+        else:
+            cat.ok(f"{suite_name} ({len(paths)} fichiers) : 0 sorry / native_decide / axiom / computeActivation")
+
+    # Contrôle statique lecture seule des 5 suites archivées v2.1 (aucun affaiblissement des gardes historiques)
+    archived_suites: list[tuple[str, str, list[Path]]] = [
+        ("Rocq (archive figée v2.1)", "rocq", sorted((root / "rocq/theories").rglob("*.v") if (root / "rocq/theories").is_dir() else [])),
+        ("Agda (archive figée v2.1)", "agda", sorted((root / "agda/src").rglob("*.agda") if (root / "agda/src").is_dir() else [])),
+        ("Dafny (archive figée v2.1)", "dafny", sorted((root / "dafny/src").rglob("*.dfy") if (root / "dafny/src").is_dir() else [])),
+        ("SMT-LIB 2 (archive figée v2.1)", "smt", sorted((root / "smt/theories").rglob("*.smt2") if (root / "smt/theories").is_dir() else [])),
+        (
+            "TLA+ (archive figée v2.1)",
+            "tla",
+            sorted((root / "tla/specs").rglob("*.tla") if (root / "tla/specs").is_dir() else [])
+            + sorted((root / "tla/specs").rglob("*.cfg") if (root / "tla/specs").is_dir() else []),
+        ),
+    ]
+    for suite_name, lang, paths in archived_suites:
+        if not paths:
+            cat.fail(f"Aucun fichier formel trouvé pour {suite_name}.")
+            continue
+        hits = []
+        for path in paths:
             rel = path.relative_to(root).as_posix()
             stripped = _strip_comments_and_strings(_read_text(path), lang)
             for lineno, line in enumerate(stripped.splitlines(), 1):
-                for label, pattern in FORBIDDEN_FORMAL_PATTERNS:
+                for label, pattern in FORBIDDEN_ARCHIVE_FORMAL_PATTERNS:
                     if pattern.search(line):
-                        suite_hits.append(f"{rel}:{lineno} ({label})")
-        if suite_hits:
-            cat.fail(f"{suite_name} contient des marqueurs interdits : {suite_hits}")
+                        hits.append(f"{rel}:{lineno} ({label})")
+        if hits:
+            cat.fail(f"{suite_name} contient des marqueurs interdits : {hits}")
         else:
             cat.ok(f"{suite_name} ({len(paths)} fichiers) : 0 trou / axiome")
-
-    if total_formal_files > 0 and cat.passed:
-        cat.ok(f"Hexa-Prover total : {total_formal_files} fichiers audités hors commentaires")
 
     return cat
 
@@ -711,8 +824,21 @@ def _check_zenodo_cff_spdx(
 ) -> CategoryResult:
     cat = CategoryResult(
         "zenodo_cff_spdx",
-        "3. Conformité Zenodo, CFF et gouvernance SPDX",
+        "3. Licences OSI / CC-BY-4.0, Zenodo, CFF et reproductibilité FAIR4RS",
     )
+
+    if not (root / "LICENSE").is_file():
+        cat.fail("Fichier racine LICENSE (AGPL-3.0-or-later) manquant.")
+    else:
+        cat.ok("LICENSE présent (GNU AGPLv3)")
+    if not (root / "LICENSE-CC-BY-4.0.md").is_file():
+        cat.fail("Fichier racine LICENSE-CC-BY-4.0.md manquant.")
+    else:
+        cat.ok("LICENSE-CC-BY-4.0.md présent (CC-BY-4.0)")
+    if (root / LEGACY_NC_LICENSE_FILE).is_file():
+        cat.fail(f"Fichier obsolète {LEGACY_NC_LICENSE_FILE} encore présent à la racine.")
+    else:
+        cat.ok("Ancien fichier de licence NC retiré de la racine")
 
     if zenodo_data is None:
         cat.fail(".zenodo.json invalide ou absent.")
@@ -725,8 +851,15 @@ def _check_zenodo_cff_spdx(
             cat.fail(
                 f".zenodo.json['license']='{lic}' doit être un identifiant SPDX unique compatible API Zenodo (sans 'AND')."
             )
+        elif lic.lower() != "agpl-3.0-or-later":
+            cat.fail(f".zenodo.json['license']='{lic}' attendu 'agpl-3.0-or-later'.")
         else:
-            cat.ok(f".zenodo.json['license'] = '{lic}' (identifiant unique valide)")
+            cat.ok(f".zenodo.json['license'] = '{lic}' (OSI unique valide)")
+
+        if "®" in json.dumps(zenodo_data, ensure_ascii=False):
+            cat.fail(".zenodo.json contient encore le symbole '®'.")
+        else:
+            cat.ok(".zenodo.json exempt du symbole '®'")
 
         for field_name in ("description", "notes"):
             val = zenodo_data.get(field_name)
@@ -735,23 +868,32 @@ def _check_zenodo_cff_spdx(
                 continue
             low = val.lower()
             has_agpl = "agpl-3.0-or-later" in low
-            has_cc = "cc-by-nc-sa-4.0" in low or "cc by-nc-sa 4.0" in low
+            has_ccby = "cc-by-4.0" in low or "cc by 4.0" in low
+            has_nc = bool(NC_LICENSE_PATTERN.search(val))
             has_cipo = "1233199" in low
-            if not (has_agpl and has_cc):
+            if has_nc:
+                cat.fail(f".zenodo.json['{field_name}'] contient encore une clause non commerciale (NC) interdite.")
+            elif not (has_agpl and has_ccby):
                 cat.fail(
-                    f".zenodo.json['{field_name}'] doit mentionner explicitement la double licence AGPL-3.0-or-later et CC BY-NC-SA 4.0."
+                    f".zenodo.json['{field_name}'] doit mentionner AGPL-3.0-or-later (code) et CC-BY-4.0 (docs/tables)."
                 )
             elif not has_cipo:
                 cat.fail(f".zenodo.json['{field_name}'] doit mentionner l'enregistrement CIPO/OPIC 1233199.")
             else:
-                cat.ok(f".zenodo.json['{field_name}'] conforme (double licence + 1233199)")
+                cat.ok(f".zenodo.json['{field_name}'] conforme (AGPL-3.0-or-later + CC-BY-4.0 + 1233199, 0 NC)")
 
     if manifest_data is None:
         cat.fail("manifest.json invalide ou absent.")
     else:
         cat.ok("manifest.json JSON valide")
+        m_lic = manifest_data.get("licenses", {})
+        if m_lic.get("code_spdx") != "AGPL-3.0-or-later" or m_lic.get("docs_and_data_spdx") != "CC-BY-4.0":
+            cat.fail(f"manifest.json licenses invalides : {m_lic!r}")
+        elif NC_LICENSE_PATTERN.search(json.dumps(manifest_data)):
+            cat.fail("manifest.json contient encore une référence de licence NC interdite.")
+        else:
+            cat.ok("manifest.json licenses = AGPL-3.0-or-later (code) / CC-BY-4.0 (docs & tables)")
 
-    # Unicité et contenu de CITATION.cff
     cff_candidates = sorted({
         rel for rel in (set(tracked_files) | set(all_repo_files))
         if Path(rel).name.lower() == "citation.cff"
@@ -765,14 +907,18 @@ def _check_zenodo_cff_spdx(
     elif cff_path.is_file():
         cat.ok("CITATION.cff unique à la racine")
         cff_text = _read_text(cff_path)
-        if not re.search(
-            r'^license:\s*["\']?AGPL-3\.0-or-later\s+AND\s+CC-BY-NC-SA-4\.0["\']?\s*$',
-            cff_text,
-            re.MULTILINE,
-        ):
-            cat.fail("CITATION.cff doit déclarer license: 'AGPL-3.0-or-later AND CC-BY-NC-SA-4.0'.")
+        cff_licenses = _extract_cff_licenses(cff_text)
+        if NC_LICENSE_PATTERN.search(cff_text):
+            cat.fail("CITATION.cff contient encore une clause de licence NC interdite.")
+        elif set(cff_licenses) != {"AGPL-3.0-or-later", "CC-BY-4.0"}:
+            cat.fail(f"CITATION.cff license={cff_licenses!r} doit être ['AGPL-3.0-or-later', 'CC-BY-4.0'].")
         else:
-            cat.ok("CITATION.cff license = AGPL-3.0-or-later AND CC-BY-NC-SA-4.0")
+            cat.ok("CITATION.cff license = [AGPL-3.0-or-later, CC-BY-4.0]")
+
+        if "®" in cff_text:
+            cat.fail("CITATION.cff contient encore le symbole '®'.")
+        else:
+            cat.ok("CITATION.cff exempt du symbole '®'")
 
         required_ids = (
             "10.5281/zenodo.23833938",
@@ -786,32 +932,96 @@ def _check_zenodo_cff_spdx(
         else:
             cat.ok("CITATION.cff contient les 4 identifiants (2 DOIs Zenodo, OSF, CIPO 1233199)")
 
-    # NOTICE
     notice_path = root / "NOTICE"
     if not notice_path.is_file():
         cat.fail("Fichier racine NOTICE manquant.")
     else:
         notice_text = _read_text(notice_path)
-        if "SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0" not in notice_text:
-            cat.fail("NOTICE ne contient pas la ligne SPDX-License-Identifier attendue.")
+        if NC_LICENSE_PATTERN.search(notice_text):
+            cat.fail("NOTICE contient encore une clause de licence NC interdite.")
+        elif "®" in notice_text and "no ® trademark symbol" not in notice_text:
+            cat.fail("NOTICE contient encore le symbole '®' non justifié.")
+        elif "AGPL-3.0-or-later" not in notice_text or "CC-BY-4.0" not in notice_text:
+            cat.fail("NOTICE doit documenter la séparation physique AGPL-3.0-or-later / CC-BY-4.0.")
+        elif "LICENSE-CC-BY-4.0.md" not in notice_text:
+            cat.fail("NOTICE doit référencer LICENSE-CC-BY-4.0.md.")
         else:
-            cat.ok("NOTICE contient la clause SPDX complète")
+            cat.ok("NOTICE conforme (séparation physique AGPL-3.0-or-later / CC-BY-4.0, 0 NC)")
 
-        if "Hybrid files separation clause" not in notice_text or "CC BY-NC-SA 4.0" not in notice_text:
-            cat.fail("NOTICE ne contient pas la clause de séparation des fichiers hybrides.")
+    # Propreté juridique OSI : 0 clause non commerciale (NC) dans TOUS les fichiers de code source actifs
+    code_roots = (
+        root / "Cartograffect.lean",
+        root / "Cartograffect",
+        root / "python",
+        root / "scripts",
+        root / "extensions/predictive_engine",
+        root / "extensions/in_silico/pyproject.toml",
+        root / "extensions/in_silico/src",
+        root / "extensions/in_silico/experiments",
+        root / "extensions/in_silico/tests",
+        root / "extensions/lexicon/lean",
+        root / "extensions/lexicon/src",
+        root / "extensions/lexicon/scripts",
+    )
+    code_suffixes = frozenset({".lean", ".py", ".js", ".toml"})
+    code_nc_hits: list[str] = []
+    scanned_code = 0
+    for item in code_roots:
+        if item.is_file():
+            files = [item]
+        elif item.is_dir():
+            files = sorted(p for p in item.rglob("*") if p.is_file() and p.suffix in code_suffixes)
         else:
-            cat.ok("NOTICE contient la clause de séparation des fichiers hybrides")
+            files = []
+        for path in files:
+            rel = path.relative_to(root).as_posix()
+            scanned_code += 1
+            if NC_LICENSE_PATTERN.search(_read_text(path)):
+                code_nc_hits.append(rel)
+    lex_dir = root / "extensions/lexicon"
+    if lex_dir.is_dir():
+        for path in sorted(lex_dir.glob("*.py")):
+            scanned_code += 1
+            rel = path.relative_to(root).as_posix()
+            if NC_LICENSE_PATTERN.search(_read_text(path)):
+                code_nc_hits.append(rel)
 
-        if manifest_data is not None:
-            hybrid_files = manifest_data.get("licenses", {}).get("hybrid_files")
-            if not isinstance(hybrid_files, list) or not hybrid_files:
-                cat.fail("manifest.json licenses.hybrid_files est absent ou vide.")
+    if code_nc_hits:
+        cat.fail(f"Clause non commerciale (NC) interdite dans fichier(s) de code source : {code_nc_hits}")
+    else:
+        cat.ok(f"Propreté OSI : 0 clause non commerciale (NC) dans {scanned_code} fichiers de code source")
+
+    pyproject_path = root / "extensions/in_silico/pyproject.toml"
+    if pyproject_path.is_file():
+        py_data = _parse_pyproject_data(_read_text(pyproject_path))
+        if py_data is not None:
+            deps = py_data.get("project", {}).get("dependencies", [])
+            unpinned = [d for d in deps if "==" not in str(d)]
+            if not deps or unpinned:
+                cat.fail(f"FAIR4RS : dépendances non épinglées (==) dans extensions/in_silico/pyproject.toml : {unpinned}")
             else:
-                missing_hybrid = [hf for hf in hybrid_files if hf not in notice_text]
-                if missing_hybrid:
-                    cat.fail(f"NOTICE omet des fichiers hybrides listés dans manifest.json : {missing_hybrid}")
-                else:
-                    cat.ok(f"NOTICE liste les {len(hybrid_files)} fichiers hybrides du manifest")
+                cat.ok(f"FAIR4RS : {len(deps)} dépendances exactement épinglées (==) dans pyproject.toml")
+    lock_uv = root / "extensions/in_silico/uv.lock"
+    lock_req = root / "extensions/in_silico/requirements.lock"
+    if not (lock_uv.is_file() or lock_req.is_file()):
+        cat.fail("FAIR4RS : aucun lockfile (uv.lock ou requirements.lock) dans extensions/in_silico/.")
+    else:
+        lock_name = "uv.lock" if lock_uv.is_file() else "requirements.lock"
+        cat.ok(f"FAIR4RS : lockfile reproductible présent (extensions/in_silico/{lock_name})")
+
+    prov_path = root / "DATA_PROVENANCE.md"
+    if not prov_path.is_file():
+        cat.fail("FAIR4RS : DATA_PROVENANCE.md manquant à la racine.")
+    else:
+        prov_text = _read_text(prov_path)
+        missing_ds = [
+            ds for ds in ("NRC-VAD-Lexicon-v2.1.txt", "DIMA_GROUPE_", "FANCatdatabaseRevisee.xlsx")
+            if ds not in prov_text
+        ]
+        if missing_ds:
+            cat.fail(f"DATA_PROVENANCE.md ne couvre pas tous les jeux de données tiers : {missing_ds}")
+        else:
+            cat.ok("FAIR4RS : DATA_PROVENANCE.md couvre NRC-VAD, DIMA et FANCat")
 
     return cat
 
@@ -819,13 +1029,20 @@ def _check_zenodo_cff_spdx(
 def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
     cat = CategoryResult(
         "epistemic_compartmentalization",
-        "4. Cloisonnement épistémique Strate 0 / Strate 1",
+        "4. Cloisonnement épistémique Strate 0 / Strate 1 & transparence IA",
     )
 
     required_docs = (
+        "DECISIONS_V3.md",
+        "FORMAL_AUDIT_PACK.md",
+        "DATA_PROVENANCE.md",
         "extensions/lexicon/EPISTEMIC_STATUS.md",
+        "extensions/lexicon/ARCHIVE_V2_HYBRID_Y_WARNING.md",
         "extensions/in_silico/EPISTEMIC_STATUS.md",
+        "extensions/predictive_engine/EPISTEMIC_STATUS.md",
         "docs/CONVERGENCE_MATRIX.md",
+        "docs/01-Article_Cartograffect.md",
+        "docs/02-Inventaire_176.md",
     )
     for rel in required_docs:
         path = root / rel
@@ -835,9 +1052,7 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
             cat.ok(f"Présent : {rel}")
 
     article_path = root / "docs/01-Article_Cartograffect.md"
-    if not article_path.is_file():
-        cat.fail("docs/01-Article_Cartograffect.md introuvable pour le contrôle A4-Sanctuaire.")
-    else:
+    if article_path.is_file():
         article_text = _read_text(article_path)
         split_match = re.search(r"^##\s+Disponibilité des données", article_text, re.MULTILINE)
         theoretical_body = article_text[: split_match.start()] if split_match else article_text
@@ -853,49 +1068,56 @@ def _check_epistemic_compartmentalization(root: Path) -> CategoryResult:
         else:
             cat.ok("Garde A4-Sanctuaire : 0 métrique PXP/min r dans le corps théorique")
 
-        # Garde d'intégrité éditoriale & transparence IA dans docs/01-Article_Cartograffect.md
         if re.search(r"(?:49\s*\+|references-v2)", article_text, re.IGNORECASE):
             cat.fail("docs/01-Article_Cartograffect.md contient un marqueur obsolète (49+ / references-v2).")
         else:
             cat.ok("0 marqueur obsolète (49+ / references-v2) dans docs/01-Article_Cartograffect.md")
 
-        art_low = article_text.lower()
-        has_art_ai_honesty = (
-            "non mathématicien formel" in art_low
-            and "traduction" in art_low
-            and "ligne par ligne" in art_low
-            and "vérification mécanique" in art_low
-            and "tests automatisés" in art_low
-            and "audit" in art_low
-        )
-        if not has_art_ai_honesty:
-            cat.fail(
-                "docs/01-Article_Cartograffect.md doit inclure la déclaration IA explicite "
-                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
-            )
+    ai_markers = ("non mathématicien formel", "traduction", "ligne par ligne", "vérification mécanique", "tests automatisés", "audit")
+    for doc_rel in ("docs/01-Article_Cartograffect.md", "README.md", "VALIDATION.md"):
+        doc_path = root / doc_rel
+        if not doc_path.is_file():
+            cat.fail(f"{doc_rel} introuvable pour le contrôle de transparence IA.")
+            continue
+        low = _read_text(doc_path).lower()
+        missing_ai = [m for m in ai_markers if m not in low]
+        if missing_ai:
+            cat.fail(f"{doc_rel} déclaration IA incomplète (manquant : {missing_ai}).")
         else:
-            cat.ok("Déclaration IA explicite vérifiée dans docs/01-Article_Cartograffect.md")
+            cat.ok(f"Déclaration IA explicite vérifiée dans {doc_rel}")
 
-    readme_path = root / "README.md"
-    if not readme_path.is_file():
-        cat.fail("README.md introuvable pour le contrôle de transparence IA.")
+    for doc_rel in ("README.md", "VALIDATION.md"):
+        doc_path = root / doc_rel
+        if doc_path.is_file():
+            txt = _read_text(doc_path)
+            if "FORMAL_AUDIT_PACK.md" not in txt:
+                cat.fail(f"{doc_rel} doit contenir un lien direct vers FORMAL_AUDIT_PACK.md.")
+            else:
+                cat.ok(f"Lien direct vers FORMAL_AUDIT_PACK.md présent dans {doc_rel}")
+
+    audit_docs = (
+        "README.md",
+        "VALIDATION.md",
+        "docs/CONVERGENCE_MATRIX.md",
+        "docs/01-Article_Cartograffect.md",
+        "docs/02-Inventaire_176.md",
+        "extensions/lexicon/EPISTEMIC_STATUS.md",
+        "extensions/in_silico/EPISTEMIC_STATUS.md",
+        "extensions/predictive_engine/EPISTEMIC_STATUS.md",
+    )
+    obsolete_hits: list[str] = []
+    for doc_rel in audit_docs:
+        doc_path = root / doc_rel
+        if not doc_path.is_file():
+            continue
+        txt = _read_text(doc_path)
+        for label, pattern in V3_OBSOLETE_DOC_PATTERNS:
+            if pattern.search(txt):
+                obsolete_hits.append(f"{doc_rel} ({label})")
+    if obsolete_hits:
+        cat.fail(f"Motifs obsolètes détectés dans la documentation v3.0.0 : {obsolete_hits}")
     else:
-        readme_low = _read_text(readme_path).lower()
-        has_readme_ai_honesty = (
-            "non mathématicien formel" in readme_low
-            and "traduction" in readme_low
-            and "ligne par ligne" in readme_low
-            and "vérification mécanique" in readme_low
-            and "tests automatisés" in readme_low
-            and "audit" in readme_low
-        )
-        if not has_readme_ai_honesty:
-            cat.fail(
-                "README.md doit inclure la déclaration IA explicite "
-                "(non mathématicien formel, traduction, ligne par ligne, vérification mécanique, tests automatisés, audit)."
-            )
-        else:
-            cat.ok("Déclaration IA explicite vérifiée dans README.md")
+        cat.ok("0 motif obsolète (modèle LLM invalide / épithète constructif / fonction retirée) dans les docs v3.0.0")
 
     return cat
 
@@ -1113,40 +1335,31 @@ def _check_site_payload_contract(
     ids_pay = payload.get("identifiers", {})
     s0_pay = payload.get("strate_0_core", {})
     s0_man = manifest_data.get("strate_0_core", {})
+    annex_pay = payload.get("exploratory_annexes", {}).get("lexicon_176", {})
+    annex_man = manifest_data.get("exploratory_annexes", {}).get("lexicon_176", {})
     lic_pay = payload.get("licenses", {})
     lic_man = manifest_data.get("licenses", {})
     ai_pay = payload.get("ai_disclosure", {})
     ai_verif = str(ai_pay.get("verification_and_audit_status", "")).lower()
 
     checks = [
-        (payload.get("schema_version") == "1.0", f"schema_version={payload.get('schema_version')!r} != '1.0'"),
-        (
-            ids_pay.get("cipo_registration") == "1233199",
-            f"identifiers.cipo_registration={ids_pay.get('cipo_registration')!r} != '1233199'",
-        ),
+        (payload.get("schema_version") == "2.0", f"schema_version={payload.get('schema_version')!r} != '2.0'"),
+        (ids_pay.get("cipo_registration") == "1233199", f"cipo_registration={ids_pay.get('cipo_registration')!r} != '1233199'"),
         (rel.get("version") == version, f"release.version={rel.get('version')!r} != '{version}'"),
         (rel.get("tag") == f"v{version}", f"release.tag={rel.get('tag')!r} != 'v{version}'"),
-        (
-            rel.get("date") == manifest_data.get("release_date"),
-            f"release.date={rel.get('date')!r} != manifest.release_date={manifest_data.get('release_date')!r}",
-        ),
-        (
-            s0_pay.get("theorems_verified") == s0_man.get("theorems_verified"),
-            f"theorems_verified={s0_pay.get('theorems_verified')!r} != {s0_man.get('theorems_verified')!r}",
-        ),
-        (s0_pay.get("sorry_count") == 0, f"sorry_count={s0_pay.get('sorry_count')!r} != 0"),
-        (len(s0_pay.get("provers", [])) == 6, f"provers count={len(s0_pay.get('provers', []))} != 6"),
-        (s0_pay.get("lean_modules_count") == 11, f"lean_modules_count={s0_pay.get('lean_modules_count')!r} != 11"),
-        (s0_pay.get("states_count") == 176, f"states_count={s0_pay.get('states_count')!r} != 176"),
-        (s0_pay.get("predictions_count") == 5, f"predictions_count={s0_pay.get('predictions_count')!r} != 5"),
-        (
-            s0_pay.get("lexicon176_sha256") == s0_man.get("lexicon_176", {}).get("sha256"),
-            "lexicon176_sha256 du payload != manifest.json",
-        ),
-        (
-            lic_pay.get("spdx_expression") == lic_man.get("spdx_expression"),
-            f"licenses.spdx_expression={lic_pay.get('spdx_expression')!r} != {lic_man.get('spdx_expression')!r}",
-        ),
+        (rel.get("date") == manifest_data.get("release_date"), f"release.date={rel.get('date')!r} != manifest.release_date"),
+        (s0_pay.get("normative_modules_count") == 8, f"normative_modules_count={s0_pay.get('normative_modules_count')!r} != 8"),
+        (s0_pay.get("theorems_substantial") == s0_man.get("theorems_substantial"), "theorems_substantial mismatch"),
+        (s0_pay.get("exported_declarations") == s0_man.get("exported_declarations"), "exported_declarations mismatch"),
+        (s0_pay.get("pillar_theorems_count") == 8, "pillar_theorems_count != 8"),
+        (s0_pay.get("sorry_count") == 0, "sorry_count != 0"),
+        (s0_pay.get("native_decide_count") == 0, "native_decide_count != 0"),
+        (s0_pay.get("python_unit_tests_count") == 11, "python_unit_tests_count != 11"),
+        (s0_pay.get("predictions_count") == 5, "predictions_count != 5"),
+        (annex_pay.get("sha256") == annex_man.get("sha256"), "exploratory_annexes.lexicon_176.sha256 mismatch"),
+        (lic_pay.get("code_spdx") == lic_man.get("code_spdx") == "AGPL-3.0-or-later", "licenses.code_spdx mismatch"),
+        (lic_pay.get("docs_and_data_spdx") == lic_man.get("docs_and_data_spdx") == "CC-BY-4.0", "licenses.docs_and_data_spdx mismatch"),
+        (lic_pay.get("non_commercial_clauses_in_code") is False, "non_commercial_clauses_in_code must be False"),
         (
             bool(ai_pay.get("author_ownership"))
             and bool(ai_pay.get("ai_assistance_scope"))
@@ -1164,8 +1377,8 @@ def _check_site_payload_contract(
     if cat.passed:
         cat.ok(
             f"Payload web cohérent avec VERSION={version} et manifest.json "
-            f"({s0_pay.get('theorems_verified')} th., {len(s0_pay.get('provers', []))} prouveurs, "
-            f"{s0_pay.get('states_count')} états, {s0_pay.get('predictions_count')} prédictions)"
+            f"({s0_pay.get('normative_modules_count')} modules, {s0_pay.get('theorems_substantial')}/{s0_pay.get('exported_declarations')} th., "
+            f"{s0_pay.get('python_unit_tests_count')} tests Python, {s0_pay.get('predictions_count')} prédictions)"
         )
 
     return cat
@@ -1179,7 +1392,6 @@ def run_checks(root: Path, strict: bool = False) -> dict[str, Any]:
     tracked_files, git_error = _git_ls_files(resolved_root)
     all_repo_files = _iter_repo_files(resolved_root)
 
-    # Lecture préalable des JSON structurants (validés aussi dans la catégorie 3)
     scratch = CategoryResult("_pre", "preload")
     zenodo_data = _load_json_dict(resolved_root / ".zenodo.json", ".zenodo.json", scratch)
     manifest_data = _load_json_dict(resolved_root / "manifest.json", "manifest.json", scratch)
@@ -1240,7 +1452,7 @@ def _print_human_report(report: dict[str, Any]) -> None:
 def main(argv: list[str] | None = None) -> int:
     _configure_stdio()
     parser = argparse.ArgumentParser(
-        description="Vérifie les 7 groupes d'invariants du compendium CARTOGRAFFECT®."
+        description="Vérifie les 7 groupes d'invariants du compendium CARTOGRAFFECT v3.0.0."
     )
     parser.add_argument(
         "--strict",

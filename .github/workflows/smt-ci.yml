@@ -1,15 +1,6 @@
-name: SMT Z3 Formal Verification CI
+name: "[LEGACY v2.1 — ARCHIVED] SMT Z3 Formal Verification CI"
 
 on:
-  push:
-    branches: [ main, master ]
-    paths:
-      - 'smt/**'
-      - '.github/workflows/smt-ci.yml'
-  pull_request:
-    branches: [ main, master ]
-    paths:
-      - 'smt/**'
   workflow_dispatch:
 
 permissions:

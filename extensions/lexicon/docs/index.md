@@ -1,12 +1,12 @@
-# Architecture CARTOGRAFFECT® — Topologie 3D Duale ($L_1 \leftrightarrow L_2$), Taxonomie Multi-Strates (S1–S6) & Preuves Formelles Lean 4
+# Architecture CARTOGRAFFECT — Topologie 3D Duale ($L_1 \leftrightarrow L_2$), Taxonomie Multi-Strates (S1–S6) & Preuves Formelles Lean 4
 
-Bienvenue dans la documentation scientifique et technique du modèle **CARTOGRAFFECT®** (Cabelguen, 2026 ; enregistrement **OPIC n° 1233199**).
+Bienvenue dans la documentation scientifique et technique du modèle **CARTOGRAFFECT** (Cabelguen, 2026 ; enregistrement **OPIC n° 1233199**).
 
 ---
 
-## 1. Architecture Souveraine de CARTOGRAFFECT®
+## 1. Architecture Souveraine de CARTOGRAFFECT
 
-**CARTOGRAFFECT®** est une architecture théorique, géométrique et taxonomique tridimensionnelle autonome qui structure l'espace affectif, éthique, axiologique et politique humain selon des lois génératives exactes :
+**CARTOGRAFFECT** est une architecture théorique, géométrique et taxonomique tridimensionnelle autonome qui structure l'espace affectif, éthique, axiologique et politique humain selon des lois génératives exactes :
 
 1. **Enveloppe Octaédrique $L_1$ (`Lexicon176.lean`)** :
    - Pyramide octaédrique discrète à **$176$ prototypes** répartis sur $8$ couronnes cognitives $Z \in \{0, \dots, 7\}$ (et extension en Diamant complet à **$303$ pôles** incluant l'hémisphère axiologique $Z^-$).
@@ -28,7 +28,7 @@ Bienvenue dans la documentation scientifique et technique du modèle **CARTOGRAF
 
 ## 2. Fondements Axiomatiques des Trois Axes $(X, Y, Z)$
 
-Dans **CARTOGRAFFECT®**, les trois dimensions sont définies de manière intrinsèque :
+Dans **CARTOGRAFFECT**, les trois dimensions sont définies de manière intrinsèque :
 
 - **Axe $X$ — Attente / Révisabilité épistémique ($\mathbb{Z}$)** : Polarité de congruence du modèle interne face au réel ($+X$ ouverture/confirmation vs $-X$ menace/dissonance).
 - **Axe $Y$ — Contrôle / Modalité pragmatique d'action ($\mathbb{Z}$)** : Disjonction entre l'affectivité **agie / projective** ($+Y$ : engagement, confrontation, extériorisation) et l'affectivité **réflexive / réceptive** ($-Y$ : intériorisation, retenue, élaboration interne), avec l'axe central $Y = 0$ d'équilibre suspensif.
@@ -45,8 +45,8 @@ Dans **CARTOGRAFFECT®**, les trois dimensions sont définies de manière intrin
 
 ---
 
-## 4. Propriété Intellectuelle et Double Licence (OSF / Zenodo)
+## 4. Propriété Intellectuelle et Séparation Physique des Licences (v3.0.0 — OSF / Zenodo)
 
-- **Titulaire et enregistrement** : **CARTOGRAFFECT®** — © 2026 Manuel Cabelguen (**OPIC n° 1233199**).
-- **Code source logiciel et preuves formelles (`src/`, `scripts/`, `Cartograffect/`)** : **GNU Affero General Public License v3.0 (GNU AGPLv3)** (`SPDX-License-Identifier: AGPL-3.0-or-later`).
-- **Théorie, architecture géométrique, taxonomie multi-strates et documentation (`docs/`, `tables/`)** : **Creative Commons Attribution - Pas d'Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International (CC BY-NC-SA 4.0)**.
+- **Titulaire et enregistrement** : **CARTOGRAFFECT** — © 2026 Manuel Cabelguen (droit d'auteur **OPIC n° 1233199**).
+- **Code source logiciel et preuves formelles (`src/`, `scripts/`, `Cartograffect/`)** : **GNU Affero General Public License v3.0 or later** (`SPDX-License-Identifier: AGPL-3.0-or-later`).
+- **Documentation, textes et tables taxonomiques (`docs/`, `tables/`)** : **Creative Commons Attribution 4.0 International (`CC-BY-4.0`)**.

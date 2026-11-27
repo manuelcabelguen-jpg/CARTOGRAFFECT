@@ -1,6 +1,6 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later AND CC-BY-NC-SA-4.0
-# Licences complètes, notice et source de citation unique à la racine du compendium :
-#   ../../LICENSE · ../../LICENSE-CC-BY-NC-SA-4.0.md · ../../NOTICE · ../../CITATION.cff
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Licence logicielle complète, notice et source de citation unique à la racine du compendium :
+#   ../../LICENSE · ../../LICENSE-CC-BY-4.0.md · ../../NOTICE · ../../CITATION.cff
 
 [build-system]
 requires = ["setuptools>=68.0"]
@@ -8,30 +8,30 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cartograffect-sim"
-version = "2.1.0"
-description = "Modèle génératif probabiliste inversible (POMDP hiérarchique sous inférence active) traduisant l'architecture formelle CARTOGRAFFECT® pour validation empirique in silico."
+version = "3.0.0"
+description = "Modèle génératif probabiliste inversible (POMDP hiérarchique sous inférence active) traduisant l'architecture formelle CARTOGRAFFECT pour tests de cohérence in silico."
 readme = "README.md"
-license = {text = "AGPL-3.0-or-later AND CC-BY-NC-SA-4.0"}
-requires-python = ">=3.10"
+license = {text = "AGPL-3.0-or-later"}
+requires-python = ">=3.12"
 dependencies = [
-    "numpy",
-    "scipy",
-    "pandas",
-    "jax",
-    "equinox",
-    "inferactively-pymdp",
-    "numpyro",
-    "arviz",
-    "matplotlib",
-    "seaborn",
+    "numpy==2.5.4",
+    "scipy==1.18.1",
+    "pandas==3.1.0",
+    "jax==0.12.0.1",
+    "equinox==0.13.8",
+    "inferactively-pymdp==1.0.5",
+    "numpyro==0.22.0",
+    "arviz==1.3.0",
+    "matplotlib==3.11.2",
+    "seaborn==0.13.2",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest",
+    "pytest==9.2.0",
 ]
 test = [
-    "pytest",
+    "pytest==9.2.0",
 ]
 
 [project.urls]
@@ -47,4 +47,3 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
-

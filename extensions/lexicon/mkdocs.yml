@@ -1,7 +1,7 @@
 site_name: CARTOGRAFFECT — Documentation Scientifique & Lexique (Strate 1)
 site_description: Architecture géométrique 3D CARTOGRAFFECT, lexique affectif français (NRC-VAD + DIMA + FANCat) et épreuve externe par les roues des émotions (Scherer et al., 2013)
 site_author: Manuel Cabelguen
-copyright: "Code : GNU AGPLv3 | Documentation & Taxonomie : CC BY-NC-SA 4.0 — Copyright © 2026 Manuel Cabelguen"
+copyright: "Code : GNU AGPLv3 (AGPL-3.0-or-later) | Documentation & Tables : CC BY 4.0 (CC-BY-4.0) — Copyright © 2026 Manuel Cabelguen"
 
 theme:
   name: material

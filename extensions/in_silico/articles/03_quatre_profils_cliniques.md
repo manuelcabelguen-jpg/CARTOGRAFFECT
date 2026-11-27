@@ -1,6 +1,6 @@
 # Mini-article 3 — Quatre façons de traverser le stress : comment 8 paramètres différencient résilience, inhibition, agitation et rigidité (Expérience 2)
 
-- **Série :** Vulgarisation scientifique CARTOGRAFFECT® *in silico* (3/5)
+- **Série :** Vulgarisation scientifique CARTOGRAFFECT *in silico* (3/5)
 - **Expérience associée :** Expérience 2 — Phénotypes cliniques comparés pure-$\theta$ (`N = 20` graines appariées × 4 profils ; 260 essais ; `341.02 s`)
 - **Mots-clés :** phénotypes cliniques, dépression inhibée, dépression agitée, biais rigide, rémission, Holm-Bonferroni
 - **Temps de lecture estimé :** 6 minutes
@@ -11,7 +11,7 @@
 
 **Contexte :** En clinique, deux patients traversant des épreuves comparables peuvent évoluer vers des tableaux très différents — rétablissement rapide, effondrement durable avec retrait, tension anxieuse agitée, ou au contraire verrouillage rationnel face à la surprise — qu'un modèle unidimensionnel peine à différencier mécanistiquement.
 
-**Objectif :** Évaluer si le POMDP complet CARTOGRAFFECT® à 176 états peut reproduire quatre phénotypes cliniques contrastés uniquement en ajustant les **8 paramètres individuels $\theta$**, sans modifier aucun autre hyperparamètre du moteur (`pure_theta_only = True`).
+**Objectif :** Évaluer si le POMDP complet CARTOGRAFFECT à 176 états peut reproduire quatre phénotypes cliniques contrastés uniquement en ajustant les **8 paramètres individuels $\theta$**, sans modifier aucun autre hyperparamètre du moteur (`pure_theta_only = True`).
 
 **Méthode :** Quatre profils (`a_normothymic`, `b_inhibited`, `c_agitated`, `d_rigid_bias`) ont été exposés par paires de graines aléatoires identiques ($N = 20$ par profil) au même scénario unifié de **260 essais** en 5 blocs : calme initial (20 essais), perte incontrôlable ($p_{\text{ctrl}} = 0.12$, 70 essais), rémission post-perte (50 essais), menace volatile contrôlable ($p_{\text{ctrl}} = 0.88$, $v_{\text{rule}} = 0.35$, 70 essais) et rémission finale (50 essais). Huit hypothèses comparatives ont été testées par test des rangs signés de Wilcoxon apparié bilatéral avec correction de Holm-Bonferroni.
 
@@ -104,7 +104,7 @@ Sur les panneaux temporels, repérez les zones grisées correspondant aux deux p
 
 ## Limites et portée
 
-Ces quatre profils constituent des **prototypes mécanistiques *in silico*** démontrant la capacité générative de CARTOGRAFFECT®. Ils ne sont ni un outil diagnostique autonome ni une preuve sur patients réels : la prochaine étape scientifique consiste à vérifier si les paramètres $\theta$ estimés chez de vrais participants humains corrèlent effectivement avec ces tableaux cliniques — ce qui suppose d'abord de prouver que $\theta$ est correctement mesurable ([Mini-article 4](04_fiabilite_mesure_et_comparaison_modeles.md)).
+Ces quatre profils constituent des **prototypes mécanistiques *in silico*** démontrant la capacité générative de CARTOGRAFFECT. Ils ne sont ni un outil diagnostique autonome ni une preuve sur patients réels : la prochaine étape scientifique consiste à vérifier si les paramètres $\theta$ estimés chez de vrais participants humains corrèlent effectivement avec ces tableaux cliniques — ce qui suppose d'abord de prouver que $\theta$ est correctement mesurable ([Mini-article 4](04_fiabilite_mesure_et_comparaison_modeles.md)).
 
 Une fois cette mesurabilité validée, cette approche à 4 prototypes est directement généralisée à **8 cohortes cliniques inspirées du DSM-5** ($N = 1\,600$ agents, Expérience 4) puis à un **panorama pan-chapitres de 26 régimes transdiagnostiques et 7 spectres HiTOP** ($N = 2\,600$ agents, Expérience 5), incluant la simulation de trois leviers d'intervention thérapeutique ([Mini-article 5](05_psychiatrie_computationnelle_dsm5_et_interventions.md)).
 

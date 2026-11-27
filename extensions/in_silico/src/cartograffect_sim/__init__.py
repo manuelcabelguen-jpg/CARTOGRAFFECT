@@ -1,6 +1,6 @@
 """Package `cartograffect_sim`.
 
-Traduction computationnelle de l'architecture formelle CARTOGRAFFECT® (v1.0.1, Lean 4.35.0)
+Traduction computationnelle de l'architecture formelle CARTOGRAFFECT (Strate 1, Lean 4.35.0)
 en vue de sa traduction en modèle génératif probabiliste inversible (POMDP hiérarchique
 sous inférence active).
 """

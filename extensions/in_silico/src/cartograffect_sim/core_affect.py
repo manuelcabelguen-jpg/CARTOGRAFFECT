@@ -1,4 +1,4 @@
-"""Espace d'affect central CARTOGRAFFECT® (isomorphe à `Cartograffect/CoreAffect.lean`).
+"""Espace d'affect central CARTOGRAFFECT (isomorphe à `Cartograffect/CoreAffect.lean`).
 
 Implémente la géométrie discrète tridimensionnelle `(X, Y, Z)` du Noyau affectif :
 - Coordonnées `(X = Attente, Y = Contrôle, Z = Profondeur)`, somme de déplacements

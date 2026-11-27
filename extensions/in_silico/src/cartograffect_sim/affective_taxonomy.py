@@ -1,4 +1,4 @@
-"""Taxonomie affective hiérarchique CARTOGRAFFECT® (isomorphe à `Cartograffect/AffectiveTaxonomy.lean`).
+"""Taxonomie affective hiérarchique CARTOGRAFFECT (isomorphe à `Cartograffect/AffectiveTaxonomy.lean`).
 
 Implémente la couche terminale de classification et de cohérence :
 - Strates hiérarchiques ``Z = 0..7`` et prolongement ``Z >= 8`` (`TaxonomicStratum`,

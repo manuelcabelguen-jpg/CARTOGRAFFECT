@@ -1,6 +1,6 @@
-# Mini-article 1 — Cartographier les émotions en 3D : comment le modèle CARTOGRAFFECT® traduit le vécu affectif en inférence active
+# Mini-article 1 — Cartographier les émotions en 3D : comment le modèle CARTOGRAFFECT traduit le vécu affectif en inférence active
 
-- **Série :** Vulgarisation scientifique CARTOGRAFFECT® *in silico* (1/5)
+- **Série :** Vulgarisation scientifique CARTOGRAFFECT *in silico* (1/5)
 - **Thème :** Architecture formelle, espace affectif à 176 états et inférence active hiérarchique
 - **Mots-clés :** inférence active, POMDP, espace affectif 3D, précision, Lean 4, dissipation allostatique
 - **Temps de lecture estimé :** 5 minutes
@@ -11,19 +11,19 @@
 
 **Contexte :** Les modèles informatiques classiques de la psychiatrie computationnelle résument souvent l'état émotionnel à un score unique positif ou négatif (la *valence* unidimensionnelle), ce qui distingue mal des situations cliniquement opposées comme une dépression figée dans l'impuissance et une anxiété agitée.
 
-**Objectif :** Présenter de façon claire l'architecture **CARTOGRAFFECT®**, sa traduction mathématique en un modèle probabiliste inversible d'inférence active, et les garanties mises en place pour éviter tout biais programmé à l'avance.
+**Objectif :** Présenter de façon claire l'architecture **CARTOGRAFFECT**, sa traduction mathématique en un modèle probabiliste inversible d'inférence active, et les garanties mises en place pour éviter tout biais programmé à l'avance.
 
 **Méthode :** La spécification formelle du modèle (certifiée en Lean 4 par 25 tests d'isomorphisme) définit un espace discret tridimensionnel de **176 états** organisé selon deux axes horizontaux — l'**Attente** ($X$) et le **Contrôle** ($Y$) — et une **Profondeur** verticale ($Z \in \{0,\dots,7\}$). Cet espace est couplé à un processus décisionnel partiellement observable (`POMDP`) hiérarchique à deux étages sous `pymdp`/JAX, piloté par **8 paramètres individuels ($\theta$)**.
 
 **Résultats :** L'agent ne lit jamais les étiquettes cachées de l'environnement (comme un bloc étiqueté « rémission » ou « difficulté ») grâce à une interface purement sensorielle (`sensory_payload()`). La mise à jour bayésienne s'effectue en une seule passe (zéro double-comptage), et la persistance émotionnelle augmente naturellement avec $Z$ via des concentrations de Dirichlet exponentielles ($\alpha_z = \alpha_0 e^{\gamma_\alpha z}$) qui ralentissent la dissipation allostatique.
 
-**Conclusion :** CARTOGRAFFECT® fournit un pont rigoureux, traçable et testable entre la richesse phénoménologique du vécu émotionnel et la précision quantitative de l'inférence active.
+**Conclusion :** CARTOGRAFFECT fournit un pont rigoureux, traçable et testable entre la richesse phénoménologique du vécu émotionnel et la précision quantitative de l'inférence active.
 
 ---
 
 ## 1. L'idée centrale : une boussole émotionnelle à trois dimensions
 
-Pour expliquer comment une émotion se forme, bascule puis s'apaise, CARTOGRAFFECT® remplace le traditionnel « thermomètre de bonne ou mauvaise humeur » par une **boussole en relief à trois axes**, appelée $(X, Y, Z)$ :
+Pour expliquer comment une émotion se forme, bascule puis s'apaise, CARTOGRAFFECT remplace le traditionnel « thermomètre de bonne ou mauvaise humeur » par une **boussole en relief à trois axes**, appelée $(X, Y, Z)$ :
 
 1. **L'axe $X$ — L'Attente (révisabilité épistémique) :** *« Est-ce que le monde se comporte comme je m'y attendais ? »*
    - Vers les valeurs négatives ($X < 0$), les surprises s'accumulent : les indices deviennent ambigus, les règles changent, l'incertitude pèse (*Peur*, *Doute*, *Méfiance*).
@@ -94,7 +94,7 @@ Avec **8 paramètres seulement** ($\tau_A, \tau_C, \lambda, \alpha_0, \gamma_\al
 
 ## À retenir en 3 points
 
-1. **La géométrie a un sens psychologique :** CARTOGRAFFECT® ne classe pas les émotions en liste alphabétique, mais selon l'incertitude épistémique ($X$), le sentiment de maîtrise ($Y$) et l'inertie temporelle ($Z$).
+1. **La géométrie a un sens psychologique :** CARTOGRAFFECT ne classe pas les émotions en liste alphabétique, mais selon l'incertitude épistémique ($X$), le sentiment de maîtrise ($Y$) et l'inertie temporelle ($Z$).
 2. **L'agent est aveugle aux étiquettes du scénario :** il infère la sécurité ou le danger uniquement par ses observations sensorielles, en une seule passe probabiliste.
 3. **Les 176 états obéissent à des règles mathématiques vérifiées :** chaque coordonnée et chaque contrainte sont testées face à la spécification formelle Lean 4.
 
