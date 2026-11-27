@@ -48,6 +48,10 @@ Afin de faciliter l'audit par un vérificateur mathématique indépendant, les *
 
 > **Extension formelle dédiée (`extensions/predictive_engine/PredictiveEngineCanonical.lean`, cible Lake `PredictiveEngineCanonical`) :** **21 déclarations `theorem` exportées** additionnelles, scindées avec la même rigueur en **16 théorèmes propres non triviaux** (Section 4.1) et **5 lemmes auxiliaires élémentaires / corollaires d'encapsulation** incluant explicitement `veille_disjoint_from_attentional_point` (Section 4.2 ; profil axiomatique total : `5` sans axiome, `2` `[propext]`, `6` `[propext, Quot.sound]`, `8` `[propext, Classical.choice, Quot.sound]`).
 
+### Liaison entre le noyau formel Lean 4, la géométrie en surface remplie et le Tableau 1b
+
+Sur le plan architectural, l'équation de couronne certifiée dans `Cartograffect/CoreAffect.lean` (`|x| + |y| = 2z - 2`) formalise exactement la **frontière de saturation / capacité** ($A = 1$) des couches planes à surface remplie $|x| + |y| \le R(Z)$. L'activation autonome `autonomousActivation` (`A ≥ 0`, prouvée orthogonale par `autonomousActivation_decoupled_from_core` dans `Cartograffect/AffectiveMatrix.lean:779`) paramètre la modulation radiale $A \in (0, 1]$ dans la surface intérieure indépendamment de $(X, Y)$ et sans imposer $A' = A$ entre pôles antagonistes. Enfin, les **17 constructeurs** de `FunctionalSubsector` (`Cartograffect/AffectiveTaxonomy.lean:118-136`), couplés aux théorèmes d'échange contralatéral `contralateral_swaps_amplitudes` (`Cartograffect/AffectiveMatrix.lean:334`) et `contralateral_group_bindings` (`Cartograffect/AffectiveTaxonomy.lean:307`), fondent en correspondance 1-à-1 les **8 paires antagonistes conjuguées** (`A1, A2, D1, D2` et `L1, L2, L3, L4`) et le 17ᵉ sous-secteur central `(0, 0, Z)` du Tableau 1b de [`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md).
+
 ---
 
 ## 2. Inventaire Complet et Dédupliqué des 148 Théorèmes Non Triviaux du Cœur v3.0
