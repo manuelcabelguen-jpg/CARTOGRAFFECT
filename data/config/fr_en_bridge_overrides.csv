@@ -1,0 +1,85 @@
+lemme_norm,part_disc,classe,en_override,note_faux_ami
+rire,VERB,Mépris,mock,Priorité contextuelle avant FANCat : dans Mépris 'rire' = se moquer (mock) != FANCat laughter
+crainte,NOM,Estime respect,reverence,Priorité contextuelle avant FANCat : dans Estime respect 'crainte' = révérence (reverence) != FANCat fear
+envie,NOM,Jalousie envie,envy,Désambiguïsation par classe : envie au sens de jalousie -> envy
+envie,NOM,Désir,longing,Désambiguïsation par classe : envie au sens de désir -> longing
+envie,NOM,Amour,longing,Désambiguïsation par classe : envie amoureuse -> longing
+confus,ADJ,Embarrasser,embarrassed,Sens contextuel dans Embarrasser : confus (gêné) -> embarrassed
+interdit,ADJ,Surprendre,speechless,Faux ami contextuel dans Surprendre : interdit (stupéfait) != interdict
+sensible,ADJ,Curiosité,sensitive,Faux ami contextuel dans Curiosité : sensible != sensible (raisonnable)
+blessure,NOM,Blesser,hurt,Ancre réserve -Z (CausAffect/ObjAffect) conservée pour cohérence inter-passes
+déception,NOM,*,disappointment,Faux ami critique : FR déception != EN deception (tromperie)
+gêne,NOM,*,embarrassment,Évite confusion avec EN gene (biologie)
+angoisse,NOM,*,anguish,Ancre clinique majeure d'anxiété somatique
+rancœur,NOM,*,resentment,Ligature œ non présente dans NRC-VAD
+dépit,NOM,*,spite,Dépit amoureux/frustré (spite)
+quiétude,NOM,*,tranquility,Variante US NRC-VAD (tranquility) vs FR quiétude
+plénitude,*,*,fulfillment,Ancre théorique hors DIMA v35 conservée dans la table d'overrides
+abattement,NOM,*,dejection,Abattement dépressif (dejection)
+sidération,NOM,*,shock,Sidération émotionnelle (shock)
+effroi,NOM,*,dread,Terreur paralysante (dread)
+chagrin,NOM,*,grief,Chagrin/deuil (grief)
+lassitude,NOM,*,weariness,Glose FANCat 'lassitude' absente de NRC-VAD ; complétion D via weariness
+exaspération,NOM,*,exasperation,Exaspération (exasperation)
+affliction,NOM,*,affliction,Affliction (affliction)
+mépris,NOM,*,contempt,Mépris (contempt)
+admiration,NOM,*,admiration,Admiration (admiration)
+affection,NOM,*,affection,Affection tendre (affection)
+haine,NOM,*,hatred,Haine nominale (hatred)
+amour,NOM,*,love,Amour (love)
+colère,NOM,*,anger,Jalon primaire Colère (anger)
+rage,NOM,*,rage,Jalon primaire Rage (rage)
+frustration,NOM,*,frustration,Jalon primaire Frustration (frustration)
+hostilité,NOM,*,hostility,Jalon primaire Hostilité (hostility)
+calme,*,*,calm,Jalon primaire Calme NOM/ADJ (calm)
+sérénité,NOM,*,serenity,Jalon primaire Sérénité (serenity)
+joie,NOM,*,joy,Jalon primaire Joie (joy)
+tristesse,NOM,*,sadness,Jalon primaire Tristesse (sadness)
+peur,NOM,*,fear,Jalon primaire Peur (fear)
+courage,*,*,courage,Ancre théorique hors DIMA v35 conservée dans la table d'overrides
+désir,NOM,*,desire,Désir (desire)
+dégoût,NOM,*,disgust,Dégoût sensoriel/affectif (disgust)
+honte,NOM,*,shame,Jalon primaire Honte (shame)
+fierté,NOM,*,pride,Jalon primaire Fierté (pride)
+espoir,NOM,*,hope,Espoir (hope)
+désespoir,NOM,*,despair,Jalon primaire Désespoir (despair)
+ennui,NOM,*,boredom,Ennui (boredom)
+panique,NOM,*,panic,Panique (panic)
+terreur,NOM,*,terror,Jalon primaire Terreur (terror)
+euphorie,NOM,*,euphoria,Euphorie (euphoria)
+allégresse,NOM,*,elation,Allégresse (elation)
+soulagement,NOM,*,relief,Soulagement (relief)
+résignation,NOM,*,resignation,Résignation (resignation)
+apathie,NOM,*,apathy,Apathie (apathy)
+amertume,NOM,*,bitterness,Amertume (bitterness)
+inquiétude,NOM,*,worry,Inquiétude (worry)
+anxiété,NOM,*,anxiety,Anxiété (anxiety)
+doute,NOM,*,doubt,Doute (doubt)
+méfiance,NOM,*,distrust,Méfiance (distrust)
+confiance,NOM,*,trust,Confiance (trust)
+sécurité,*,*,security,Ancre théorique hors DIMA v35 (voir sentiment de sécurité ci-dessous)
+sentiment de sécurité,NOM,*,security,Équivalent lexical DIMA de sécurité
+ferveur,NOM,*,fervor,"Ferveur (fervor, orthographe US NRC-VAD)"
+extase,NOM,*,ecstasy,Extase (ecstasy)
+horreur,NOM,*,horror,Horreur (horror)
+révolte,NOM,*,revolt,Révolte (revolt)
+indignation,NOM,*,indignation,Indignation (indignation)
+gratitude,NOM,*,gratitude,Gratitude (gratitude)
+pudeur,NOM,*,modesty,Pudeur (modesty)
+émerveillement,*,*,awe,Ancre théorique hors DIMA v35 conservée dans la table d'overrides
+défiance,NOM,*,distrust,Faux ami : FR défiance != EN defiance (bravade)
+défiant,ADJ,*,distrustful,Faux ami : FR défiant != EN defiant (provocateur)
+reconnaissance,NOM,*,gratitude,Faux ami : FR reconnaissance (gratitude) != EN reconnaissance (militaire)
+goût,NOM,*,liking,Faux ami : FR goût != EN gout (maladie articulaire)
+hâte,NOM,*,haste,Faux ami critique sans accents : FR hâte != EN hate (haine)
+béat,ADJ,*,blissful,Faux ami sans accents : FR béat != EN beat (battre)
+pétulant,ADJ,*,lively,Faux ami : FR pétulant (vif) != EN petulant (irritable)
+pétulance,NOM,*,liveliness,Faux ami : FR pétulance != EN petulance (mauvaise humeur)
+régal,NOM,*,delight,Faux ami sans accents : FR régal != EN regal (royal)
+haïr,VERB,*,hate,Faux ami sans accents : FR haïr != EN hair (cheveu)
+embarras,NOM,*,embarrassment,Orthographe EN : embarrassment
+complaisance,NOM,*,kindness,Faux ami : FR complaisance (amabilité) != EN complacency (autosatisfaction)
+complaisant,ADJ,*,obliging,Faux ami : FR complaisant != EN complacent
+envieux,ADJ,*,envious,Envieux -> envious
+joie mauvaise,NOM,*,schadenfreude,Joie mauvaise -> schadenfreude
+schadenfreude,NOM,*,schadenfreude,Emprunt direct présent dans NRC-VAD

@@ -1,7 +1,7 @@
-# Rapport d'Audit — Micro-Passe 1 : Ingestion & Gouvernance lexicale (CARTOGRAFFECT v3.0.0)
+# Rapport d'Audit — Micro-Passes 1 / 1b / 1c : Ingestion, Gouvernance & Épuration $Z_+$ (CARTOGRAFFECT v3.0.0)
 
-- **Date d'exécution :** `2026-11-28 14:35:07 UTC`
-- **Script :** [`python/lexicon_pipeline/01_ingest_normalize.py`](../../python/lexicon_pipeline/01_ingest_normalize.py)
+- **Script :** [`python/lexicon_pipeline/01_ingest_normalize.py`](../../python/lexicon_pipeline/01_ingest_normalize.py) *(strictement idempotent)*
+- **Exclusions métaphores :** [`data/config/z_plus_metaphor_exclusions.csv`](../../data/config/z_plus_metaphor_exclusions.csv) (`6` règles, SHA-256 `3a60e73a04103c19...`)
 - **Périmètre Lean 4 :** `Cartograffect/` strictement en lecture seule (0 fichier modifié)
 - **Gouvernance FAIR4RS :** [`DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md) mis à jour de façon idempotente ; `data/raw/` et les dérivés FANCat restent exclus du suivi Git.
 
@@ -139,21 +139,24 @@ Les 7 colonnes excédentaires (`Unnamed: 24` à `Unnamed: 30`) présentes dans `
 
 ---
 
-## 4. Routage bi-hémisphérique $Z_+$ / Réserve $-Z$ (Micro-Passe 1b)
+## 4. Routage bi-hémisphérique $Z_+$ / Réserve $-Z$ (Micro-Passe 1b + Correctif lexical MP1c)
 
-L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et 9 buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :
+L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et 12 buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :
+
+- **Noyau épuré `Z_PLUS_ACTIVE` :** `553` unigrammes standard `ExpAffect` (`373 NOM` + `180 ADJ`), hors locutions multi-mots, hors registres `vx`/`fam`/`allemand`/`jur` et hors métaphores figées.
+- **Reclassement `HumAffect` :** `139` lignes brutes (`138` entrées uniques fusionnées, désignant des personnes/rôles à `VSUP-1 = "être un N"`) routées vers `Z_MINUS_RESERVE` (`Z_MINUS_HUMAN_ROLE`).
 
 ### Répartition par `hemisphere_route`
 
 | Route (`hemisphere_route`) | Effectif | Part (%) | Rôle architectural |
 | :--- | ---: | ---: | :--- |
-| `Z_PLUS_ACTIVE` | 966 | 28.90% | Cœur actif $Z_+$ (`NOM`/`ADJ` en `ExpAffect` ou `HumAffect`) |
-| `Z_PLUS_SATELLITE` | 670 | 20.05% | Satellites verbaux $Z_+$ (`VERB` en `ExpAffect` ou `HumAffect`) |
-| `Z_MINUS_RESERVE` | 1229 | 36.77% | Réserve structurée $-Z$ (exportée localement dans `data/processed/dima_z_minus_reserve.parquet`) |
+| `Z_PLUS_ACTIVE` | 553 | 16.55% | Noyau actif épuré $Z_+$ : unigrammes standard `ExpAffect` (`373 NOM`, `180 ADJ`) |
+| `Z_PLUS_SATELLITE` | 945 | 28.28% | Satellites $Z_+$ (`VERB` `ExpAffect`, locutions MWE & métaphores, registres `fam` et `vx`/`allemand`/`jur`) |
+| `Z_MINUS_RESERVE` | 1367 | 40.90% | Réserve structurée $-Z$ (`CausAffect`, `ObjAffect`, `HumAffect` rôles humains, `ComportAffect`/`ParoleAffect`, `CaractAffect`) |
 | `NON_LEXICAL_DISCARD` | 477 | 14.27% | Écartés non lexicaux (`META_CLASSIFIER` + adverbes/prépositions/conjonctions/`ADJRELAT`) |
 | **Total** | **3342** | **100.00%** | Partition complète sans perte |
 
-### Détail des 9 `pruning_bucket`
+### Détail des 12 `pruning_bucket`
 
 | `hemisphere_route` | `pruning_bucket` | Effectif | Part (%) |
 | :--- | :--- | ---: | ---: |
@@ -161,15 +164,29 @@ L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 rou
 | `NON_LEXICAL_DISCARD` | `META_CLASSIFIER` | 15 | 0.45% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_CAUSAFFECT` | 743 | 22.23% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_OBJAFFECT` | 302 | 9.04% |
+| `Z_MINUS_RESERVE` | `Z_MINUS_HUMAN_ROLE` | 138 | 4.13% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_BEHAVIOR_SPEECH` | 119 | 3.56% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_TRAIT_CARACT` | 65 | 1.94% |
-| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 828 | 24.78% |
-| `Z_PLUS_ACTIVE` | `Z_PLUS_HUMAFFECT` | 138 | 4.13% |
+| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 553 | 16.55% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_VERB_EXP` | 670 | 20.05% |
+| `Z_PLUS_SATELLITE` | `Z_PLUS_IDIOM_MWE` | 209 | 6.25% |
+| `Z_PLUS_SATELLITE` | `Z_PLUS_COLLOQUIAL` | 47 | 1.41% |
+| `Z_PLUS_SATELLITE` | `Z_PLUS_ARCHAIC_FOREIGN` | 19 | 0.57% |
+
+### Métaphores figées exclues de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `6` règles → `Z_PLUS_IDIOM_MWE`)
+
+| `lemme_norm` | `part_disc` | `classe` | Raison |
+| :--- | :---: | :--- | :--- |
+| `cafard` | `NOM` | `Apathie` | Locution métaphorique familière (avoir le cafard) non autonome |
+| `transport` | `NOM` | `Troubler` | Sens littéraire vieilli (REGISTRE=vx) |
+| `humeur` | `NOM` | `Colère` | Sens vieilli (avoir de l'humeur contre, REGISTRE=vx) |
+| `humeur` | `NOM` | `Humeur mauvaise` | Sens vieilli (REGISTRE=vx) |
+| `soif` | `NOM` | `Désir` | Métaphore physiologique figurée non autonome |
+| `rage` | `NOM` | `Désir` | Locution figurée (rage de faire qqc) |
 
 ### Effet de la priorité de routage sur les clés multi-emplois (`8` cas)
 
-Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD` promeut 3 adverbes multi-emplois vers `Z_MINUS_RESERVE` (`Z_MINUS_CAUSAFFECT`) plutôt que `NON_LEXICAL_DISCARD` (`ExpAffect`), tout en conservant `types_all` et `routes_all` :
+Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD` protège les emplois `ExpAffect` face aux lignes `CausAffect`/`ObjAffect`/`NON_LEXICAL_DISCARD` tout en conservant `types_all` et `routes_all` :
 
 - `apitoyer` (`VERB`, `Compassion`) : `Z_MINUS_RESERVE` (`ObjAffect`) → `Z_PLUS_SATELLITE` (`ExpAffect`)
 - `enrager` (`VERB`, `Colère`) : `Z_MINUS_RESERVE` (`CausAffect`) → `Z_PLUS_SATELLITE` (`ExpAffect`)
@@ -178,29 +195,22 @@ Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE >
 - `malheureusement` (`ADVERB`, `Décevoir Malheur`) : `NON_LEXICAL_DISCARD` (`ExpAffect`) → `Z_MINUS_RESERVE` (`CausAffect`)
 - `triste` (`ADJ`, `Attrister`) : `Z_MINUS_RESERVE` (`CausAffect`) → `Z_PLUS_ACTIVE` (`ExpAffect`)
 - `tristesse` (`NOM`, `Attrister`) : `Z_MINUS_RESERVE` (`CausAffect`) → `Z_PLUS_ACTIVE` (`ExpAffect`)
-- `tristounet` (`ADJ`, `Attrister`) : `Z_MINUS_RESERVE` (`CausAffect`) → `Z_PLUS_ACTIVE` (`ExpAffect`)
+- `tristounet` (`ADJ`, `Attrister`) : `Z_MINUS_RESERVE` (`CausAffect`) → `Z_PLUS_SATELLITE` (`ExpAffect`)
 
-### Candidats frontières axiologiques/épistémiques (`z_minus_value_candidate = True` : `46` entrées en `Z_PLUS_ACTIVE` sur 12 classes)
+### Candidats frontières axiologiques/épistémiques (`z_minus_value_candidate = True` : `24` entrées en `Z_PLUS_ACTIVE` sur `9` classes)
 
-Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en $Z_+$ vs bascule vers la réserve $-Z$) :
+Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en $Z_+$ vs bascule vers la réserve $-Z$ ; `Bonne conscience`, `Défiance_Non fiabilité` et `Orgueil surestimation de soi` ont déjà basculé vers `Z_PLUS_SATELLITE` / `Z_MINUS_HUMAN_ROLE` en MP1c) :
 
 | Classe DIMA (`classe`) | `pruning_bucket` | Effectif | Exemples de lemmes |
 | :--- | :--- | ---: | :--- |
-| `Bonne conscience` | `Z_PLUS_EXPAFFECT` | 4 | `bonne conscience, en paix avec sa conscience, en paix avec soi-même, en règle avec sa conscience` |
 | `Croyance` | `Z_PLUS_EXPAFFECT` | 1 | `croyance` |
-| `Croyance relig` | `Z_PLUS_EXPAFFECT` | 2 | `croyance religieuse, foi` |
-| `Défiance_Non fiabilité` | `Z_PLUS_HUMAFFECT` | 1 | `suspect` |
-| `Estime respect` | `Z_PLUS_EXPAFFECT` | 6 | `crainte, crainte révérencielle, respect, respectueux, révérence` |
+| `Croyance relig` | `Z_PLUS_EXPAFFECT` | 1 | `foi` |
+| `Estime respect` | `Z_PLUS_EXPAFFECT` | 4 | `crainte, respect, respectueux, vénération` |
 | `Gratitude` | `Z_PLUS_EXPAFFECT` | 3 | `gratitude, reconnaissance, reconnaissant` |
 | `Incrédulité` | `Z_PLUS_EXPAFFECT` | 2 | `incrédule, incrédulité` |
-| `Incrédulité` | `Z_PLUS_HUMAFFECT` | 1 | `incrédule` |
 | `Incrédulité relig` | `Z_PLUS_EXPAFFECT` | 2 | `incroyance, incroyant` |
-| `Incrédulité relig` | `Z_PLUS_HUMAFFECT` | 2 | `incroyant, incrédule` |
-| `Mauvaise conscience` | `Z_PLUS_EXPAFFECT` | 14 | `bourrelé de remords, contrit, contrition, mauvaise conscience, pris de remords` |
-| `Mauvaise conscience` | `Z_PLUS_HUMAFFECT` | 2 | `pénitent, repenti` |
-| `Mauvaise conscience scrupule` | `Z_PLUS_EXPAFFECT` | 2 | `scrupule, scrupule de conscience` |
-| `Orgueil surestimation de soi` | `Z_PLUS_EXPAFFECT` | 1 | `surestimation de soi` |
-| `Orgueil surestimation de soi` | `Z_PLUS_HUMAFFECT` | 2 | `fat, vaniteux` |
+| `Mauvaise conscience` | `Z_PLUS_EXPAFFECT` | 9 | `contrit, contrition, regret, remords, repentance` |
+| `Mauvaise conscience scrupule` | `Z_PLUS_EXPAFFECT` | 1 | `scrupule` |
 | `Pudeur` | `Z_PLUS_EXPAFFECT` | 1 | `pudeur` |
 
 ---
@@ -238,7 +248,7 @@ Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en 
 
 | Fichier | Taille (octets) | SHA-256 | Statut Git |
 | :--- | ---: | :--- | :--- |
-| `data/processed/dima_normalized.parquet` | 210,756 | `dea009e2f67cd98898c6b4a12a2468ba617ae2aa2207f11e7bbaa78ced12a815` | Local uniquement (ignoré par `.gitignore`) |
-| `data/processed/dima_z_minus_reserve.parquet` | 102,038 | `33d50b85b071d05e61dc2a05edb973ad4d7f09032a4f160b6fa2415fbb795a06` | Local uniquement (ignoré par `.gitignore`) |
+| `data/processed/dima_normalized.parquet` | 210,788 | `1f0b2026cd72949f1537dad76e84185c29e0a38b8b4dac261f82f36bbac7d328` | Local uniquement (ignoré par `.gitignore`) |
+| `data/processed/dima_z_minus_reserve.parquet` | 109,236 | `59d3e8d7e1b96a9e172c78d081d1ec5fbe9ad33dcf9e0e96426b5e08077e1c96` | Local uniquement (ignoré par `.gitignore`) |
 | `data/processed/fancat_clean.parquet` | 100,173 | `39685b2f61d1b573533ca893f44f1f2f14e9d28b8d8ea87005eb24461c0bdeab` | Local uniquement (ignoré par `.gitignore`) |
-| `data/processed/dima_classes_summary.csv` | 11,256 | `f63759ac514aec54708d87eecf3a4ed322672a9707f31f3641315f613bb48421` | Suivi dans Git |
+| `data/processed/dima_classes_summary.csv` | 11,139 | `8076b557501975aad2d642272e53bbc26396214f59e25c9904da95c6286c7237` | Suivi dans Git |

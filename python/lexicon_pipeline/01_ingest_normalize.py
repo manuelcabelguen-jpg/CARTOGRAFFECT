@@ -24,11 +24,11 @@ Périmètre strict :
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import re
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -36,9 +36,29 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_ROOT / "data" / "raw"
+CONFIG_DIR = REPO_ROOT / "data" / "config"
 PROCESSED_DIR = REPO_ROOT / "data" / "processed"
 REPORTS_DIR = REPO_ROOT / "reports" / "lexicon_v3"
 PROVENANCE_PATH = REPO_ROOT / "DATA_PROVENANCE.md"
+METAPHOR_EXCLUSIONS_PATH = CONFIG_DIR / "z_plus_metaphor_exclusions.csv"
+
+METAPHOR_EXCLUSIONS_COLUMNS: tuple[str, ...] = (
+    "lemme_norm",
+    "part_disc",
+    "classe",
+    "raison",
+)
+
+DEFAULT_METAPHOR_EXCLUSIONS: tuple[tuple[str, str, str, str], ...] = (
+    ("cafard", "NOM", "Apathie", "Locution métaphorique familière (avoir le cafard) non autonome"),
+    ("transport", "NOM", "Troubler", "Sens littéraire vieilli (REGISTRE=vx)"),
+    ("humeur", "NOM", "Colère", "Sens vieilli (avoir de l'humeur contre, REGISTRE=vx)"),
+    ("humeur", "NOM", "Humeur mauvaise", "Sens vieilli (REGISTRE=vx)"),
+    ("soif", "NOM", "Désir", "Métaphore physiologique figurée non autonome"),
+    ("rage", "NOM", "Désir", "Locution figurée (rage de faire qqc)"),
+)
+
+ARCHAIC_OR_FOREIGN_REGISTERS: frozenset[str] = frozenset({"vx", "allemand", "jur"})
 
 RAW_SOURCES_META: list[dict[str, str]] = [
     {
@@ -440,6 +460,55 @@ def load_dima() -> tuple[pd.DataFrame, list[UnnamedCellAudit], dict[str, int]]:
     return df_raw, cell_audits, unnamed_non_null_counts
 
 
+def ensure_and_load_metaphor_exclusions() -> tuple[pd.DataFrame, frozenset[tuple[str, str, str]], bool]:
+    """Crée data/config/z_plus_metaphor_exclusions.csv s'il n'existe pas encore, le valide et le charge."""
+    created_now = False
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    if not METAPHOR_EXCLUSIONS_PATH.exists():
+        with METAPHOR_EXCLUSIONS_PATH.open("w", encoding="utf-8", newline="") as fh:
+            writer = csv.writer(fh, lineterminator="\n")
+            writer.writerow(METAPHOR_EXCLUSIONS_COLUMNS)
+            for row in DEFAULT_METAPHOR_EXCLUSIONS:
+                writer.writerow(row)
+        created_now = True
+
+    df_excl = pd.read_csv(
+        METAPHOR_EXCLUSIONS_PATH,
+        encoding="utf-8",
+        keep_default_na=False,
+        dtype=str,
+    )
+    if tuple(df_excl.columns) != METAPHOR_EXCLUSIONS_COLUMNS:
+        raise ValueError(
+            f"Colonnes inattendues dans {METAPHOR_EXCLUSIONS_PATH.name} : "
+            f"{list(df_excl.columns)} != {list(METAPHOR_EXCLUSIONS_COLUMNS)}"
+        )
+
+    df_excl["lemme_norm"] = df_excl["lemme_norm"].map(clean_text).str.lower()
+    df_excl["part_disc"] = df_excl["part_disc"].map(clean_text)
+    df_excl["classe"] = df_excl["classe"].map(clean_text)
+    df_excl["raison"] = df_excl["raison"].map(clean_text)
+
+    if df_excl.duplicated(subset=["lemme_norm", "part_disc", "classe"]).any():
+        raise ValueError("Clés dupliquées dans data/config/z_plus_metaphor_exclusions.csv.")
+
+    exclusions = frozenset(
+        (str(r.lemme_norm), str(r.part_disc), str(r.classe))
+        for r in df_excl.itertuples(index=False)
+    )
+    return df_excl, exclusions, created_now
+
+
+def extract_register_tokens(val: Any) -> set[str]:
+    """Extrait les codes de registre normalisés (vx, fam, allemand, jur, ...) depuis REGISTRE."""
+    if val is None or pd.isna(val):
+        return set()
+    raw = unicodedata.normalize("NFC", str(val)).strip().lower()
+    if not raw:
+        return set()
+    return {tok for tok in re.split(r"[\s/,;]+", raw) if tok}
+
+
 def classify_tier(part_disc: str, type_val: str, is_classifier: bool) -> tuple[str, str]:
     """Assigne le tier lexical v3.0.0 et la raison explicite pour une ligne DIMA."""
     if is_classifier:
@@ -452,16 +521,35 @@ def classify_tier(part_disc: str, type_val: str, is_classifier: bool) -> tuple[s
     return "EXCLUDED_CONTEXT", reason
 
 
-def classify_hemisphere_route(part_disc: str, type_val: str, is_classifier: bool) -> tuple[str, str]:
-    """Assigne la route bi-hémisphérique (Z+ actif vs réserve -Z) et le bucket d'élagage réversible."""
+def classify_hemisphere_route(
+    part_disc: str,
+    type_val: str,
+    is_classifier: bool,
+    lemme_norm: str,
+    classe: str,
+    registre_raw: Any,
+    metaphor_exclusions: frozenset[tuple[str, str, str]],
+) -> tuple[str, str]:
+    """Assigne la route bi-hémisphérique MP1c (Z+ actif épuré, satellites Z+, réserve -Z, écart non lexical)."""
     if is_classifier:
         return "NON_LEXICAL_DISCARD", "META_CLASSIFIER"
-    if part_disc in {"NOM", "ADJ"} and type_val == "ExpAffect":
-        return "Z_PLUS_ACTIVE", "Z_PLUS_EXPAFFECT"
-    if part_disc in {"NOM", "ADJ"} and type_val == "HumAffect":
-        return "Z_PLUS_ACTIVE", "Z_PLUS_HUMAFFECT"
-    if part_disc == "VERB" and type_val in {"ExpAffect", "HumAffect"}:
-        return "Z_PLUS_SATELLITE", "Z_PLUS_VERB_EXP"
+    if type_val == "HumAffect":
+        return "Z_MINUS_RESERVE", "Z_MINUS_HUMAN_ROLE"
+    if type_val == "ExpAffect":
+        if part_disc in {"NOM", "ADJ"}:
+            is_mwe = " " in lemme_norm
+            is_metaphor = (lemme_norm, part_disc, classe) in metaphor_exclusions
+            if is_mwe or is_metaphor:
+                return "Z_PLUS_SATELLITE", "Z_PLUS_IDIOM_MWE"
+            reg_tokens = extract_register_tokens(registre_raw)
+            if "fam" in reg_tokens:
+                return "Z_PLUS_SATELLITE", "Z_PLUS_COLLOQUIAL"
+            if reg_tokens & ARCHAIC_OR_FOREIGN_REGISTERS:
+                return "Z_PLUS_SATELLITE", "Z_PLUS_ARCHAIC_FOREIGN"
+            return "Z_PLUS_ACTIVE", "Z_PLUS_EXPAFFECT"
+        if part_disc == "VERB":
+            return "Z_PLUS_SATELLITE", "Z_PLUS_VERB_EXP"
+        return "NON_LEXICAL_DISCARD", "GRAMMATICAL_ADV_PREP"
     if type_val == "CaractAffect":
         return "Z_MINUS_RESERVE", "Z_MINUS_TRAIT_CARACT"
     if type_val in {"ComportAffect", "ParoleAffect"}:
@@ -473,8 +561,11 @@ def classify_hemisphere_route(part_disc: str, type_val: str, is_classifier: bool
     return "NON_LEXICAL_DISCARD", "GRAMMATICAL_ADV_PREP"
 
 
-def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Normalise DIMA 1+2, assigne `tier` et le routage Z+/Z-, et fusionne sur (lemme_norm, part_disc, classe, categ)."""
+def normalize_and_merge_dima(
+    df_raw: pd.DataFrame,
+    metaphor_exclusions: frozenset[tuple[str, str, str]],
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Normalise DIMA 1+2, assigne `tier` et le routage MP1c Z+/Z-, et fusionne sur (lemme_norm, part_disc, classe, categ)."""
     df = df_raw.copy()
 
     df["lemme_norm"] = df["LEMME"].map(clean_text).str.lower()
@@ -495,8 +586,15 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
     df["tier_reason"] = [t[1] for t in tiers]
 
     routes = [
-        classify_hemisphere_route(pd_val, tp_val, bool(clf))
-        for pd_val, tp_val, clf in zip(df["part_disc"], df["type"], df["is_classifier"])
+        classify_hemisphere_route(pd_val, tp_val, bool(clf), lem_val, cls_val, reg_val, metaphor_exclusions)
+        for pd_val, tp_val, clf, lem_val, cls_val, reg_val in zip(
+            df["part_disc"],
+            df["type"],
+            df["is_classifier"],
+            df["lemme_norm"],
+            df["classe"],
+            df["REGISTRE"],
+        )
     ]
     df["hemisphere_route"] = [r[0] for r in routes]
     df["pruning_bucket"] = [r[1] for r in routes]
@@ -670,7 +768,7 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
     ]
     df_merged = df_merged[ordered_cols].sort_values(["categ", "classe", "lemme_norm", "part_disc"], kind="mergesort").reset_index(drop=True)
 
-    # Contrôles stricts
+    # Contrôles stricts MP1c
     assert len(df_raw) == 3373, f"Nombre de lignes brutes DIMA inattendu : {len(df_raw)}"
     assert len(df_merged) == 3342, f"Nombre d'entrées fusionnées DIMA inattendu : {len(df_merged)}"
     assert df_merged.duplicated(subset=key_cols).sum() == 0, "Clés dupliquées résiduelles après fusion."
@@ -681,12 +779,26 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
 
     route_counts = df_merged["hemisphere_route"].value_counts().to_dict()
     assert route_counts == {
-        "Z_MINUS_RESERVE": 1229,
-        "Z_PLUS_ACTIVE": 966,
-        "Z_PLUS_SATELLITE": 670,
+        "Z_MINUS_RESERVE": 1367,
+        "Z_PLUS_ACTIVE": 553,
+        "Z_PLUS_SATELLITE": 945,
         "NON_LEXICAL_DISCARD": 477,
     }, f"Comptages hemisphere_route inattendus : {route_counts}"
-    assert int(df_merged["z_minus_value_candidate"].sum()) == 46, (
+
+    # Vérifications d'épuration stricte sur Z_PLUS_ACTIVE
+    zpa_df = df_merged[df_merged["hemisphere_route"] == "Z_PLUS_ACTIVE"]
+    assert zpa_df["type"].eq("ExpAffect").all(), "Z_PLUS_ACTIVE doit contenir uniquement ExpAffect."
+    assert zpa_df["part_disc"].isin(["NOM", "ADJ"]).all(), "Z_PLUS_ACTIVE doit contenir uniquement NOM/ADJ."
+    assert (~zpa_df["lemme_norm"].str.contains(" ", regex=False)).all(), "Z_PLUS_ACTIVE ne doit contenir aucun MWE."
+    assert zpa_df["registre"].map(lambda x: not (extract_register_tokens(x) & ({"fam"} | ARCHAIC_OR_FOREIGN_REGISTERS))).all(), (
+        "Z_PLUS_ACTIVE ne doit contenir aucun registre fam/vx/allemand/jur."
+    )
+    assert zpa_df.apply(
+        lambda r: (str(r["lemme_norm"]), str(r["part_disc"]), str(r["classe"])) not in metaphor_exclusions,
+        axis=1,
+    ).all(), "Z_PLUS_ACTIVE ne doit contenir aucune métaphore exclue."
+
+    assert int(df_merged["z_minus_value_candidate"].sum()) == 24, (
         f"Nombre inattendu de candidats z_minus_value_candidate : {int(df_merged['z_minus_value_candidate'].sum())}"
     )
 
@@ -778,11 +890,11 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
     assert len(summary) == 109, f"Nombre de classes dans le résumé inattendu : {len(summary)}"
     assert int(summary["n_entries"].sum()) == 3342
     assert int(summary["n_raw_rows"].sum()) == 3373
-    assert int(summary["n_z_plus_active"].sum()) == 966
-    assert int(summary["n_z_plus_satellite"].sum()) == 670
-    assert int(summary["n_z_minus_reserve"].sum()) == 1229
+    assert int(summary["n_z_plus_active"].sum()) == 553
+    assert int(summary["n_z_plus_satellite"].sum()) == 945
+    assert int(summary["n_z_minus_reserve"].sum()) == 1367
     assert int(summary["n_non_lexical_discard"].sum()) == 477
-    assert int(summary["n_z_minus_value_candidate"].sum()) == 46
+    assert int(summary["n_z_minus_value_candidate"].sum()) == 24
     assert (
         summary["n_z_plus_active"]
         + summary["n_z_plus_satellite"]
@@ -886,16 +998,16 @@ def build_audit_report(
     df_fancat: pd.DataFrame,
     fancat_stats: dict[str, int],
     df_nrc: pd.DataFrame,
+    df_metaphor_excl: pd.DataFrame,
+    metaphor_excl_sha256: str,
     processed_artifacts: list[tuple[str, int, str]],
 ) -> str:
-    """Génère le rapport markdown d'audit de la Micro-Passe 1 (sans chemin absolu local)."""
-    now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-
+    """Génère le rapport markdown d'audit MP1/MP1c (déterministe et sans chemin absolu local)."""
     lines: list[str] = [
-        "# Rapport d'Audit — Micro-Passe 1 : Ingestion & Gouvernance lexicale (CARTOGRAFFECT v3.0.0)",
+        "# Rapport d'Audit — Micro-Passes 1 / 1b / 1c : Ingestion, Gouvernance & Épuration $Z_+$ (CARTOGRAFFECT v3.0.0)",
         "",
-        f"- **Date d'exécution :** `{now_utc}`",
-        "- **Script :** [`python/lexicon_pipeline/01_ingest_normalize.py`](../../python/lexicon_pipeline/01_ingest_normalize.py)",
+        "- **Script :** [`python/lexicon_pipeline/01_ingest_normalize.py`](../../python/lexicon_pipeline/01_ingest_normalize.py) *(strictement idempotent)*",
+        f"- **Exclusions métaphores :** [`data/config/z_plus_metaphor_exclusions.csv`](../../data/config/z_plus_metaphor_exclusions.csv) (`{len(df_metaphor_excl)}` règles, SHA-256 `{metaphor_excl_sha256[:16]}...`)",
         "- **Périmètre Lean 4 :** `Cartograffect/` strictement en lecture seule (0 fichier modifié)",
         "- **Gouvernance FAIR4RS :** [`DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md) mis à jour de façon idempotente ; `data/raw/` et les dérivés FANCat restent exclus du suivi Git.",
         "",
@@ -1015,13 +1127,17 @@ def build_audit_report(
             f"{int(r['n_rows'])} | `{r['raw_types_order']}` | `{r['chosen_tier']}` / `{r['chosen_type']}` | {saved_flag} |"
         )
 
-    # Routage bi-hémisphérique Z+ / Réserve -Z (Micro-Passe 1b)
+    # Routage bi-hémisphérique Z+ / Réserve -Z (Micro-Passe 1b + Correctif lexical MP1c)
     route_counts = df_dima_merged["hemisphere_route"].value_counts().to_dict()
     bucket_counts = (
         df_dima_merged.groupby(["hemisphere_route", "pruning_bucket"], as_index=False)
         .size()
         .sort_values(["hemisphere_route", "size", "pruning_bucket"], ascending=[True, False, True], kind="mergesort")
     )
+    zpa_pos_counts = df_dima_merged.loc[df_dima_merged["hemisphere_route"] == "Z_PLUS_ACTIVE", "part_disc"].value_counts().to_dict()
+    n_hum_raw = int((df_dima_raw_norm["type"] == "HumAffect").sum())
+    n_hum_merged = int((df_dima_merged["pruning_bucket"] == "Z_MINUS_HUMAN_ROLE").sum())
+
     cand_df = df_dima_merged[df_dima_merged["z_minus_value_candidate"]]
     cand_summary = (
         cand_df.groupby(["classe", "pruning_bucket"], as_index=False)
@@ -1038,9 +1154,14 @@ def build_audit_report(
             "",
             "---",
             "",
-            "## 4. Routage bi-hémisphérique $Z_+$ / Réserve $-Z$ (Micro-Passe 1b)",
+            "## 4. Routage bi-hémisphérique $Z_+$ / Réserve $-Z$ (Micro-Passe 1b + Correctif lexical MP1c)",
             "",
-            "L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et 9 buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :",
+            "L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et {n_buckets} buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :".format(
+                n_buckets=len(bucket_counts)
+            ),
+            "",
+            f"- **Noyau épuré `Z_PLUS_ACTIVE` :** `{route_counts.get('Z_PLUS_ACTIVE', 0)}` unigrammes standard `ExpAffect` (`{int(zpa_pos_counts.get('NOM', 0))} NOM` + `{int(zpa_pos_counts.get('ADJ', 0))} ADJ`), hors locutions multi-mots, hors registres `vx`/`fam`/`allemand`/`jur` et hors métaphores figées.",
+            f"- **Reclassement `HumAffect` :** `{n_hum_raw}` lignes brutes (`{n_hum_merged}` entrées uniques fusionnées, désignant des personnes/rôles à `VSUP-1 = \"être un N\"`) routées vers `Z_MINUS_RESERVE` (`Z_MINUS_HUMAN_ROLE`).",
             "",
             "### Répartition par `hemisphere_route`",
             "",
@@ -1049,9 +1170,12 @@ def build_audit_report(
         ]
     )
     route_roles = {
-        "Z_PLUS_ACTIVE": "Cœur actif $Z_+$ (`NOM`/`ADJ` en `ExpAffect` ou `HumAffect`)",
-        "Z_PLUS_SATELLITE": "Satellites verbaux $Z_+$ (`VERB` en `ExpAffect` ou `HumAffect`)",
-        "Z_MINUS_RESERVE": "Réserve structurée $-Z$ (exportée localement dans `data/processed/dima_z_minus_reserve.parquet`)",
+        "Z_PLUS_ACTIVE": (
+            f"Noyau actif épuré $Z_+$ : unigrammes standard `ExpAffect` "
+            f"(`{int(zpa_pos_counts.get('NOM', 0))} NOM`, `{int(zpa_pos_counts.get('ADJ', 0))} ADJ`)"
+        ),
+        "Z_PLUS_SATELLITE": "Satellites $Z_+$ (`VERB` `ExpAffect`, locutions MWE & métaphores, registres `fam` et `vx`/`allemand`/`jur`)",
+        "Z_MINUS_RESERVE": "Réserve structurée $-Z$ (`CausAffect`, `ObjAffect`, `HumAffect` rôles humains, `ComportAffect`/`ParoleAffect`, `CaractAffect`)",
         "NON_LEXICAL_DISCARD": "Écartés non lexicaux (`META_CLASSIFIER` + adverbes/prépositions/conjonctions/`ADJRELAT`)",
     }
     for r_name in ("Z_PLUS_ACTIVE", "Z_PLUS_SATELLITE", "Z_MINUS_RESERVE", "NON_LEXICAL_DISCARD"):
@@ -1063,7 +1187,7 @@ def build_audit_report(
     lines.extend(
         [
             "",
-            "### Détail des 9 `pruning_bucket`",
+            f"### Détail des {len(bucket_counts)} `pruning_bucket`",
             "",
             "| `hemisphere_route` | `pruning_bucket` | Effectif | Part (%) |",
             "| :--- | :--- | ---: | ---: |",
@@ -1076,9 +1200,21 @@ def build_audit_report(
     lines.extend(
         [
             "",
+            f"### Métaphores figées exclues de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `{len(df_metaphor_excl)}` règles → `Z_PLUS_IDIOM_MWE`)",
+            "",
+            "| `lemme_norm` | `part_disc` | `classe` | Raison |",
+            "| :--- | :---: | :--- | :--- |",
+        ]
+    )
+    for _, r in df_metaphor_excl.iterrows():
+        lines.append(f"| `{r['lemme_norm']}` | `{r['part_disc']}` | `{r['classe']}` | {r['raison']} |")
+
+    lines.extend(
+        [
+            "",
             f"### Effet de la priorité de routage sur les clés multi-emplois (`{len(route_changed)}` cas)",
             "",
-            "Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD` promeut 3 adverbes multi-emplois vers `Z_MINUS_RESERVE` (`Z_MINUS_CAUSAFFECT`) plutôt que `NON_LEXICAL_DISCARD` (`ExpAffect`), tout en conservant `types_all` et `routes_all` :",
+            "Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD` protège les emplois `ExpAffect` face aux lignes `CausAffect`/`ObjAffect`/`NON_LEXICAL_DISCARD` tout en conservant `types_all` et `routes_all` :",
             "",
         ]
     )
@@ -1090,9 +1226,9 @@ def build_audit_report(
     lines.extend(
         [
             "",
-            f"### Candidats frontières axiologiques/épistémiques (`z_minus_value_candidate = True` : `{len(cand_df)}` entrées en `Z_PLUS_ACTIVE` sur 12 classes)",
+            f"### Candidats frontières axiologiques/épistémiques (`z_minus_value_candidate = True` : `{len(cand_df)}` entrées en `Z_PLUS_ACTIVE` sur `{cand_df['classe'].nunique()}` classes)",
             "",
-            "Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en $Z_+$ vs bascule vers la réserve $-Z$) :",
+            "Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en $Z_+$ vs bascule vers la réserve $-Z$ ; `Bonne conscience`, `Défiance_Non fiabilité` et `Orgueil surestimation de soi` ont déjà basculé vers `Z_PLUS_SATELLITE` / `Z_MINUS_HUMAN_ROLE` en MP1c) :",
             "",
             "| Classe DIMA (`classe`) | `pruning_bucket` | Effectif | Exemples de lemmes |",
             "| :--- | :--- | ---: | :--- |",
@@ -1167,7 +1303,7 @@ def build_audit_report(
 
 
 def main() -> None:
-    print("[MP1] Démarrage de l'ingestion, gouvernance lexicale & routage Z+/Z- (CARTOGRAFFECT v3.0.0)...")
+    print("[MP1] Démarrage de l'ingestion, gouvernance lexicale & routage Z+/Z- MP1c (CARTOGRAFFECT v3.0.0)...")
     raw_audits = compute_raw_hashes()
     for item in raw_audits:
         print(f"  [SHA-256] {item.rel_path} ({item.size_bytes} B) -> {item.sha256}")
@@ -1175,8 +1311,15 @@ def main() -> None:
     update_data_provenance(raw_audits)
     print("[MP1] DATA_PROVENANCE.md mis à jour (idempotent).")
 
+    df_metaphor_excl, metaphor_exclusions, excl_created = ensure_and_load_metaphor_exclusions()
+    excl_sha = sha256_file(METAPHOR_EXCLUSIONS_PATH)
+    print(
+        f"[MP1][EXCLUSIONS] data/config/z_plus_metaphor_exclusions.csv "
+        f"({'créé' if excl_created else 'existant conservé'}, {len(df_metaphor_excl)} règles)"
+    )
+
     df_dima_raw, unnamed_cells, unnamed_counts = load_dima()
-    df_dima_raw_norm, df_dima_merged, df_dup_audit = normalize_and_merge_dima(df_dima_raw)
+    df_dima_raw_norm, df_dima_merged, df_dup_audit = normalize_and_merge_dima(df_dima_raw, metaphor_exclusions)
     print(
         f"[MP1][DIMA] {len(df_dima_raw_norm)} lignes brutes -> {len(df_dima_merged)} entrées uniques | "
         f"tiers={df_dima_merged['tier'].value_counts().to_dict()} | "
@@ -1189,7 +1332,7 @@ def main() -> None:
         .copy()
         .reset_index(drop=True)
     )
-    assert len(df_z_minus) == 1229, f"Effectif inattendu pour dima_z_minus_reserve : {len(df_z_minus)}"
+    assert len(df_z_minus) == 1367, f"Effectif inattendu pour dima_z_minus_reserve : {len(df_z_minus)}"
 
     df_classes_summary = build_dima_classes_summary(df_dima_raw_norm, df_dima_merged)
     print(f"[MP1][DIMA CLASSES] {len(df_classes_summary)} classes résumées.")
@@ -1215,7 +1358,7 @@ def main() -> None:
     df_dima_merged.to_parquet(dima_out, engine="pyarrow", index=False)
     df_z_minus.to_parquet(z_minus_out, engine="pyarrow", index=False)
     df_fancat.to_parquet(fancat_out, engine="pyarrow", index=False)
-    df_classes_summary.to_csv(classes_out, index=False, encoding="utf-8")
+    df_classes_summary.to_csv(classes_out, index=False, encoding="utf-8", lineterminator="\n")
 
     processed_artifacts = [
         ("data/processed/dima_normalized.parquet", dima_out.stat().st_size, sha256_file(dima_out)),
@@ -1235,9 +1378,11 @@ def main() -> None:
         df_fancat=df_fancat,
         fancat_stats=fancat_stats,
         df_nrc=df_nrc,
+        df_metaphor_excl=df_metaphor_excl,
+        metaphor_excl_sha256=excl_sha,
         processed_artifacts=processed_artifacts,
     )
-    audit_out.write_text(report_md, encoding="utf-8")
+    audit_out.write_text(report_md, encoding="utf-8", newline="\n")
     print(
         "[MP1] Exports terminés : data/processed/{dima_normalized.parquet,"
         "dima_z_minus_reserve.parquet,fancat_clean.parquet,dima_classes_summary.csv} "
