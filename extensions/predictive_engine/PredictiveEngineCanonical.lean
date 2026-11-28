@@ -46,8 +46,8 @@ Formalise et certifie :
 3. **Bijection `Φ`, disjonction `Veille (0,0,0)` / `Z ≥ 1` et décroissance de Lyapunov** :
    décroissance stricte `V(dst) < V(src)` sur toute transition non triviale de résolution active
    (`ε = 0, χ = 0, δ = 0`) et séparation signée exacte sur `ℤ` d'avec l'extinction passive ;
-4. **Ponts v3.0 vers `Z2ContingencyRegime` et `TaxonomicState` (Options 1A & 4)** :
-   contingences bornées exclusivement à `Z = 2` (sans relèvement en `Z ≥ 3`) et indépendance du
+4. **Ponts v3.0 vers `RollsContingency` et `TaxonomicState` (Options 1A & 4)** :
+   contingences de Rolls (`Rew±/Pun±`) bornées exclusivement à `Z = 2` (sans relèvement en `Z ≥ 3`) et indépendance du
    canal autonome `A ≥ 0` (`autonomousActivation`).
 -/
 
@@ -701,13 +701,13 @@ theorem active_vs_passive_energy_signature :
   refine ⟨⟨by decide, Or.inr rfl, Or.inl rfl⟩, Or.inl rfl, rfl, rfl, rfl, rfl⟩
 
 /-!
-## 3. Ponts v3.0 vers `Z2ContingencyRegime` et `TaxonomicState` (Options 1A & 4)
+## 3. Ponts v3.0 vers `RollsContingency` et `TaxonomicState` (Options 1A & 4)
 -/
 
 /-- Pont borné à `Z = 2` pour la projection des domaines attentionnels :
     - En `d.z = 2`, `diagToContingency` coïncide exactement avec `couplingToZ2Contingency d.coupling` ;
     - En toute autre strate `d.z ≠ 2` (`d.z = 1` ou `d.z ≥ 3`), `diagToContingency` renvoie `none`
-      (aucun relèvement universel des contingences opérantes sur `Z ≥ 3`). -/
+      (aucun relèvement universel des contingences de Rolls `Rew±/Pun±` sur `Z ≥ 3`). -/
 theorem canonical_project_z2_contingency_bound
     (d : AttentionalPossibilityDomain) (piA piC : Nat) :
     (d.z = 2 → diagToContingency (projectAttentionalDomain d piA piC) = couplingToZ2Contingency d.coupling) ∧
@@ -729,7 +729,7 @@ theorem canonical_project_z2_contingency_bound
     · rw [hz2]
       exact (circuit_coupling_z2_contingency_bridge d.coupling 2 piA piC true).1
   · intro hne2
-    apply active_r_minus_vs_pavlovian_safety_and_z2_bound.2.2
+    apply rolls_contingencies_z2_bound.2.2
     rw [projectAttentionalDomain_z d piA piC]
     exact hne2
 

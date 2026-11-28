@@ -54,7 +54,7 @@ inductive EnergyRegime where
   | positiveSynergy        -- X > 0 ∧ Y > 0 (Congruence de décharge : Désir, maîtrise instrumentale)
   | negativeSynergy        -- X < 0 ∧ Y < 0 (Congruence de charge : Dégoût, rejet/détresse à faible contrôle)
   | agenticConfrontation   -- X < 0 ∧ Y > 0 (Affrontement agentique : Colère, Frustration, Hostilité, Révolte)
-  | secondaryAccommodation -- X > 0 ∧ Y < 0 (Accommodation / contrôle secondaire face à une limite d'action : Calme adaptatif, Acceptation, Lâcher-prise)
+  | secondaryAccommodation -- X > 0 ∧ Y < 0 (Accommodation / contrôle secondaire face à une limite d'action : Calme, Acceptation, Lâcher-prise)
   deriving DecidableEq, Repr, Inhabited
 
 /-- Calcul du régime d'interaction à partir des coordonnées (X, Y). -/

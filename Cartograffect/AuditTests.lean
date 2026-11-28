@@ -207,13 +207,13 @@ alias compté en double (`lateral_reachable` et `all176Entries_reachable_by_engi
 
 -- 7. Module `Cartograffect.OperantFactorization` (8 théorèmes exportés)
 #print axioms manhattanDistXY_origin
-#print axioms operant_factorization_law
-#print axioms active_r_minus_vs_pavlovian_safety_and_z2_bound
-#print axioms energyRegime_matches_operant_operator
-#print axioms antagonist_flips_outcome_and_agency_z2
-#print axioms axial_poles_bridge_operant_pairs
-#print axioms axial_poles_pre_operant
-#print axioms z2_contingency_regime_bijection
+#print axioms rolls_factorization_law
+#print axioms rolls_contingencies_z2_bound
+#print axioms energyRegime_matches_rolls_contingency
+#print axioms antagonist_rolls_symmetry_z2
+#print axioms axial_poles_bridge_rolls_pairs
+#print axioms axial_poles_pre_contingency
+#print axioms z2_rolls_bijection_2x2
 
 -- 8. Module `Cartograffect.EndToEndBridge` (6 théorèmes exportés)
 #print axioms circuit_coupling_z2_contingency_bridge
@@ -360,7 +360,7 @@ def invertedPhenomenologicalMapping : PhenomenologicalMapping := {
 #eval (crossingIPos ⟨.zero, .zero⟩, crossingIIPos ⟨.zero, .zero⟩)
 #eval projectPerceptible ⟨.neg, .pos⟩ 3 1 3 true
 #eval circuitRowSum (default : CircuitKernelParams) ⟨.neg, .zero⟩
-#eval (diagToContingency ⟨1, 1, 2⟩, diagToContingency ⟨1, -1, 2⟩, diagToContingency ⟨2, 2, 3⟩)
+#eval (diagToContingency ⟨1, 1, 2⟩, diagToContingency ⟨-1, 1, 2⟩, diagToContingency ⟨-1, -1, 2⟩, diagToContingency ⟨1, -1, 2⟩, diagToContingency ⟨2, 2, 3⟩)
 
 -- 11. Loi unifiée (`UnifiedDynamicsParams` avec `zMax = 5` par défaut)
 #eval (default : UnifiedDynamicsParams).zMax

@@ -112,7 +112,7 @@ d'axe (`|Y| > |X|` vs `|X| > |Y|`) et la polarité de chaque coordonnée conform
   résident en `(X < 0, Y < 0)` avec activation autonome `A` élevée (`lateralAversiveDistress`, `lateralEpistemicClosure`) ;
 - `(X > 0, Y < 0)` code exclusivement l'accommodation / contrôle secondaire face à une limite
   objective d'action (`diagonalAccommodation`, `lateralSecondaryAccomm`, `lateralReceptiveAccomm` :
-  Calme adaptatif, Acceptation, Lâcher-prise), tandis que la sécurité/maîtrise apaisée
+  Calme, Acceptation, Lâcher-prise), tandis que la sécurité/maîtrise apaisée
   (`Sécurité`, `Plénitude`, `Sérénité` hors limite d'action) réside en `Y ≥ 0` avec `A` bas.
 -/
 inductive FunctionalSubsector where
@@ -124,7 +124,7 @@ inductive FunctionalSubsector where
   | diagonalSynergyPos      -- X = Y > 0 (Z=2 : Désir, maîtrise instrumentale)
   | diagonalSynergyNeg      -- X = Y < 0 (Z=2 : Dégoût, rejet aversif à faible contrôle)
   | diagonalAgenticConfront -- X = -Y < 0 (Z=2 : Colère, Frustration — affrontement agentique équilibré)
-  | diagonalAccommodation   -- X = -Y > 0 (Z=2 : Calme adaptatif, Acceptation — accommodation face à une limite d'action)
+  | diagonalAccommodation   -- X = -Y > 0 (Z=2 : Calme, Acceptation — accommodation face à une limite d'action)
   | lateralApproachSynergy  -- Y > |X|, X > 0 (Engagement instrumental favorable ; Plénitude/Sécurité active à A bas)
   | lateralAgenticConfront  -- Y > |X|, X < 0 (Affrontement agentique à contrôle dominant : Hostilité, Révolte)
   | lateralSecondaryAccomm  -- Y < -|X|, X > 0 (Accommodation / contrôle secondaire à limite d'action dominante : Lâcher-prise)

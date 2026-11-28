@@ -23,9 +23,9 @@ Implémente :
   4. Le noyau entier exact `construire_noyau_entier` (4*scale^6, miroir de `circuitWeight`) et le
      noyau inter-strates `noyau_profondeur_canonique_poids` (Option 3b : instabilité axiale P2
      restreinte exclusivement aux 2 pôles en Charge négative Peur et Tristesse).
-  5. Le pont de bout en bout v3.0 borné à la fondation Z = 2 (`RegimeContingenceZ2`, séparant
-     le renforcement négatif opérant actif R- exigeant Y > 0 de la sécurité pavlovienne passive
-     en Calme (+1, -1, 2) sous Y < 0, sans relèvement sur Z >= 3) et les secteurs fonctionnels neutres.
+  5. Le pont de bout en bout v3.0 borné à la fondation Z = 2 (`ContingenceRollsZ2` : matrice 2x2
+     exacte de Rolls, 2014 — `Rew+`, `Rew-`, `Pun+`, `Pun-` — avec symétrie d'antagonisme
+     `Rew+ <-> Pun+` et `Rew- <-> Pun-`, sans relèvement sur Z >= 3) et secteurs fonctionnels neutres.
 
 Dépendances : numpy >= 1.24 (bibliothèque standard Python >= 3.10).
 """
@@ -1867,63 +1867,82 @@ MoteurPredictifCartograffect.diagnostiquer_ruptures_ergodicite = _diagnostiquer_
 
 
 # =============================================================================
-# 6C. PONT DE BOUT EN BOUT v3.0 (Fondation Z = 2 & Secteurs fonctionnels Option 1A)
+# 6C. PONT DE BOUT EN BOUT v3.0 (Fondation Z = 2 Rolls 2014 & Secteurs Option 1A)
 # =============================================================================
 
-_REGIMES_Z2_VALIDES = (
-    "activeOperantReinforcement",
-    "agenticOmissionPunishment",
-    "pavlovianPassiveSafety",
-    "inescapableAversivePunishment",
-)
+_CONTINGENCES_ROLLS_VALIDES: Tuple[str, ...] = ("Rew+", "Rew-", "Pun+", "Pun-")
+
+_ROLLS_META: Dict[str, Tuple[str, str, str, str, str, Tuple[int, int, int], str]] = {
+    "Rew+": ("S+", "reward", "delivery", "favorable", "Désir", (1, 1, 2), "Pun+"),
+    "Rew-": ("¬S+", "reward", "omission", "aversive", "Colère", (-1, 1, 2), "Pun-"),
+    "Pun+": ("S-", "punishment", "delivery", "aversive", "Dégoût", (-1, -1, 2), "Rew+"),
+    "Pun-": ("¬S-", "punishment", "omission", "favorable", "Calme", (1, -1, 2), "Rew-"),
+}
 
 
 @dataclass(frozen=True)
-class RegimeContingenceZ2:
+class ContingenceRollsZ2:
     """
-    Miroir exact de `OperantFactorization.Z2ContingencyRegime` borné à la fondation Z = 2 :
-      - `activeOperantReinforcement` en (+1, +1, 2) [Désir] : englobe R+ ET le renforcement
-        négatif opérant actif R- (évitement/échappement actif exigeant Y > 0) ;
-      - `agenticOmissionPunishment` en (-1, +1, 2) [Colère] : P- / blocage frustratif sous Y > 0 ;
-      - `pavlovianPassiveSafety` en (+1, -1, 2) [Calme] : soulagement pavlovien passif / sécurité
-        passive et accommodation face à une limite objective d'action (Y < 0, distinct de R-) ;
-      - `inescapableAversivePunishment` en (-1, -1, 2) [Dégoût] : P+ aversif subi sous Y < 0.
+    Miroir exact de `OperantFactorization.RollsContingency` (Rolls, 2014) borné à `Z = 2` :
+      - `Rew+` (S+, ajout d'une récompense)          -> (+1, +1, 2) [Désir] ;
+      - `Rew-` (¬S+, retrait/omission d'une récompense) -> (-1, +1, 2) [Colère] ;
+      - `Pun+` (S-, ajout d'une punition)            -> (-1, -1, 2) [Dégoût] ;
+      - `Pun-` (¬S-, retrait/omission d'une punition) -> (+1, -1, 2) [Calme].
+    Note : notation `Rew±/Pun±` (contingences de stimuli au sens de Rolls, 2014), distincte
+    de la notation skinnerienne du renforcement négatif (`R-`).
     """
     code: str
 
     def __post_init__(self) -> None:
-        if self.code not in _REGIMES_Z2_VALIDES:
-            raise ValueError(f"Régime Z=2 invalide : {self.code!r}.")
+        if self.code not in _CONTINGENCES_ROLLS_VALIDES:
+            raise ValueError(f"Contingence de Rolls Z=2 invalide : {self.code!r}.")
+
+    @property
+    def symbole_rolls(self) -> str:
+        return _ROLLS_META[self.code][0]
+
+    @property
+    def classe_stimulus(self) -> str:
+        return _ROLLS_META[self.code][1]
+
+    @property
+    def operation(self) -> str:
+        return _ROLLS_META[self.code][2]
 
     @property
     def issue_adaptative(self) -> str:
-        return (
-            "favorable"
-            if self.code in ("activeOperantReinforcement", "pavlovianPassiveSafety")
-            else "aversive"
-        )
+        return _ROLLS_META[self.code][3]
 
     @property
-    def agentivite_instrumentale(self) -> str:
-        return (
-            "activeOperant"
-            if self.code in ("activeOperantReinforcement", "agenticOmissionPunishment")
-            else "nonOperantAccommodation"
-        )
+    def prototype_z2(self) -> str:
+        return _ROLLS_META[self.code][4]
+
+    @property
+    def coordonnee_z2(self) -> Tuple[int, int, int]:
+        return _ROLLS_META[self.code][5]
+
+    @property
+    def antagoniste(self) -> ContingenceRollsZ2:
+        return ContingenceRollsZ2(_ROLLS_META[self.code][6])
+
+    @classmethod
+    def depuis_paire(cls, classe_stimulus: str, operation: str) -> ContingenceRollsZ2:
+        """Bijection produit exacte `(reward|punishment) × (delivery|omission) -> ContingenceRollsZ2`."""
+        table = {
+            ("reward", "delivery"): "Rew+",
+            ("reward", "omission"): "Rew-",
+            ("punishment", "delivery"): "Pun+",
+            ("punishment", "omission"): "Pun-",
+        }
+        code = table.get((classe_stimulus, operation))
+        if code is None:
+            raise ValueError(
+                f"Paire (classe_stimulus={classe_stimulus!r}, operation={operation!r}) invalide."
+            )
+        return cls(code)
 
 
-def mode_renforcement_actif_vers_regime(mode: str) -> RegimeContingenceZ2:
-    """
-    Miroir de `OperantFactorization.activeModeToRegime` :
-    tant `R+` ('positiveAddition') que `R-` opérant ('negativeEscapeAvoidance') exigent `Y > 0`
-    et relèvent exclusivement de `activeOperantReinforcement` (jamais de `pavlovianPassiveSafety`).
-    """
-    if mode not in ("positiveAddition", "negativeEscapeAvoidance"):
-        raise ValueError(f"Mode de renforcement opérant actif invalide : {mode!r}.")
-    return RegimeContingenceZ2("activeOperantReinforcement")
-
-
-def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[RegimeContingenceZ2]:
+def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[ContingenceRollsZ2]:
     """
     Miroir exact de `OperantFactorization.diagToContingency` :
     borné strictement aux 4 diagonales de `Z = 2` (retourne `None` pour tout `z != 2`,
@@ -1932,27 +1951,27 @@ def contingence_diagonale_z2(x: int, y: int, z: int) -> Optional[RegimeContingen
     if z != 2:
         return None
     if (x, y) == (1, 1):
-        return RegimeContingenceZ2("activeOperantReinforcement")
+        return ContingenceRollsZ2("Rew+")
     if (x, y) == (-1, 1):
-        return RegimeContingenceZ2("agenticOmissionPunishment")
-    if (x, y) == (1, -1):
-        return RegimeContingenceZ2("pavlovianPassiveSafety")
+        return ContingenceRollsZ2("Rew-")
     if (x, y) == (-1, -1):
-        return RegimeContingenceZ2("inescapableAversivePunishment")
+        return ContingenceRollsZ2("Pun+")
+    if (x, y) == (1, -1):
+        return ContingenceRollsZ2("Pun-")
     return None
 
 
-def contingence_couplage_z2(a: int, c: int) -> Optional[RegimeContingenceZ2]:
+def contingence_couplage_z2(a: int, c: int) -> Optional[ContingenceRollsZ2]:
     """Miroir exact de `EndToEndBridge.couplingToZ2Contingency`."""
     _valider_modalites(a, c)
     if (a, c) == (+1, +1):
-        return RegimeContingenceZ2("activeOperantReinforcement")
+        return ContingenceRollsZ2("Rew+")
     if (a, c) == (-1, +1):
-        return RegimeContingenceZ2("agenticOmissionPunishment")
-    if (a, c) == (+1, -1):
-        return RegimeContingenceZ2("pavlovianPassiveSafety")
+        return ContingenceRollsZ2("Rew-")
     if (a, c) == (-1, -1):
-        return RegimeContingenceZ2("inescapableAversivePunishment")
+        return ContingenceRollsZ2("Pun+")
+    if (a, c) == (+1, -1):
+        return ContingenceRollsZ2("Pun-")
     return None
 
 

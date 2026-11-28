@@ -14,6 +14,7 @@ from cartograffect_predictive_engine import (
     ORDRE_ATTENTE,
     ORDRE_CONTROLE,
     CircuitCirculaireCartograffect,
+    ContingenceRollsZ2,
     DiagnosticRupturesErgodicite,
     DomainePossiblesAttentionnel,
     EtatCircuitCirculaire,
@@ -25,7 +26,6 @@ from cartograffect_predictive_engine import (
     MoteurPredictifCartograffect,
     ParametresLoiUnifiee,
     ParametresMoteur,
-    RegimeContingenceZ2,
     ReponseIsoleeCircuit,
     SimulateurUnifieCartograffect,
     antagoniste_noyau,
@@ -42,7 +42,6 @@ from cartograffect_predictive_engine import (
     est_valide_noyau_affectif,
     mettre_a_jour_accumulateur,
     mettre_a_jour_strate_r5,
-    mode_renforcement_actif_vers_regime,
     noyau_profondeur_canonique_poids,
     partage_precision_logistique,
     position_croisement_i,
@@ -348,26 +347,52 @@ class TestLoiUnifieeEtPasAPasOption2a(unittest.TestCase):
         self.assertTrue(diag_sain.est_ergodique_sain)
 
 
-class TestContingencesZ2EtSeparationRMoinsPavlovien(unittest.TestCase):
-    def test_distinction_r_moins_actif_vs_securite_pavlovienne_et_borne_z2(self) -> None:
-        # 1. R+ et R- opérant actif exigent tous deux Y > 0 et siègent en (+1, +1, 2) [Désir]
-        r_plus = mode_renforcement_actif_vers_regime("positiveAddition")
-        r_moins_operant = mode_renforcement_actif_vers_regime("negativeEscapeAvoidance")
-        self.assertEqual(r_plus, RegimeContingenceZ2("activeOperantReinforcement"))
-        self.assertEqual(r_moins_operant, RegimeContingenceZ2("activeOperantReinforcement"))
-        self.assertEqual(r_moins_operant.agentivite_instrumentale, "activeOperant")
+class TestContingencesRollsZ2(unittest.TestCase):
+    def test_bijection_rolls_2x2_antagonisme_et_borne_z2(self) -> None:
+        # 1. Bijection exacte 2x2 de Rolls (2014) sur les 4 diagonales de Z = 2
+        attendus = {
+            (1, 1): ("Rew+", "S+", "reward", "delivery", "favorable", "Désir"),
+            (-1, 1): ("Rew-", "¬S+", "reward", "omission", "aversive", "Colère"),
+            (-1, -1): ("Pun+", "S-", "punishment", "delivery", "aversive", "Dégoût"),
+            (1, -1): ("Pun-", "¬S-", "punishment", "omission", "favorable", "Calme"),
+        }
+        vues = set()
+        for (x, y), (code, sym, cls, op, issue, proto) in attendus.items():
+            reg = contingence_diagonale_z2(x, y, 2)
+            assert reg is not None
+            self.assertEqual(reg.code, code)
+            self.assertEqual(reg.symbole_rolls, sym)
+            self.assertEqual(reg.classe_stimulus, cls)
+            self.assertEqual(reg.operation, op)
+            self.assertEqual(reg.issue_adaptative, issue)
+            self.assertEqual(reg.prototype_z2, proto)
+            self.assertEqual(reg.coordonnee_z2, (x, y, 2))
+            self.assertEqual(ContingenceRollsZ2.depuis_paire(cls, op), reg)
+            vues.add(reg.code)
+        self.assertEqual(len(vues), 4)
 
-        reg_desir = contingence_diagonale_z2(1, 1, 2)
-        reg_calme = contingence_diagonale_z2(1, -1, 2)
-        self.assertEqual(reg_desir, r_moins_operant)
-        # 2. Calme (+1, -1, 2) = sécurité pavlovienne passive / accommodation (Y < 0), distinct de R-
-        self.assertEqual(reg_calme, RegimeContingenceZ2("pavlovianPassiveSafety"))
-        assert reg_calme is not None
-        self.assertEqual(reg_calme.issue_adaptative, "favorable")
-        self.assertEqual(reg_calme.agentivite_instrumentale, "nonOperantAccommodation")
-        self.assertNotEqual(reg_calme, r_moins_operant)
+        # 2. Symétrie d'antagonisme exacte : Rew+ <-> Pun+ (Désir <-> Dégoût) et Rew- <-> Pun- (Colère <-> Calme)
+        desir = contingence_diagonale_z2(1, 1, 2)
+        degout = contingence_diagonale_z2(-1, -1, 2)
+        colere = contingence_diagonale_z2(-1, 1, 2)
+        calme = contingence_diagonale_z2(1, -1, 2)
+        assert desir is not None and degout is not None and colere is not None and calme is not None
+        self.assertEqual(desir.antagoniste, degout)
+        self.assertEqual(degout.antagoniste, desir)
+        self.assertEqual(colere.antagoniste, calme)
+        self.assertEqual(calme.antagoniste, colere)
+        for (x, y) in attendus:
+            reg = contingence_diagonale_z2(x, y, 2)
+            ant_reg = contingence_diagonale_z2(*antagoniste_noyau(x, y, 2))
+            assert reg is not None and ant_reg is not None
+            self.assertEqual(ant_reg, reg.antagoniste)
+            self.assertNotEqual(ant_reg.classe_stimulus, reg.classe_stimulus)
+            self.assertNotEqual(ant_reg.issue_adaptative, reg.issue_adaptative)
+            self.assertEqual(ant_reg.operation, reg.operation)
 
-        # 3. Aucun relèvement universel sur Z != 2 (notamment Z = 3..7)
+        # 3. Pôles axiaux et centre pré-contingents, et aucun relèvement universel sur Z != 2 (Z = 3..7)
+        for pt_axial in ((0, 0, 2), (2, 0, 2), (-2, 0, 2), (0, 2, 2), (0, -2, 2)):
+            self.assertIsNone(contingence_diagonale_z2(*pt_axial))
         for a in ORDRE_ATTENTE:
             for c in ORDRE_CONTROLE:
                 expected_z2 = contingence_couplage_z2(a, c)

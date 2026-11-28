@@ -1,0 +1,172 @@
+{
+  "check_name": "synthetic_identifiability_check",
+  "epistemic_status": "synthetic_identifiability_check",
+  "epistemic_warning": "STRICTLY SYNTHETIC IDENTIFIABILITY CHECK (V3 = 0). No human empirical data, no external validation, and no clinical result.",
+  "V3_empirical_validation": 0,
+  "aligned_commit_spec": "66d9a0d",
+  "model_spec": {
+    "name": "CARTOGRAFFECT_v3_orthogonalized_5param",
+    "num_free_parameters": 5,
+    "parameters": [
+      "rho",
+      "p",
+      "gamma_A",
+      "chi",
+      "beta"
+    ],
+    "filled_surface_equation": "(x, y) = A * R(Z) * (u_X, u_Y), |u_X|^p + |u_Y|^p = 1",
+    "option_1A_autonomous_A": "A_t = 0.15 + 0.85 * sigmoid(gamma_A * urgency_u_t), strictly decoupled from sgn(Y_t)",
+    "option_2a_vertical_Z": "Stepwise Z in {2, 3, 4, 5}, |Delta Z| <= 1, centered inertia at Z_ref = 2",
+    "option_3b_asymmetric_p2": "Cross-loop contagion chi > 0 strictly restricted to negative Charge axial poles (Peur, Tristesse); chi = 0 on positive Discharge poles (Courage, Joie)"
+  },
+  "simulation_design": {
+    "task": "Orthogonal 2x2 (Volatility x Controllability) with embedded axial P2 episodes",
+    "num_synthetic_agents": 80,
+    "num_trials_per_agent": 240,
+    "seed": 20260301,
+    "likert_scale": "1-7 ordinal (exact ordered probit likelihood)",
+    "sigma_XY_likert": 0.25,
+    "sigma_A_likert": 0.14,
+    "missing_data_mcar_target": 0.1,
+    "missing_data_mcar_observed_mean": 0.097639,
+    "motor_lapse_rate": 0.05,
+    "optimizer": "scipy.optimize.minimize (L-BFGS-B, 3 deterministic multi-starts)",
+    "optimizer_convergence_rate": 1.0
+  },
+  "environment": {
+    "python_version": "3.15.2",
+    "os": "Windows",
+    "numpy_version": "2.5.4",
+    "scipy_version": "1.18.1",
+    "runtime_seconds": 26.283,
+    "script_path": "extensions/in_silico/scripts/v3_identifiability_check.py"
+  },
+  "v2_collinearity_diagnosis": {
+    "source_file": "extensions/in_silico/results/exp03_parameter_error_corr_matrix.csv",
+    "num_v2_free_parameters": 8,
+    "alpha_0_vs_gamma_alpha_error_corr": -0.813005,
+    "beta_X_vs_beta_Y_error_corr": 0.666894,
+    "max_abs_off_diag_error_corr_v2": 0.813005,
+    "offending_pairs_ge_0_35": [
+      {
+        "pair": "alpha_0 / gamma_alpha",
+        "error_corr": -0.813005
+      },
+      {
+        "pair": "beta_X / beta_Y",
+        "error_corr": 0.666894
+      }
+    ],
+    "root_causes": [
+      "alpha_0 / gamma_alpha (-0.813): non-centrage de l'ordonnée à l'origine alpha(Z) = alpha_0 * exp(gamma_alpha * Z) évaluée à Z=0 loin du centroïde empirique de Z.",
+      "beta_X / beta_Y (+0.667): double température sur un même softmax de choix aggravée par la reparamétrisation couplée beta_X = beta_Y + delta_beta."
+    ]
+  },
+  "v3_recovery_metrics": {
+    "rho": {
+      "pearson_r": 0.983326,
+      "rmse": 0.038454,
+      "mae": 0.027771,
+      "bias": -0.006311,
+      "prior_range": [
+        0.15,
+        0.85
+      ]
+    },
+    "p": {
+      "pearson_r": 0.926323,
+      "rmse": 0.176703,
+      "mae": 0.13562,
+      "bias": -0.036411,
+      "prior_range": [
+        0.8,
+        2.4
+      ]
+    },
+    "gamma_A": {
+      "pearson_r": 0.987882,
+      "rmse": 0.124929,
+      "mae": 0.096862,
+      "bias": -0.003858,
+      "prior_range": [
+        0.5,
+        3.5
+      ]
+    },
+    "chi": {
+      "pearson_r": 0.966091,
+      "rmse": 0.062537,
+      "mae": 0.049291,
+      "bias": -0.010894,
+      "prior_range": [
+        0.1,
+        0.85
+      ]
+    },
+    "beta": {
+      "pearson_r": 0.949704,
+      "rmse": 0.353023,
+      "mae": 0.234411,
+      "bias": -0.009017,
+      "prior_range": [
+        0.8,
+        4.5
+      ]
+    }
+  },
+  "v3_error_correlation_matrix": {
+    "rho": {
+      "rho": 1.0,
+      "p": -0.07311,
+      "gamma_A": -0.085586,
+      "chi": -0.17373,
+      "beta": 0.01633
+    },
+    "p": {
+      "rho": -0.07311,
+      "p": 1.0,
+      "gamma_A": 0.067019,
+      "chi": -0.117284,
+      "beta": 0.021714
+    },
+    "gamma_A": {
+      "rho": -0.085586,
+      "p": 0.067019,
+      "gamma_A": 1.0,
+      "chi": 0.037498,
+      "beta": -0.056463
+    },
+    "chi": {
+      "rho": -0.17373,
+      "p": -0.117284,
+      "gamma_A": 0.037498,
+      "chi": 1.0,
+      "beta": -0.130737
+    },
+    "beta": {
+      "rho": 0.01633,
+      "p": 0.021714,
+      "gamma_A": -0.056463,
+      "chi": -0.130737,
+      "beta": 1.0
+    }
+  },
+  "v3_architectural_invariants_check": {
+    "option_1A_mean_corr_A_vs_sgnY": -0.01251,
+    "option_1A_orthogonal_lt_0_10": true,
+    "option_3b_charge_bifurcation_rate": 0.487875,
+    "option_3b_discharge_bifurcation_rate": 0.05487,
+    "option_3b_asymmetry_verified": true
+  },
+  "thresholds_and_verdict": {
+    "min_r_recovery": 0.926323,
+    "required_min_r_recovery": 0.7,
+    "min_r_recovery_passed": true,
+    "max_abs_off_diag_error_corr": 0.17373,
+    "max_off_diag_pair": "rho / chi",
+    "max_off_diag_value": -0.17373,
+    "required_max_abs_off_diag_lt": 0.35,
+    "max_abs_off_diag_passed": true,
+    "overall_status": "PASS"
+  }
+}

@@ -29,28 +29,29 @@ open OperantFactorization
 
 Ce module soude formellement la chaîne logique du cœur normatif **CARTOGRAFFECT (v3.0)**
 sans aucune dépendance envers les annexes exploratoires (`Lexicon176`) ni aucun relèvement
-universel des contingences opérantes au-delà de la fondation `Z = 2` :
+universel des contingences de Rolls au-delà de la fondation `Z = 2` :
 - **Option 1A** : `Y` = contrôlabilité instrumentale perçue stricte, canal autonome `A ≥ 0`
   (`autonomousActivation`) indépendant de `(X, Y)` et groupes fonctionnels neutres ;
 - **Option 2a** : transitions verticales pas-à-pas strictes (`ΔZ ∈ {-1, 0, +1}` avec unique
   court-circuit descendant `2 → 0` évitant `Z = 1` Surprise) ;
 - **Option 3b** : instabilité axiale (`χ > 0`, P2) restreinte aux 2 pôles en Charge négative
   (`Peur`, `Tristesse`), brisant la symétrie dynamique Charge / Décharge ;
-- **Fondation `Z = 2`** : séparation stricte entre renforcement négatif opérant `R-` (`Y > 0`)
-  et sécurité pavlovienne passive (`Calme (+1, -1, 2)`, `Y < 0`), bornée à `Z = 2`.
+- **Fondation `Z = 2`** : bijection exacte $2 \times 2$ avec les contingences de récompense et
+  de punition de Rolls (2014) — `Rew+` (`Désir (+1, +1, 2)`), `Rew−` (`Colère (-1, +1, 2)`),
+  `Pun+` (`Dégoût (-1, -1, 2)`), `Pun−` (`Calme (+1, -1, 2)`) — bornée à `Z = 2`.
 -/
 
 /-!
 ## 1. Ponts fonctionnels canoniques (fondation `Z = 2` et évaluateurs terminaux)
 -/
 
-/-- Régime écologique induit en `Z = 2` par un couplage doublement engagé `(A, C)`. -/
-def couplingToZ2Contingency (c : EngineCoupling) : Option Z2ContingencyRegime :=
+/-- Contingence de Rolls (2014) induite en `Z = 2` par un couplage doublement engagé `(A, C)`. -/
+def couplingToZ2Contingency (c : EngineCoupling) : Option RollsContingency :=
   match c.attente, c.controle with
-  | .pos, .pos => some .activeOperantReinforcement
-  | .neg, .pos => some .agenticOmissionPunishment
-  | .pos, .neg => some .pavlovianPassiveSafety
-  | .neg, .neg => some .inescapableAversivePunishment
+  | .pos, .pos => some .rewPlus
+  | .neg, .pos => some .rewMinus
+  | .neg, .neg => some .punPlus
+  | .pos, .neg => some .punMinus
   | _,    _    => none
 
 /-- Prédicat exact de la loi verticale pas-à-pas de l'Option 2a (`ΔZ ∈ {-1, 0, +1}` sans `2 → 1`,
@@ -98,7 +99,7 @@ theorem circuit_coupling_z2_contingency_bridge
       rcases c with ⟨a, ctrl⟩
       cases a <;> cases ctrl <;> first | exact absurd hnn (by decide) | rfl
   · intro hz2
-    apply active_r_minus_vs_pavlovian_safety_and_z2_bound.2.2
+    apply rolls_contingencies_z2_bound.2.2
     unfold projectPerceptible
     split
     · split
@@ -116,11 +117,11 @@ theorem circuit_coupling_z2_contingency_bridge
             (dsimp only [deployCouplingWithPrecision]; omega)
 
 /--
-[2/6] Amorçage axial pré-opérant → Entrée dans les régimes `Z = 2` (distinguant `R-` actif et sécurité pavlovienne) :
-Depuis tout couplage axial `c` en `Z = 2`, l'état initial est pré-opérant (`none`), et l'engagement
-du second gradient `newPol` projette dans un unique `Z2ContingencyRegime` où `Y > 0` caractérise
-l'agentivité opérante active (`R+`/`R-` actif ou `P-`) et `Y < 0` le régime non opérant (`Calme`
-pavlovien ou `P+` subi).
+[2/6] Amorçage axial pré-opérant → Entrée dans les contingences de Rolls en `Z = 2` :
+Depuis tout couplage axial `c` en `Z = 2`, l'état initial est pré-contingent (`none`), et l'engagement
+du second gradient `newPol` projette dans une unique `RollsContingency` où `Y > 0` caractérise le
+domaine des récompenses (`Rew+`/`Rew−`), `X * Y > 0` l'ajout (`Rew+`/`Pun+`) et `(X > 0, Y < 0)`
+caractérise `Calme` (`Pun−`, retrait/omission d'une punition).
 -/
 theorem triggerSecondaryGradient_enters_z2_contingency
     (c : EngineCoupling) (newPol : Polarity)
@@ -128,11 +129,12 @@ theorem triggerSecondaryGradient_enters_z2_contingency
     let c' := triggerSecondaryGradient c newPol
     let p' := deployCouplingAtDepth c' 0
     diagToContingency (deployCouplingAtDepth c 0) = none ∧
-    (∃ reg : Z2ContingencyRegime,
+    (∃ reg : RollsContingency,
       diagToContingency p' = some reg ∧
       couplingToZ2Contingency c' = some reg ∧
-      (reg.agency = .activeOperant ↔ p'.y > 0) ∧
-      (reg = .pavlovianPassiveSafety ↔ (p'.x > 0 ∧ p'.y < 0))) := by
+      (reg.reinforcerClass = .reward ↔ p'.y > 0) ∧
+      (reg.operation = .delivery ↔ p'.x * p'.y > 0) ∧
+      (reg = .punMinus ↔ (p'.x > 0 ∧ p'.y < 0))) := by
   rcases c with ⟨a, ctrl⟩
   cases a <;> cases ctrl <;> cases newPol <;>
     first
@@ -142,10 +144,9 @@ theorem triggerSecondaryGradient_enters_z2_contingency
 
 /--
 [3/6] Pont Noyau Markovien P2 (Option 3b) → Bifurcation asymétrique depuis les 2 pôles en Charge négative :
-Sous `chi > 0`, la `Peur (A-, C0)` bifurque vers `Colère` (`agenticOmissionPunishment`) et `Dégoût`
-(`inescapableAversivePunishment`), et la `Tristesse (A0, C-)` bifurque vers `Calme` (`pavlovianPassiveSafety`)
-et `Dégoût` (`inescapableAversivePunishment`), tandis qu'à bruit nul (`epsilon = 0`) les 2 pôles en
-Décharge (`Courage`, `Joie`) ont un poids nul vers les diagonales.
+Sous `chi > 0`, la `Peur (A-, C0)` bifurque vers `Colère` (`rewMinus`, `Rew−`) et `Dégoût` (`punPlus`, `Pun+`),
+et la `Tristesse (A0, C-)` bifurque vers `Calme` (`punMinus`, `Pun−`) et `Dégoût` (`punPlus`, `Pun+`),
+tandis qu'à bruit nul (`epsilon = 0`) les 2 pôles en Décharge (`Courage`, `Joie`) ont un poids nul vers les diagonales.
 -/
 theorem p2_negative_charge_enters_z2_contingencies (p : CircuitKernelParams)
     (h_chi : p.chi > 0)
@@ -155,12 +156,12 @@ theorem p2_negative_charge_enters_z2_contingencies (p : CircuitKernelParams)
     (h_stay_c : p.kappa + p.deltaC < p.scale) :
     (circuitWeight p ⟨.neg, .zero⟩ ⟨.neg, .pos⟩ > 0 ∧
      circuitWeight p ⟨.neg, .zero⟩ ⟨.neg, .neg⟩ > 0 ∧
-     couplingToZ2Contingency ⟨.neg, .pos⟩ = some .agenticOmissionPunishment ∧
-     couplingToZ2Contingency ⟨.neg, .neg⟩ = some .inescapableAversivePunishment) ∧
+     couplingToZ2Contingency ⟨.neg, .pos⟩ = some .rewMinus ∧
+     couplingToZ2Contingency ⟨.neg, .neg⟩ = some .punPlus) ∧
     (circuitWeight p ⟨.zero, .neg⟩ ⟨.pos, .neg⟩ > 0 ∧
      circuitWeight p ⟨.zero, .neg⟩ ⟨.neg, .neg⟩ > 0 ∧
-     couplingToZ2Contingency ⟨.pos, .neg⟩ = some .pavlovianPassiveSafety ∧
-     couplingToZ2Contingency ⟨.neg, .neg⟩ = some .inescapableAversivePunishment) ∧
+     couplingToZ2Contingency ⟨.pos, .neg⟩ = some .punMinus ∧
+     couplingToZ2Contingency ⟨.neg, .neg⟩ = some .punPlus) ∧
     (p.epsilon = 0 →
       circuitWeight p ⟨.pos, .zero⟩ ⟨.pos, .pos⟩ = 0 ∧
       circuitWeight p ⟨.pos, .zero⟩ ⟨.pos, .neg⟩ = 0 ∧
@@ -271,7 +272,7 @@ Pour tout état moteur `s : PredictiveEngineState`, le pipeline `runCartograffec
 2. Découple le canal d'activation autonome `s.autonomousActivation` (`A ≥ 0`) des coordonnées `(X, Y)` ;
 3. Associe un antagoniste géométrique statique involutif inversant universellement la valence hédonique ;
 4. Converge vers `Veille (0, 0, 0)` par dissipation pas-à-pas `dissipationStep` sans jamais visiter `Surprise (0, 0, 1)` dès `Z ≥ 2` ;
-5. Restreint l'articulation des contingences opérantes/pavloviennes à la seule fondation `Z = 2`.
+5. Restreint la bijection $2 \times 2$ des contingences de Rolls (`Rew±/Pun±`) à la seule fondation `Z = 2`.
 -/
 theorem full_end_to_end_v3_coherence (s : PredictiveEngineState) :
     let ts := runCartograffectPipeline s
@@ -297,7 +298,7 @@ theorem full_end_to_end_v3_coherence (s : PredictiveEngineState) :
   rw [← hts_eq] at huniq0
   refine ⟨hcoh_run, huniq0, rfl, ?_, dissipation_reaches_veille _, dissipation_from_ge2_never_visits_surprise _, ?_⟩
   · exact antagonistPoint_inverts_hedonic_polarity (projectToCoreAffect s)
-  · exact active_r_minus_vs_pavlovian_safety_and_z2_bound.2.2 _
+  · exact rolls_contingencies_z2_bound.2.2 _
 
 end EndToEndBridge
 

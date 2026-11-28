@@ -14,7 +14,7 @@
 > | **P5** | **Taxonomie neutre Option 1A** — Unicité terminale cohérente sur les 17 sous-secteurs | `end_to_end_coherence` | `Cartograffect/AffectiveTaxonomy.lean:547` | `[propext, Classical.choice, Quot.sound]` |
 > | **P6** | **Option 3b** — Instabilité axiale P2 restreinte à la Charge négative (`Peur`, `Tristesse`) | `canonicalDepthKernel_axial_instability_p2` *(+ `axial_tristesse_and_discharge_asymmetry_p2`)* | `Cartograffect/AffectiveDynamics.lean:480` *(`PredictiveCircuit.lean:983`)* | `[propext, Classical.choice, Quot.sound]` *(`[propext, Quot.sound]`)* |
 > | **P7** | **Dynamique de Lyapunov (P1)** — Constance signée sur `ℤ` de la dérive attendue par goulot `L1` | `lyapunov_expected_drift_constant` *(+ `lyapunov_monotone_free`)* | `Cartograffect/PredictiveCircuit.lean:874` *(`:699`)* | `[propext, Quot.sound]` *(sans `Classical.choice`)* |
-> | **P8** | **Articulation mixte `Z = 2` & Clôture v3.0** — `R-` actif vs sécurité pavlovienne et pont global | `active_r_minus_vs_pavlovian_safety_and_z2_bound` & `full_end_to_end_v3_coherence` | `Cartograffect/OperantFactorization.lean:165` & `Cartograffect/EndToEndBridge.lean:276` | `[propext, Classical.choice, Quot.sound]` |
+> | **P8** | **Bijection $2 \times 2$ de Rolls (`Z = 2`) & Clôture v3.0** — `Rew±/Pun±` bornés à `Z = 2` et pont global | `rolls_contingencies_z2_bound` & `full_end_to_end_v3_coherence` | `Cartograffect/OperantFactorization.lean:190` & `Cartograffect/EndToEndBridge.lean:277` | `[propext, Classical.choice, Quot.sound]` |
 
 ---
 
@@ -25,7 +25,7 @@ Ce dossier d'audit recense de manière **exhaustive, dédupliquée et vérifiabl
 - **0 `sorry`**, **0 `admit`**, **0 `native_decide`**, **0 axiome *ad hoc***, **0 constante statistique externe** dans les fichiers `.lean`.
 - **0 alias compté en double** : les deux alias redondants de v2.1 (`AffectiveDynamics.lateral_reachable` et `Lexicon176.all176Entries_reachable_by_engine`) ont été supprimés.
 - **0 lemme vide** : tous les lemmes reposant sur la soustraction tronquée `Nat` (`informationReductionGap`, `hartley_bits_reduction_nonneg`, dérives signées) ou sur des arguments ignorés (`directProjectToAttentional` ignorant `zOperability`) ont été éliminés ou reformulés en identités signées exactes sur `ℤ`.
-- **Séparation stricte du cœur normatif et des annexes exploratoires** : aucun des 8 modules du cœur normatif (`Cartograffect/`) ni `PredictiveEngineCanonical.lean` n'importe `Cartograffect/Lexicon176.lean`, et tout relèvement universel des contingences `{R+, R-, P+, P-}` sur `Z ≥ 3` a été retiré.
+- **Séparation stricte du cœur normatif et des annexes exploratoires** : aucun des 8 modules du cœur normatif (`Cartograffect/`) ni `PredictiveEngineCanonical.lean` n'importe `Cartograffect/Lexicon176.lean`, et tout relèvement universel des contingences de Rolls `{Rew+, Rew−, Pun+, Pun−}` (anciennement notées de façon ambiguë `{R+, R-, P+, P-}`) sur `Z ≥ 3` a été retiré.
 - **Transparence axiomatique sur `Classical.choice`** : `84` déclarations du cœur normatif sollicitent l'axiome standard `Classical.choice` de la fondation Lean 4 (principalement via le solveur d'arithmétique linéaire entière `omega` et les disjonctions décidables classiques). En conséquence, **aucun théorème dépendant de `Classical.choice` n'est qualifié de « constructif »**, et toute référence à la théorie intuitionniste des types de Martin-Löf (1984) a été retirée du manuscrit [`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md).
 
 ### Décompte exact et dédupliqué (Cœur normatif `Cartograffect/` — 8 modules)
@@ -47,6 +47,10 @@ Afin de faciliter l'audit par un vérificateur mathématique indépendant, les *
 | **TOTAL CŒUR NORMATIF (`Cartograffect/`)** | **169** | **21** | **148** | **23 / 36** | **15 / 20** | **29 / 29** | **81 / 84** |
 
 > **Extension formelle dédiée (`extensions/predictive_engine/PredictiveEngineCanonical.lean`, cible Lake `PredictiveEngineCanonical`) :** **21 déclarations `theorem` exportées** additionnelles, scindées avec la même rigueur en **16 théorèmes propres non triviaux** (Section 4.1) et **5 lemmes auxiliaires élémentaires / corollaires d'encapsulation** incluant explicitement `veille_disjoint_from_attentional_point` (Section 4.2 ; profil axiomatique total : `5` sans axiome, `2` `[propext]`, `6` `[propext, Quot.sound]`, `8` `[propext, Classical.choice, Quot.sound]`).
+
+### Liaison entre le noyau formel Lean 4, la géométrie en surface remplie et le Tableau 1b
+
+Sur le plan architectural, l'équation de couronne certifiée dans `Cartograffect/CoreAffect.lean` (`|x| + |y| = 2z - 2`) formalise exactement la **frontière de saturation / capacité** ($A = 1$) des couches planes à surface remplie $|x| + |y| \le R(Z)$. L'activation autonome `autonomousActivation` (`A ≥ 0`, prouvée orthogonale par `autonomousActivation_decoupled_from_core` dans `Cartograffect/AffectiveMatrix.lean:779`) paramètre la modulation radiale $A \in (0, 1]$ dans la surface intérieure indépendamment de $(X, Y)$ et sans imposer $A' = A$ entre pôles antagonistes. Enfin, les **17 constructeurs** de `FunctionalSubsector` (`Cartograffect/AffectiveTaxonomy.lean:118-136`), couplés aux théorèmes d'échange contralatéral `contralateral_swaps_amplitudes` (`Cartograffect/AffectiveMatrix.lean:334`) et `contralateral_group_bindings` (`Cartograffect/AffectiveTaxonomy.lean:307`), fondent en correspondance 1-à-1 les **8 paires antagonistes conjuguées** (`A1, A2, D1, D2` et `L1, L2, L3, L4`) et le 17ᵉ sous-secteur central `(0, 0, Z)` du Tableau 1b de [`docs/01-Article_Cartograffect.md`](docs/01-Article_Cartograffect.md).
 
 ---
 
@@ -221,24 +225,24 @@ Afin de faciliter l'audit par un vérificateur mathématique indépendant, les *
 | # | Fichier : Ligne | Identifiant Lean 4 | Propriété certifiée | Axiomes (`#print axioms`) |
 |---:|:---|:---|:---|:---|
 | 135 | `Cartograffect/OperantFactorization.lean:46` | `manhattanDistXY_origin` | Identité entre `manhattanDistXY` à l'origine de strate et `displacementSum` | `[propext]` |
-| 136 | `Cartograffect/OperantFactorization.lean:136` | `operant_factorization_law` | Factorisation issue (`X`) × agentivité instrumentale (`Y`) sur les 4 diagonales `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
-| 137 | `Cartograffect/OperantFactorization.lean:165` | `active_r_minus_vs_pavlovian_safety_and_z2_bound` | Séparation `R-` opérant (`Y > 0`) vs sécurité pavlovienne (`Y < 0`) & borne `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
-| 138 | `Cartograffect/OperantFactorization.lean:207` | `energyRegime_matches_operant_operator` | Correspondance exacte entre `Z2ContingencyRegime` et `EnergyRegime` (Option 1A) | `[propext, Classical.choice, Quot.sound]` |
-| 139 | `Cartograffect/OperantFactorization.lean:234` | `antagonist_flips_outcome_and_agency_z2` | Inversion conjointe de l'issue et de l'agentivité par `antagonistPoint` en `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
-| 140 | `Cartograffect/OperantFactorization.lean:260` | `axial_poles_bridge_operant_pairs` | Équidistance `L1 = 2` (adjacents) vs `L1 = 4` (opposés) depuis les 4 pôles axiaux `Z = 2` | `[none]` |
-| 141 | `Cartograffect/OperantFactorization.lean:280` | `axial_poles_pre_operant` | Caractère pré-opérant (`none`) des 4 orientations axiales de `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
-| 142 | `Cartograffect/OperantFactorization.lean:285` | `z2_contingency_regime_bijection` | Bijection exacte entre les 4 diagonales de `Z = 2` et les 4 régimes mixtes `Z2ContingencyRegime` | `[propext, Classical.choice, Quot.sound]` |
+| 136 | `Cartograffect/OperantFactorization.lean:159` | `rolls_factorization_law` | Factorisation classe de stimulus (`Y`: `reward`/`punishment`) × opérateur (`X*Y`: `delivery`/`omission`) × issue (`X`) sur `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
+| 137 | `Cartograffect/OperantFactorization.lean:190` | `rolls_contingencies_z2_bound` | Ancrage exact `{Rew+, Rew−, Pun+, Pun−}` en `Z = 2`, reconstruction `fromPair` et annulation (`none`) sur `Z ≠ 2` | `[propext, Classical.choice, Quot.sound]` |
+| 138 | `Cartograffect/OperantFactorization.lean:280` | `energyRegime_matches_rolls_contingency` | Correspondance exacte entre `RollsContingency` et `EnergyRegime` (Option 1A) | `[propext, Classical.choice, Quot.sound]` |
+| 139 | `Cartograffect/OperantFactorization.lean:308` | `antagonist_rolls_symmetry_z2` | Symétrie d'antagonisme exacte `Rew+ ↔ Pun+` (`Désir ↔ Dégoût`) et `Rew− ↔ Pun−` (`Colère ↔ Calme`) | `[propext, Classical.choice, Quot.sound]` |
+| 140 | `Cartograffect/OperantFactorization.lean:344` | `axial_poles_bridge_rolls_pairs` | Équidistance `L1 = 2` (adjacents) vs `L1 = 4` (opposés) depuis les 4 pôles axiaux `Z = 2` | `[none]` |
+| 141 | `Cartograffect/OperantFactorization.lean:364` | `axial_poles_pre_contingency` | Caractère pré-contingent (`none`) des 4 orientations axiales de `Z = 2` | `[propext, Classical.choice, Quot.sound]` |
+| 142 | `Cartograffect/OperantFactorization.lean:372` | `z2_rolls_bijection_2x2` | Bijection exacte $2 \times 2$ entre les 4 diagonales de `Z = 2` et `{Rew+, Rew−, Pun+, Pun−}` (`RollsContingency`) | `[propext, Classical.choice, Quot.sound]` |
 
 ### 2.8. `Cartograffect/EndToEndBridge.lean` (6 théorèmes non triviaux)
 
 | # | Fichier : Ligne | Identifiant Lean 4 | Propriété certifiée | Axiomes (`#print axioms`) |
 |---:|:---|:---|:---|:---|
-| 143 | `Cartograffect/EndToEndBridge.lean:83` | `circuit_coupling_z2_contingency_bridge` | Pont Circuit ↔ `Z = 2` et annulation identique (`none`) sur toute strate `Z ≠ 2` | `[propext, Classical.choice, Quot.sound]` |
-| 144 | `Cartograffect/EndToEndBridge.lean:125` | `triggerSecondaryGradient_enters_z2_contingency` | Transition pré-opérante → `Z2ContingencyRegime` distinguant `R-` actif et `Calme` pavlovien | `[propext, Classical.choice, Quot.sound]` |
-| 145 | `Cartograffect/EndToEndBridge.lean:150` | `p2_negative_charge_enters_z2_contingencies` | Bifurcation markovienne P2 depuis `Peur` et `Tristesse` & immunité de `Courage`/`Joie` (3b) | `[propext, Quot.sound]` |
-| 146 | `Cartograffect/EndToEndBridge.lean:179` | `vertical_operators_obey_stepwise_2a` | Conformité stricte de `nextStratumR5` et `dissipationStep` à `isValidVerticalStep2a` (2a) | `[propext, Classical.choice, Quot.sound]` |
-| 147 | `Cartograffect/EndToEndBridge.lean:223` | `unified_and_circular_to_taxonomy_coherence` | Cohérence de la loi unifiée et du circuit fermé vers la Taxonomie neutre avec canal `A ≥ 0` | `[propext, Classical.choice, Quot.sound]` |
-| 148 | `Cartograffect/EndToEndBridge.lean:276` | `full_end_to_end_v3_coherence` | Théorème de synthèse v3.0 (unicité terminale, canal `A ≥ 0`, antagonisme, descente 2a, borne `Z = 2`) | `[propext, Classical.choice, Quot.sound]` |
+| 143 | `Cartograffect/EndToEndBridge.lean:84` | `circuit_coupling_z2_contingency_bridge` | Pont Circuit ↔ `Z = 2` et annulation identique (`none`) sur toute strate `Z ≠ 2` | `[propext, Classical.choice, Quot.sound]` |
+| 144 | `Cartograffect/EndToEndBridge.lean:126` | `triggerSecondaryGradient_enters_z2_contingency` | Transition pré-contingente → `RollsContingency` caractérisant `reward` (`Y > 0`), `delivery` (`X*Y > 0`) et `Calme` (`Pun−`) | `[propext, Classical.choice, Quot.sound]` |
+| 145 | `Cartograffect/EndToEndBridge.lean:151` | `p2_negative_charge_enters_z2_contingencies` | Bifurcation markovienne P2 depuis `Peur` (`Rew−`/`Pun+`) et `Tristesse` (`Pun−`/`Pun+`) & immunité de `Courage`/`Joie` (3b) | `[propext, Quot.sound]` |
+| 146 | `Cartograffect/EndToEndBridge.lean:180` | `vertical_operators_obey_stepwise_2a` | Conformité stricte de `nextStratumR5` et `dissipationStep` à `isValidVerticalStep2a` (2a) | `[propext, Classical.choice, Quot.sound]` |
+| 147 | `Cartograffect/EndToEndBridge.lean:224` | `unified_and_circular_to_taxonomy_coherence` | Cohérence de la loi unifiée et du circuit fermé vers la Taxonomie neutre avec canal `A ≥ 0` | `[propext, Classical.choice, Quot.sound]` |
+| 148 | `Cartograffect/EndToEndBridge.lean:277` | `full_end_to_end_v3_coherence` | Théorème de synthèse v3.0 (unicité terminale, canal `A ≥ 0`, antagonisme, descente 2a, borne `Z = 2`) | `[propext, Classical.choice, Quot.sound]` |
 
 ---
 
@@ -468,13 +472,13 @@ Cartograffect/AuditTests.lean:204:0: info: 'Cartograffect.PredictiveCircuit.proj
 Cartograffect/AuditTests.lean:205:0: info: 'Cartograffect.PredictiveCircuit.projectUnifiedState_crown_budget' depends on axioms: [propext, Classical.choice, Quot.sound]
 Cartograffect/AuditTests.lean:206:0: info: 'Cartograffect.PredictiveCircuit.projectUnifiedState_reaches_lateral_agentic_confront' depends on axioms: [propext, Classical.choice, Quot.sound]
 Cartograffect/AuditTests.lean:209:0: info: 'Cartograffect.OperantFactorization.manhattanDistXY_origin' depends on axioms: [propext]
-Cartograffect/AuditTests.lean:210:0: info: 'Cartograffect.OperantFactorization.operant_factorization_law' depends on axioms: [propext, Classical.choice, Quot.sound]
-Cartograffect/AuditTests.lean:211:0: info: 'Cartograffect.OperantFactorization.active_r_minus_vs_pavlovian_safety_and_z2_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
-Cartograffect/AuditTests.lean:212:0: info: 'Cartograffect.OperantFactorization.energyRegime_matches_operant_operator' depends on axioms: [propext, Classical.choice, Quot.sound]
-Cartograffect/AuditTests.lean:213:0: info: 'Cartograffect.OperantFactorization.antagonist_flips_outcome_and_agency_z2' depends on axioms: [propext, Classical.choice, Quot.sound]
-Cartograffect/AuditTests.lean:214:0: info: 'Cartograffect.OperantFactorization.axial_poles_bridge_operant_pairs' does not depend on any axioms
-Cartograffect/AuditTests.lean:215:0: info: 'Cartograffect.OperantFactorization.axial_poles_pre_operant' depends on axioms: [propext, Classical.choice, Quot.sound]
-Cartograffect/AuditTests.lean:216:0: info: 'Cartograffect.OperantFactorization.z2_contingency_regime_bijection' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:210:0: info: 'Cartograffect.OperantFactorization.rolls_factorization_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:211:0: info: 'Cartograffect.OperantFactorization.rolls_contingencies_z2_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:212:0: info: 'Cartograffect.OperantFactorization.energyRegime_matches_rolls_contingency' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:213:0: info: 'Cartograffect.OperantFactorization.antagonist_rolls_symmetry_z2' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:214:0: info: 'Cartograffect.OperantFactorization.axial_poles_bridge_rolls_pairs' does not depend on any axioms
+Cartograffect/AuditTests.lean:215:0: info: 'Cartograffect.OperantFactorization.axial_poles_pre_contingency' depends on axioms: [propext, Classical.choice, Quot.sound]
+Cartograffect/AuditTests.lean:216:0: info: 'Cartograffect.OperantFactorization.z2_rolls_bijection_2x2' depends on axioms: [propext, Classical.choice, Quot.sound]
 Cartograffect/AuditTests.lean:219:0: info: 'Cartograffect.EndToEndBridge.circuit_coupling_z2_contingency_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
 Cartograffect/AuditTests.lean:220:0: info: 'Cartograffect.EndToEndBridge.triggerSecondaryGradient_enters_z2_contingency' depends on axioms: [propext, Classical.choice, Quot.sound]
 Cartograffect/AuditTests.lean:221:0: info: 'Cartograffect.EndToEndBridge.p2_negative_charge_enters_z2_contingencies' depends on axioms: [propext, Quot.sound]
