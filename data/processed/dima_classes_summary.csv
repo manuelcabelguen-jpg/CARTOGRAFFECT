@@ -1,0 +1,110 @@
+categ,classe,antonymie_family,is_classifier,n_raw_rows,n_entries,n_unique_lemmes,n_tier1_state,n_tier2_verb_behavior,n_excluded_context,n_z_plus_active,n_z_plus_satellite,n_z_minus_reserve,n_non_lexical_discard,n_z_minus_value_candidate,n_exp_affect,n_hum_affect,n_caract_affect,n_comport_affect,n_caus_affect,n_obj_affect,n_parole_affect,n_nom,n_adj,n_verb,n_other_pos
+I,Amuser,Amuser-Ennuyer,False,8,8,8,0,2,6,0,2,6,0,0,2,0,0,0,6,0,0,0,3,5,0
+I,Apaiser,Apaiser-Troubler,False,31,31,30,14,4,13,11,7,5,8,0,26,0,0,0,5,0,0,6,10,7,8
+I,Apathie,Energie-Apathie,False,33,33,33,17,8,8,9,16,1,7,0,32,0,0,0,1,0,0,10,7,9,7
+I,Attrister,Réjouir-Attrister,False,61,57,57,15,5,37,9,10,25,13,0,32,1,0,0,24,0,0,8,17,18,14
+I,Blesser,Flatter-Blesser,False,53,53,53,1,3,49,0,3,50,0,0,3,0,1,0,49,0,0,13,13,27,0
+I,Bon moral,Bon moral-Mauvais moral,False,51,51,51,12,6,33,9,9,25,8,0,26,0,0,0,25,0,0,10,11,22,8
+I,Bon moral Revigorer,Bon moral-Mauvais moral,False,11,11,11,0,0,11,0,0,11,0,0,0,0,0,0,11,0,0,0,1,10,0
+I,Combler Bonheur,Combler-Décevoir,False,43,40,40,21,7,12,11,17,7,5,0,33,0,0,0,7,0,0,8,13,9,10
+I,Combler un désir,Combler-Décevoir,False,11,11,11,0,0,11,0,0,11,0,0,0,0,0,0,11,0,0,4,1,6,0
+I,Décevoir,Combler-Décevoir,False,53,53,52,15,11,27,12,11,18,12,0,35,3,0,0,15,0,0,12,7,22,12
+I,Décevoir Malheur,Combler-Décevoir,False,30,28,27,16,4,8,3,16,7,2,0,21,1,0,0,6,0,0,9,7,5,7
+I,Désinhiber,Désinhiber-Inhiber / Embarrasser,False,24,24,23,9,6,9,1,10,13,0,0,11,0,0,4,9,0,0,5,11,8,0
+I,Détendre,Détendre-Importuner,False,34,34,34,2,1,31,2,1,30,1,0,4,0,0,0,30,0,0,11,7,15,1
+I,Embarrasser,Désinhiber-Inhiber / Embarrasser,False,33,33,33,9,0,24,7,2,19,5,0,14,0,0,0,19,0,0,4,14,10,5
+I,Energie,Energie-Apathie,False,25,25,25,17,1,7,15,3,0,7,0,25,0,0,0,0,0,0,9,8,1,7
+I,Ennuyer,Amuser-Ennuyer,False,29,29,29,1,2,26,1,2,23,3,0,6,0,0,0,23,0,0,1,12,13,3
+I,Flatter,Flatter-Blesser,False,11,11,10,1,0,10,0,0,11,0,0,0,1,0,0,10,0,0,2,2,7,0
+I,Humeur bonne,Humeurs bonne-mauvaise-songeuse,False,31,31,30,17,0,14,13,3,5,10,0,26,1,0,0,4,0,0,7,12,2,10
+I,Humeur mauvaise,Humeurs bonne-mauvaise-songeuse,False,28,28,27,22,0,6,8,11,5,4,0,23,1,2,0,2,0,0,9,13,2,4
+I,Humeur songeuse,Humeurs bonne-mauvaise-songeuse,False,15,15,12,9,0,6,6,0,3,6,0,12,3,0,0,0,0,0,4,5,0,6
+I,Importuner,Détendre-Importuner,False,152,152,145,26,17,109,7,18,123,4,0,29,13,0,5,105,0,0,28,39,76,9
+I,Inhiber,Désinhiber-Inhiber / Embarrasser,False,17,17,15,9,0,8,3,0,13,1,0,4,3,3,0,7,0,0,7,4,5,1
+I,Inquiéter,Rassurer-Inquiéter & Effrayer,False,59,59,57,17,19,23,11,22,19,7,0,40,3,0,0,16,0,0,13,11,28,7
+I,Inquiéter Effrayer,Rassurer-Inquiéter & Effrayer,False,46,46,46,12,4,30,6,9,23,8,0,23,1,0,0,22,0,0,11,13,11,11
+I,Jouissance,Jouissance-Souffrance,False,30,29,28,10,4,15,7,5,13,4,0,16,2,0,0,11,0,0,11,5,8,5
+I,Mauvais moral,Bon moral-Mauvais moral,False,75,75,74,20,9,46,12,15,37,11,0,38,2,0,0,35,0,0,18,11,35,11
+I,Rassurer,Rassurer-Inquiéter & Effrayer,False,32,32,32,11,3,18,9,5,11,7,0,21,0,0,0,11,0,0,6,9,10,7
+I,Réjouir,Réjouir-Attrister,False,36,36,35,13,7,16,6,13,10,7,0,26,1,0,0,9,0,0,8,10,11,7
+I,Sans surprise,Surprise,False,1,1,1,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0
+I,Souffrance,Jouissance-Souffrance,False,68,68,68,8,19,41,3,21,40,4,0,28,3,0,0,37,0,0,20,10,34,4
+I,Surprendre,Surprise,False,88,88,88,11,16,61,10,17,48,13,0,40,0,0,0,48,0,0,8,19,44,17
+I,Surprendre Bonne surprise,Surprise,False,21,21,21,2,0,19,0,2,19,0,0,2,0,0,0,19,0,0,3,8,9,1
+I,Surprendre Mauvaise surprise,Surprise,False,4,4,4,1,0,3,0,1,3,0,0,1,0,0,0,3,0,0,1,1,2,0
+I,Troubler,Apaiser-Troubler,False,145,145,145,36,15,94,15,27,85,18,0,60,0,5,0,80,0,0,34,31,66,14
+I,Z Classifieurs,,True,12,12,12,0,0,12,0,0,0,12,0,8,0,2,2,0,0,0,12,0,0,0
+II,Absence de désir,Désir / impatience & Absence de désir,False,65,65,65,19,21,25,17,22,15,11,0,50,0,1,0,14,0,0,14,8,32,11
+II,Admiration,Admiration-Mépris,False,32,30,28,15,7,8,5,13,8,4,0,22,4,0,0,0,4,0,6,10,9,5
+II,Affection,Amour / Affection-Haine / Désamour,False,34,34,34,11,14,9,5,17,6,6,0,28,0,0,3,0,3,0,11,5,11,7
+II,Amitié,Amitié-Inimitié,False,88,88,77,54,24,10,29,25,24,10,0,64,13,0,11,0,0,0,37,23,17,11
+II,Amitié préférence,Amitié-Inimitié,False,4,4,4,2,2,0,2,2,0,0,0,4,0,0,0,0,0,0,2,0,2,0
+II,Amour,Amour / Affection-Haine / Désamour,False,115,113,111,58,39,16,18,53,30,12,0,83,18,2,6,0,4,0,41,22,38,12
+II,Amour désamour,Amour / Affection-Haine / Désamour,False,3,3,3,1,2,0,1,2,0,0,0,3,0,0,0,0,0,0,1,0,2,0
+II,Apprécier,Apprécier-Déplorer,False,2,2,2,0,1,1,0,1,1,0,0,1,0,0,0,0,1,0,0,1,1,0
+II,Aversion,Goût-Aversion,False,45,45,45,14,15,16,11,16,10,8,0,35,0,0,2,0,8,0,8,10,16,11
+II,Bonne conscience,Bonne & Mauvaise conscience,False,22,22,22,4,7,11,0,11,7,4,0,15,0,0,0,7,0,0,2,4,12,4
+II,Colère,Résignation-Colère,False,192,191,191,58,33,100,22,44,76,49,0,115,2,10,13,27,8,16,33,36,73,49
+II,Compassion,,False,39,38,38,10,7,21,10,7,8,13,0,30,0,0,0,0,8,0,8,7,8,15
+II,Confiance,Confiance / Croyance & Défiance / Doute,False,25,24,24,3,18,3,3,18,0,3,0,24,0,0,0,0,0,0,2,1,18,3
+II,Confiance en soi,Confiance / Croyance & Défiance / Doute,False,3,3,3,1,2,0,0,3,0,0,0,3,0,0,0,0,0,0,1,0,2,0
+II,Confiance_Crédit,Confiance / Croyance & Défiance / Doute,False,4,4,4,0,0,4,0,0,4,0,0,0,0,0,0,1,3,0,2,1,1,0
+II,Confiance_Fiabilité,Confiance / Croyance & Défiance / Doute,False,6,6,6,0,0,6,0,0,6,0,0,0,0,0,0,0,6,0,1,3,2,0
+II,Confiance_Sentiment de sécurité,Confiance / Croyance & Défiance / Doute,False,18,17,16,7,5,5,4,6,4,3,0,13,1,0,1,2,0,0,5,3,6,3
+II,Crainte,Espoir & Crainte / Désespérer de,False,13,13,13,3,3,7,3,3,4,3,0,9,0,0,0,0,4,0,2,4,3,4
+II,Croyance,Confiance / Croyance & Défiance / Doute,False,7,6,6,3,2,1,1,1,4,0,1,2,0,3,0,0,1,0,2,2,2,0
+II,Croyance relig,Confiance / Croyance & Défiance / Doute,False,7,7,6,4,3,0,1,4,2,0,1,5,0,2,0,0,0,0,3,1,3,0
+II,Curiosité,Curiosité-Désintérêt,False,20,20,19,10,8,2,8,8,3,1,0,17,1,0,1,1,0,0,5,6,8,1
+II,Doute,Confiance / Croyance & Défiance / Doute,False,19,17,16,11,3,3,9,3,5,0,0,12,1,0,1,2,1,0,6,7,4,0
+II,Doute de soi,Confiance / Croyance & Défiance / Doute,False,1,1,1,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0
+II,Défiance,Confiance / Croyance & Défiance / Doute,False,13,13,12,5,2,6,3,3,1,6,0,12,1,0,0,0,0,0,3,2,2,6
+II,Défiance_Discrédit,Confiance / Croyance & Défiance / Doute,False,5,5,5,0,0,5,0,0,5,0,0,0,0,0,0,3,2,0,1,0,4,0
+II,Défiance_Non fiabilité,Confiance / Croyance & Défiance / Doute,False,2,2,1,1,0,1,0,0,2,0,0,0,1,0,0,0,1,0,1,1,0,0
+II,Défiance_Sentiment d'insécurité,Confiance / Croyance & Défiance / Doute,False,16,16,15,9,6,1,6,8,2,0,0,14,1,0,0,0,1,0,5,5,6,0
+II,Déplaire_A,Plaire-Déplaire,False,66,65,65,9,7,49,9,6,32,18,0,33,0,0,1,0,31,0,10,16,19,20
+II,Déplaire_B,Plaire-Déplaire,False,38,38,38,0,0,38,0,0,38,0,0,0,0,0,0,0,38,0,1,20,15,2
+II,Déplorer,Apprécier-Déplorer,False,10,9,9,1,3,5,1,2,6,0,0,3,0,0,1,0,5,0,1,2,3,3
+II,Désespérer de,Espoir & Crainte / Désespérer de,False,8,8,8,0,7,1,0,7,0,1,0,8,0,0,0,0,0,0,0,0,7,1
+II,Désintérêt,Curiosité-Désintérêt,False,73,73,72,15,45,13,14,38,9,12,0,64,1,4,3,1,0,0,10,8,43,12
+II,Désir,Désir / impatience & Absence de désir,False,83,83,81,35,16,32,27,19,22,15,0,61,2,1,2,16,1,0,28,16,24,15
+II,Désir impatience,Désir / impatience & Absence de désir,False,21,21,21,4,10,7,4,10,0,7,0,21,0,0,0,0,0,0,2,2,10,7
+II,Espoir,Espoir & Crainte / Désespérer de,False,12,12,12,2,7,3,2,7,1,2,0,11,0,0,0,0,1,0,2,1,7,2
+II,Estime,Estime / Respect & Mésestime / Irrespect,False,10,9,9,5,3,1,2,6,1,0,0,8,0,0,0,0,1,0,5,1,3,0
+II,Estime respect,Estime / Respect & Mésestime / Irrespect,False,22,22,22,6,9,7,4,7,8,3,4,14,0,0,4,0,4,0,7,6,5,4
+II,Goût,Goût-Aversion,False,51,50,48,18,29,3,12,33,3,2,0,47,2,0,0,0,1,0,11,8,29,2
+II,Gratitude,Gratitude-Ressentiment,False,16,16,16,3,5,8,3,5,2,6,3,14,0,0,0,0,2,0,2,1,7,6
+II,Haine de qq,Amour / Affection-Haine / Désamour,False,51,51,51,6,27,18,4,28,8,11,0,43,0,1,0,0,7,0,5,5,27,14
+II,Honte,Orgueil / Honte / Pudeur,False,38,37,37,9,12,16,2,17,11,7,0,26,0,0,2,2,7,0,8,2,17,10
+II,Honte de soi,Orgueil / Honte / Pudeur,False,3,3,3,2,1,0,0,3,0,0,0,3,0,0,0,0,0,0,0,2,1,0
+II,Incrédulité,Confiance / Croyance & Défiance / Doute,False,5,5,4,3,0,2,2,0,3,0,2,2,1,0,0,0,2,0,2,3,0,0
+II,Incrédulité relig,Confiance / Croyance & Défiance / Doute,False,5,5,3,5,0,0,2,0,3,0,2,2,2,1,0,0,0,0,3,2,0,0
+II,Inimitié,Amitié-Inimitié,False,77,77,65,55,8,14,33,14,17,13,0,60,15,0,1,0,1,0,40,17,7,13
+II,Intéresser_A,Intéresser-Laisser indifférent,False,24,22,20,9,3,10,6,4,12,0,0,10,2,0,0,2,8,0,7,7,8,0
+II,Intéresser_B,Intéresser-Laisser indifférent,False,24,23,23,0,0,23,0,0,23,0,0,0,0,0,0,0,23,0,0,5,17,1
+II,Irrespect,Estime / Respect & Mésestime / Irrespect,False,8,8,8,0,8,0,0,0,8,0,0,0,0,0,8,0,0,0,3,2,1,2
+II,Jalousie envie,,False,18,18,16,6,4,8,4,4,4,6,0,14,2,0,0,0,2,0,4,4,4,6
+II,Jalousie sexuelle,,False,3,3,2,3,0,0,2,0,1,0,0,2,1,0,0,0,0,0,2,1,0,0
+II,Laisser indifférent_A,Intéresser-Laisser indifférent,False,1,1,1,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0
+II,Laisser indifférent_B,Intéresser-Laisser indifférent,False,16,16,16,0,0,16,0,0,16,0,0,0,0,0,0,0,16,0,0,2,14,0
+II,Manque de confiance en soi,Confiance / Croyance & Défiance / Doute,False,2,2,2,1,1,0,0,2,0,0,0,2,0,0,0,0,0,0,1,0,1,0
+II,Mauvaise conscience,Bonne & Mauvaise conscience,False,41,41,39,17,15,9,9,19,7,6,9,34,2,1,1,3,0,0,12,7,16,6
+II,Mauvaise conscience scrupule,Bonne & Mauvaise conscience,False,5,5,5,3,1,1,1,2,1,1,1,4,0,1,0,0,0,0,2,1,1,1
+II,Mépris,Admiration-Mépris,False,24,23,23,4,10,9,3,8,5,7,0,18,1,0,2,0,2,0,3,3,9,8
+II,Mésestime,Estime / Respect & Mésestime / Irrespect,False,14,14,14,8,6,0,3,11,0,0,0,14,0,0,0,0,0,0,8,0,6,0
+II,Mésestime de soi,Estime / Respect & Mésestime / Irrespect,False,1,1,1,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0
+II,Nostalgie,Nostalgie de qqc / Regretter qq || Nostalgie de qqc / Regretter qqc ou qq,False,11,11,10,6,1,4,3,3,1,4,0,10,1,0,0,0,0,0,5,1,1,4
+II,Orgueil,Orgueil / Honte / Pudeur,False,51,51,50,22,14,15,7,27,4,13,0,47,1,1,0,0,2,0,11,11,16,13
+II,Orgueil impudence,Orgueil / Honte / Pudeur,False,8,8,6,0,8,0,0,0,8,0,0,0,0,0,8,0,0,0,2,2,1,3
+II,Orgueil surestimation de soi,Orgueil / Honte / Pudeur,False,25,25,23,12,13,0,0,13,12,0,0,13,2,9,1,0,0,0,6,6,13,0
+II,Peur,,False,102,102,94,20,77,5,2,64,32,4,0,70,9,9,13,0,1,0,20,8,67,7
+II,Peur panique,,False,4,3,3,2,1,0,1,2,0,0,0,3,0,0,0,0,0,0,2,0,1,0
+II,Peur phobie,,False,11,11,8,10,0,1,7,0,3,1,0,8,3,0,0,0,0,0,7,3,0,1
+II,Plaire_A,Plaire-Déplaire,False,51,51,50,10,3,38,6,4,38,3,0,13,3,0,0,0,35,0,19,15,13,4
+II,Plaire_B,Plaire-Déplaire,False,61,61,58,4,3,54,0,2,59,0,0,2,3,0,2,0,54,0,15,20,25,1
+II,Pudeur,Orgueil / Honte / Pudeur,False,4,4,4,1,1,2,1,0,1,2,1,3,0,0,1,0,0,0,1,1,0,2
+II,Regretter qq,Nostalgie de qqc / Regretter qq,False,2,2,2,1,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1,1,0
+II,Regretter qqc ou qq,Nostalgie de qqc / Regretter qq,False,3,3,3,0,2,1,0,2,1,0,0,2,0,0,0,0,1,0,0,0,3,0
+II,Ressentiment,Gratitude-Ressentiment,False,43,43,42,13,19,11,6,17,11,9,0,32,1,3,5,1,1,0,10,6,16,11
+II,Résignation,Résignation-Colère,False,20,20,18,7,8,5,3,7,5,5,0,15,2,2,1,0,0,0,6,2,7,5
+II,Sentiment,,False,3,3,3,3,0,0,0,0,3,0,0,0,0,3,0,0,0,0,2,1,0,0
+II,Sentiment classifieur,,True,3,3,3,0,0,3,0,0,0,3,0,3,0,0,0,0,0,0,3,0,0,0

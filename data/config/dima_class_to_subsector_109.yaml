@@ -1,0 +1,4980 @@
+# =============================================================================
+# CARTOGRAFFECT v3.0.0 — Micro-Passe 3 (TABLE D'ANCRAGE CLINIQUE APPROUVÉE — MP3b)
+# Ancrage des 109 classes DIMA vers Z in {3, 4, 5}, 17 FunctionalSubsector & 52 subclass_overrides
+# Généré de façon déterministe par python/lexicon_pipeline/03a_build_class_anchors_draft.py
+# =============================================================================
+
+clinical_review_status: "APPROVED"
+schema_version: "1.1.0"
+cartograffect_version: "3.0.0"
+reference_anchors_file: "data/config/canonical_z0_z2_anchors.json"
+reference_anchors_sha256: "5a291d6e8b4553bbf8131276796a1ac85e2a44025c4f4e7c5bfa69caeceb6935"
+summary:
+  total_dima_classes: 109
+  active_z_plus_classes: 76
+  satellite_only_z_plus_classes: 16
+  reserve_or_discard_only_classes: 17
+  z_plus_entries_total: 1494
+  z_plus_active_entries: 549
+  z_plus_satellite_entries: 945
+  z_minus_value_candidate_active_entries: 24
+  z_minus_value_keep_z_plus_classes: 4
+  z_minus_value_keep_z_plus_entries: 17
+  z_minus_value_move_to_reserve_classes: 5
+  z_minus_value_move_to_reserve_entries: 7
+  subclass_override_classes: 8
+  subclass_override_rules: 52
+  tableau_1b_exact_match: 66
+  tableau_1b_split_flagged: 12
+  tableau_1b_adjacent_ray: 0
+  option_1a_violations: 0
+classes:
+  - classe: "Amuser"
+    categ: "I"
+    antonymie_family: "Amuser-Ennuyer"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 8
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 6
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: 0.771000
+      A_harm: 0.409000
+      D_orth: 0.037961
+      all_z_plus_V_harm: 0.771000
+      all_z_plus_A_harm: 0.409000
+      all_z_plus_D_orth: 0.037961
+    default_z: 3
+    subsector_id: "axialControlPos"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Réaction hédonique ludique à valence très positive (V=+0.77, A=+0.41, D=+0.04) centrée sur l'axe +Y (Joie/Allégresse Z=3)."
+    sample_lemmes:
+      - "ne pas s'embêter"
+      - "ne pas s'ennuyer"
+    dima_sous_classes:
+      - "ne pas s'ennuyer"
+  - classe: "Apaiser"
+    categ: "I"
+    antonymie_family: "Apaiser-Troubler"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 31
+      n_z_plus_active: 11
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 8
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.423723
+      A_harm: -0.678802
+      D_orth: -0.244342
+      all_z_plus_V_harm: 0.512056
+      all_z_plus_A_harm: -0.646519
+      all_z_plus_D_orth: -0.223673
+    default_z: 3
+    subsector_id: "diagonalAccommodation"
+    subsector_pair: "D2"
+    subsector_u_X: 0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : 'ataraxie', 'imperturbable', 'inébranlable' -> lateralReceptiveAccomm (Z=5, stoïcisme/consentement lucide) ; 'impassible' -> lateralSecondaryAccomm ; le cœur 'apaiser'/'calmer'/'zen'/'placidité' reste en diagonalAccommodation (Calme -> Apaisement Z=3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Prototype de l'accommodation apaisée (Calme/Apaisement Z=3, V=+0.42, A=-0.68, D=-0.24) conforme au Verrou 1A-c en Q4."
+    sample_lemmes:
+      - "calme"
+      - "impassible"
+      - "imperturbable"
+      - "inébranlable"
+      - "paisible"
+    dima_sous_classes:
+      - "apaiser"
+      - "ataraxie"
+      - "calmer"
+      - "cool"
+      - "impassible"
+      - "imperturbable"
+      - "inébranlable"
+      - "légèreté"
+      - "ne pas se,démonter"
+      - "placidité"
+      - "se reprendre"
+      - "se ressaisir"
+      - "zen"
+  - classe: "Apathie"
+    categ: "I"
+    antonymie_family: "Energie-Apathie"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 33
+      n_z_plus_active: 9
+      n_z_plus_satellite: 16
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.620333
+      A_harm: -0.465778
+      D_orth: -0.213539
+      all_z_plus_V_harm: -0.629723
+      all_z_plus_A_harm: -0.319780
+      all_z_plus_D_orth: -0.220494
+    default_z: 5
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'prostration'/'avachissement' peuvent basculer vers axialControlNeg (Abattement Z=5) ; 'spleen'/'vague à l'âme' voisinent la mélancolie (axialControlNeg)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Disposition durable aversive à faible contrôle et activation basse (V=-0.62, A=-0.47, D=-0.21), jalon exact Tableau 1b L1 Z=5 (Apathie)."
+    sample_lemmes:
+      - "apathique"
+      - "morne"
+      - "prostré"
+      - "alanguissement"
+      - "apathie"
+    dima_sous_classes:
+      - "apathie"
+      - "avachissement"
+      - "cafard"
+      - "dégoût de la vie"
+      - "fatigué de la vie"
+      - "langueur"
+      - "morne"
+      - "prostration"
+      - "se morfondre"
+      - "spleen"
+      - "vague à l'âme"
+  - classe: "Attrister"
+    categ: "I"
+    antonymie_family: "Réjouir-Attrister"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 57
+      n_z_plus_active: 9
+      n_z_plus_satellite: 10
+      n_z_minus_reserve: 25
+      n_non_lexical_discard: 13
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.710366
+      A_harm: -0.254700
+      D_orth: -0.186641
+      all_z_plus_V_harm: -0.687858
+      all_z_plus_A_harm: -0.141384
+      all_z_plus_D_orth: -0.211976
+    default_z: 3
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Granularité temporelle par SOUS-CLASSE : 'chagrin'/'peiner' (Z=3), 'affliger'/'affliction' (Z=4), 'désoler'/'désolation'/'inconsolable' (Z=5) le long du même axe -Y (axialControlNeg)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Prototype axial -Y de la Tristesse/Chagrin (V=-0.71, A=-0.25, D=-0.19), conforme au Verrou 1A-a et au Tableau 1b A2 Z=3."
+    sample_lemmes:
+      - "inconsolable"
+      - "inconsolé"
+      - "triste"
+      - "éploré"
+      - "affliction"
+    dima_sous_classes:
+      - "affliger"
+      - "chagrin"
+      - "chagrin d'amour"
+      - "cœur gros"
+      - "cœur lourd"
+      - "cœur qui saigne"
+      - "désoler"
+      - "inconsolable"
+      - "lugubre"
+      - "marri"
+      - "peiner"
+      - "tristesse"
+      - "éplorement"
+  - classe: "Blesser"
+    categ: "I"
+    antonymie_family: "Flatter-Blesser"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 53
+      n_z_plus_active: 0
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 50
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.714667
+      A_harm: 0.538667
+      D_orth: -0.048328
+      all_z_plus_V_harm: -0.714667
+      all_z_plus_A_harm: 0.538667
+      all_z_plus_D_orth: -0.048328
+    default_z: 3
+    subsector_id: "lateralActiveContest"
+    subsector_pair: "L4"
+    subsector_u_X: -0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe uniquement satellite en Z+ ('prendre ombrage', 'se formaliser', 'se sentir agressé' ; 50 entrées en réserve -Z CausAffect). Si lue comme blessure subie/vulnérabilité passive plutôt que susceptibilité défensive/vexation active, basculer vers lateralAversiveDistress (Q3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Les 3 satellites expérientiels ('prendre ombrage', 'se formaliser', 'se sentir agressé', V=-0.71, A=+0.54) expriment une susceptibilité défensive réactive en Q2."
+    sample_lemmes:
+      - "prendre ombrage"
+      - "se formaliser"
+      - "se sentir agressé"
+    dima_sous_classes:
+      - "agressivité"
+      - "ombrage"
+      - "se formaliser"
+  - classe: "Bon moral"
+    categ: "I"
+    antonymie_family: "Bon moral-Mauvais moral"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 51
+      n_z_plus_active: 9
+      n_z_plus_satellite: 9
+      n_z_minus_reserve: 25
+      n_non_lexical_discard: 8
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.124556
+      A_harm: 0.665111
+      D_orth: 0.028032
+      all_z_plus_V_harm: 0.482111
+      all_z_plus_A_harm: 0.512444
+      all_z_plus_D_orth: 0.043893
+    default_z: 5
+    subsector_id: "lateralApproachSynergy"
+    subsector_pair: "L2"
+    subsector_u_X: 0.250000
+    subsector_u_Y: 0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : 'ivre', 'ivresse', 'enivrement', 'surexcitation' présentent des valeurs V_harm négatives artefactuelles (gloses EN 'intoxication' / hyper-arousal) à isoler de 'tonus'/'exalter'."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "État de moral élevé et d'élan dispositionnel durable (Z=5, V=+0.12 actif / +0.48 global, A=+0.67, D=+0.03) en Q1 dom. +Y (Verrou 1A-c)."
+    sample_lemmes:
+      - "ivre"
+      - "enivrement"
+      - "exaltation"
+      - "excitation"
+      - "griserie"
+    dima_sous_classes:
+      - "avoir la pêche"
+      - "bon moral"
+      - "exalter"
+      - "exciter"
+      - "griser"
+      - "ivresse"
+      - "ragaillardir"
+      - "surexciter"
+      - "tonus"
+  - classe: "Bon moral Revigorer"
+    categ: "I"
+    antonymie_family: "Bon moral-Mauvais moral"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 11
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CausAffect en réserve -Z (11 entrées) : aucune projection directe en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Combler Bonheur"
+    categ: "I"
+    antonymie_family: "Combler-Décevoir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 40
+      n_z_plus_active: 11
+      n_z_plus_satellite: 17
+      n_z_minus_reserve: 7
+      n_non_lexical_discard: 5
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.801319
+      A_harm: 0.100718
+      D_orth: -0.002775
+      all_z_plus_V_harm: 0.809019
+      all_z_plus_A_harm: 0.072219
+      all_z_plus_D_orth: -0.005367
+    default_z: 3
+    subsector_id: "axialControlPos"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'satisfaction'/'contentement' -> lateralEpistemicMastery (Tableau 1b L1 Z=3) ; 'bien-être'/'bonheur' s'étendent en Z=4 et 'épanouissement' en Z=5 sur axialControlPos."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z7_transcendental_candidate"
+    anchor_rationale: "Plénitude hédonique de comblement (V=+0.80, A=+0.10, D=0.00) sur l'axe +Y (Verrou 1A-c) ; note documentaire Z=7 pour 'béatitude'/'félicité'."
+    sample_lemmes:
+      - "bienheureux"
+      - "béat"
+      - "content"
+      - "heureux"
+      - "satisfait"
+    dima_sous_classes:
+      - "aux anges"
+      - "bien dans sa peau"
+      - "bien-être"
+      - "bonheur #1"
+      - "bonne forme"
+      - "béatitude"
+      - "contentement"
+      - "félicité"
+      - "satisfaction"
+      - "à la noce"
+      - "épanouissement"
+  - classe: "Combler un désir"
+    categ: "I"
+    antonymie_family: "Combler-Décevoir"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 11
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CausAffect en réserve -Z (11 entrées) : aucune projection directe en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Décevoir"
+    categ: "I"
+    antonymie_family: "Combler-Décevoir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 53
+      n_z_plus_active: 12
+      n_z_plus_satellite: 11
+      n_z_minus_reserve: 18
+      n_non_lexical_discard: 12
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.713900
+      A_harm: 0.086920
+      D_orth: -0.118690
+      all_z_plus_V_harm: -0.717253
+      all_z_plus_A_harm: -0.023130
+      all_z_plus_D_orth: -0.139771
+    default_z: 3
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) : {décevoir, désappointer, désillusionner} -> lateralAversiveDistress (L1, Z=3) ; {contrarier} -> diagonalAgenticConfront (D2, Q2, Z=3) ; {frustrer, amertume, insatisfaisant, mécontenter} -> lateralAgenticConfront (L3, Q2, Z=3) ; {dépiter} -> lateralActiveContest (L4, Q2, Z=3)."
+    subclass_overrides:
+      - sous_classe: "amertume"
+        subsector_id: "lateralAgenticConfront"
+        pair_id: "L3"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: 0.750000
+        rationale: "Amertume / rancœur agentique (L3, Q2, Tableau 1b Amertume)."
+      - sous_classe: "contrarier"
+        subsector_id: "diagonalAgenticConfront"
+        pair_id: "D2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.500000
+        u_Y: 0.500000
+        rationale: "Contrariété / blocage contrariant agentique (D2, Q2, Tableau 1b)."
+      - sous_classe: "décevoir"
+        subsector_id: "lateralAversiveDistress"
+        pair_id: "L1"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: -0.750000
+        rationale: "Perte subie / attente déçue (L1, Q3, Tableau 1b Déception vive Z=3)."
+      - sous_classe: "dépiter"
+        subsector_id: "lateralActiveContest"
+        pair_id: "L4"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: 0.250000
+        rationale: "Dépit / contestation dépitée (L4, Q2, Tableau 1b Dépit Z=3)."
+      - sous_classe: "désappointer"
+        subsector_id: "lateralAversiveDistress"
+        pair_id: "L1"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: -0.750000
+        rationale: "Désappointement subi à faible contrôle (L1, Q3)."
+      - sous_classe: "désillusionner"
+        subsector_id: "lateralAversiveDistress"
+        pair_id: "L1"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: -0.750000
+        rationale: "Désillusion subie (L1, Q3)."
+      - sous_classe: "frustrer"
+        subsector_id: "lateralAgenticConfront"
+        pair_id: "L3"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: 0.750000
+        rationale: "Frustration avec maintien d'agentivité (L3, Q2, Tableau 1b Frustration Z=3)."
+      - sous_classe: "insatisfaisant"
+        subsector_id: "lateralAgenticConfront"
+        pair_id: "L3"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: 0.750000
+        rationale: "Insatisfaction frustrative active (L3, Q2)."
+      - sous_classe: "mécontenter"
+        subsector_id: "lateralAgenticConfront"
+        pair_id: "L3"
+        default_z: 3
+        z_alt: null
+        u_X: -0.250000
+        u_Y: 0.750000
+        rationale: "Mécontentement actif (L3, Q2)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Le noyau 'déception'/'désappointement'/'désillusion' (V=-0.71, D=-0.12) correspond à Déception vive en Q3 dom. -Y (Tableau 1b L1 Z=3)."
+    sample_lemmes:
+      - "amer"
+      - "insatisfait"
+      - "mécontent"
+      - "amertume"
+      - "contrariété"
+    dima_sous_classes:
+      - "amertume"
+      - "avoir gros sur"
+      - "bec dans l'eau"
+      - "contrarier"
+      - "décevoir"
+      - "déchanter"
+      - "dépiter"
+      - "désappointer"
+      - "désillusionner"
+      - "en être pour ses frais"
+      - "frustrer"
+      - "insatisfaisant"
+      - "mécontenter"
+      - "rester sur sa faim"
+      - "tomber de haut"
+      - "être de la revue"
+  - classe: "Décevoir Malheur"
+    categ: "I"
+    antonymie_family: "Combler-Décevoir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 28
+      n_z_plus_active: 3
+      n_z_plus_satellite: 16
+      n_z_minus_reserve: 7
+      n_non_lexical_discard: 2
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.770466
+      A_harm: 0.174278
+      D_orth: -0.061868
+      all_z_plus_V_harm: -0.660744
+      all_z_plus_A_harm: -0.082954
+      all_z_plus_D_orth: -0.219284
+    default_z: 3
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Extension verticale possible : 'mal-être' et 'sentiment d'abandon' relèvent souvent de Z=4/Z=5 sur lateralAversiveDistress / axialControlNeg."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Détresse et malheur subi à faible contrôle (V=-0.77, A=+0.17, D=-0.06) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "malheureux"
+      - "mal-être"
+      - "malheur"
+    dima_sous_classes:
+      - "mal dans sa peau"
+      - "mal-être"
+      - "malheur #1"
+      - "mauvaise forme"
+      - "me"
+      - "pas à la noce"
+      - "sentiment d'abandon"
+  - classe: "Désinhiber"
+    categ: "I"
+    antonymie_family: "Désinhiber-Inhiber / Embarrasser"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 24
+      n_z_plus_active: 1
+      n_z_plus_satellite: 10
+      n_z_minus_reserve: 13
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.452000
+      A_harm: 0.426000
+      D_orth: -0.033191
+      all_z_plus_V_harm: 0.488636
+      all_z_plus_A_harm: -0.105364
+      all_z_plus_D_orth: -0.104532
+    default_z: 3
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF actif vs satellites : l'unique entrée Z_PLUS_ACTIVE est 'sans-gêne' (V=-0.45, A=+0.43, connotation morale/comportementale péjorative, proche de Q2/CaractAffect), tandis que les 10 satellites ('à l'aise', 'décontracté', 'libéré', 'relax', V_all=+0.49) relèvent de lateralApproachSynergy / lateralSecondaryAccomm."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Levée d'inhibition comportementale et épistémique orientée vers l'aisance maîtrisée (Q1 dom. +X), sous réserve du split 'sans-gêne'."
+    sample_lemmes:
+      - "sans-gêne"
+    dima_sous_classes:
+      - "aise"
+      - "culotté"
+      - "décomplexer"
+      - "décontracter"
+      - "libérer"
+      - "relaxer"
+      - "sans-gêne"
+      - "se défouler"
+  - classe: "Détendre"
+    categ: "I"
+    antonymie_family: "Détendre-Importuner"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 34
+      n_z_plus_active: 2
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 30
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.704403
+      A_harm: -0.543634
+      D_orth: -0.501367
+      all_z_plus_V_harm: 0.380936
+      all_z_plus_A_harm: -0.185756
+      all_z_plus_D_orth: -0.343958
+    default_z: 3
+    subsector_id: "lateralSecondaryAccomm"
+    subsector_pair: "L4"
+    subsector_u_X: 0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Relâchement post-effort à valence positive et très basse activation (V=+0.70, A=-0.54, D=-0.50), jalon exact Tableau 1b L4 Z=3 (Relâchement/Répit)."
+    sample_lemmes:
+      - "décontraction"
+      - "repos"
+    dima_sous_classes:
+      - "décontracter"
+      - "reposer"
+      - "évasion"
+  - classe: "Embarrasser"
+    categ: "I"
+    antonymie_family: "Désinhiber-Inhiber / Embarrasser"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 33
+      n_z_plus_active: 7
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 19
+      n_non_lexical_discard: 5
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.589714
+      A_harm: 0.138286
+      D_orth: -0.255083
+      all_z_plus_V_harm: -0.598222
+      all_z_plus_A_harm: 0.145333
+      all_z_plus_D_orth: -0.248501
+    default_z: 3
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : 'embarras'/'gêne'/'penaud'/'déconfit' voisinent lateralAversiveDistress (voisin Z=3 de la Honte en Z=4) ; 'confusion' -> lateralEpistemicClosure."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Malaise situationnel aversif à faible contrôle (V=-0.59, A=+0.14, D=-0.26), jalon exact Tableau 1b D1 Z=3 (Malaise en Q3)."
+    sample_lemmes:
+      - "confus"
+      - "déconfit"
+      - "penaud"
+      - "confusion"
+      - "embarras"
+    dima_sous_classes:
+      - "confusion"
+      - "déconfit"
+      - "embarrasser"
+      - "gêner"
+      - "mal à l'aise"
+      - "penaud"
+  - classe: "Energie"
+    categ: "I"
+    antonymie_family: "Energie-Apathie"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 25
+      n_z_plus_active: 15
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.608641
+      A_harm: 0.634992
+      D_orth: 0.170671
+      all_z_plus_V_harm: 0.633036
+      all_z_plus_A_harm: 0.661699
+      all_z_plus_D_orth: 0.153809
+    default_z: 5
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Sous-classes à forte mobilisation instrumentale ('dynamisme', 'énergie', 'entrain', 'exubérance') voisinent lateralApproachSynergy (Q1 dom. +Y)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Disposition tonique durable (antonyme d'Apathie ; V=+0.61, A=+0.63, D=+0.17) en Q1 dom. +X (élan/vitalité maîtrisée)."
+    sample_lemmes:
+      - "dynamique"
+      - "exubérant"
+      - "fougueux"
+      - "fringant"
+      - "pétulant"
+    dima_sous_classes:
+      - "allant"
+      - "dynamisme"
+      - "effervescence"
+      - "entrain"
+      - "exubérance"
+      - "fougue"
+      - "fringant"
+      - "nerf"
+      - "pétulance"
+      - "ressort"
+      - "ébullition"
+      - "énergie"
+  - classe: "Ennuyer"
+    categ: "I"
+    antonymie_family: "Amuser-Ennuyer"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 29
+      n_z_plus_active: 1
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 23
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.526386
+      A_harm: -0.258692
+      D_orth: -0.191335
+      all_z_plus_V_harm: -0.526386
+      all_z_plus_A_harm: -0.258692
+      all_z_plus_D_orth: -0.191335
+    default_z: 3
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "L'ennui réactionnel immédiat siège en Z=3 (axialControlNeg) ; sa forme chronique ('trouver le temps long') prolonge vers lateralAversiveDistress / Absence de désir (Z=5)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Défaut d'engagement et hypo-contrôle situationnel (V=-0.53, A=-0.26, D=-0.19) sur l'axe -Y."
+    sample_lemmes:
+      - "ennui"
+    dima_sous_classes:
+      - "ennuyer"
+      - "trouver temps long"
+  - classe: "Flatter"
+    categ: "I"
+    antonymie_family: "Flatter-Blesser"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 11
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CausAffect/HumAffect en réserve -Z (11 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Humeur bonne"
+    categ: "I"
+    antonymie_family: "Humeurs bonne-mauvaise-songeuse"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 31
+      n_z_plus_active: 13
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 10
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.798638
+      A_harm: 0.419010
+      D_orth: -0.129315
+      all_z_plus_V_harm: 0.831268
+      all_z_plus_A_harm: 0.406696
+      all_z_plus_D_orth: -0.127268
+    default_z: 5
+    subsector_id: "axialControlPos"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Humeur durable hédonique (Z=5, V=+0.80, A=+0.42, D=-0.13) couvrant gaieté, enjouement, allégresse et euphorie sur +Y (Verrou 1A-c)."
+    sample_lemmes:
+      - "allègre"
+      - "badin"
+      - "enjoué"
+      - "euphorique"
+      - "folâtre"
+    dima_sous_classes:
+      - "allégresse"
+      - "badin"
+      - "bonne humeur"
+      - "enjouement"
+      - "euphorie"
+      - "folâtre"
+      - "gaieté"
+      - "guilleret"
+      - "jovialité"
+  - classe: "Humeur mauvaise"
+    categ: "I"
+    antonymie_family: "Humeurs bonne-mauvaise-songeuse"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 28
+      n_z_plus_active: 8
+      n_z_plus_satellite: 11
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.601490
+      A_harm: 0.173289
+      D_orth: -0.009099
+      all_z_plus_V_harm: -0.587514
+      all_z_plus_A_harm: 0.237959
+      all_z_plus_D_orth: 0.021490
+    default_z: 5
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : classe hétérogène mêlant irritabilité active (Q2) et morosité (Q3/-Y). 'bougon', 'grincheux', 'grognon', 'humeur massacrante' (D_orth=+0.24) -> Q2 lateralActiveContest ; 'humeur chagrine' -> axialControlNeg ; 'morose'/'morosité'/'sinistrose' restent en lateralAversiveDistress (Q3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Humeur dysphorique durable dominée par la morosité et le faible contrôle (V=-0.60, A=+0.17, D=-0.01) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "bougon"
+      - "grincheux"
+      - "grognon"
+      - "maussade"
+      - "morose"
+    dima_sous_classes:
+      - "assombrir"
+      - "bougon"
+      - "grincheux"
+      - "grognon"
+      - "humeur chagrine"
+      - "maussade"
+      - "mauvaise humeur"
+      - "morosité"
+      - "sinistrose"
+  - classe: "Humeur songeuse"
+    categ: "I"
+    antonymie_family: "Humeurs bonne-mauvaise-songeuse"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 15
+      n_z_plus_active: 6
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.031000
+      A_harm: -0.523333
+      D_orth: -0.149166
+      all_z_plus_V_harm: -0.031000
+      all_z_plus_A_harm: -0.523333
+      all_z_plus_D_orth: -0.149166
+    default_z: 5
+    subsector_id: "lateralSecondaryAccomm"
+    subsector_pair: "L4"
+    subsector_u_X: 0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: "recul_z5"
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) : {méditatif, pensif, rêveur, songeur} -> lateralSecondaryAccomm (L4, Q4 dom. -Y, Z=5) ; {mélancolie} -> axialControlNeg (A2, Axe -Y, Z=4 ; Tableau 1b A2)."
+    subclass_overrides:
+      - sous_classe: "méditatif"
+        subsector_id: "lateralSecondaryAccomm"
+        pair_id: "L4"
+        default_z: 5
+        z_alt: null
+        u_X: 0.250000
+        u_Y: -0.750000
+        rationale: "Disposition méditative sereine en Q4 dom. -Y (L4, Z=5)."
+      - sous_classe: "mélancolie"
+        subsector_id: "axialControlNeg"
+        pair_id: "A2"
+        default_z: 4
+        z_alt: null
+        u_X: 0.000000
+        u_Y: -1.000000
+        rationale: "Mélancolie dysphorique à faible contrôle (A2, Axe -Y, Z=4, Tableau 1b A2)."
+      - sous_classe: "pensif"
+        subsector_id: "lateralSecondaryAccomm"
+        pair_id: "L4"
+        default_z: 5
+        z_alt: null
+        u_X: 0.250000
+        u_Y: -0.750000
+        rationale: "Disposition pensive apaisée en Q4 dom. -Y (L4, Z=5)."
+      - sous_classe: "rêveur"
+        subsector_id: "lateralSecondaryAccomm"
+        pair_id: "L4"
+        default_z: 5
+        z_alt: null
+        u_X: 0.250000
+        u_Y: -0.750000
+        rationale: "Rêverie détachée en Q4 dom. -Y (L4, Z=5)."
+      - sous_classe: "songeur"
+        subsector_id: "lateralSecondaryAccomm"
+        pair_id: "L4"
+        default_z: 5
+        z_alt: null
+        u_X: 0.250000
+        u_Y: -0.750000
+        rationale: "Humeur songeuse contemplative en Q4 dom. -Y (L4, Z=5)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Humeur méditative et rêveuse apaisée (Z=5, Q4 dom. -Y) liée à Recul (0, 0, 5), avec isolement de 'mélancolie' sur axialControlNeg (Z=4)."
+    sample_lemmes:
+      - "méditatif"
+      - "mélancolique"
+      - "pensif"
+      - "rêveur"
+      - "songeur"
+    dima_sous_classes:
+      - "méditatif"
+      - "mélancolie"
+      - "pensif"
+      - "rêveur"
+      - "songeur"
+  - classe: "Importuner"
+    categ: "I"
+    antonymie_family: "Détendre-Importuner"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 152
+      n_z_plus_active: 7
+      n_z_plus_satellite: 18
+      n_z_minus_reserve: 123
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.575382
+      A_harm: 0.229510
+      D_orth: -0.080059
+      all_z_plus_V_harm: -0.564163
+      all_z_plus_A_harm: 0.287297
+      all_z_plus_D_orth: -0.098084
+    default_z: 3
+    subsector_id: "diagonalAgenticConfront"
+    subsector_pair: "D2"
+    subsector_u_X: -0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) : {énerver, crisper, tendre} -> diagonalAgenticConfront (D2, Q2, Z=3) ; {fatiguer, lasser} -> axialControlNeg (A2, Axe -Y, Z=3 ; Tableau 1b A2)."
+    subclass_overrides:
+      - sous_classe: "crisper"
+        subsector_id: "diagonalAgenticConfront"
+        pair_id: "D2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.500000
+        u_Y: 0.500000
+        rationale: "Crispation réactive irritée (D2, Q2, Z=3)."
+      - sous_classe: "fatiguer"
+        subsector_id: "axialControlNeg"
+        pair_id: "A2"
+        default_z: 3
+        z_alt: null
+        u_X: 0.000000
+        u_Y: -1.000000
+        rationale: "Fatigue et baisse de contrôle instrumental sans affrontement Q2 (A2, Axe -Y, Z=3)."
+      - sous_classe: "lasser"
+        subsector_id: "axialControlNeg"
+        pair_id: "A2"
+        default_z: 3
+        z_alt: null
+        u_X: 0.000000
+        u_Y: -1.000000
+        rationale: "Lassitude à bas contrôle (A2, Axe -Y, Z=3, Tableau 1b Lassitude)."
+      - sous_classe: "tendre"
+        subsector_id: "diagonalAgenticConfront"
+        pair_id: "D2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.500000
+        u_Y: 0.500000
+        rationale: "Tension réactive active (D2, Q2, Z=3)."
+      - sous_classe: "énerver"
+        subsector_id: "diagonalAgenticConfront"
+        pair_id: "D2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.500000
+        u_Y: 0.500000
+        rationale: "Énervement / nervosité en affrontement agentique actif (D2, Q2, Z=3, Verrou 1A-b)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Ancrée en Q2 diagonalAgenticConfront sur son versant d'irritation active (énerver/crisper/tendre, Verrou 1A-b), avec split fatiguer/lasser vers axialControlNeg ; 123 entrées CausAffect restent en -Z."
+    sample_lemmes:
+      - "las"
+      - "crispation"
+      - "fatigue"
+      - "lassitude"
+      - "nervosité"
+    dima_sous_classes:
+      - "avoir des boutons"
+      - "avoir les boules"
+      - "avoir sur le dos"
+      - "crisper"
+      - "en faire une maladie"
+      - "fatiguer"
+      - "impatienter"
+      - "lasser"
+      - "rendre fou"
+      - "stresser"
+      - "tendre"
+      - "énerver"
+  - classe: "Inhiber"
+    categ: "I"
+    antonymie_family: "Désinhiber-Inhiber / Embarrasser"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 17
+      n_z_plus_active: 3
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 13
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.594000
+      A_harm: 0.098000
+      D_orth: 0.061771
+      all_z_plus_V_harm: -0.594000
+      all_z_plus_A_harm: 0.098000
+      all_z_plus_D_orth: 0.061771
+    default_z: 3
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'complexe' (V=-0.81) relève plutôt de Z=4 (lateralAversiveDistress, voisin de Honte/Mésestime de soi)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Blocage et fermeture inhibitrice de la révision et de l'action (V=-0.59, A=+0.10, D=+0.06) en Q3 dom. -X."
+    sample_lemmes:
+      - "blocage"
+      - "complexe"
+      - "inhibition"
+    dima_sous_classes:
+      - "bloquer"
+      - "complexer"
+      - "inhiber"
+  - classe: "Inquiéter"
+    categ: "I"
+    antonymie_family: "Rassurer-Inquiéter & Effrayer"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 59
+      n_z_plus_active: 11
+      n_z_plus_satellite: 22
+      n_z_minus_reserve: 19
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.610473
+      A_harm: 0.555579
+      D_orth: -0.065384
+      all_z_plus_V_harm: -0.563532
+      all_z_plus_A_harm: 0.554356
+      all_z_plus_D_orth: -0.085921
+    default_z: 3
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) : {inquiéter, préoccuper, souci, tracasser} -> axialExpectationNeg (A1, Axe -X, Z=3) ; {angoisser, anxiété, oppresser, trac} -> lateralEpistemicClosure (L2, Q3 dom. -X, Z=3/4)."
+    subclass_overrides:
+      - sous_classe: "angoisser"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 4
+        z_alt: 3
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Angoisse avec fermeture épistémique marquée (L2, Q3 dom. -X, Tableau 1b Angoisse Z=4/3)."
+      - sous_classe: "anxiété"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: 4
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Anxiété diffuse à faible contrôle (L2, Q3 dom. -X, Tableau 1b Anxiété Z=3/4)."
+      - sous_classe: "inquiéter"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Inquiétude situationnelle centrée sur l'attente négative (A1, Axe -X, Tableau 1b Z=3)."
+      - sous_classe: "oppresser"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: 4
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Oppression anxieuse somatique/épistémique (L2, Q3 dom. -X, Z=3/4)."
+      - sous_classe: "préoccuper"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Préoccupation épistémique ciblée sur l'attente (A1, Axe -X, Z=3)."
+      - sous_classe: "souci"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Souci immédiat sur l'attente négative (A1, Axe -X, Z=3)."
+      - sous_classe: "trac"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: 4
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Trac / appréhension anxieuse situationnelle (L2, Q3 dom. -X, Z=3/4)."
+      - sous_classe: "tracasser"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Tracas focalisé sur une issue incertaine (A1, Axe -X, Z=3)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Fermeture épistémique anxieuse sous forte charge de menace (V=-0.61, A=+0.56, D=-0.07) en Q3 dom. -X."
+    sample_lemmes:
+      - "anxieux"
+      - "inquiet"
+      - "soucieux"
+      - "angoisse"
+      - "anxiété"
+    dima_sous_classes:
+      - "alarmer"
+      - "angoisser"
+      - "anxiété"
+      - "aux cent coups"
+      - "avoir les boules"
+      - "inquiéter"
+      - "oppresser"
+      - "pas rassuré"
+      - "pas tranquille"
+      - "préoccuper"
+      - "rt-bouillon"
+      - "s'en faire"
+      - "se biler"
+      - "se manger les sangs"
+      - "sentiment d'étrangeté"
+      - "souci"
+      - "trac"
+      - "tracasser"
+  - classe: "Inquiéter Effrayer"
+    categ: "I"
+    antonymie_family: "Rassurer-Inquiéter & Effrayer"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 46
+      n_z_plus_active: 6
+      n_z_plus_satellite: 9
+      n_z_minus_reserve: 23
+      n_non_lexical_discard: 8
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.740667
+      A_harm: 0.644667
+      D_orth: -0.053436
+      all_z_plus_V_harm: -0.742689
+      all_z_plus_A_harm: 0.680622
+      all_z_plus_D_orth: 0.002209
+    default_z: 3
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'frayeur'/'effroi'/'épouvante' -> axialExpectationNeg (Tableau 1b A1) ; 'détresse' -> lateralAversiveDistress (Q3 dom. -Y) ; 'terreur' -> lateralEpistemicClosure (Tableau 1b L2)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_effraction_candidate"
+    anchor_rationale: "Effroi, terreur et épouvante à haute activation autonome (V=-0.74, A=+0.64, D=-0.05) en Q3 dom. -X (Option 1A)."
+    sample_lemmes:
+      - "affres"
+      - "détresse"
+      - "effroi"
+      - "frayeur"
+      - "terreur"
+    dima_sous_classes:
+      - "affres"
+      - "avoir froid dans le dos"
+      - "détresse"
+      - "effrayer"
+      - "effroi"
+      - "frémir"
+      - "n'avoir plus"
+      - "paniquer"
+      - "plus mort que vif"
+      - "terroriser"
+      - "épouvanter"
+  - classe: "Jouissance"
+    categ: "I"
+    antonymie_family: "Jouissance-Souffrance"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 29
+      n_z_plus_active: 7
+      n_z_plus_satellite: 5
+      n_z_minus_reserve: 13
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.828310
+      A_harm: 0.312584
+      D_orth: -0.087100
+      all_z_plus_V_harm: 0.703942
+      all_z_plus_A_harm: 0.281823
+      all_z_plus_D_orth: -0.089823
+    default_z: 3
+    subsector_id: "lateralApproachSynergy"
+    subsector_pair: "L2"
+    subsector_u_X: 0.250000
+    subsector_u_Y: 0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'réconfort' (A=-0.54) relève de diagonalAccommodation (Q4, apaisement post-stress)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Plaisir sensoriel et hédonique positif (V=+0.83, A=+0.31, D=-0.09) en Q1 dom. +Y (Verrou 1A-c, Tableau 1b L2 Plaisir)."
+    sample_lemmes:
+      - "délectation"
+      - "jouissance"
+      - "orgasme"
+      - "plaisir"
+      - "réconfort"
+    dima_sous_classes:
+      - "délectation"
+      - "délectation morose"
+      - "délice"
+      - "jouissance"
+      - "orgasme"
+      - "plaisir"
+      - "réconforter"
+      - "régaler"
+      - "volupté"
+  - classe: "Mauvais moral"
+    categ: "I"
+    antonymie_family: "Bon moral-Mauvais moral"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 75
+      n_z_plus_active: 12
+      n_z_plus_satellite: 15
+      n_z_minus_reserve: 37
+      n_non_lexical_discard: 11
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.720583
+      A_harm: 0.071167
+      D_orth: -0.127931
+      all_z_plus_V_harm: -0.791309
+      all_z_plus_A_harm: -0.153706
+      all_z_plus_D_orth: -0.194216
+    default_z: 5
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : 'abattement'/'accablement' (V=-1.00, A=-0.92) -> axialControlNeg (Tableau 1b A2 Z=5) ; 'consternation'/'anéantissement'/'atterrement' -> lateralEpistemicClosure ; 'désespoir'/'désespérance'/'dépression'/'découragement' restent en lateralAversiveDistress (Tableau 1b L1 Z=5)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_effraction_candidate"
+    anchor_rationale: "Disposition dépressive et désespoir durable à faible contrôle (V=-0.72, D=-0.13) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "dépressif"
+      - "abattement"
+      - "accablement"
+      - "anéantissement"
+      - "atterrement"
+    dima_sous_classes:
+      - "abattre"
+      - "accabler"
+      - "anéantir"
+      - "atterrer"
+      - "consterner"
+      - "craquer"
+      - "découragement"
+      - "dépression nerveuse"
+      - "désespérer"
+      - "effondrement"
+      - "moral"
+      - "sentiment d'impuissance"
+      - "à plat"
+      - "écrouler"
+      - "épuiser"
+  - classe: "Rassurer"
+    categ: "I"
+    antonymie_family: "Rassurer-Inquiéter & Effrayer"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 32
+      n_z_plus_active: 9
+      n_z_plus_satellite: 5
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.576600
+      A_harm: -0.628213
+      D_orth: -0.286583
+      all_z_plus_V_harm: 0.619618
+      all_z_plus_A_harm: -0.655783
+      all_z_plus_D_orth: -0.251790
+    default_z: 3
+    subsector_id: "diagonalAccommodation"
+    subsector_pair: "D2"
+    subsector_u_X: 0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b, Verrou 1A-c) : {soulager, quiétude} -> diagonalAccommodation (D2, Q4, Z=3/4) ; {sérénité, tranquilliser, insouciance} -> lateralApproachSynergy (L2, Q1 dom. +Y, A bas, Z=4)."
+    subclass_overrides:
+      - sous_classe: "insouciance"
+        subsector_id: "lateralApproachSynergy"
+        pair_id: "L2"
+        default_z: 4
+        z_alt: null
+        u_X: 0.250000
+        u_Y: 0.750000
+        rationale: "Insouciance apaisée hors menace active (L2, Q1 dom. +Y, Z=4)."
+      - sous_classe: "quiétude"
+        subsector_id: "diagonalAccommodation"
+        pair_id: "D2"
+        default_z: 4
+        z_alt: 3
+        u_X: 0.500000
+        u_Y: -0.500000
+        rationale: "Quiétude apaisée en accommodation secondaire (D2, Q4, Z=4/3)."
+      - sous_classe: "soulager"
+        subsector_id: "diagonalAccommodation"
+        pair_id: "D2"
+        default_z: 3
+        z_alt: 4
+        u_X: 0.500000
+        u_Y: -0.500000
+        rationale: "Soulagement post-alerte face à une contrainte levée (D2, Q4, Z=3/4)."
+      - sous_classe: "sérénité"
+        subsector_id: "lateralApproachSynergy"
+        pair_id: "L2"
+        default_z: 4
+        z_alt: null
+        u_X: 0.250000
+        u_Y: 0.750000
+        rationale: "Sérénité stable à bas arousal hors contrainte d'incontrôlabilité (L2, Q1 dom. +Y, Z=4, Verrou 1A-c)."
+      - sous_classe: "tranquilliser"
+        subsector_id: "lateralApproachSynergy"
+        pair_id: "L2"
+        default_z: 4
+        z_alt: null
+        u_X: 0.250000
+        u_Y: 0.750000
+        rationale: "Tranquillité sûre à bas arousal (L2, Q1 dom. +Y, Z=4, Verrou 1A-c)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Réassurance et soulagement apaisé (V=+0.58, A=-0.63, D=-0.29) en Q4 diagonalAccommodation, avec split encodé pour sérénité/tranquilliser/insouciance vers Q1."
+    sample_lemmes:
+      - "insouciant"
+      - "insoucieux"
+      - "serein"
+      - "tranquille"
+      - "insouciance"
+    dima_sous_classes:
+      - "insouciance"
+      - "ne pas s'en faire"
+      - "quiétude"
+      - "soulager"
+      - "sécuriser"
+      - "sérénité"
+      - "tranquilliser"
+  - classe: "Réjouir"
+    categ: "I"
+    antonymie_family: "Réjouir-Attrister"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 36
+      n_z_plus_active: 6
+      n_z_plus_satellite: 13
+      n_z_minus_reserve: 10
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.922911
+      A_harm: 0.680250
+      D_orth: 0.073093
+      all_z_plus_V_harm: 0.715395
+      all_z_plus_A_harm: 0.540412
+      all_z_plus_D_orth: 0.037656
+    default_z: 3
+    subsector_id: "axialControlPos"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'joie mauvaise' (sat: 'schadenfreude', V<0 en NRC) constitue une sous-classe sociale hostile hors axe +Y ; 'jubiler'/'jubilation' s'étend vers Z=5 sur axialControlPos (Tableau 1b A2)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon canonique de la Joie/Allégresse sur l'axe +Y (V=+0.92, A=+0.68, D=+0.07), conforme au Verrou 1A-c."
+    sample_lemmes:
+      - "joyeux"
+      - "jubilant"
+      - "exultation"
+      - "joie"
+      - "jubilation"
+    dima_sous_classes:
+      - "bien aise"
+      - "exulter"
+      - "joie"
+      - "joie mauvaise"
+      - "jubiler"
+      - "liesse"
+      - "pavoiser"
+      - "se frotter les mains"
+      - "se féliciter"
+  - classe: "Sans surprise"
+    categ: "I"
+    antonymie_family: "Surprise"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 1
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: "surprise_z1"
+    subsector_alt_or_split_note: "Classe 100 % CausAffect en réserve -Z (1 entrée : 'sans surprise') ; lien documentaire à Surprise Z=1."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Aucune entrée Z+ (réserve -Z uniquement) ; signalée avec central_operator_link: surprise_z1 (Verrou 1A-d)."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Souffrance"
+    categ: "I"
+    antonymie_family: "Jouissance-Souffrance"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 68
+      n_z_plus_active: 3
+      n_z_plus_satellite: 21
+      n_z_minus_reserve: 40
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.705533
+      A_harm: 0.102384
+      D_orth: -0.104404
+      all_z_plus_V_harm: -0.598401
+      all_z_plus_A_harm: 0.229017
+      all_z_plus_D_orth: -0.146810
+    default_z: 3
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Extension verticale possible : la douleur immédiate siège en Z=3, tandis que 'souffrance morale'/'martyre' prolongent vers Z=4/Z=5 sur lateralAversiveDistress."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Souffrance aversive subie à faible contrôle (V=-0.71, A=+0.10, D=-0.10) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "douleur"
+      - "déplaisir"
+      - "souffrance"
+    dima_sous_classes:
+      - "avoir mal"
+      - "cauchemar"
+      - "crucifier"
+      - "douleur"
+      - "déguster"
+      - "déplaisir"
+      - "en baver"
+      - "en chier"
+      - "en voir"
+      - "enfer"
+      - "malade"
+      - "martyre"
+      - "n'en plus pouvoir"
+      - "pâtir"
+      - "souffrance"
+  - classe: "Surprendre"
+    categ: "I"
+    antonymie_family: "Surprise"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 88
+      n_z_plus_active: 10
+      n_z_plus_satellite: 17
+      n_z_minus_reserve: 48
+      n_non_lexical_discard: 13
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.039200
+      A_harm: 0.367400
+      D_orth: -0.100040
+      all_z_plus_V_harm: 0.085833
+      all_z_plus_A_harm: 0.398667
+      all_z_plus_D_orth: -0.062927
+    default_z: 3
+    subsector_id: "centralOperator"
+    subsector_pair: "CENTER"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: "surprise_z1"
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE (Verrou 1A-d) : classe bipolaire centrée sur la rupture de veille Z=1 se déployant en Z=3 vers : (a) ouverture/étonnement positif ('étonnement', 'ébahissement', 'abasourdissement') -> axialExpectationPos ; (b) choc/effraction sidérante ('sidération', 'stupéfaction', 'ahurissement', 'pantelant', 'interdit') -> lateralEpistemicClosure."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_effraction_candidate"
+    anchor_rationale: "Rupture de prédiction pré-valencée (V_harm=-0.04 quasi nul, A=+0.37) reliée à Surprise (0,0,1) et projetée à l'axe central Z=3 en attente d'orientation."
+    sample_lemmes:
+      - "interdit"
+      - "pantelant"
+      - "pantois"
+      - "stupéfait"
+      - "abasourdissement"
+    dima_sous_classes:
+      - "abasourdir"
+      - "ahurir"
+      - "comme deux ronds de flan"
+      - "croire rêver"
+      - "halluciner"
+      - "n'en pas revenir"
+      - "pantelant"
+      - "pantois"
+      - "renverser"
+      - "rester sur le cul"
+      - "sans voix"
+      - "sidérer"
+      - "stupéfier"
+      - "tomber"
+      - "ébahir"
+      - "ébaubir"
+      - "éberluer"
+      - "étonner"
+      - "être interdit"
+  - classe: "Surprendre Bonne surprise"
+    categ: "I"
+    antonymie_family: "Surprise"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 21
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 19
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: 0.719000
+      A_harm: 0.772000
+      D_orth: -0.103054
+      all_z_plus_V_harm: 0.719000
+      all_z_plus_A_harm: 0.772000
+      all_z_plus_D_orth: -0.103054
+    default_z: 3
+    subsector_id: "axialExpectationPos"
+    subsector_pair: "A1"
+    subsector_u_X: 1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: "surprise_z1"
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Orientation post-surprise positive en Z=3 (satellites V=+0.72, A=+0.77) sur +X (Verrou 1A-d)."
+    sample_lemmes:
+      - "agréablement surpris"
+      - "épatement"
+    dima_sous_classes:
+      - "surprise bonne"
+      - "épater"
+  - classe: "Surprendre Mauvaise surprise"
+    categ: "I"
+    antonymie_family: "Surprise"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 4
+      n_z_plus_active: 0
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.670000
+      A_harm: 0.470000
+      D_orth: 0.006068
+      all_z_plus_V_harm: -0.670000
+      all_z_plus_A_harm: 0.470000
+      all_z_plus_D_orth: 0.006068
+    default_z: 3
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: "surprise_z1"
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Orientation post-surprise négative en Z=3 (satellite 'désagréablement surpris', V=-0.67, A=+0.47) sur -X (Verrou 1A-d)."
+    sample_lemmes:
+      - "désagréablement surpris"
+    dima_sous_classes:
+      - "surprise mauvaise"
+  - classe: "Troubler"
+    categ: "I"
+    antonymie_family: "Apaiser-Troubler"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 145
+      n_z_plus_active: 15
+      n_z_plus_satellite: 27
+      n_z_minus_reserve: 85
+      n_non_lexical_discard: 18
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.536881
+      A_harm: 0.505360
+      D_orth: -0.077417
+      all_z_plus_V_harm: -0.420672
+      all_z_plus_A_harm: 0.452706
+      all_z_plus_D_orth: -0.079750
+    default_z: 3
+    subsector_id: "centralOperator"
+    subsector_pair: "CENTER"
+    subsector_u_X: 0.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: "emoi_z3"
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) après exclusion des 4 métatermes (affect, affectivité, sentiment, émotion -> NON_LEXICAL_DISCARD/META_CLASSIFIER) : {affoler, désarroi, effarer, hébéter, vertige, égarer, éperdu} -> lateralEpistemicClosure (L2, Q3 dom. -X, Z=3) ; {confusion, perplexité, troubler, agitation} -> axialExpectationNeg (A1, Axe -X, Z=3) ; {émouvoir (émoi), saisir, dépayser} -> centralOperator (Z=3)."
+    subclass_overrides:
+      - sous_classe: "affoler"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Affolement à faible contrôle et fermeture épistémique (L2, Q3 dom. -X, Z=3)."
+      - sous_classe: "agitation"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Agitation inquiète sur l'axe -X (A1, Z=3)."
+      - sous_classe: "confusion"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Confusion cognitive sur l'attente négative (A1, Axe -X, Z=3)."
+      - sous_classe: "dépayser"
+        subsector_id: "centralOperator"
+        pair_id: "CENTER"
+        default_z: 3
+        z_alt: null
+        u_X: 0.000000
+        u_Y: 0.000000
+        rationale: "Dépaysement / suspens de repères sur l'axe central Z=3."
+      - sous_classe: "désarroi"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Désarroi sidérant en Q3 dom. -X (L2, Z=3, hors Y+)."
+      - sous_classe: "effarer"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Effarement à fermeture épistémique (L2, Q3 dom. -X, Z=3)."
+      - sous_classe: "hébéter"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Hébétude sous charge choc (L2, Q3 dom. -X, Z=3)."
+      - sous_classe: "perplexité"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Perplexité dubitative sur l'axe -X (A1, Z=3)."
+      - sous_classe: "saisir"
+        subsector_id: "centralOperator"
+        pair_id: "CENTER"
+        default_z: 3
+        z_alt: null
+        u_X: 0.000000
+        u_Y: 0.000000
+        rationale: "Saisissement suspensif pré-valencé sur l'axe central Z=3."
+      - sous_classe: "troubler"
+        subsector_id: "axialExpectationNeg"
+        pair_id: "A1"
+        default_z: 3
+        z_alt: null
+        u_X: -1.000000
+        u_Y: 0.000000
+        rationale: "Trouble épistémique négatif sur l'axe -X (A1, Z=3)."
+      - sous_classe: "vertige"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Vertige psychique / perte de repères en Q3 dom. -X (L2, Z=3, hors Y+)."
+      - sous_classe: "égarer"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Égarement confusionnel en Q3 dom. -X (L2, Z=3)."
+      - sous_classe: "émouvoir"
+        subsector_id: "centralOperator"
+        pair_id: "CENTER"
+        default_z: 3
+        z_alt: null
+        u_X: 0.000000
+        u_Y: 0.000000
+        rationale: "Opérateur central Émoi (0, 0, 3) ; émoi conservé après exclusion des 4 métatermes."
+      - sous_classe: "éperdu"
+        subsector_id: "lateralEpistemicClosure"
+        pair_id: "L2"
+        default_z: 3
+        z_alt: null
+        u_X: -0.750000
+        u_Y: -0.250000
+        rationale: "Éperdu / submersion aversive en Q3 dom. -X (L2, Z=3)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_effraction_candidate"
+    anchor_rationale: "Noyau de l'émoi perturbateur recentré sur Émoi (0,0,3) après exclusion des 4 métatermes et encodage complet du découpage Q3/-X/centralOperator."
+    sample_lemmes:
+      - "perplexe"
+      - "éperdu"
+      - "affolement"
+      - "agitation"
+      - "confusion"
+    dima_sous_classes:
+      - "affecter"
+      - "affoler"
+      - "agitation"
+      - "choquer"
+      - "confusion"
+      - "dans tous ses états"
+      - "déboussoler"
+      - "décontenancer"
+      - "dépayser"
+      - "désarroi"
+      - "effarer"
+      - "hébéter"
+      - "paumé"
+      - "perdre ses moyens"
+      - "perdre son latin"
+      - "perplexité"
+      - "pédaler"
+      - "saisir"
+      - "sens dessus-dessous"
+      - "transporter"
+      - "troubler"
+      - "vertige"
+      - "vibrer"
+      - "égarer"
+      - "émouvoir"
+      - "éperdu"
+  - classe: "Z Classifieurs"
+    categ: "I"
+    antonymie_family: null
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 12
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 12
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe métalinguistique classifieur (12 entrées NON_LEXICAL_DISCARD) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Absence de désir"
+    categ: "II"
+    antonymie_family: "Désir / impatience & Absence de désir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 65
+      n_z_plus_active: 17
+      n_z_plus_satellite: 22
+      n_z_minus_reserve: 15
+      n_non_lexical_discard: 11
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.397098
+      A_harm: -0.301437
+      D_orth: -0.129436
+      all_z_plus_V_harm: -0.426347
+      all_z_plus_A_harm: -0.271535
+      all_z_plus_D_orth: -0.124153
+    default_z: 5
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : 'détachement' -> lateralSecondaryAccomm (Tableau 1b L4 Z=4) ; 'lassitude'/'fatigue' -> axialControlNeg (Tableau 1b A2) ; 'démotivation'/'démobilisation'/'désabusement'/'désenchantement' -> lateralAversiveDistress (Q3) ; 'rassasiement'/'satiété'/'repu' (V>+0.20) -> satiété apaisée hors Q3 (Q4/Q1) ; 'dégoût'/'indigestion'/'saturation' restent en diagonalSynergyNeg (antonyme exact de Désir)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Pôle antagoniste de Désir (V=-0.40, A=-0.30, D=-0.13) en Q3 diagonalSynergyNeg (Verrou 1A-a)."
+    sample_lemmes:
+      - "désabusé"
+      - "désenchanté"
+      - "détaché"
+      - "las"
+      - "repu"
+    dima_sous_classes:
+      - "blasement"
+      - "dégoûter qq de"
+      - "démobiliser"
+      - "démotiver"
+      - "désabusement"
+      - "désenchantement"
+      - "détachement"
+      - "en avoir assez"
+      - "en avoir assez de marcher"
+      - "fatigue"
+      - "indigestion"
+      - "lassitude"
+      - "ne pas être chaud"
+      - "ras-le bol"
+      - "rassasiement"
+      - "repu"
+      - "saturation"
+  - classe: "Admiration"
+    categ: "II"
+    antonymie_family: "Admiration-Mépris"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 30
+      n_z_plus_active: 5
+      n_z_plus_satellite: 13
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.661200
+      A_harm: 0.393600
+      D_orth: 0.068080
+      all_z_plus_V_harm: 0.481295
+      all_z_plus_A_harm: 0.458278
+      all_z_plus_D_orth: 0.049424
+    default_z: 4
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b) : {admiration} -> lateralReceptiveAccomm (L3, Q4, Z=4) ; {extase} -> lateralApproachSynergy (L2, Q1, Z=4) ; {ferveur} -> diagonalSynergyPos (D1, Q1, Z=4)."
+    subclass_overrides:
+      - sous_classe: "admiration"
+        subsector_id: "lateralReceptiveAccomm"
+        pair_id: "L3"
+        default_z: 4
+        z_alt: null
+        u_X: 0.750000
+        u_Y: -0.250000
+        rationale: "Admiration réceptive canonique (L3, Q4, Z=4, Article §7.1)."
+      - sous_classe: "extase"
+        subsector_id: "lateralApproachSynergy"
+        pair_id: "L2"
+        default_z: 4
+        z_alt: null
+        u_X: 0.250000
+        u_Y: 0.750000
+        rationale: "Extase / exaltation positive en Q1 dom. +Y (L2, Z=4)."
+      - sous_classe: "ferveur"
+        subsector_id: "diagonalSynergyPos"
+        pair_id: "D1"
+        default_z: 4
+        z_alt: null
+        u_X: 0.500000
+        u_Y: 0.500000
+        rationale: "Ferveur enthousiaste / passionnelle en Q1 diagonale (D1, Z=4)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z7_transcendental_candidate"
+    anchor_rationale: "Exemple canonique de l'article (§7.1, Tableau 1b) : ouverture épistémique réceptive (+X dominant, Y<0) antagoniste d'Hostilité (V=+0.66, A=+0.39)."
+    sample_lemmes:
+      - "admiratif"
+      - "extatique"
+      - "fervent"
+      - "admiration"
+      - "extase"
+    dima_sous_classes:
+      - "admiration"
+      - "extase"
+      - "faire grand cas"
+      - "fanatique"
+      - "ferveur"
+      - "idolâtrer"
+  - classe: "Affection"
+    categ: "II"
+    antonymie_family: "Amour / Affection-Haine / Désamour"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 34
+      n_z_plus_active: 5
+      n_z_plus_satellite: 17
+      n_z_minus_reserve: 6
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.592591
+      A_harm: -0.037099
+      D_orth: -0.243714
+      all_z_plus_V_harm: 0.727435
+      all_z_plus_A_harm: 0.062101
+      all_z_plus_D_orth: -0.153666
+    default_z: 4
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Sous-classes 'tendresse'/'attendrissement' (D_orth=-0.50) voisinent lateralReceptiveAccomm ou axialControlPos."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact du Tableau 1b D1 Z=4 (Affection, V=+0.59, A=-0.04) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "affection"
+      - "amour"
+      - "attachement"
+      - "attendrissement"
+      - "tendresse"
+    dima_sous_classes:
+      - "adorer"
+      - "affection"
+      - "aimer"
+      - "amour"
+      - "attachement"
+      - "chérir"
+      - "dilection"
+      - "tendresse"
+      - "tenir à qq"
+  - classe: "Amitié"
+    categ: "II"
+    antonymie_family: "Amitié-Inimitié"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 88
+      n_z_plus_active: 29
+      n_z_plus_satellite: 25
+      n_z_minus_reserve: 24
+      n_non_lexical_discard: 10
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.628287
+      A_harm: -0.044839
+      D_orth: -0.060810
+      all_z_plus_V_harm: 0.715989
+      all_z_plus_A_harm: -0.133405
+      all_z_plus_D_orth: -0.098903
+    default_z: 4
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : les termes en '-philie'/'-phile' (américanophile, francophilie, philanthropie, etc.) relèvent d'attitudes durables (Z=5 lateralEpistemicMastery) ; 'harmonie'/'concorde'/'entente' voisinent lateralApproachSynergy."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Sentiment relationnel affiliatif réciproque (V=+0.63, A=-0.04, D=-0.06) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "ami"
+      - "américanophile"
+      - "anglophile"
+      - "bienveillant"
+      - "complaisant"
+    dima_sous_classes:
+      - "accointance"
+      - "affinité"
+      - "amitié"
+      - "avoir à la bonne"
+      - "bienveillance"
+      - "bonne entente"
+      - "bonnes dispositions"
+      - "camaraderie"
+      - "complaisance"
+      - "concorde"
+      - "convivalité"
+      - "cordialité"
+      - "fraternité"
+      - "harmonie"
+      - "intimité"
+      - "philie"
+      - "réconciliation"
+  - classe: "Amitié préférence"
+    categ: "II"
+    antonymie_family: "Amitié-Inimitié"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 4
+      n_z_plus_active: 2
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.459000
+      A_harm: 0.029000
+      D_orth: 0.107708
+      all_z_plus_V_harm: 0.479333
+      all_z_plus_A_harm: -0.057333
+      all_z_plus_D_orth: 0.026183
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Préférence élective fondée sur l'évaluation favorable (+X dominant, V=+0.46, D=+0.11) en Z=4."
+    sample_lemmes:
+      - "prédilection"
+      - "préférence"
+    dima_sous_classes:
+      - "préférence"
+  - classe: "Amour"
+    categ: "II"
+    antonymie_family: "Amour / Affection-Haine / Désamour"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 113
+      n_z_plus_active: 18
+      n_z_plus_satellite: 53
+      n_z_minus_reserve: 30
+      n_non_lexical_discard: 12
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.296554
+      A_harm: 0.229266
+      D_orth: -0.091584
+      all_z_plus_V_harm: 0.482430
+      all_z_plus_A_harm: 0.267279
+      all_z_plus_D_orth: -0.109108
+    default_z: 4
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : 'faible', 'faiblesse', 'fou', 'béguin' tirent artificiellement la moyenne V_harm vers +0.30 (gloses EN polysémiques) ; le cœur ('amour', 'passion', 'flamme', 'amour-passion', V>+0.70) couvre Z=4 (Passion) et Z=5 (Amour) dans Tableau 1b D1."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_transcendence_candidate"
+    anchor_rationale: "Jalon Tableau 1b D1 (Passion Z=4 / Amour Z=5) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "amoureux"
+      - "fou"
+      - "épris"
+      - "amour"
+      - "amour-passion"
+    dima_sous_classes:
+      - "adoration"
+      - "aimer"
+      - "amour fou"
+      - "avoir dans la peau"
+      - "béguin"
+      - "chérir"
+      - "convoiter"
+      - "coup de foudre"
+      - "craquer"
+      - "désir"
+      - "en pincer"
+      - "entichement"
+      - "envie"
+      - "faible"
+      - "flamme"
+      - "flasher"
+      - "inclination"
+      - "libido"
+      - "passion amoureuse"
+      - "penchant"
+      - "s'éprendre"
+      - "sentiment"
+      - "toquade"
+  - classe: "Amour désamour"
+    categ: "II"
+    antonymie_family: "Amour / Affection-Haine / Désamour"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 1
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.667000
+      A_harm: -0.571000
+      D_orth: -0.266438
+      all_z_plus_V_harm: -0.667000
+      all_z_plus_A_harm: -0.571000
+      all_z_plus_D_orth: -0.266438
+    default_z: 4
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Le satellite 'se détacher' touche lateralSecondaryAccomm."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Antonyme exact d'Amour (V=-0.67, A=-0.57, D=-0.27) en Q3 diagonalSynergyNeg."
+    sample_lemmes:
+      - "désamour"
+    dima_sous_classes:
+      - "désamour"
+      - "se détacher"
+  - classe: "Apprécier"
+    categ: "II"
+    antonymie_family: "Apprécier-Déplorer"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 2
+      n_z_plus_active: 0
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: 0.770000
+      A_harm: -0.156000
+      D_orth: 0.088044
+      all_z_plus_V_harm: 0.770000
+      all_z_plus_A_harm: -0.156000
+      all_z_plus_D_orth: 0.088044
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Satellite verbal évaluatif positif (V=+0.77, A=-0.16, D=+0.09) voisin d'Estime en Q1 dom. +X."
+    sample_lemmes:
+      - "apprécier"
+    dima_sous_classes:
+      - "apprécier"
+  - classe: "Aversion"
+    categ: "II"
+    antonymie_family: "Goût-Aversion"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 45
+      n_z_plus_active: 11
+      n_z_plus_satellite: 16
+      n_z_minus_reserve: 10
+      n_non_lexical_discard: 8
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.648335
+      A_harm: 0.458121
+      D_orth: 0.089677
+      all_z_plus_V_harm: -0.656313
+      all_z_plus_A_harm: 0.419737
+      all_z_plus_D_orth: 0.061602
+    default_z: 4
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : 'aversion', 'répugnance', 'rejet', 'détestation', 'exécration' relèvent de diagonalSynergyNeg (Tableau 1b D1 Z=4 Aversion, Verrou 1A-a) ; 'haine', 'hostile', 'hostilité', 'rebelle', 'réfractaire', 'rétif' (D_orth>0) doivent basculer en Q2 (diagonalAgenticConfront / lateralAgenticConfront)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b D1 Z=4 (Aversion, V=-0.85 en actif sur 'aversion'), conforme au Verrou 1A-a."
+    sample_lemmes:
+      - "hostile"
+      - "rebelle"
+      - "réfractaire"
+      - "rétif"
+      - "aversion"
+    dima_sous_classes:
+      - "abomination"
+      - "allergie"
+      - "aversion"
+      - "détestation"
+      - "exécration"
+      - "haine"
+      - "honnir"
+      - "hostilité"
+      - "ne pas être chaud"
+      - "peu de goût"
+      - "peu enclin"
+      - "prendre en grippe"
+      - "rebelle"
+      - "rejet"
+      - "réfractaire"
+      - "répugnance à faire qqc"
+      - "rétif"
+  - classe: "Bonne conscience"
+    categ: "II"
+    antonymie_family: "Bonne & Mauvaise conscience"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 22
+      n_z_plus_active: 0
+      n_z_plus_satellite: 11
+      n_z_minus_reserve: 7
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: 0.569500
+      A_harm: -0.650000
+      D_orth: -0.088805
+      all_z_plus_V_harm: 0.569500
+      all_z_plus_A_harm: -0.650000
+      all_z_plus_D_orth: -0.088805
+    default_z: 4
+    subsector_id: "diagonalAccommodation"
+    subsector_pair: "D2"
+    subsector_u_X: 0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe 100 % Z_PLUS_SATELLITE (11 entrées ; déjà exclue de Z_PLUS_ACTIVE en MP1c) à valence positive et basse activation (V=+0.57, A=-0.65) ; statut axiologique frontalier avec -Z."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Paix morale intérieure ('avoir la conscience en paix', quiétude Z=4) en Q4 diagonalAccommodation."
+    sample_lemmes:
+      - "en paix avec sa conscience"
+      - "en paix avec soi-même"
+      - "en règle avec sa conscience"
+      - "bonne conscience"
+      - "avoir bonne conscience"
+    dima_sous_classes:
+      - "avoir bonne conscience"
+      - "bonne conscience"
+      - "en paix avec"
+      - "retirer poids"
+      - "rien à se reprocher"
+  - classe: "Colère"
+    categ: "II"
+    antonymie_family: "Résignation-Colère"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 191
+      n_z_plus_active: 22
+      n_z_plus_satellite: 44
+      n_z_minus_reserve: 76
+      n_non_lexical_discard: 49
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.645204
+      A_harm: 0.671399
+      D_orth: 0.233320
+      all_z_plus_V_harm: -0.699990
+      all_z_plus_A_harm: 0.729139
+      all_z_plus_D_orth: 0.284135
+    default_z: 3
+    subsector_id: "diagonalAgenticConfront"
+    subsector_pair: "D2"
+    subsector_u_X: -0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage hiérarchique par SOUS-CLASSE : 'agacement'/'exaspération'/'colère' en Z=3 (diagonalAgenticConfront) ; 'rage'/'fureur'/'courroux' en Z=4 ; 'indignation' -> lateralActiveContest (Z=4) ; 'révolte' -> lateralAgenticConfront (Z=5)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Prototype de l'affrontement agentique en Q2 (V=-0.65, A=+0.67, D=+0.23), conforme au Verrou 1A-b."
+    sample_lemmes:
+      - "enragé"
+      - "fumasse"
+      - "furibond"
+      - "furieux"
+      - "hargneux"
+    dima_sous_classes:
+      - "agacement"
+      - "animosité"
+      - "bouillir"
+      - "colère"
+      - "coup de sang"
+      - "courroux"
+      - "déchaînement"
+      - "emportement"
+      - "en boule"
+      - "en pétard"
+      - "exaspération"
+      - "fumer"
+      - "fureur"
+      - "hargne"
+      - "horripiler"
+      - "hors de soi"
+      - "humeur"
+      - "humeur contre"
+      - "impatience contre"
+      - "indignation"
+      - "ire"
+      - "irritation"
+      - "monter la tête"
+      - "monter sur ses N"
+      - "rage"
+      - "rogne"
+      - "révolte"
+      - "voir rouge"
+      - "à cran"
+      - "énervement"
+  - classe: "Compassion"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 38
+      n_z_plus_active: 10
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 13
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.213700
+      A_harm: -0.289011
+      D_orth: -0.264277
+      all_z_plus_V_harm: 0.035659
+      all_z_plus_A_harm: -0.253322
+      all_z_plus_D_orth: -0.280923
+    default_z: 4
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'compassion', 'empathie', 'attendrissement', 'sympathie' (V>+0.45) en lateralReceptiveAccomm ; 'pitié', 'apitoiement', 'commisération' (V<-0.33) penchent vers axialControlNeg."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Ouverture réceptive face à la souffrance d'autrui hors maîtrise directe (V=+0.21, A=-0.29, D=-0.26) en Q4 dom. +X."
+    sample_lemmes:
+      - "compatissant"
+      - "miséricordieux"
+      - "apitoiement"
+      - "attendrissement"
+      - "commisération"
+    dima_sous_classes:
+      - "attendrissement"
+      - "commisération"
+      - "compassion"
+      - "de tout cœur"
+      - "empathie"
+      - "miséricorde"
+      - "pitié"
+      - "plaindre"
+      - "sympathie"
+  - classe: "Confiance"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 24
+      n_z_plus_active: 3
+      n_z_plus_satellite: 18
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.657333
+      A_harm: -0.272667
+      D_orth: 0.123906
+      all_z_plus_V_harm: 0.672607
+      all_z_plus_A_harm: -0.222845
+      all_z_plus_D_orth: 0.068882
+    default_z: 5
+    subsector_id: "axialExpectationPos"
+    subsector_pair: "A1"
+    subsector_u_X: 1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Note d'échelle : 'confiance' figure à Z=4 dans Tableau 1b A1 (et Conviction/Lucidité à Z=5) ; ancrée par défaut en Z=5 comme disposition épistémique générale."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z7_transcendental_candidate"
+    anchor_rationale: "Ouverture épistémique positive durable (V=+0.66, A=-0.27, D=+0.12) sur l'axe +X (Tableau 1b A1)."
+    sample_lemmes:
+      - "confiant"
+      - "confiance"
+      - "foi"
+    dima_sous_classes:
+      - "compter sur"
+      - "confiance"
+      - "croire"
+      - "espérer en"
+      - "faire fond"
+      - "foi"
+      - "tabler sur"
+  - classe: "Confiance en soi"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 0
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: 0.620000
+      A_harm: 0.326000
+      D_orth: 0.225433
+      all_z_plus_V_harm: 0.620000
+      all_z_plus_A_harm: 0.326000
+      all_z_plus_D_orth: 0.225433
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Sentiment réflexif de maîtrise et d'efficacité sur soi (Z=4, satellites V=+0.62, A=+0.33, D=+0.23) en Q1 dom. +X."
+    sample_lemmes:
+      - "confiance en soi"
+      - "avoir confiance en soi"
+      - "croire en soi"
+    dima_sous_classes:
+      - "confiance en soi"
+  - classe: "Confiance_Crédit"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 4
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CausAffect/ObjAffect en réserve -Z (4 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Confiance_Fiabilité"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 6
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 6
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect en réserve -Z (6 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Confiance_Sentiment de sécurité"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 17
+      n_z_plus_active: 4
+      n_z_plus_satellite: 6
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.684000
+      A_harm: -0.044500
+      D_orth: 0.149800
+      all_z_plus_V_harm: 0.642924
+      all_z_plus_A_harm: -0.182514
+      all_z_plus_D_orth: 0.154563
+    default_z: 5
+    subsector_id: "lateralApproachSynergy"
+    subsector_pair: "L2"
+    subsector_u_X: 0.250000
+    subsector_u_Y: 0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'optimisme'/'optimiste' -> lateralEpistemicMastery (Tableau 1b L1 Z=5) ; 'assurance'/'sûr'/'sentiment de sécurité' restent en lateralApproachSynergy (Tableau 1b L2 Z=5, Verrou 1A-c)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Sécurité stable hors contrainte d'incontrôlabilité (V=+0.68, A=-0.04, D=+0.15) en Q1 dom. +Y (Verrou 1A-c)."
+    sample_lemmes:
+      - "optimiste"
+      - "sûr"
+      - "assurance"
+      - "optimisme"
+    dima_sous_classes:
+      - "assurance"
+      - "confiance en soi"
+      - "optimisme"
+      - "pouvoir compter sur"
+      - "se sentir en sécurité"
+  - classe: "Crainte"
+    categ: "II"
+    antonymie_family: "Espoir & Crainte / Désespérer de"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 13
+      n_z_plus_active: 3
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.550180
+      A_harm: 0.183804
+      D_orth: -0.072466
+      all_z_plus_V_harm: -0.648757
+      all_z_plus_A_harm: 0.399902
+      all_z_plus_D_orth: -0.055237
+    default_z: 3
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'appréhender'/'appréhension' penche vers lateralEpistemicClosure (Tableau 1b L2 Z=4)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Anticipation anxieuse immédiate (V=-0.55, A=+0.18, D=-0.07) sur l'axe -X (axialExpectationNeg)."
+    sample_lemmes:
+      - "craintif"
+      - "appréhension"
+      - "crainte"
+    dima_sous_classes:
+      - "appréhender"
+      - "crainte"
+      - "redouter"
+  - classe: "Croyance"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 6
+      n_z_plus_active: 1
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 1
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.049701
+      A_harm: -0.324994
+      D_orth: -0.043033
+      all_z_plus_V_harm: 0.305851
+      all_z_plus_A_harm: -0.292497
+      all_z_plus_D_orth: 0.010614
+    default_z: 5
+    subsector_id: "axialExpectationPos"
+    subsector_pair: "A1"
+    subsector_u_X: 1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe mono-entrée active ('croyance') à très faible charge affective (V=+0.05, A=-0.32)."
+    subclass_overrides: []
+    z_minus_value_decision: "move_to_z_minus_reserve"
+    z_minus_value_rationale: "Terme épistémique cognitif quasi neutre (V=+0.05) sans vécu affectif autonome ; recommandé en réserve -Z."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Adhésion épistémique générale (+X) placée en Z=5 sous réserve de bascule vers -Z."
+    sample_lemmes:
+      - "croyance"
+    dima_sous_classes:
+      - "croire"
+      - "croyance relig"
+  - classe: "Croyance relig"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 7
+      n_z_plus_active: 1
+      n_z_plus_satellite: 4
+      n_z_minus_reserve: 2
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 1
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.666000
+      A_harm: -0.560000
+      D_orth: 0.151557
+      all_z_plus_V_harm: 0.666000
+      all_z_plus_A_harm: -0.560000
+      all_z_plus_D_orth: 0.151557
+    default_z: 5
+    subsector_id: "axialExpectationPos"
+    subsector_pair: "A1"
+    subsector_u_X: 1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe mono-entrée active ('foi') ; forte composante culturelle/religieuse."
+    subclass_overrides: []
+    z_minus_value_decision: "move_to_z_minus_reserve"
+    z_minus_value_rationale: "Attitude propositionnelle religieuse ('foi') relevant prioritairement du registre axiologique/épistémique -Z."
+    exploratory_z6_z7_tag: "z7_transcendental_candidate"
+    anchor_rationale: "Adhésion de foi (+X, V=+0.67, A=-0.56, D=+0.15) en Z=5, proposée vers -Z lors de la revue."
+    sample_lemmes:
+      - "foi"
+    dima_sous_classes:
+      - "croyance"
+      - "croyance relig"
+      - "foi"
+      - "foi relig"
+  - classe: "Curiosité"
+    categ: "II"
+    antonymie_family: "Curiosité-Désintérêt"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 20
+      n_z_plus_active: 8
+      n_z_plus_satellite: 8
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.157500
+      A_harm: 0.267250
+      D_orth: -0.160268
+      all_z_plus_V_harm: 0.150120
+      all_z_plus_A_harm: 0.352981
+      all_z_plus_D_orth: -0.059518
+    default_z: 3
+    subsector_id: "axialExpectationPos"
+    subsector_pair: "A1"
+    subsector_u_X: 1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : 'souci'/'soucieux' (V<-0.51, doublons d'Inquiéter) doivent être rattachés à axialExpectationNeg ; 'engouement' -> diagonalSynergyPos ; 'curieux'/'curiosité'/'attentif' restent en axialExpectationPos (Tableau 1b A1 Z=3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b A1 Z=3 (Curiosité, V=+0.50 sur 'curiosité') sur l'axe +X."
+    sample_lemmes:
+      - "attentif"
+      - "curieux"
+      - "sensible"
+      - "soucieux"
+      - "curiosité"
+    dima_sous_classes:
+      - "curieux"
+      - "engouement"
+      - "intéresser"
+      - "mordu"
+      - "s'enflammer"
+      - "sensibilité"
+      - "souci"
+      - "être attentif"
+  - classe: "Doute"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 17
+      n_z_plus_active: 9
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.251342
+      A_harm: -0.073926
+      D_orth: -0.030350
+      all_z_plus_V_harm: -0.232007
+      all_z_plus_A_harm: -0.116778
+      all_z_plus_D_orth: -0.072233
+    default_z: 5
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : 'circonspection'/'circonspect'/'prudent'/'réservé' (V_harm>=+0.10, suspension réflexive sans dysphorie) relèvent de centralOperator (Réserve Z=4 / Recul Z=5) ; 'doute'/'incertitude'/'scepticisme'/'dubitatif' (V=-0.41 à -0.87) restent en axialExpectationNeg."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Incertitude épistémique durable (V=-0.25, A=-0.07, D=-0.03) sur l'axe -X."
+    sample_lemmes:
+      - "circonspect"
+      - "dubitatif"
+      - "prudent"
+      - "réservé"
+      - "sceptique"
+    dima_sous_classes:
+      - "circonspection"
+      - "doute"
+      - "incertitude"
+      - "prudence"
+      - "réserve"
+      - "scepticisme"
+  - classe: "Doute de soi"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 1
+      n_z_plus_active: 0
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.210000
+      A_harm: -0.298000
+      D_orth: -0.363722
+      all_z_plus_V_harm: -0.210000
+      all_z_plus_A_harm: -0.298000
+      all_z_plus_D_orth: -0.363722
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Auto-évaluation réflexive négative à faible contrôle perçu (satellite 'douter de soi', V=-0.21, D=-0.36) en Q3."
+    sample_lemmes:
+      - "douter de soi"
+    dima_sous_classes:
+      - "douter de soi"
+  - classe: "Défiance"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 13
+      n_z_plus_active: 3
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.809000
+      A_harm: 0.004333
+      D_orth: -0.066301
+      all_z_plus_V_harm: -0.800125
+      all_z_plus_A_harm: -0.037625
+      all_z_plus_D_orth: -0.062566
+    default_z: 5
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'défiance' (versant combatif) -> lateralActiveContest (Tableau 1b L4 Z=5) ; 'méfiance'/'méfiant' (versant replié) -> axialExpectationNeg (Z=4 Méfiance) ou lateralEpistemicClosure."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Disposition durable de fermeture épistémique et méfiance (V=-0.81, A=0.00, D=-0.07) sur -X."
+    sample_lemmes:
+      - "méfiant"
+      - "défiance"
+      - "méfiance"
+    dima_sous_classes:
+      - "défiance"
+      - "défiance de soi"
+  - classe: "Défiance_Discrédit"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 5
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CausAffect/ObjAffect en réserve -Z (5 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Défiance_Non fiabilité"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 2
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 2
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect/HumAffect en réserve -Z (2 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Défiance_Sentiment d'insécurité"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 16
+      n_z_plus_active: 6
+      n_z_plus_satellite: 8
+      n_z_minus_reserve: 2
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.705000
+      A_harm: 0.263333
+      D_orth: -0.036596
+      all_z_plus_V_harm: -0.734186
+      all_z_plus_A_harm: 0.294929
+      all_z_plus_D_orth: -0.015945
+    default_z: 5
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'se sentir en insécurité' -> axialExpectationNeg (Tableau 1b A1 Z=5 Insécurité) ; 'pessimisme'/'pessimiste' -> lateralAversiveDistress (Article §8.1 Pessimisme (-2,-6,5)) ; 'suspicion'/'soupçon' -> lateralEpistemicClosure."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Climat durable de vulnérabilité épistémique et insécurité (V=-0.70, A=+0.26, D=-0.04) en Q3 dom. -X."
+    sample_lemmes:
+      - "pessimiste"
+      - "soupçonneux"
+      - "suspicieux"
+      - "pessimisme"
+      - "soupçon"
+    dima_sous_classes:
+      - "ne pas pouvoir compter"
+      - "pessimisme"
+      - "prendre garde"
+      - "se sentir en insécurité"
+      - "se sentir en sécurité"
+      - "sur ses gardes"
+      - "suspicion"
+  - classe: "Déplaire_A"
+    categ: "II"
+    antonymie_family: "Plaire-Déplaire"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 65
+      n_z_plus_active: 9
+      n_z_plus_satellite: 6
+      n_z_minus_reserve: 32
+      n_non_lexical_discard: 18
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.713217
+      A_harm: 0.398328
+      D_orth: -0.024065
+      all_z_plus_V_harm: -0.691460
+      all_z_plus_A_harm: 0.348927
+      all_z_plus_D_orth: -0.028505
+    default_z: 3
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'horreur' -> lateralEpistemicClosure (Q3 dom. -X)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Noyau du Dégoût / Révulsion / Écœurement (V=-0.71, A=+0.40, D=-0.02) en Q3 diagonalSynergyNeg (Verrou 1A-a)."
+    sample_lemmes:
+      - "antipathie"
+      - "dégoût"
+      - "haut-le-cœur"
+      - "horreur"
+      - "nausée"
+    dima_sous_classes:
+      - "antipathie"
+      - "dégoût"
+      - "horreur"
+      - "nausée"
+      - "répugnance"
+      - "répulsion"
+      - "révulsion"
+      - "soulever le cœur"
+      - "écoeurement"
+  - classe: "Déplaire_B"
+    categ: "II"
+    antonymie_family: "Plaire-Déplaire"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 38
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 38
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect en réserve -Z (38 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Déplorer"
+    categ: "II"
+    antonymie_family: "Apprécier-Déplorer"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 9
+      n_z_plus_active: 1
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 6
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.593481
+      A_harm: 0.217858
+      D_orth: -0.117981
+      all_z_plus_V_harm: -0.621160
+      all_z_plus_A_harm: 0.204619
+      all_z_plus_D_orth: -0.078421
+    default_z: 4
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Regret réflexif d'un événement accompli hors prise instrumentale (V=-0.59, A=+0.22, D=-0.12) sur -Y."
+    sample_lemmes:
+      - "regret"
+    dima_sous_classes:
+      - "déplorer"
+      - "regret"
+  - classe: "Désespérer de"
+    categ: "II"
+    antonymie_family: "Espoir & Crainte / Désespérer de"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 8
+      n_z_plus_active: 0
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.770000
+      A_harm: 0.588000
+      D_orth: -0.174674
+      all_z_plus_V_harm: -0.770000
+      all_z_plus_A_harm: 0.588000
+      all_z_plus_D_orth: -0.174674
+    default_z: 5
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L1 Z=5 (Désespoir, 7 satellites verbaux V=-0.77, D=-0.17) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "abandonner tout espoir"
+      - "abandonner toute espérance"
+      - "désespérer"
+      - "perdre espoir"
+      - "perdre l'espoir"
+    dima_sous_classes:
+      - "désespérer de"
+  - classe: "Désintérêt"
+    categ: "II"
+    antonymie_family: "Curiosité-Désintérêt"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 73
+      n_z_plus_active: 14
+      n_z_plus_satellite: 38
+      n_z_minus_reserve: 9
+      n_non_lexical_discard: 12
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.311643
+      A_harm: -0.444929
+      D_orth: -0.228284
+      all_z_plus_V_harm: -0.302080
+      all_z_plus_A_harm: -0.451657
+      all_z_plus_D_orth: -0.235463
+    default_z: 5
+    subsector_id: "diagonalSynergyNeg"
+    subsector_pair: "D1"
+    subsector_u_X: -0.500000
+    subsector_u_Y: -0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF par SOUS-CLASSE : 'insouciance'/'insouciant'/'insoucieux' (V=+0.51, doublons Rassurer) -> Q4 lateralSecondaryAccomm ; 'impassibilité'/'impassible' -> lateralSecondaryAccomm ; 'indifférence'/'insensibilité' -> lateralAversiveDistress / diagonalSynergyNeg."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Désinvestissement durable conforme à l'article §8.1 (Désintérêt (-4,-4,5)) et au Verrou 1A-a (Q3)."
+    sample_lemmes:
+      - "froid"
+      - "impassible"
+      - "indifférent"
+      - "insensible"
+      - "insouciant"
+    dima_sous_classes:
+      - "distance"
+      - "désaffection"
+      - "désintérêt"
+      - "froideur"
+      - "impassibilité"
+      - "indifférence"
+      - "insensibilité"
+      - "insouciance"
+      - "ne pas broncher"
+      - "rien à cirer"
+      - "s'en foutre"
+      - "s'en moquer"
+      - "s'en soucier comme de"
+      - "se moquer"
+      - "surdité"
+  - classe: "Désir"
+    categ: "II"
+    antonymie_family: "Désir / impatience & Absence de désir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 83
+      n_z_plus_active: 27
+      n_z_plus_satellite: 19
+      n_z_minus_reserve: 22
+      n_non_lexical_discard: 15
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.077910
+      A_harm: 0.466033
+      D_orth: 0.075666
+      all_z_plus_V_harm: 0.027045
+      all_z_plus_A_harm: 0.352155
+      all_z_plus_D_orth: 0.025129
+    default_z: 3
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : le noyau actif inclut des états de manque/excès ('avide', 'avidité', 'compulsion', 'convoitise', 'faim', 'fureur', V<0) qui abaissent V_harm à +0.08 alors que 'désir'/'aspiration'/'motivation' sont franchement positifs (V>+0.40)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Déploiement réactif en Z=3 du prototype canonique Désir (Q1 diagonalSynergyPos, A=+0.47, D=+0.08)."
+    sample_lemmes:
+      - "ardent"
+      - "avide"
+      - "compulsif"
+      - "désireux"
+      - "frénétique"
+    dima_sous_classes:
+      - "ambition"
+      - "appétence"
+      - "appétit"
+      - "ardeur"
+      - "aspiration"
+      - "avidité"
+      - "avoir à coeur"
+      - "besoin"
+      - "boulimie"
+      - "compulsion"
+      - "convoitise"
+      - "d'humeur"
+      - "désir"
+      - "désirer"
+      - "en manque"
+      - "envie"
+      - "faim"
+      - "frénésie"
+      - "fureur"
+      - "guigner"
+      - "insatiable"
+      - "instinct"
+      - "mobiliser"
+      - "motiver"
+      - "pulsion"
+      - "rage de faire qqc"
+      - "rêve"
+      - "soif"
+  - classe: "Désir impatience"
+    categ: "II"
+    antonymie_family: "Désir / impatience & Absence de désir"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 21
+      n_z_plus_active: 4
+      n_z_plus_satellite: 10
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.390000
+      A_harm: 0.519500
+      D_orth: -0.013417
+      all_z_plus_V_harm: -0.315286
+      all_z_plus_A_harm: 0.462571
+      all_z_plus_D_orth: 0.058064
+    default_z: 3
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Tension frustrative d'attente (V_harm=-0.39, A=+0.52) : frontière entre Désir bloqué (diagonalSynergyPos) et frustration active en Q2 (diagonalAgenticConfront / lateralAgenticConfront)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Rattachée à Désir (Q1) par héritage taxonomique DIMA, avec alerte de glissement Q2 (impatience/frustration)."
+    sample_lemmes:
+      - "impatient"
+      - "pressé"
+      - "hâte"
+      - "impatience"
+    dima_sous_classes:
+      - "brûler"
+      - "charbons ardents"
+      - "griller"
+      - "hâte"
+      - "impatience"
+      - "n'y tenir plus"
+      - "pressé"
+      - "se faire une fête"
+  - classe: "Espoir"
+    categ: "II"
+    antonymie_family: "Espoir & Crainte / Désespérer de"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 12
+      n_z_plus_active: 2
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 2
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.622319
+      A_harm: 0.113224
+      D_orth: 0.059833
+      all_z_plus_V_harm: 0.644415
+      all_z_plus_A_harm: -0.093374
+      all_z_plus_D_orth: 0.031574
+    default_z: 5
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L1 Z=5 (Espoir, V=+0.62, A=+0.11, D=+0.06) en Q1 dom. +X."
+    sample_lemmes:
+      - "espoir"
+      - "espérance"
+    dima_sous_classes:
+      - "escompter"
+      - "espoir"
+      - "espérance"
+  - classe: "Estime"
+    categ: "II"
+    antonymie_family: "Estime / Respect & Mésestime / Irrespect"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 9
+      n_z_plus_active: 2
+      n_z_plus_satellite: 6
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.334000
+      A_harm: -0.240000
+      D_orth: 0.134349
+      all_z_plus_V_harm: 0.486000
+      all_z_plus_A_harm: -0.229500
+      all_z_plus_D_orth: 0.095555
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L1 Z=4 (Estime, V=+0.33, A=-0.24, D=+0.13) en Q1 dom. +X."
+    sample_lemmes:
+      - "considération"
+      - "estime"
+    dima_sous_classes:
+      - "apprécier"
+      - "considération"
+      - "estime"
+      - "haute estime"
+  - classe: "Estime respect"
+    categ: "II"
+    antonymie_family: "Estime / Respect & Mésestime / Irrespect"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 22
+      n_z_plus_active: 4
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 4
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.651250
+      A_harm: -0.181000
+      D_orth: 0.077664
+      all_z_plus_V_harm: 0.333273
+      all_z_plus_A_harm: 0.072000
+      all_z_plus_D_orth: 0.016569
+    default_z: 4
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : 'respect'/'respectueux' égalitaire voisine lateralEpistemicMastery, tandis que 'vénération' et 'crainte révérentielle' relèvent pleinement de la déférence réceptive (Q4 dom. +X). Arbitrage frontière -Z à confirmer."
+    subclass_overrides: []
+    z_minus_value_decision: "keep_z_plus"
+    z_minus_value_rationale: "Forte valence positive (+0.65) et présence affective claire ('crainte révérentielle', 'vénération') ancrées en Q4."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Déférence admirative et respectueuse envers autrui (V=+0.65, A=-0.18, D=+0.08) en Q4 dom. +X."
+    sample_lemmes:
+      - "respectueux"
+      - "crainte"
+      - "respect"
+      - "vénération"
+    dima_sous_classes:
+      - "crainte révérentielle"
+      - "redouter"
+      - "respect"
+      - "révérence"
+      - "vénération"
+  - classe: "Goût"
+    categ: "II"
+    antonymie_family: "Goût-Aversion"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 50
+      n_z_plus_active: 12
+      n_z_plus_satellite: 33
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 2
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.258474
+      A_harm: 0.166627
+      D_orth: -0.063369
+      all_z_plus_V_harm: 0.390516
+      all_z_plus_A_harm: 0.132194
+      all_z_plus_D_orth: -0.091358
+    default_z: 4
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Outlier à isoler : 'jaloux' (V=-0.65, emploi 'jaloux de ses prérogatives') est à écarter de cette classe positive."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Inclination évaluative durable envers un objet (antonyme d'Aversion ; 'goût' V=+0.93) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "amateur"
+      - "amoureux"
+      - "enclin"
+      - "jaloux"
+      - "épris"
+    dima_sous_classes:
+      - "adorer"
+      - "aimer qqc"
+      - "apprécier"
+      - "coup de cœur"
+      - "coup de foudre"
+      - "craquer"
+      - "faible"
+      - "faire saliver"
+      - "ferveur"
+      - "goûter"
+      - "incliner"
+      - "jaloux"
+      - "ne pas cracher"
+      - "ne pas détester"
+      - "pencher"
+      - "priser"
+      - "prédilection"
+      - "préférence"
+      - "raffoler"
+      - "s'amuser"
+      - "s'éprendre"
+      - "savourer"
+      - "se plaire"
+      - "tenir à"
+  - classe: "Gratitude"
+    categ: "II"
+    antonymie_family: "Gratitude-Ressentiment"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 16
+      n_z_plus_active: 3
+      n_z_plus_satellite: 5
+      n_z_minus_reserve: 2
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 3
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.818667
+      A_harm: -0.176667
+      D_orth: -0.142813
+      all_z_plus_V_harm: 0.806500
+      all_z_plus_A_harm: -0.162000
+      all_z_plus_D_orth: -0.133051
+    default_z: 4
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Arbitrage frontière -Z : sentiment relationnel prosocial conservé en Z=4 par défaut."
+    subclass_overrides: []
+    z_minus_value_decision: "keep_z_plus"
+    z_minus_value_rationale: "Sentiment relationnel canonique à très forte valence affective (V=+0.82, A=-0.18, D=-0.14), pleinement cohérent avec Q4 dom. +X."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Reconnaissance vécue d'un bienfait reçu sans contrôle instrumental direct (Q4 dom. +X)."
+    sample_lemmes:
+      - "reconnaissant"
+      - "gratitude"
+      - "reconnaissance"
+    dima_sous_classes:
+      - "fière chandelle"
+      - "gratitude"
+      - "reconnaissance"
+      - "être obligé"
+  - classe: "Haine de qq"
+    categ: "II"
+    antonymie_family: "Amour / Affection-Haine / Désamour"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 51
+      n_z_plus_active: 4
+      n_z_plus_satellite: 28
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 11
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.774172
+      A_harm: 0.399083
+      D_orth: 0.115984
+      all_z_plus_V_harm: -0.787459
+      all_z_plus_A_harm: 0.408310
+      all_z_plus_D_orth: 0.047989
+    default_z: 4
+    subsector_id: "diagonalAgenticConfront"
+    subsector_pair: "D2"
+    subsector_u_X: -0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'aversion' chevauche Aversion (Q3 diagonalSynergyNeg) ; 'haine' est également repérée en Z=5 dans Tableau 1b D2."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon Tableau 1b D2 (Haine, V=-0.77, A=+0.40, D=+0.12) en Q2 diagonalAgenticConfront (Verrou 1A-b)."
+    sample_lemmes:
+      - "aversion"
+      - "détestation"
+      - "exécration"
+      - "haine"
+    dima_sous_classes:
+      - "abhorrer"
+      - "abomination"
+      - "aversion"
+      - "dans le nez"
+      - "détestation"
+      - "exécration"
+      - "haine"
+      - "honnir"
+      - "ne pas pouvoir souffrir"
+      - "prendre en grippe"
+      - "vomir"
+  - classe: "Honte"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 37
+      n_z_plus_active: 2
+      n_z_plus_satellite: 17
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.784000
+      A_harm: 0.258000
+      D_orth: -0.248794
+      all_z_plus_V_harm: -0.595828
+      all_z_plus_A_harm: 0.059870
+      all_z_plus_D_orth: -0.251705
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L1 Z=4 et Article §7.3 (-2, -4, 4) : V=-0.88, A=+0.26, D=-0.25 en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "honteux"
+      - "honte"
+    dima_sous_classes:
+      - "honte"
+      - "ne plus savoir où"
+      - "oreille basse"
+      - "queue basse"
+      - "rentrer ss terre"
+      - "se sentir merdeux"
+      - "sentiment d'infériorité"
+      - "sous-estimation de soi"
+  - classe: "Honte de soi"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 0
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.802000
+      A_harm: 0.149000
+      D_orth: -0.143812
+      all_z_plus_V_harm: -0.802000
+      all_z_plus_A_harm: 0.149000
+      all_z_plus_D_orth: -0.143812
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Satellites réflexifs de honte envers soi (V=-0.80, A=+0.15, D=-0.14) en Q3 dom. -Y (Verrou 1A-a)."
+    sample_lemmes:
+      - "pas content de soi"
+      - "pas fier de soi"
+      - "avoir honte de soi"
+    dima_sous_classes:
+      - "honte"
+      - "pas fier"
+  - classe: "Incrédulité"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 5
+      n_z_plus_active: 2
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 2
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.422500
+      A_harm: 0.343500
+      D_orth: -0.242661
+      all_z_plus_V_harm: -0.422500
+      all_z_plus_A_harm: 0.343500
+      all_z_plus_D_orth: -0.242661
+    default_z: 5
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe épistémique (2 entrées actives : 'incrédule', 'incrédulité') candidate à la réserve -Z."
+    subclass_overrides: []
+    z_minus_value_decision: "move_to_z_minus_reserve"
+    z_minus_value_rationale: "Posture épistémique de non-adhésion cognitive ('incrédule', 'incrédulité') symétrique de Croyance -> -Z."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Fermeture/scepticisme épistémique pur (V=-0.42, D=-0.24) sur -X si maintenue en Z+."
+    sample_lemmes:
+      - "incrédule"
+      - "incrédulité"
+    dima_sous_classes:
+      - "incrédulité"
+  - classe: "Incrédulité relig"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 5
+      n_z_plus_active: 2
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 2
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.571500
+      A_harm: -0.091000
+      D_orth: -0.062379
+      all_z_plus_V_harm: -0.571500
+      all_z_plus_A_harm: -0.091000
+      all_z_plus_D_orth: -0.062379
+    default_z: 5
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe épistémique religieuse (2 entrées actives : 'incroyance', 'incroyant') candidate à la réserve -Z."
+    subclass_overrides: []
+    z_minus_value_decision: "move_to_z_minus_reserve"
+    z_minus_value_rationale: "Positionnement doctrinal/épistémique ('incroyance', 'incroyant') symétrique de Croyance relig -> -Z."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Non-adhésion religieuse sur -X (V=-0.57, A=-0.09) si maintenue en Z+."
+    sample_lemmes:
+      - "incroyant"
+      - "incroyance"
+    dima_sous_classes:
+      - "incroyance relig"
+  - classe: "Inimitié"
+    categ: "II"
+    antonymie_family: "Amitié-Inimitié"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 77
+      n_z_plus_active: 33
+      n_z_plus_satellite: 14
+      n_z_minus_reserve: 17
+      n_non_lexical_discard: 13
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.734575
+      A_harm: 0.369987
+      D_orth: 0.279103
+      all_z_plus_V_harm: -0.726687
+      all_z_plus_A_harm: 0.475303
+      all_z_plus_D_orth: 0.272180
+    default_z: 4
+    subsector_id: "lateralAgenticConfront"
+    subsector_pair: "L3"
+    subsector_u_X: -0.250000
+    subsector_u_Y: 0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage recommandé par SOUS-CLASSE : les attitudes idéologiques/discriminatoires durables ('antisémitisme', 'racisme', 'xénophobie', 'homophobie', 'misanthropie', '-phobe') relèvent de Z=5 ou de la réserve -Z, tandis que 'hostilité'/'inimitié'/'fâcherie'/'discorde' restent en Z=4 lateralAgenticConfront (Tableau 1b L3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L3 Z=4 (Hostilité, V=-0.73, A=+0.37, D=+0.28) en Q2 dom. +Y (Verrou 1A-b)."
+    sample_lemmes:
+      - "américanophobe"
+      - "anglophobe"
+      - "anticlérical"
+      - "antisémite"
+      - "ennemi"
+    dima_sous_classes:
+      - "animadversion"
+      - "anticléricalisme"
+      - "antisémitisme"
+      - "brouille"
+      - "discorde"
+      - "fâcherie"
+      - "homophobie"
+      - "hostilité"
+      - "inimitié"
+      - "malveillance"
+      - "mauvaise intelligence"
+      - "mauvaises dispositions"
+      - "misanthropie"
+      - "misogynie"
+      - "mésentente"
+      - "phobie"
+      - "racisme"
+      - "tension"
+      - "xénophobie"
+  - classe: "Intéresser_A"
+    categ: "II"
+    antonymie_family: "Intéresser-Laisser indifférent"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 22
+      n_z_plus_active: 6
+      n_z_plus_satellite: 4
+      n_z_minus_reserve: 12
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.578215
+      A_harm: 0.465542
+      D_orth: 0.069181
+      all_z_plus_V_harm: 0.536944
+      all_z_plus_A_harm: 0.461988
+      all_z_plus_D_orth: 0.076524
+    default_z: 3
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: "DÉCOUPAGE IMPÉRATIF : 'préoccupation' (V=-0.25, D=-0.13) est un outlier aversif à rattacher à Inquiéter / axialExpectationNeg ; 'intérêt' voisine Curiosité (axialExpectationPos) ; 'enthousiasme'/'passion' sont exactement en diagonalSynergyPos (Tableau 1b D1)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b D1 Z=3 (Enthousiasme, V=+0.58, A=+0.47, D=+0.07) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "enthousiaste"
+      - "passionné"
+      - "enthousiasme"
+      - "intérêt"
+      - "passion"
+    dima_sous_classes:
+      - "emballement"
+      - "enthousiasme"
+      - "intérêt"
+      - "passion"
+      - "préoccupation"
+  - classe: "Intéresser_B"
+    categ: "II"
+    antonymie_family: "Intéresser-Laisser indifférent"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 23
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 23
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect en réserve -Z (23 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Irrespect"
+    categ: "II"
+    antonymie_family: "Estime / Respect & Mésestime / Irrespect"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 8
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: "8/8 entrées ComportAffect en réserve -Z (si projetée ultérieurement : affinité Q2 lateralActiveContest)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ComportAffect en réserve -Z (8 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Jalousie envie"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 18
+      n_z_plus_active: 4
+      n_z_plus_satellite: 4
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.614891
+      A_harm: 0.462000
+      D_orth: 0.018623
+      all_z_plus_V_harm: -0.589112
+      all_z_plus_A_harm: 0.443334
+      all_z_plus_D_orth: 0.013619
+    default_z: 4
+    subsector_id: "lateralActiveContest"
+    subsector_pair: "L4"
+    subsector_u_X: -0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage optionnel : le versant 'envie' impuissante/dépressive (sans revendication active) voisine lateralAversiveDistress (Q3)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Contestation comparative sociale sous menace sur l'estime et mobilisation (V=-0.61, A=+0.46, D=+0.02) en Q2 dom. -X."
+    sample_lemmes:
+      - "envieux"
+      - "jaloux"
+      - "envie"
+      - "jalousie"
+    dima_sous_classes:
+      - "envie"
+      - "jalousie"
+  - classe: "Jalousie sexuelle"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 2
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.579782
+      A_harm: 0.466001
+      D_orth: 0.044519
+      all_z_plus_V_harm: -0.579782
+      all_z_plus_A_harm: 0.466001
+      all_z_plus_D_orth: 0.044519
+    default_z: 4
+    subsector_id: "lateralActiveContest"
+    subsector_pair: "L4"
+    subsector_u_X: -0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Menace relationnelle d'exclusivité avec maintien actif d'action/surveillance (V=-0.58, A=+0.47, D=+0.04) en Q2 dom. -X."
+    sample_lemmes:
+      - "jaloux"
+      - "jalousie"
+    dima_sous_classes:
+      - "jalousie"
+  - classe: "Laisser indifférent_A"
+    categ: "II"
+    antonymie_family: "Intéresser-Laisser indifférent"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 1
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect en réserve -Z (1 entrée) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Laisser indifférent_B"
+    categ: "II"
+    antonymie_family: "Intéresser-Laisser indifférent"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 16
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 16
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ObjAffect en réserve -Z (16 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Manque de confiance en soi"
+    categ: "II"
+    antonymie_family: "Confiance / Croyance & Défiance / Doute"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 2
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.812000
+      A_harm: 0.294000
+      D_orth: -0.008295
+      all_z_plus_V_harm: -0.812000
+      all_z_plus_A_harm: 0.294000
+      all_z_plus_D_orth: -0.008295
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Antonyme exact de Confiance en soi (satellites V=-0.81, A=+0.29, D=-0.01) en Q3 dom. -Y."
+    sample_lemmes:
+      - "manque de confiance en soi"
+      - "manquer de confiance en soi"
+    dima_sous_classes:
+      - "manque de confiance en soi"
+  - classe: "Mauvaise conscience"
+    categ: "II"
+    antonymie_family: "Bonne & Mauvaise conscience"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 41
+      n_z_plus_active: 9
+      n_z_plus_satellite: 19
+      n_z_minus_reserve: 7
+      n_non_lexical_discard: 6
+      n_z_minus_value_candidate: 9
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.347720
+      A_harm: 0.079540
+      D_orth: -0.161536
+      all_z_plus_V_harm: -0.377383
+      all_z_plus_A_harm: 0.058046
+      all_z_plus_D_orth: -0.217008
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Arbitrage frontière -Z : les sous-classes religieuses/expiatoires ('résipiscence', 'pénitence', 'repentance') sont les plus proches de la norme morale (-Z), tandis que 'remords'/'regret'/'contrition' relèvent pleinement de la culpabilité réflexive en Z=4."
+    subclass_overrides: []
+    z_minus_value_decision: "keep_z_plus"
+    z_minus_value_rationale: "La culpabilité/remords (V=-0.35, D=-0.16) est un sentiment réflexif clinique majeur centré sur soi en Z=4."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Culpabilité réflexive et regret irréversible d'une faute commise (Q3 dom. -Y)."
+    sample_lemmes:
+      - "contrit"
+      - "repentant"
+      - "résipiscent"
+      - "contrition"
+      - "regret"
+    dima_sous_classes:
+      - "avoir poids"
+      - "contrition"
+      - "culpabiliser"
+      - "mauvaise conscience"
+      - "pénitence"
+      - "regret"
+      - "remords"
+      - "repentir"
+      - "résipiscence"
+      - "s'en mordre les doigts"
+      - "s'en vouloir"
+      - "se reprocher"
+  - classe: "Mauvaise conscience scrupule"
+    categ: "II"
+    antonymie_family: "Bonne & Mauvaise conscience"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 5
+      n_z_plus_active: 1
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 1
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.333000
+      A_harm: -0.571000
+      D_orth: -0.203711
+      all_z_plus_V_harm: -0.333000
+      all_z_plus_A_harm: -0.571000
+      all_z_plus_D_orth: -0.203711
+    default_z: 4
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: "keep_z_plus"
+    z_minus_value_rationale: "Le scrupule (V=-0.33, A=-0.57, D=-0.20) traduit une hésitation anxieuse réflexive pertinente pour la clinique (TOC/scrupulosité)."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Fermeture épistémique anxieuse centrée sur la crainte de faute morale en Z=4 (Q3 dom. -X)."
+    sample_lemmes:
+      - "scrupule"
+    dima_sous_classes:
+      - "scrupule"
+  - classe: "Mépris"
+    categ: "II"
+    antonymie_family: "Admiration-Mépris"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 23
+      n_z_plus_active: 3
+      n_z_plus_satellite: 8
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 7
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.696000
+      A_harm: 0.040667
+      D_orth: -0.018806
+      all_z_plus_V_harm: -0.577519
+      all_z_plus_A_harm: 0.155065
+      all_z_plus_D_orth: 0.039063
+    default_z: 4
+    subsector_id: "lateralActiveContest"
+    subsector_pair: "L4"
+    subsector_u_X: -0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L4 Z=4 (Mépris froid, V=-0.70, A=+0.04, D=-0.02) en Q2 dom. -X."
+    sample_lemmes:
+      - "dédaigneux"
+      - "dédain"
+      - "mépris"
+    dima_sous_classes:
+      - "dédain"
+      - "faire fi"
+      - "faire peu de cas"
+      - "mépriser"
+      - "rien à faire"
+      - "se moquer"
+      - "se rire de"
+  - classe: "Mésestime"
+    categ: "II"
+    antonymie_family: "Estime / Respect & Mésestime / Irrespect"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 14
+      n_z_plus_active: 3
+      n_z_plus_satellite: 11
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.696333
+      A_harm: -0.360333
+      D_orth: -0.133399
+      all_z_plus_V_harm: -0.560000
+      all_z_plus_A_harm: 0.076214
+      all_z_plus_D_orth: -0.105268
+    default_z: 4
+    subsector_id: "lateralActiveContest"
+    subsector_pair: "L4"
+    subsector_u_X: -0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe à D_orth=-0.13 : si lue comme dépréciation froide sans affrontement actif, basculer vers lateralEpistemicClosure (Y < 0) ; maintenue en lateralActiveContest par symétrie avec Mépris/Irrespect."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Évaluation dépréciative dirigée vers autrui en Z=4 (proche de Mépris froid, Tableau 1b L4)."
+    sample_lemmes:
+      - "dépréciation"
+      - "dévalorisation"
+      - "sous-estimation"
+    dima_sous_classes:
+      - "dépréciation"
+      - "dévalorisation"
+      - "manque de considération"
+      - "méjuger"
+      - "mésestime"
+      - "piètre estime"
+      - "sous-estimation"
+  - classe: "Mésestime de soi"
+    categ: "II"
+    antonymie_family: "Estime / Respect & Mésestime / Irrespect"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 1
+      n_z_plus_active: 0
+      n_z_plus_satellite: 1
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.174000
+      A_harm: -0.072000
+      D_orth: -0.430196
+      all_z_plus_V_harm: -0.174000
+      all_z_plus_A_harm: -0.072000
+      all_z_plus_D_orth: -0.430196
+    default_z: 4
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Dévalorisation réflexive de soi (satellite 'se sous-estimer', V=-0.17, D=-0.43) en Q3 dom. -Y."
+    sample_lemmes:
+      - "se sous-estimer"
+    dima_sous_classes:
+      - "sous-estimation de soi"
+  - classe: "Nostalgie"
+    categ: "II"
+    antonymie_family: "Nostalgie de qqc / Regretter qq || Nostalgie de qqc / Regretter qqc ou qq"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 11
+      n_z_plus_active: 3
+      n_z_plus_satellite: 3
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.281160
+      A_harm: -0.135381
+      D_orth: -0.269093
+      all_z_plus_V_harm: -0.406247
+      all_z_plus_A_harm: -0.319690
+      all_z_plus_D_orth: -0.242671
+    default_z: 4
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Tonalité douce-amère : le regret du passé révolu ('mal du pays', V=-0.28, D=-0.27) siège en axialControlNeg (impuissance sur le révolu), avec un versant apaisé voisinant lateralSecondaryAccomm."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Sentiment réflexif de manque face à un passé hors de portée instrumentale (-Y)."
+    sample_lemmes:
+      - "nostalgique"
+      - "nostalgie"
+      - "regret"
+    dima_sous_classes:
+      - "mal du pays"
+      - "nostalgie"
+      - "regret de qqc ou qq"
+      - "regret nostalgique"
+  - classe: "Orgueil"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 51
+      n_z_plus_active: 7
+      n_z_plus_satellite: 27
+      n_z_minus_reserve: 4
+      n_non_lexical_discard: 13
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.268571
+      A_harm: 0.246286
+      D_orth: 0.254024
+      all_z_plus_V_harm: 0.051923
+      all_z_plus_A_harm: 0.253231
+      all_z_plus_D_orth: 0.217841
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage par SOUS-CLASSE : 'fierté', 'amour-propre', 'contentement de soi' (V>+0.45, D=+0.34) -> jalon exact Tableau 1b L1 Z=4 (Fierté) ; 'autosatisfaction'/'autosatisfait' (glose EN 'smug', V=-0.60) et 'vanité' reflètent un jugement moral d'autrui (candidats CaractAffect/-Z)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L1 Z=4 (Fierté, V=+0.27 actif / +0.46 sur 'fierté', D=+0.25) en Q1 dom. +X."
+    sample_lemmes:
+      - "autosatisfait"
+      - "fier"
+      - "orgueilleux"
+      - "amour-propre"
+      - "autosatisfaction"
+    dima_sous_classes:
+      - "amour-propre"
+      - "autosatisfaction"
+      - "contentement de soi"
+      - "fierté"
+      - "haute estime de soi"
+      - "orgueil"
+      - "pavoiser"
+      - "s'honorer"
+      - "se faire gloire"
+      - "se flatter"
+      - "se féliciter de"
+      - "se piquer de"
+      - "se rengorger"
+      - "sentiment de supériorité"
+      - "surestimation de soi"
+      - "vanité"
+  - classe: "Orgueil impudence"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 8
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 8
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % ComportAffect en réserve -Z (8 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Orgueil surestimation de soi"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 25
+      n_z_plus_active: 0
+      n_z_plus_satellite: 13
+      n_z_minus_reserve: 12
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.571000
+      A_harm: 0.625000
+      D_orth: 0.463840
+      all_z_plus_V_harm: -0.571000
+      all_z_plus_A_harm: 0.625000
+      all_z_plus_D_orth: 0.463840
+    default_z: 4
+    subsector_id: "lateralEpistemicMastery"
+    subsector_pair: "L1"
+    subsector_u_X: 0.750000
+    subsector_u_Y: 0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe 100 % Z_PLUS_SATELLITE (13 locutions familières ; 12 CaractAffect déjà en -Z). Le V_harm=-0.57 mesuré sur 'overconfidence'/'arrogant' reflète la réprobation sociale de l'observateur, non une détresse vécue ; forte affinité avec -Z si épurée des locutions familières."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Hypertrophie réflexive du sentiment de maîtrise (D_orth=+0.46) rattachée à Orgueil en Q1 dom. +X."
+    sample_lemmes:
+      - "surestimation de soi"
+      - "avoir la grosse tête"
+      - "avoir les chevilles qui enflent"
+      - "croire que c'est arrivé"
+      - "ne pas moucher du coude"
+    dima_sous_classes:
+      - "chevilles qui enflent"
+      - "croire que"
+      - "grosse tête"
+      - "ne pas se moucher"
+      - "ne pas se prendre"
+      - "péter plus haut"
+      - "se croire sorti"
+      - "se prendre pour"
+      - "surestimation"
+      - "surestimation de soi"
+  - classe: "Peur"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 102
+      n_z_plus_active: 2
+      n_z_plus_satellite: 64
+      n_z_minus_reserve: 32
+      n_non_lexical_discard: 4
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.639294
+      A_harm: 0.476900
+      D_orth: -0.079112
+      all_z_plus_V_harm: -0.640280
+      all_z_plus_A_harm: 0.579128
+      all_z_plus_D_orth: -0.061314
+    default_z: 3
+    subsector_id: "axialExpectationNeg"
+    subsector_pair: "A1"
+    subsector_u_X: -1.000000
+    subsector_u_Y: 0.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Déploiement réactif en Z=3 du prototype axial Peur (V=-0.64, A=+0.48, D=-0.08) sur -X."
+    sample_lemmes:
+      - "apeurement"
+      - "peur"
+    dima_sous_classes:
+      - "argot"
+      - "avoir chaud"
+      - "frousse"
+      - "les avoir à zéro"
+      - "ne pas en mener large"
+      - "peur"
+      - "phobie"
+      - "pétoche"
+      - "se dégonfler"
+      - "sueurs froides"
+      - "transes"
+      - "trouille"
+      - "venette"
+  - classe: "Peur panique"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 1
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.876000
+      A_harm: 0.876000
+      D_orth: 0.084176
+      all_z_plus_V_harm: -0.876000
+      all_z_plus_A_harm: 0.876000
+      all_z_plus_D_orth: 0.084176
+    default_z: 3
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: "z6_z7_effraction_candidate"
+    anchor_rationale: "Effraction anxieuse aiguë à faible contrôle (V=-0.88, A=+0.88) en Q3 dom. -X (Verrou 1A-a)."
+    sample_lemmes:
+      - "panique"
+    dima_sous_classes:
+      - "panique"
+  - classe: "Peur phobie"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 11
+      n_z_plus_active: 7
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 1
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.799833
+      A_harm: 0.157500
+      D_orth: -0.107250
+      all_z_plus_V_harm: -0.799833
+      all_z_plus_A_harm: 0.157500
+      all_z_plus_D_orth: -0.107250
+    default_z: 5
+    subsector_id: "lateralEpistemicClosure"
+    subsector_pair: "L2"
+    subsector_u_X: -0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Ancrée en Z=5 comme disposition phobique durable (agoraphobie, claustrophobie, zoophobie) ; peut se lire en Z=4 sur une phobie centrée sur un objet relationnel spécifique."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Fermeture épistémique durable et évitement à faible contrôle (V=-0.80, A=+0.16, D=-0.11) en Q3 dom. -X (Verrou 1A-a)."
+    sample_lemmes:
+      - "agoraphobe"
+      - "claustrophobe"
+      - "zoophobe"
+      - "agoraphobie"
+      - "claustrophobie"
+    dima_sous_classes:
+      - "phobie"
+  - classe: "Plaire_A"
+    categ: "II"
+    antonymie_family: "Plaire-Déplaire"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 51
+      n_z_plus_active: 6
+      n_z_plus_satellite: 4
+      n_z_minus_reserve: 38
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.636667
+      A_harm: 0.465667
+      D_orth: 0.009454
+      all_z_plus_V_harm: 0.615675
+      all_z_plus_A_harm: 0.454975
+      all_z_plus_D_orth: 0.021797
+    default_z: 3
+    subsector_id: "diagonalSynergyPos"
+    subsector_pair: "D1"
+    subsector_u_X: 0.500000
+    subsector_u_Y: 0.500000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b D1 Z=3 (Attrait, V=+0.64, A=+0.47, D=+0.01) en Q1 diagonalSynergyPos."
+    sample_lemmes:
+      - "attirance"
+      - "attraction"
+      - "attrait"
+      - "envoûtement"
+      - "excitation"
+    dima_sous_classes:
+      - "attirance"
+      - "attraction"
+      - "atttait"
+      - "envoûter"
+      - "exciter"
+      - "fascination"
+      - "sympathie"
+  - classe: "Plaire_B"
+    categ: "II"
+    antonymie_family: "Plaire-Déplaire"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 61
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 59
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.440000
+      A_harm: 0.220000
+      D_orth: -0.080728
+      all_z_plus_V_harm: -0.440000
+      all_z_plus_A_harm: 0.220000
+      all_z_plus_D_orth: -0.080728
+    default_z: 3
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Classe 100 % Z_PLUS_SATELLITE (2 entrées : 'subjugation', 'être sous le charme') ; la glose EN 'subjugation' (V=-0.44) tire artificiellement vers le négatif alors que le sens français est l'enchantement réceptif (si lu comme attirance active -> diagonalSynergyPos)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Fascination réceptive subie face à un charme (+X réceptif, contrôle passif -Y) en Q4 dom. +X."
+    sample_lemmes:
+      - "subjugation"
+      - "être sous le charme"
+    dima_sous_classes:
+      - "charmer"
+      - "subjuguer"
+  - classe: "Pudeur"
+    categ: "II"
+    antonymie_family: "Orgueil / Honte / Pudeur"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 4
+      n_z_plus_active: 1
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 2
+      n_z_minus_value_candidate: 1
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: 0.556000
+      A_harm: -0.520000
+      D_orth: -0.200412
+      all_z_plus_V_harm: 0.556000
+      all_z_plus_A_harm: -0.520000
+      all_z_plus_D_orth: -0.200412
+    default_z: 4
+    subsector_id: "lateralReceptiveAccomm"
+    subsector_pair: "L3"
+    subsector_u_X: 0.750000
+    subsector_u_Y: -0.250000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Arbitrage clinique MP3b : norme/vertu morale de retenue ('modesty') basculée vers la réserve axiologique -Z."
+    subclass_overrides: []
+    z_minus_value_decision: "move_to_z_minus_reserve"
+    z_minus_value_rationale: "Arbitrage clinique MP3b : norme/vertu morale de retenue basculée vers la réserve axiologique -Z (avec Croyance/Incrédulité)."
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Retenue et consentement mesuré face au regard d'autrui en Q4 dom. +X (maintenue en Z+ jusqu'à la projection MP4 ou réaffectée en -Z)."
+    sample_lemmes:
+      - "pudeur"
+    dima_sous_classes:
+      - "pudeur"
+  - classe: "Regretter qq"
+    categ: "II"
+    antonymie_family: "Nostalgie de qqc / Regretter qq"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 2
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.406000
+      A_harm: -0.070000
+      D_orth: -0.115120
+      all_z_plus_V_harm: -0.406000
+      all_z_plus_A_harm: -0.070000
+      all_z_plus_D_orth: -0.115120
+    default_z: 4
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Deuil et regret relationnel d'une personne absente (satellites V=-0.41, D=-0.12) sur l'axe -Y."
+    sample_lemmes:
+      - "en deuil"
+      - "ennuyer"
+    dima_sous_classes:
+      - "deuil"
+      - "s'ennuyer"
+  - classe: "Regretter qqc ou qq"
+    categ: "II"
+    antonymie_family: "Nostalgie de qqc / Regretter qq"
+    scope_status: "satellite_only_z_plus"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 0
+      n_z_plus_satellite: 2
+      n_z_minus_reserve: 1
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_SATELLITE"
+      V_harm: -0.717000
+      A_harm: 0.244000
+      D_orth: -0.186966
+      all_z_plus_V_harm: -0.717000
+      all_z_plus_A_harm: 0.244000
+      all_z_plus_D_orth: -0.186966
+    default_z: 4
+    subsector_id: "axialControlNeg"
+    subsector_pair: "A2"
+    subsector_u_X: 0.000000
+    subsector_u_Y: -1.000000
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Regret réflexif et pleurs sur une perte (satellites 'pleurer', 'regretter', V=-0.72, D=-0.19) sur -Y."
+    sample_lemmes:
+      - "pleurer"
+      - "regretter"
+    dima_sous_classes:
+      - "pleurer"
+      - "regret de qqc ou qq"
+  - classe: "Ressentiment"
+    categ: "II"
+    antonymie_family: "Gratitude-Ressentiment"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 43
+      n_z_plus_active: 6
+      n_z_plus_satellite: 17
+      n_z_minus_reserve: 11
+      n_non_lexical_discard: 9
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.711333
+      A_harm: 0.409000
+      D_orth: 0.095866
+      all_z_plus_V_harm: -0.737420
+      all_z_plus_A_harm: 0.542957
+      all_z_plus_D_orth: 0.230941
+    default_z: 4
+    subsector_id: "lateralAgenticConfront"
+    subsector_pair: "L3"
+    subsector_u_X: -0.250000
+    subsector_u_Y: 0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Note d'échelle : 'rancœur' figure aussi en Tableau 1b D2 Z=5 (diagonalAgenticConfront)."
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Jalon exact Tableau 1b L3 Z=4 (Ressentiment, V=-0.71, A=+0.41, D=+0.10) en Q2 dom. +Y (Verrou 1A-b)."
+    sample_lemmes:
+      - "acrimonieux"
+      - "vindicatif"
+      - "aigreur"
+      - "rancune"
+      - "rancœur"
+    dima_sous_classes:
+      - "accepter mal"
+      - "aigreur"
+      - "dent"
+      - "en vouloir"
+      - "gros sur le cœur"
+      - "ne pas pardonner"
+      - "rancune"
+      - "ressentiment"
+      - "savoir mauvais gré"
+      - "soif de vengeance"
+      - "tenir rigueur"
+  - classe: "Résignation"
+    categ: "II"
+    antonymie_family: "Résignation-Colère"
+    scope_status: "active_z_plus"
+    counts:
+      n_entries: 20
+      n_z_plus_active: 3
+      n_z_plus_satellite: 7
+      n_z_minus_reserve: 5
+      n_non_lexical_discard: 5
+      n_z_minus_value_candidate: 0
+    empirical_means:
+      basis: "Z_PLUS_ACTIVE"
+      V_harm: -0.209333
+      A_harm: -0.084667
+      D_orth: 0.125598
+      all_z_plus_V_harm: -0.138620
+      all_z_plus_A_harm: -0.113780
+      all_z_plus_D_orth: -0.012911
+    default_z: 5
+    subsector_id: "lateralAversiveDistress"
+    subsector_pair: "L1"
+    subsector_u_X: -0.250000
+    subsector_u_Y: -0.750000
+    central_operator_link: null
+    subsector_alt_or_split_note: "Découpage encodé dans `subclass_overrides` (MP3b, Verrou 1A-c) : {acceptation} -> lateralReceptiveAccomm (L3, Q4, Z=4) ; {résignation, fatalisme} -> lateralAversiveDistress (L1, Q3, Z=4/5)."
+    subclass_overrides:
+      - sous_classe: "acceptation"
+        subsector_id: "lateralReceptiveAccomm"
+        pair_id: "L3"
+        default_z: 4
+        z_alt: null
+        u_X: 0.750000
+        u_Y: -0.250000
+        rationale: "Accommodation réceptive acceptée face à une limite objective (L3, Q4, Verrou 1A-c)."
+      - sous_classe: "fatalisme"
+        subsector_id: "lateralAversiveDistress"
+        pair_id: "L1"
+        default_z: 5
+        z_alt: 4
+        u_X: -0.250000
+        u_Y: -0.750000
+        rationale: "Disposition fataliste durable à faible contrôle (L1, Q3, Z=5/4)."
+      - sous_classe: "résignation"
+        subsector_id: "lateralAversiveDistress"
+        pair_id: "L1"
+        default_z: 4
+        z_alt: 5
+        u_X: -0.250000
+        u_Y: -0.750000
+        rationale: "Résignation subie à faible contrôle (L1, Q3, Tableau 1b Z=4/5)."
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Disposition durable de renoncement face à une limite objective d'action (Q3 par défaut, avec split encodé d'acceptation vers Q4)."
+    sample_lemmes:
+      - "acceptation"
+      - "fatalisme"
+      - "résignation"
+    dima_sous_classes:
+      - "acceptation"
+      - "avec philosophie"
+      - "fatalisme"
+      - "résignation"
+      - "se faire une raison"
+  - classe: "Sentiment"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 3
+      n_non_lexical_discard: 0
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe 100 % CaractAffect en réserve -Z (3 entrées) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []
+  - classe: "Sentiment classifieur"
+    categ: "II"
+    antonymie_family: null
+    scope_status: "reserve_or_discard_only"
+    counts:
+      n_entries: 3
+      n_z_plus_active: 0
+      n_z_plus_satellite: 0
+      n_z_minus_reserve: 0
+      n_non_lexical_discard: 3
+      n_z_minus_value_candidate: 0
+    empirical_means: null
+    default_z: null
+    subsector_id: null
+    subsector_pair: null
+    subsector_u_X: null
+    subsector_u_Y: null
+    central_operator_link: null
+    subsector_alt_or_split_note: null
+    subclass_overrides: []
+    z_minus_value_decision: null
+    z_minus_value_rationale: null
+    exploratory_z6_z7_tag: null
+    anchor_rationale: "Classe métalinguistique classifieur (3 entrées NON_LEXICAL_DISCARD) : aucune projection en Z+."
+    sample_lemmes: []
+    dima_sous_classes: []

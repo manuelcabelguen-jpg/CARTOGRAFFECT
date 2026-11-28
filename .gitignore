@@ -19,6 +19,9 @@ node_modules/
 
 # Restricted third-party raw lexical datasets & massive regenerable projections
 extensions/lexicon/data/raw_third_party/
+data/raw/
+data/processed/*.parquet
+data/processed/lexicon_v3_master.tsv
 NRC-VAD-Lexicon-v2.1.txt
 DIMA_GROUPE_*.xlsx
 FANCatdatabaseRevisee.xlsx

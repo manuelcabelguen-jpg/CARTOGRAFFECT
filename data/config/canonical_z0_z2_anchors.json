@@ -1,0 +1,900 @@
+{
+  "schema_version": "1.0.0",
+  "cartograffect_version": "3.0.0",
+  "epistemic_note": "Extraction verbatim en lecture seule du noyau normatif Lean 4 v3.0.0. Z in {0, 1, 2} forme la fondation canonique formelle (11 états) ; Z in {3, 4, 5} forme la taxonomie structurée testable empiriquement (17 FunctionalSubsector, 8 paires conjuguées + centre fixe). La bijection Rolls (Rew+/Rew-/Pun+/Pun-) est strictement bornée à Z = 2.",
+  "source_lean_modules": {
+    "Cartograffect/CoreAffect.lean": "6d76ad7677d9330bf6ca539ef85568e25c2561eff58e45fd3431e04d2dfdd8a6",
+    "Cartograffect/AffectiveMatrix.lean": "9f0cac2742c6adc66d9191f329a2f5a7b4a46b5d81bf45a9d1d18eae3dfdb6cc",
+    "Cartograffect/AffectiveTaxonomy.lean": "dfc9d28f7caf2e912f1a96db4601746f729012c1aa26bd2eea10933d76b11559",
+    "Cartograffect/OperantFactorization.lean": "804ef00a77d120b0611b263764fcb5d467437814a8c23f31b3a24180d896f536"
+  },
+  "crown_radius_law": {
+    "formula": "0 for Z in {0, 1}; 2*Z - 2 for Z >= 2",
+    "values": {
+      "0": 0,
+      "1": 0,
+      "2": 2,
+      "3": 4,
+      "4": 6,
+      "5": 8
+    }
+  },
+  "canonical_z0_z2_states": [
+    {
+      "id": "pointDeVeille",
+      "lean_type": "CentralOperator",
+      "lean_constructor": "CentralOperator.pointDeVeille",
+      "label_fr": "Point de Veille",
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "z": 0,
+      "geometry_type": "central",
+      "subsector_id": "centralOperator",
+      "taxonomic_group": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "antagonist_id": "pointDeVeille",
+      "antagonist_point": [
+        0,
+        0,
+        0
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": null,
+      "lean_comment": "Z = 0 : Origine structurale et équilibre homéostatique basal"
+    },
+    {
+      "id": "surprise",
+      "lean_type": "CentralOperator",
+      "lean_constructor": "CentralOperator.surprise",
+      "label_fr": "Surprise",
+      "point": [
+        0,
+        0,
+        1
+      ],
+      "z": 1,
+      "geometry_type": "central",
+      "subsector_id": "centralOperator",
+      "taxonomic_group": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "antagonist_id": "surprise",
+      "antagonist_point": [
+        0,
+        0,
+        1
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": null,
+      "lean_comment": "Z = 1 : Opérateur ascendant de rupture et saillance perceptive"
+    },
+    {
+      "id": "anticipation",
+      "lean_type": "CentralOperator",
+      "lean_constructor": "CentralOperator.anticipation",
+      "label_fr": "Anticipation",
+      "point": [
+        0,
+        0,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "central",
+      "subsector_id": "centralOperator",
+      "taxonomic_group": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "antagonist_id": "anticipation",
+      "antagonist_point": [
+        0,
+        0,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": null,
+      "lean_comment": "Z = 2 : Opérateur descendant d'orientation (affects primaires)"
+    },
+    {
+      "id": "joie",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.joie",
+      "label_fr": "Joie",
+      "point": [
+        0,
+        2,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "axial",
+      "subsector_id": "axialControlPos",
+      "taxonomic_group": "sectorControlPos",
+      "hedonic_polarity": "positive",
+      "antagonist_id": "tristesse",
+      "antagonist_point": [
+        0,
+        -2,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": null,
+      "lean_comment": "(0, +2, 2) : A0 / C+ (Axe Y positif)"
+    },
+    {
+      "id": "tristesse",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.tristesse",
+      "label_fr": "Tristesse",
+      "point": [
+        0,
+        -2,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "axial",
+      "subsector_id": "axialControlNeg",
+      "taxonomic_group": "sectorControlNeg",
+      "hedonic_polarity": "negative",
+      "antagonist_id": "joie",
+      "antagonist_point": [
+        0,
+        2,
+        2
+      ],
+      "p2_axial_instability_negative_charge": true,
+      "rolls_contingency": null,
+      "lean_comment": "(0, -2, 2) : A0 / C- (Axe Y négatif)"
+    },
+    {
+      "id": "peur",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.peur",
+      "label_fr": "Peur",
+      "point": [
+        -2,
+        0,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "axial",
+      "subsector_id": "axialExpectationNeg",
+      "taxonomic_group": "sectorExpectationNeg",
+      "hedonic_polarity": "negative",
+      "antagonist_id": "courage",
+      "antagonist_point": [
+        2,
+        0,
+        2
+      ],
+      "p2_axial_instability_negative_charge": true,
+      "rolls_contingency": null,
+      "lean_comment": "(-2, 0, 2) : A- / C0 (Axe X négatif)"
+    },
+    {
+      "id": "courage",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.courage",
+      "label_fr": "Courage",
+      "point": [
+        2,
+        0,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "axial",
+      "subsector_id": "axialExpectationPos",
+      "taxonomic_group": "sectorExpectationPos",
+      "hedonic_polarity": "positive",
+      "antagonist_id": "peur",
+      "antagonist_point": [
+        -2,
+        0,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": null,
+      "lean_comment": "(+2, 0, 2) : A+ / C0 (Axe X positif)"
+    },
+    {
+      "id": "desir",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.desir",
+      "label_fr": "Désir",
+      "point": [
+        1,
+        1,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "diagonal",
+      "subsector_id": "diagonalSynergyPos",
+      "taxonomic_group": "diagonalSynergyPos",
+      "hedonic_polarity": "positive",
+      "antagonist_id": "degout",
+      "antagonist_point": [
+        -1,
+        -1,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": {
+        "lean_constructor": "RollsContingency.rewPlus",
+        "symbol": "Rew+",
+        "stimulus_notation": "S+",
+        "reinforcer_class": "reward",
+        "operation": "delivery",
+        "outcome": "favorable",
+        "antagonist_contingency": "punPlus",
+        "strictly_bounded_to_z2": true,
+        "description_fr": "Ajout / présentation d'une récompense (Désir (+1, +1, 2))"
+      },
+      "lean_comment": "(+1, +1, 2) : A+ / C+ (Diagonale de congruence)"
+    },
+    {
+      "id": "degout",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.degout",
+      "label_fr": "Dégoût",
+      "point": [
+        -1,
+        -1,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "diagonal",
+      "subsector_id": "diagonalSynergyNeg",
+      "taxonomic_group": "diagonalSynergyNeg",
+      "hedonic_polarity": "negative",
+      "antagonist_id": "desir",
+      "antagonist_point": [
+        1,
+        1,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": {
+        "lean_constructor": "RollsContingency.punPlus",
+        "symbol": "Pun+",
+        "stimulus_notation": "S−",
+        "reinforcer_class": "punishment",
+        "operation": "delivery",
+        "outcome": "aversive",
+        "antagonist_contingency": "rewPlus",
+        "strictly_bounded_to_z2": true,
+        "description_fr": "Ajout / présentation d'une punition (Dégoût (-1, -1, 2))"
+      },
+      "lean_comment": "(-1, -1, 2) : A- / C- (Diagonale de congruence)"
+    },
+    {
+      "id": "colere",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.colere",
+      "label_fr": "Colère",
+      "point": [
+        -1,
+        1,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "diagonal",
+      "subsector_id": "diagonalAgenticConfront",
+      "taxonomic_group": "diagonalAgenticConfront",
+      "hedonic_polarity": "negative",
+      "antagonist_id": "calme",
+      "antagonist_point": [
+        1,
+        -1,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": {
+        "lean_constructor": "RollsContingency.rewMinus",
+        "symbol": "Rew−",
+        "stimulus_notation": "¬S+",
+        "reinforcer_class": "reward",
+        "operation": "omission",
+        "outcome": "aversive",
+        "antagonist_contingency": "punMinus",
+        "strictly_bounded_to_z2": true,
+        "description_fr": "Retrait / omission d'une récompense (Colère (-1, +1, 2))"
+      },
+      "lean_comment": "(-1, +1, 2) : A- / C+ (Diagonale de compensation)"
+    },
+    {
+      "id": "calme",
+      "lean_type": "PrimaryCrownPrototype",
+      "lean_constructor": "PrimaryCrownPrototype.calme",
+      "label_fr": "Calme",
+      "point": [
+        1,
+        -1,
+        2
+      ],
+      "z": 2,
+      "geometry_type": "diagonal",
+      "subsector_id": "diagonalAccommodation",
+      "taxonomic_group": "diagonalAccommodation",
+      "hedonic_polarity": "positive",
+      "antagonist_id": "colere",
+      "antagonist_point": [
+        -1,
+        1,
+        2
+      ],
+      "p2_axial_instability_negative_charge": false,
+      "rolls_contingency": {
+        "lean_constructor": "RollsContingency.punMinus",
+        "symbol": "Pun−",
+        "stimulus_notation": "¬S−",
+        "reinforcer_class": "punishment",
+        "operation": "omission",
+        "outcome": "favorable",
+        "antagonist_contingency": "rewMinus",
+        "strictly_bounded_to_z2": true,
+        "description_fr": "Retrait / omission d'une punition — distinct du R− skinnerien (Calme (+1, -1, 2))"
+      },
+      "lean_comment": "(+1, -1, 2) : A+ / C- (Diagonale de compensation)"
+    }
+  ],
+  "rolls_bijection_z2_invariant": {
+    "strictly_bounded_to_z2": true,
+    "diagToContingency_z_ne_2": "none",
+    "distinct_from_skinnerian_negative_reinforcement_R_minus": true,
+    "mapping": {
+      "desir (+1, +1, 2)": "Rew+ (S+, reward delivery)",
+      "colere (-1, +1, 2)": "Rew- (not-S+, reward omission)",
+      "degout (-1, -1, 2)": "Pun+ (S-, punishment delivery)",
+      "calme (+1, -1, 2)": "Pun- (not-S-, punishment omission)"
+    },
+    "antagonist_symmetry": [
+      "Rew+ <-> Pun+",
+      "Rew- <-> Pun-"
+    ]
+  },
+  "structured_taxonomy_central_operators_z3_z5": [
+    {
+      "id": "emoi",
+      "lean_constructor": "CentralOperator.emoi",
+      "label_fr": "Émoi",
+      "point": [
+        0,
+        0,
+        3
+      ],
+      "z": 3,
+      "crown_radius": 4,
+      "subsector_id": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "descending_suspension_r5": true,
+      "lean_comment": "Z = 3 : Opérateur central des émotions réactives"
+    },
+    {
+      "id": "reserve",
+      "lean_constructor": "CentralOperator.reserve",
+      "label_fr": "Réserve",
+      "point": [
+        0,
+        0,
+        4
+      ],
+      "z": 4,
+      "crown_radius": 6,
+      "subsector_id": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "descending_suspension_r5": true,
+      "lean_comment": "Z = 4 : Opérateur central des sentiments réflexifs"
+    },
+    {
+      "id": "recul",
+      "lean_constructor": "CentralOperator.recul",
+      "label_fr": "Recul",
+      "point": [
+        0,
+        0,
+        5
+      ],
+      "z": 5,
+      "crown_radius": 8,
+      "subsector_id": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "descending_suspension_r5": true,
+      "lean_comment": "Z = 5 : Opérateur central des orientations durables et humeurs"
+    }
+  ],
+  "exploratory_central_operators_z6_z7_out_of_normative_scope": [
+    {
+      "id": "saisissement",
+      "lean_constructor": "CentralOperator.saisissement",
+      "label_fr": "Saisissement",
+      "point": [
+        0,
+        0,
+        6
+      ],
+      "z": 6,
+      "status": "exploratory_out_of_normative_scope",
+      "lean_comment": "Z = 6 : Opérateur central des identités affectives"
+    },
+    {
+      "id": "suspension",
+      "lean_constructor": "CentralOperator.suspension",
+      "label_fr": "Suspension",
+      "point": [
+        0,
+        0,
+        7
+      ],
+      "z": 7,
+      "status": "exploratory_out_of_normative_scope",
+      "lean_comment": "Z = 7 : Opérateur central des sentiments transcendantaux"
+    }
+  ],
+  "conjugate_pairs_8": [
+    {
+      "pair_id": "A1",
+      "block": "Bloc A (axial)",
+      "subsector_pos": "axialExpectationPos",
+      "subsector_neg": "axialExpectationNeg",
+      "relation": "inversion_centrale"
+    },
+    {
+      "pair_id": "A2",
+      "block": "Bloc A (axial)",
+      "subsector_pos": "axialControlPos",
+      "subsector_neg": "axialControlNeg",
+      "relation": "inversion_centrale"
+    },
+    {
+      "pair_id": "D1",
+      "block": "Bloc A (diagonal)",
+      "subsector_pos": "diagonalSynergyPos",
+      "subsector_neg": "diagonalSynergyNeg",
+      "relation": "inversion_centrale"
+    },
+    {
+      "pair_id": "D2",
+      "block": "Bloc A (diagonal)",
+      "subsector_pos": "diagonalAccommodation",
+      "subsector_neg": "diagonalAgenticConfront",
+      "relation": "inversion_centrale"
+    },
+    {
+      "pair_id": "L1",
+      "block": "Bloc B (latéral contralatéral)",
+      "subsector_pos": "lateralEpistemicMastery",
+      "subsector_neg": "lateralAversiveDistress",
+      "relation": "echange_contralateral_abs_X_abs_Y"
+    },
+    {
+      "pair_id": "L2",
+      "block": "Bloc B (latéral contralatéral)",
+      "subsector_pos": "lateralApproachSynergy",
+      "subsector_neg": "lateralEpistemicClosure",
+      "relation": "echange_contralateral_abs_X_abs_Y"
+    },
+    {
+      "pair_id": "L3",
+      "block": "Bloc B (latéral contralatéral)",
+      "subsector_pos": "lateralReceptiveAccomm",
+      "subsector_neg": "lateralAgenticConfront",
+      "relation": "echange_contralateral_abs_X_abs_Y"
+    },
+    {
+      "pair_id": "L4",
+      "block": "Bloc B (latéral contralatéral)",
+      "subsector_pos": "lateralSecondaryAccomm",
+      "subsector_neg": "lateralActiveContest",
+      "relation": "echange_contralateral_abs_X_abs_Y"
+    }
+  ],
+  "functional_subsectors_17": [
+    {
+      "subsector_id": "centralOperator",
+      "lean_constructor": "FunctionalSubsector.centralOperator",
+      "pair_id": "CENTER",
+      "block": "Centre fixe",
+      "conjugate_subsector": "centralOperator",
+      "taxonomic_group": "centralOperator",
+      "hedonic_polarity": "neutral",
+      "u_X": 0.0,
+      "u_Y": 0.0,
+      "l1_norm": 0.0,
+      "quadrant": "CENTER",
+      "ray_description": "X = 0, Y = 0 (Opérateurs centraux de suspens)",
+      "z2_prototype": "anticipation",
+      "tableau_1b": {
+        "z3_high_A": "Émoi (0, 0, 3)",
+        "z3_low_A": "Émoi (0, 0, 3)",
+        "z4_high_A": "Réserve (0, 0, 4)",
+        "z4_low_A": "Réserve (0, 0, 4)",
+        "z5_high_A": "Recul (0, 0, 5)",
+        "z5_low_A": "Recul (0, 0, 5)"
+      },
+      "lean_comment": "X = 0, Y = 0 (Opérateurs centraux de suspens)"
+    },
+    {
+      "subsector_id": "axialControlPos",
+      "lean_constructor": "FunctionalSubsector.axialControlPos",
+      "pair_id": "A2",
+      "block": "Bloc A (axial)",
+      "conjugate_subsector": "axialControlNeg",
+      "taxonomic_group": "sectorControlPos",
+      "hedonic_polarity": "positive",
+      "u_X": 0.0,
+      "u_Y": 1.0,
+      "l1_norm": 1.0,
+      "quadrant": "AXIS_POS_Y",
+      "ray_description": "X = 0, Y > 0 (Contrôle positif pur)",
+      "z2_prototype": "joie",
+      "tableau_1b": {
+        "z3_high_A": "Allégresse",
+        "z3_low_A": "Contentement",
+        "z4_high_A": "Euphorie",
+        "z4_low_A": "Bien-être",
+        "z5_high_A": "Jubilation",
+        "z5_low_A": "Épanouissement"
+      },
+      "lean_comment": "X = 0, Y > 0 (Contrôle positif pur ; Z=2 : Joie)"
+    },
+    {
+      "subsector_id": "axialControlNeg",
+      "lean_constructor": "FunctionalSubsector.axialControlNeg",
+      "pair_id": "A2",
+      "block": "Bloc A (axial)",
+      "conjugate_subsector": "axialControlPos",
+      "taxonomic_group": "sectorControlNeg",
+      "hedonic_polarity": "negative",
+      "u_X": 0.0,
+      "u_Y": -1.0,
+      "l1_norm": 1.0,
+      "quadrant": "AXIS_NEG_Y",
+      "ray_description": "X = 0, Y < 0 (Contrôle négatif pur)",
+      "z2_prototype": "tristesse",
+      "tableau_1b": {
+        "z3_high_A": "Chagrin",
+        "z3_low_A": "Mélancolie",
+        "z4_high_A": "Affliction",
+        "z4_low_A": "Lassitude",
+        "z5_high_A": "Désolation",
+        "z5_low_A": "Abattement"
+      },
+      "lean_comment": "X = 0, Y < 0 (Contrôle négatif pur ; Z=2 : Tristesse)"
+    },
+    {
+      "subsector_id": "axialExpectationPos",
+      "lean_constructor": "FunctionalSubsector.axialExpectationPos",
+      "pair_id": "A1",
+      "block": "Bloc A (axial)",
+      "conjugate_subsector": "axialExpectationNeg",
+      "taxonomic_group": "sectorExpectationPos",
+      "hedonic_polarity": "positive",
+      "u_X": 1.0,
+      "u_Y": 0.0,
+      "l1_norm": 1.0,
+      "quadrant": "AXIS_POS_X",
+      "ray_description": "X > 0, Y = 0 (Attente positive pure)",
+      "z2_prototype": "courage",
+      "tableau_1b": {
+        "z3_high_A": "Audace",
+        "z3_low_A": "Curiosité",
+        "z4_high_A": "Détermination",
+        "z4_low_A": "Confiance",
+        "z5_high_A": "Conviction",
+        "z5_low_A": "Lucidité"
+      },
+      "lean_comment": "X > 0, Y = 0 (Attente positive pure ; Z=2 : Courage, Sécurité/Sérénité apaisée à A bas)"
+    },
+    {
+      "subsector_id": "axialExpectationNeg",
+      "lean_constructor": "FunctionalSubsector.axialExpectationNeg",
+      "pair_id": "A1",
+      "block": "Bloc A (axial)",
+      "conjugate_subsector": "axialExpectationPos",
+      "taxonomic_group": "sectorExpectationNeg",
+      "hedonic_polarity": "negative",
+      "u_X": -1.0,
+      "u_Y": 0.0,
+      "l1_norm": 1.0,
+      "quadrant": "AXIS_NEG_X",
+      "ray_description": "X < 0, Y = 0 (Attente négative pure)",
+      "z2_prototype": "peur",
+      "tableau_1b": {
+        "z3_high_A": "Frayeur",
+        "z3_low_A": "Inquiétude",
+        "z4_high_A": "Effroi",
+        "z4_low_A": "Méfiance",
+        "z5_high_A": "Épouvante",
+        "z5_low_A": "Insécurité"
+      },
+      "lean_comment": "X < 0, Y = 0 (Attente négative pure ; Z=2 : Peur)"
+    },
+    {
+      "subsector_id": "diagonalSynergyPos",
+      "lean_constructor": "FunctionalSubsector.diagonalSynergyPos",
+      "pair_id": "D1",
+      "block": "Bloc A (diagonal)",
+      "conjugate_subsector": "diagonalSynergyNeg",
+      "taxonomic_group": "diagonalSynergyPos",
+      "hedonic_polarity": "positive",
+      "u_X": 0.5,
+      "u_Y": 0.5,
+      "l1_norm": 1.0,
+      "quadrant": "Q1_DIAG",
+      "ray_description": "X = Y > 0 (Synergie positive / congruence de décharge)",
+      "z2_prototype": "desir",
+      "tableau_1b": {
+        "z3_high_A": "Enthousiasme",
+        "z3_low_A": "Attrait",
+        "z4_high_A": "Passion",
+        "z4_low_A": "Affection",
+        "z5_high_A": "Amour",
+        "z5_low_A": "Attachement"
+      },
+      "lean_comment": "X = Y > 0 (Z=2 : Désir, maîtrise instrumentale)"
+    },
+    {
+      "subsector_id": "diagonalSynergyNeg",
+      "lean_constructor": "FunctionalSubsector.diagonalSynergyNeg",
+      "pair_id": "D1",
+      "block": "Bloc A (diagonal)",
+      "conjugate_subsector": "diagonalSynergyPos",
+      "taxonomic_group": "diagonalSynergyNeg",
+      "hedonic_polarity": "negative",
+      "u_X": -0.5,
+      "u_Y": -0.5,
+      "l1_norm": 1.0,
+      "quadrant": "Q3_DIAG",
+      "ray_description": "X = Y < 0 (Synergie négative / rejet aversif à faible contrôle)",
+      "z2_prototype": "degout",
+      "tableau_1b": {
+        "z3_high_A": "Révulsion",
+        "z3_low_A": "Malaise",
+        "z4_high_A": "Aversion",
+        "z4_low_A": "Écœurement",
+        "z5_high_A": "Répulsion",
+        "z5_low_A": "Rejet durable"
+      },
+      "lean_comment": "X = Y < 0 (Z=2 : Dégoût, rejet aversif à faible contrôle)"
+    },
+    {
+      "subsector_id": "diagonalAgenticConfront",
+      "lean_constructor": "FunctionalSubsector.diagonalAgenticConfront",
+      "pair_id": "D2",
+      "block": "Bloc A (diagonal)",
+      "conjugate_subsector": "diagonalAccommodation",
+      "taxonomic_group": "diagonalAgenticConfront",
+      "hedonic_polarity": "negative",
+      "u_X": -0.5,
+      "u_Y": 0.5,
+      "l1_norm": 1.0,
+      "quadrant": "Q2_DIAG",
+      "ray_description": "X = -Y < 0 (Affrontement agentique équilibré)",
+      "z2_prototype": "colere",
+      "tableau_1b": {
+        "z3_high_A": "Exaspération",
+        "z3_low_A": "Agacement",
+        "z4_high_A": "Rage",
+        "z4_low_A": "Contrariété",
+        "z5_high_A": "Haine",
+        "z5_low_A": "Rancœur"
+      },
+      "lean_comment": "X = -Y < 0 (Z=2 : Colère, Frustration — affrontement agentique équilibré)"
+    },
+    {
+      "subsector_id": "diagonalAccommodation",
+      "lean_constructor": "FunctionalSubsector.diagonalAccommodation",
+      "pair_id": "D2",
+      "block": "Bloc A (diagonal)",
+      "conjugate_subsector": "diagonalAgenticConfront",
+      "taxonomic_group": "diagonalAccommodation",
+      "hedonic_polarity": "positive",
+      "u_X": 0.5,
+      "u_Y": -0.5,
+      "l1_norm": 1.0,
+      "quadrant": "Q4_DIAG",
+      "ray_description": "X = -Y > 0 (Accommodation face à une limite objective d'action)",
+      "z2_prototype": "calme",
+      "tableau_1b": {
+        "z3_high_A": "Délivrance",
+        "z3_low_A": "Apaisement",
+        "z4_high_A": "Soulagement",
+        "z4_low_A": "Quiétude",
+        "z5_high_A": "Sagesse apaisée",
+        "z5_low_A": "Paix intérieure"
+      },
+      "lean_comment": "X = -Y > 0 (Z=2 : Calme, Acceptation — accommodation face à une limite d'action)"
+    },
+    {
+      "subsector_id": "lateralApproachSynergy",
+      "lean_constructor": "FunctionalSubsector.lateralApproachSynergy",
+      "pair_id": "L2",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralEpistemicClosure",
+      "taxonomic_group": "sectorControlPos",
+      "hedonic_polarity": "positive",
+      "u_X": 0.25,
+      "u_Y": 0.75,
+      "l1_norm": 1.0,
+      "quadrant": "Q1_DOM_POS_Y",
+      "ray_description": "Y > |X|, X > 0 (Engagement instrumental favorable ; sécurité/plénitude à A bas)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Assurance",
+        "z3_low_A": "Plaisir paisible",
+        "z4_high_A": "Exaltation",
+        "z4_low_A": "Sérénité",
+        "z5_high_A": "Plénitude",
+        "z5_low_A": "Sécurité"
+      },
+      "lean_comment": "Y > |X|, X > 0 (Engagement instrumental favorable ; Plénitude/Sécurité active à A bas)"
+    },
+    {
+      "subsector_id": "lateralAgenticConfront",
+      "lean_constructor": "FunctionalSubsector.lateralAgenticConfront",
+      "pair_id": "L3",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralReceptiveAccomm",
+      "taxonomic_group": "sectorControlPos",
+      "hedonic_polarity": "negative",
+      "u_X": -0.25,
+      "u_Y": 0.75,
+      "l1_norm": 1.0,
+      "quadrant": "Q2_DOM_POS_Y",
+      "ray_description": "Y > |X|, X < 0 (Affrontement agentique à contrôle dominant)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Frustration",
+        "z3_low_A": "Opposition",
+        "z4_high_A": "Hostilité",
+        "z4_low_A": "Ressentiment",
+        "z5_high_A": "Révolte",
+        "z5_low_A": "Amertume"
+      },
+      "lean_comment": "Y > |X|, X < 0 (Affrontement agentique à contrôle dominant : Hostilité, Révolte)"
+    },
+    {
+      "subsector_id": "lateralSecondaryAccomm",
+      "lean_constructor": "FunctionalSubsector.lateralSecondaryAccomm",
+      "pair_id": "L4",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralActiveContest",
+      "taxonomic_group": "sectorControlNeg",
+      "hedonic_polarity": "positive",
+      "u_X": 0.25,
+      "u_Y": -0.75,
+      "l1_norm": 1.0,
+      "quadrant": "Q4_DOM_NEG_Y",
+      "ray_description": "Y < -|X|, X > 0 (Accommodation secondaire à limite d'action dominante)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Répit vif",
+        "z3_low_A": "Relâchement",
+        "z4_high_A": "Détachement",
+        "z4_low_A": "Lâcher-prise",
+        "z5_high_A": "Recul serein",
+        "z5_low_A": "Abandon confiant"
+      },
+      "lean_comment": "Y < -|X|, X > 0 (Accommodation / contrôle secondaire à limite d'action dominante : Lâcher-prise)"
+    },
+    {
+      "subsector_id": "lateralAversiveDistress",
+      "lean_constructor": "FunctionalSubsector.lateralAversiveDistress",
+      "pair_id": "L1",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralEpistemicMastery",
+      "taxonomic_group": "sectorControlNeg",
+      "hedonic_polarity": "negative",
+      "u_X": -0.25,
+      "u_Y": -0.75,
+      "l1_norm": 1.0,
+      "quadrant": "Q3_DOM_NEG_Y",
+      "ray_description": "Y < -|X|, X < 0 (Faible contrôle aversif)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Déception vive",
+        "z3_low_A": "Découragement",
+        "z4_high_A": "Honte",
+        "z4_low_A": "Résignation",
+        "z5_high_A": "Désespoir",
+        "z5_low_A": "Apathie"
+      },
+      "lean_comment": "Y < -|X|, X < 0 (Faible contrôle aversif : Angoisse/Terreur/Horreur/Détresse [A haut], Désespoir/Résignation [A bas])"
+    },
+    {
+      "subsector_id": "lateralEpistemicMastery",
+      "lean_constructor": "FunctionalSubsector.lateralEpistemicMastery",
+      "pair_id": "L1",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralAversiveDistress",
+      "taxonomic_group": "sectorExpectationPos",
+      "hedonic_polarity": "positive",
+      "u_X": 0.75,
+      "u_Y": 0.25,
+      "l1_norm": 1.0,
+      "quadrant": "Q1_DOM_POS_X",
+      "ray_description": "X > |Y|, Y > 0 (Ouverture épistémique maîtrisée)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Élan",
+        "z3_low_A": "Satisfaction",
+        "z4_high_A": "Fierté",
+        "z4_low_A": "Estime",
+        "z5_high_A": "Optimisme actif",
+        "z5_low_A": "Espoir"
+      },
+      "lean_comment": "X > |Y|, Y > 0 (Ouverture épistémique maîtrisée : Aplomb, Fierté, Sérénité maîtrisée à A bas)"
+    },
+    {
+      "subsector_id": "lateralReceptiveAccomm",
+      "lean_constructor": "FunctionalSubsector.lateralReceptiveAccomm",
+      "pair_id": "L3",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralAgenticConfront",
+      "taxonomic_group": "sectorExpectationPos",
+      "hedonic_polarity": "positive",
+      "u_X": 0.75,
+      "u_Y": -0.25,
+      "l1_norm": 1.0,
+      "quadrant": "Q4_DOM_POS_X",
+      "ray_description": "X > |Y|, Y < 0 (Accommodation réceptive face à une limite d'action)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Résilience vive",
+        "z3_low_A": "Acceptation",
+        "z4_high_A": "Endurance active",
+        "z4_low_A": "Patience",
+        "z5_high_A": "Stoïcisme",
+        "z5_low_A": "Consentement lucide"
+      },
+      "lean_comment": "X > |Y|, Y < 0 (Accommodation réceptive face à une limite d'action : Admiration, Consentement)"
+    },
+    {
+      "subsector_id": "lateralActiveContest",
+      "lean_constructor": "FunctionalSubsector.lateralActiveContest",
+      "pair_id": "L4",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralSecondaryAccomm",
+      "taxonomic_group": "sectorExpectationNeg",
+      "hedonic_polarity": "negative",
+      "u_X": -0.75,
+      "u_Y": 0.25,
+      "l1_norm": 1.0,
+      "quadrant": "Q2_DOM_NEG_X",
+      "ray_description": "X < -|Y|, Y > 0 (Menace épistémique sous maintien d'action)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Contestation",
+        "z3_low_A": "Dépit",
+        "z4_high_A": "Indignation",
+        "z4_low_A": "Mépris froid",
+        "z5_high_A": "Défiance combative",
+        "z5_low_A": "Cynisme"
+      },
+      "lean_comment": "X < -|Y|, Y > 0 (Menace épistémique sous maintien d'action : Contestation, Rancœur active)"
+    },
+    {
+      "subsector_id": "lateralEpistemicClosure",
+      "lean_constructor": "FunctionalSubsector.lateralEpistemicClosure",
+      "pair_id": "L2",
+      "block": "Bloc B (latéral contralatéral)",
+      "conjugate_subsector": "lateralApproachSynergy",
+      "taxonomic_group": "sectorExpectationNeg",
+      "hedonic_polarity": "negative",
+      "u_X": -0.75,
+      "u_Y": -0.25,
+      "l1_norm": 1.0,
+      "quadrant": "Q3_DOM_NEG_X",
+      "ray_description": "X < -|Y|, Y < 0 (Fermeture épistémique à faible contrôle)",
+      "z2_prototype": null,
+      "tableau_1b": {
+        "z3_high_A": "Alarme",
+        "z3_low_A": "Anxiété",
+        "z4_high_A": "Angoisse",
+        "z4_low_A": "Appréhension diffuse",
+        "z5_high_A": "Terreur",
+        "z5_low_A": "Tourment"
+      },
+      "lean_comment": "X < -|Y|, Y < 0 (Fermeture épistémique à faible contrôle : Effroi/Sidération [A haut], Méfiance repliée [A bas])"
+    }
+  ]
+}
