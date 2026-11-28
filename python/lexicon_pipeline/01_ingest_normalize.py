@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-01_ingest_normalize.py — Micro-Passe 1 : Ingestion & Gouvernance lexicale (CARTOGRAFFECT v3.0.0)
+01_ingest_normalize.py — Micro-Passes 1 & 1b : Ingestion, Gouvernance lexicale & Routage bi-hémisphérique (CARTOGRAFFECT v3.0.0)
 
 Périmètre strict :
 - Lecture seule sur data/raw/ (4 sources tierces non redistribuables).
@@ -9,13 +9,15 @@ Périmètre strict :
 - Chargement et audit de DIMA 1 (Émotions) et DIMA 2 (Sentiments), avec journalisation
   exacte des cellules non nulles dans Unnamed: 26, Unnamed: 29 et Unnamed: 30 avant retrait.
 - Fusion DIMA 1 + 2 sur la clé (lemme_norm, part_disc, classe, categ) avec tri prioritaire
-  (évitant l'écrasement des emplois ExpAffect par des emplois CausAffect/ObjAffect antérieurs)
-  et attribution du tier (TIER1_STATE, TIER2_VERB_BEHAVIOR, EXCLUDED_CONTEXT).
+  (Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD, puis tier/type),
+  attribution du tier et routage bi-hémisphérique sans perte (hemisphere_route, pruning_bucket,
+  z_minus_value_candidate).
 - Chargement et normalisation de FANCatdatabaseRevisee.xlsx (onglet FANCat All, 27 colonnes
   renommées, saut de la ligne secondaire Mean/SD) et NRC-VAD-Lexicon-v2.1.txt (TSV).
 - Export :
-  - data/processed/dima_normalized.parquet
-  - data/processed/fancat_clean.parquet
+  - data/processed/dima_normalized.parquet (local, ignoré Git)
+  - data/processed/dima_z_minus_reserve.parquet (local, ignoré Git — vue réserve -Z)
+  - data/processed/fancat_clean.parquet (local, ignoré Git)
   - data/processed/dima_classes_summary.csv
   - reports/lexicon_v3/mp1_ingestion_audit.md
 """
@@ -204,6 +206,31 @@ TYPE_RANK: dict[str, int] = {
 }
 
 STATE_TYPES = {"ExpAffect", "HumAffect", "CaractAffect"}
+
+HEMISPHERE_ROUTE_RANK: dict[str, int] = {
+    "Z_PLUS_ACTIVE": 0,
+    "Z_PLUS_SATELLITE": 1,
+    "Z_MINUS_RESERVE": 2,
+    "NON_LEXICAL_DISCARD": 3,
+}
+
+# 12 classes frontières axiologiques/épistémiques (après normalisation des sauts de ligne)
+Z_MINUS_VALUE_CANDIDATE_CLASSES: frozenset[str] = frozenset(
+    {
+        "Bonne conscience",
+        "Mauvaise conscience",
+        "Mauvaise conscience scrupule",
+        "Gratitude",
+        "Pudeur",
+        "Estime respect",
+        "Croyance",
+        "Croyance relig",
+        "Incrédulité",
+        "Incrédulité relig",
+        "Défiance_Non fiabilité",
+        "Orgueil surestimation de soi",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -425,8 +452,29 @@ def classify_tier(part_disc: str, type_val: str, is_classifier: bool) -> tuple[s
     return "EXCLUDED_CONTEXT", reason
 
 
+def classify_hemisphere_route(part_disc: str, type_val: str, is_classifier: bool) -> tuple[str, str]:
+    """Assigne la route bi-hémisphérique (Z+ actif vs réserve -Z) et le bucket d'élagage réversible."""
+    if is_classifier:
+        return "NON_LEXICAL_DISCARD", "META_CLASSIFIER"
+    if part_disc in {"NOM", "ADJ"} and type_val == "ExpAffect":
+        return "Z_PLUS_ACTIVE", "Z_PLUS_EXPAFFECT"
+    if part_disc in {"NOM", "ADJ"} and type_val == "HumAffect":
+        return "Z_PLUS_ACTIVE", "Z_PLUS_HUMAFFECT"
+    if part_disc == "VERB" and type_val in {"ExpAffect", "HumAffect"}:
+        return "Z_PLUS_SATELLITE", "Z_PLUS_VERB_EXP"
+    if type_val == "CaractAffect":
+        return "Z_MINUS_RESERVE", "Z_MINUS_TRAIT_CARACT"
+    if type_val in {"ComportAffect", "ParoleAffect"}:
+        return "Z_MINUS_RESERVE", "Z_MINUS_BEHAVIOR_SPEECH"
+    if type_val == "ObjAffect":
+        return "Z_MINUS_RESERVE", "Z_MINUS_OBJAFFECT"
+    if type_val == "CausAffect":
+        return "Z_MINUS_RESERVE", "Z_MINUS_CAUSAFFECT"
+    return "NON_LEXICAL_DISCARD", "GRAMMATICAL_ADV_PREP"
+
+
 def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Normalise DIMA 1+2, assigne `tier` et fusionne sur (lemme_norm, part_disc, classe, categ)."""
+    """Normalise DIMA 1+2, assigne `tier` et le routage Z+/Z-, et fusionne sur (lemme_norm, part_disc, classe, categ)."""
     df = df_raw.copy()
 
     df["lemme_norm"] = df["LEMME"].map(clean_text).str.lower()
@@ -446,19 +494,27 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
     df["tier"] = [t[0] for t in tiers]
     df["tier_reason"] = [t[1] for t in tiers]
 
+    routes = [
+        classify_hemisphere_route(pd_val, tp_val, bool(clf))
+        for pd_val, tp_val, clf in zip(df["part_disc"], df["type"], df["is_classifier"])
+    ]
+    df["hemisphere_route"] = [r[0] for r in routes]
+    df["pruning_bucket"] = [r[1] for r in routes]
+
+    df["_route_rank"] = df["hemisphere_route"].map(HEMISPHERE_ROUTE_RANK).fillna(99).astype("int64")
     df["_tier_rank"] = df["tier"].map(TIER_RANK).fillna(99).astype("int64")
     df["_type_rank"] = df["type"].map(TYPE_RANK).fillna(99).astype("int64")
     df["_emploi_num"] = pd.to_numeric(df["EMPLOI"], errors="coerce").fillna(999.0)
 
     key_cols = ["lemme_norm", "part_disc", "classe", "categ"]
 
-    # Traçabilité des clés dupliquées avant fusion
+    # Traçabilité des clés dupliquées avant fusion (priorité Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD)
     dup_mask = df.duplicated(subset=key_cols, keep=False)
     df_dups = df[dup_mask].sort_values(key_cols + ["raw_row_order"], kind="mergesort")
     merged_key_audits: list[dict[str, Any]] = []
     for key_vals, grp in df_dups.groupby(key_cols, sort=False):
         grp_sorted = grp.sort_values(
-            ["_tier_rank", "_type_rank", "_emploi_num", "raw_row_order"], kind="mergesort"
+            ["_route_rank", "_tier_rank", "_type_rank", "_emploi_num", "raw_row_order"], kind="mergesort"
         )
         naive_first = grp.iloc[0]
         chosen = grp_sorted.iloc[0]
@@ -471,18 +527,25 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
                 "n_rows": int(len(grp)),
                 "raw_types_order": " | ".join(grp["type"].tolist()),
                 "raw_tiers_order": " | ".join(grp["tier"].tolist()),
+                "raw_routes_order": " | ".join(grp["hemisphere_route"].tolist()),
                 "chosen_type": chosen["type"],
                 "chosen_tier": chosen["tier"],
+                "chosen_route": chosen["hemisphere_route"],
                 "naive_first_type": naive_first["type"],
                 "naive_first_tier": naive_first["tier"],
-                "saved_by_priority_sort": bool(chosen["tier"] != naive_first["tier"] or chosen["type"] != naive_first["type"]),
+                "naive_first_route": naive_first["hemisphere_route"],
+                "saved_by_priority_sort": bool(
+                    chosen["hemisphere_route"] != naive_first["hemisphere_route"]
+                    or chosen["tier"] != naive_first["tier"]
+                    or chosen["type"] != naive_first["type"]
+                ),
             }
         )
     df_dup_audit = pd.DataFrame(merged_key_audits)
 
     # Agrégation prioritaire par clé
     df_sorted = df.sort_values(
-        key_cols + ["_tier_rank", "_type_rank", "_emploi_num", "raw_row_order"],
+        key_cols + ["_route_rank", "_tier_rank", "_type_rank", "_emploi_num", "raw_row_order"],
         kind="mergesort",
     )
 
@@ -512,6 +575,7 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
             n_emplois_merged=("raw_row_order", "size"),
             types_all=("type", _join_unique),
             tiers_all=("tier", _join_unique),
+            routes_all=("hemisphere_route", _join_unique),
             emplois_all=("EMPLOI", _join_emplois),
             sous_classes_all=("sous_classe", _join_unique),
         )
@@ -519,8 +583,13 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
 
     df_primary = df_sorted.drop_duplicates(subset=key_cols, keep="first").copy()
     df_merged = df_primary.merge(grouped_meta, on=key_cols, how="left", validate="one_to_one")
-    df_merged = df_merged.drop(columns=["_tier_rank", "_type_rank", "_emploi_num"])
+    df_merged = df_merged.drop(columns=["_route_rank", "_tier_rank", "_type_rank", "_emploi_num"])
     df_merged = df_merged.rename(columns=DIMA_SNAKE_RENAME)
+
+    df_merged["z_minus_value_candidate"] = (
+        (df_merged["hemisphere_route"] == "Z_PLUS_ACTIVE")
+        & (df_merged["classe"].isin(Z_MINUS_VALUE_CANDIDATE_CLASSES))
+    ).astype(bool)
 
     # Normalisation explicite des types pour Parquet sans avertissement
     df_merged["emploi"] = pd.to_numeric(df_merged["emploi"], errors="coerce").astype("float64")
@@ -532,11 +601,14 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
         "type",
         "tier",
         "tier_reason",
+        "hemisphere_route",
+        "pruning_bucket",
         "sous_classe",
         "antonymie",
         "source_file",
         "types_all",
         "tiers_all",
+        "routes_all",
         "emplois_all",
         "sous_classes_all",
         *DIMA_SNAKE_RENAME.values(),
@@ -554,6 +626,9 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
         "type",
         "tier",
         "tier_reason",
+        "hemisphere_route",
+        "pruning_bucket",
+        "z_minus_value_candidate",
         "sous_classe",
         "antonymie",
         "is_locution",
@@ -565,6 +640,7 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
         "n_emplois_merged",
         "types_all",
         "tiers_all",
+        "routes_all",
         "emplois_all",
         "sous_classes_all",
         "lemme_raw",
@@ -599,14 +675,26 @@ def normalize_and_merge_dima(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.Dat
     assert len(df_merged) == 3342, f"Nombre d'entrées fusionnées DIMA inattendu : {len(df_merged)}"
     assert df_merged.duplicated(subset=key_cols).sum() == 0, "Clés dupliquées résiduelles après fusion."
     assert df_merged["classe"].nunique() == 109, f"Nombre de classes DIMA inattendu : {df_merged['classe'].nunique()}"
-    for req_col in ("lemme_norm", "part_disc", "classe", "categ", "tier"):
+    assert Z_MINUS_VALUE_CANDIDATE_CLASSES.issubset(set(df_merged["classe"].unique())), "Classes frontières -Z manquantes."
+    for req_col in ("lemme_norm", "part_disc", "classe", "categ", "tier", "hemisphere_route", "pruning_bucket"):
         assert df_merged[req_col].isna().sum() == 0, f"Valeurs nulles interdites dans {req_col}"
+
+    route_counts = df_merged["hemisphere_route"].value_counts().to_dict()
+    assert route_counts == {
+        "Z_MINUS_RESERVE": 1229,
+        "Z_PLUS_ACTIVE": 966,
+        "Z_PLUS_SATELLITE": 670,
+        "NON_LEXICAL_DISCARD": 477,
+    }, f"Comptages hemisphere_route inattendus : {route_counts}"
+    assert int(df_merged["z_minus_value_candidate"].sum()) == 46, (
+        f"Nombre inattendu de candidats z_minus_value_candidate : {int(df_merged['z_minus_value_candidate'].sum())}"
+    )
 
     return df, df_merged, df_dup_audit
 
 
 def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFrame) -> pd.DataFrame:
-    """Construit la table synthétique des 109 classes DIMA (effectifs et familles ANTONYMIE)."""
+    """Construit la table synthétique des 109 classes DIMA (effectifs, tiers, routes Z+/Z- et familles ANTONYMIE)."""
     raw_counts = (
         df_raw_norm.groupby(["categ", "classe"], as_index=False)
         .agg(n_raw_rows=("raw_row_order", "size"))
@@ -617,6 +705,7 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
         ant_vals = sorted({str(a) for a in grp["antonymie"].dropna() if str(a).strip()})
         ant_family = " || ".join(ant_vals) if ant_vals else ""
         t_counts = grp["tier"].value_counts().to_dict()
+        r_counts = grp["hemisphere_route"].value_counts().to_dict()
         tp_counts = grp["type"].value_counts().to_dict()
         pos_counts = grp["part_disc"].value_counts().to_dict()
 
@@ -636,6 +725,11 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
                 "n_tier1_state": int(t_counts.get("TIER1_STATE", 0)),
                 "n_tier2_verb_behavior": int(t_counts.get("TIER2_VERB_BEHAVIOR", 0)),
                 "n_excluded_context": int(t_counts.get("EXCLUDED_CONTEXT", 0)),
+                "n_z_plus_active": int(r_counts.get("Z_PLUS_ACTIVE", 0)),
+                "n_z_plus_satellite": int(r_counts.get("Z_PLUS_SATELLITE", 0)),
+                "n_z_minus_reserve": int(r_counts.get("Z_MINUS_RESERVE", 0)),
+                "n_non_lexical_discard": int(r_counts.get("NON_LEXICAL_DISCARD", 0)),
+                "n_z_minus_value_candidate": int(grp["z_minus_value_candidate"].sum()),
                 "n_exp_affect": int(tp_counts.get("ExpAffect", 0)),
                 "n_hum_affect": int(tp_counts.get("HumAffect", 0)),
                 "n_caract_affect": int(tp_counts.get("CaractAffect", 0)),
@@ -662,6 +756,11 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
         "n_tier1_state",
         "n_tier2_verb_behavior",
         "n_excluded_context",
+        "n_z_plus_active",
+        "n_z_plus_satellite",
+        "n_z_minus_reserve",
+        "n_non_lexical_discard",
+        "n_z_minus_value_candidate",
         "n_exp_affect",
         "n_hum_affect",
         "n_caract_affect",
@@ -679,6 +778,18 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
     assert len(summary) == 109, f"Nombre de classes dans le résumé inattendu : {len(summary)}"
     assert int(summary["n_entries"].sum()) == 3342
     assert int(summary["n_raw_rows"].sum()) == 3373
+    assert int(summary["n_z_plus_active"].sum()) == 966
+    assert int(summary["n_z_plus_satellite"].sum()) == 670
+    assert int(summary["n_z_minus_reserve"].sum()) == 1229
+    assert int(summary["n_non_lexical_discard"].sum()) == 477
+    assert int(summary["n_z_minus_value_candidate"].sum()) == 46
+    assert (
+        summary["n_z_plus_active"]
+        + summary["n_z_plus_satellite"]
+        + summary["n_z_minus_reserve"]
+        + summary["n_non_lexical_discard"]
+        == summary["n_entries"]
+    ).all()
     return summary
 
 
@@ -904,6 +1015,92 @@ def build_audit_report(
             f"{int(r['n_rows'])} | `{r['raw_types_order']}` | `{r['chosen_tier']}` / `{r['chosen_type']}` | {saved_flag} |"
         )
 
+    # Routage bi-hémisphérique Z+ / Réserve -Z (Micro-Passe 1b)
+    route_counts = df_dima_merged["hemisphere_route"].value_counts().to_dict()
+    bucket_counts = (
+        df_dima_merged.groupby(["hemisphere_route", "pruning_bucket"], as_index=False)
+        .size()
+        .sort_values(["hemisphere_route", "size", "pruning_bucket"], ascending=[True, False, True], kind="mergesort")
+    )
+    cand_df = df_dima_merged[df_dima_merged["z_minus_value_candidate"]]
+    cand_summary = (
+        cand_df.groupby(["classe", "pruning_bucket"], as_index=False)
+        .agg(
+            effectif=("lemme_norm", "size"),
+            exemples=("lemme_norm", lambda s: ", ".join(sorted(set(s))[:5])),
+        )
+        .sort_values(["classe", "pruning_bucket"], kind="mergesort")
+    )
+    route_changed = df_dup_audit[df_dup_audit["chosen_route"] != df_dup_audit["naive_first_route"]]
+
+    lines.extend(
+        [
+            "",
+            "---",
+            "",
+            "## 4. Routage bi-hémisphérique $Z_+$ / Réserve $-Z$ (Micro-Passe 1b)",
+            "",
+            "L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et 9 buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :",
+            "",
+            "### Répartition par `hemisphere_route`",
+            "",
+            "| Route (`hemisphere_route`) | Effectif | Part (%) | Rôle architectural |",
+            "| :--- | ---: | ---: | :--- |",
+        ]
+    )
+    route_roles = {
+        "Z_PLUS_ACTIVE": "Cœur actif $Z_+$ (`NOM`/`ADJ` en `ExpAffect` ou `HumAffect`)",
+        "Z_PLUS_SATELLITE": "Satellites verbaux $Z_+$ (`VERB` en `ExpAffect` ou `HumAffect`)",
+        "Z_MINUS_RESERVE": "Réserve structurée $-Z$ (exportée localement dans `data/processed/dima_z_minus_reserve.parquet`)",
+        "NON_LEXICAL_DISCARD": "Écartés non lexicaux (`META_CLASSIFIER` + adverbes/prépositions/conjonctions/`ADJRELAT`)",
+    }
+    for r_name in ("Z_PLUS_ACTIVE", "Z_PLUS_SATELLITE", "Z_MINUS_RESERVE", "NON_LEXICAL_DISCARD"):
+        cnt = int(route_counts.get(r_name, 0))
+        pct = 100.0 * cnt / total_merged
+        lines.append(f"| `{r_name}` | {cnt} | {pct:.2f}% | {route_roles[r_name]} |")
+    lines.append(f"| **Total** | **{total_merged}** | **100.00%** | Partition complète sans perte |")
+
+    lines.extend(
+        [
+            "",
+            "### Détail des 9 `pruning_bucket`",
+            "",
+            "| `hemisphere_route` | `pruning_bucket` | Effectif | Part (%) |",
+            "| :--- | :--- | ---: | ---: |",
+        ]
+    )
+    for _, r in bucket_counts.iterrows():
+        cnt = int(r["size"])
+        lines.append(f"| `{r['hemisphere_route']}` | `{r['pruning_bucket']}` | {cnt} | {100.0 * cnt / total_merged:.2f}% |")
+
+    lines.extend(
+        [
+            "",
+            f"### Effet de la priorité de routage sur les clés multi-emplois (`{len(route_changed)}` cas)",
+            "",
+            "Par rapport au tri initial MP1, la priorité `Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD` promeut 3 adverbes multi-emplois vers `Z_MINUS_RESERVE` (`Z_MINUS_CAUSAFFECT`) plutôt que `NON_LEXICAL_DISCARD` (`ExpAffect`), tout en conservant `types_all` et `routes_all` :",
+            "",
+        ]
+    )
+    for _, r in route_changed.iterrows():
+        lines.append(
+            f"- `{r['lemme_norm']}` (`{r['part_disc']}`, `{r['classe']}`) : `{r['naive_first_route']}` (`{r['naive_first_type']}`) → `{r['chosen_route']}` (`{r['chosen_type']}`)"
+        )
+
+    lines.extend(
+        [
+            "",
+            f"### Candidats frontières axiologiques/épistémiques (`z_minus_value_candidate = True` : `{len(cand_df)}` entrées en `Z_PLUS_ACTIVE` sur 12 classes)",
+            "",
+            "Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en $Z_+$ vs bascule vers la réserve $-Z$) :",
+            "",
+            "| Classe DIMA (`classe`) | `pruning_bucket` | Effectif | Exemples de lemmes |",
+            "| :--- | :--- | ---: | :--- |",
+        ]
+    )
+    for _, r in cand_summary.iterrows():
+        lines.append(f"| `{r['classe']}` | `{r['pruning_bucket']}` | {int(r['effectif'])} | `{r['exemples']}` |")
+
     # Résumé des 109 classes & ANTONYMIE
     n_no_ant = int((df_classes_summary["antonymie_family"] == "").sum())
     ant_families = sorted({a for a in df_classes_summary["antonymie_family"] if a})
@@ -912,7 +1109,7 @@ def build_audit_report(
             "",
             "---",
             "",
-            "## 4. Synthèse des 109 classes DIMA et familles `ANTONYMIE`",
+            "## 5. Synthèse des 109 classes DIMA et familles `ANTONYMIE`",
             "",
             f"- **Nombre total de classes :** `{len(df_classes_summary)}` (`{int((df_classes_summary['categ'] == 'I').sum())}` en Catégorie I, `{int((df_classes_summary['categ'] == 'II').sum())}` en Catégorie II)",
             f"- **Libellés distincts de familles `ANTONYMIE` (non vides) :** `{len(ant_families)}` (dont 2 libellés proches dans `Nostalgie` : `Nostalgie de qqc / Regretter qq || Nostalgie de qqc / Regretter qqc ou qq`)",
@@ -920,7 +1117,7 @@ def build_audit_report(
             "",
             "---",
             "",
-            "## 5. Ingestion FANCat & NRC-VAD v2.1",
+            "## 6. Ingestion FANCat & NRC-VAD v2.1",
             "",
             "### FANCat (`FANCatdatabaseRevisee.xlsx`, onglet `FANCat All`)",
             f"- **Lignes ingérées :** `{len(df_fancat)}` mots français uniques (après saut de la ligne d'en-tête secondaire `Mean/SD`)",
@@ -949,27 +1146,28 @@ def build_audit_report(
         [
             "---",
             "",
-            "## 6. Pré-diagnostic de recouvrement inter-bases (préparation Micro-Passe 2)",
+            "## 7. Pré-diagnostic de recouvrement inter-bases (préparation Micro-Passe 2)",
             "",
             f"- **DIMA ∩ FANCat (`lemme_norm == word_fr_norm`) :** `{len(dima_lemmes & fan_fr)}` lemmes distincts (sur `{len(dima_lemmes)}` lemmes uniques DIMA et `{len(fan_fr)}` mots FANCat) — dont `{ov_t1}` en `TIER1_STATE`, `{ov_t2}` en `TIER2_VERB_BEHAVIOR`, `{ov_ex}` en `EXCLUDED_CONTEXT`.",
             f"- **FANCat (glose anglaise) ∩ NRC-VAD (`word_en_norm == term_norm`) :** `{len(fan_en & nrc_terms)}` mots FANCat sur `{len(df_fancat)}` (`{100.0 * len(fan_en & nrc_terms) / len(df_fancat):.1f}%` ; attention : correspondance exacte brute avant lemmatisation / désambiguïsation des gloses).",
             "",
             "---",
             "",
-            "## 7. Artefacts exportés (`data/processed/`)",
+            "## 8. Artefacts exportés (`data/processed/`)",
             "",
-            "| Fichier | Taille (octets) | SHA-256 |",
-            "| :--- | ---: | :--- |",
+            "| Fichier | Taille (octets) | SHA-256 | Statut Git |",
+            "| :--- | ---: | :--- | :--- |",
         ]
     )
     for rel_p, sz, digest in processed_artifacts:
-        lines.append(f"| `{rel_p}` | {sz:,} | `{digest}` |")
+        git_stat = "Local uniquement (ignoré par `.gitignore`)" if rel_p.endswith(".parquet") else "Suivi dans Git"
+        lines.append(f"| `{rel_p}` | {sz:,} | `{digest}` | {git_stat} |")
     lines.append("")
     return "\n".join(lines)
 
 
 def main() -> None:
-    print("[MP1] Démarrage de l'ingestion & gouvernance lexicale CARTOGRAFFECT v3.0.0...")
+    print("[MP1] Démarrage de l'ingestion, gouvernance lexicale & routage Z+/Z- (CARTOGRAFFECT v3.0.0)...")
     raw_audits = compute_raw_hashes()
     for item in raw_audits:
         print(f"  [SHA-256] {item.rel_path} ({item.size_bytes} B) -> {item.sha256}")
@@ -981,8 +1179,17 @@ def main() -> None:
     df_dima_raw_norm, df_dima_merged, df_dup_audit = normalize_and_merge_dima(df_dima_raw)
     print(
         f"[MP1][DIMA] {len(df_dima_raw_norm)} lignes brutes -> {len(df_dima_merged)} entrées uniques | "
-        f"tiers={df_dima_merged['tier'].value_counts().to_dict()}"
+        f"tiers={df_dima_merged['tier'].value_counts().to_dict()} | "
+        f"routes={df_dima_merged['hemisphere_route'].value_counts().to_dict()} | "
+        f"z_minus_value_candidate={int(df_dima_merged['z_minus_value_candidate'].sum())}"
     )
+
+    df_z_minus = (
+        df_dima_merged[df_dima_merged["hemisphere_route"] == "Z_MINUS_RESERVE"]
+        .copy()
+        .reset_index(drop=True)
+    )
+    assert len(df_z_minus) == 1229, f"Effectif inattendu pour dima_z_minus_reserve : {len(df_z_minus)}"
 
     df_classes_summary = build_dima_classes_summary(df_dima_raw_norm, df_dima_merged)
     print(f"[MP1][DIMA CLASSES] {len(df_classes_summary)} classes résumées.")
@@ -1000,16 +1207,19 @@ def main() -> None:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
     dima_out = PROCESSED_DIR / "dima_normalized.parquet"
+    z_minus_out = PROCESSED_DIR / "dima_z_minus_reserve.parquet"
     fancat_out = PROCESSED_DIR / "fancat_clean.parquet"
     classes_out = PROCESSED_DIR / "dima_classes_summary.csv"
     audit_out = REPORTS_DIR / "mp1_ingestion_audit.md"
 
     df_dima_merged.to_parquet(dima_out, engine="pyarrow", index=False)
+    df_z_minus.to_parquet(z_minus_out, engine="pyarrow", index=False)
     df_fancat.to_parquet(fancat_out, engine="pyarrow", index=False)
     df_classes_summary.to_csv(classes_out, index=False, encoding="utf-8")
 
     processed_artifacts = [
         ("data/processed/dima_normalized.parquet", dima_out.stat().st_size, sha256_file(dima_out)),
+        ("data/processed/dima_z_minus_reserve.parquet", z_minus_out.stat().st_size, sha256_file(z_minus_out)),
         ("data/processed/fancat_clean.parquet", fancat_out.stat().st_size, sha256_file(fancat_out)),
         ("data/processed/dima_classes_summary.csv", classes_out.stat().st_size, sha256_file(classes_out)),
     ]
@@ -1028,7 +1238,11 @@ def main() -> None:
         processed_artifacts=processed_artifacts,
     )
     audit_out.write_text(report_md, encoding="utf-8")
-    print("[MP1] Exports terminés : data/processed/{dima_normalized.parquet,fancat_clean.parquet,dima_classes_summary.csv} et reports/lexicon_v3/mp1_ingestion_audit.md")
+    print(
+        "[MP1] Exports terminés : data/processed/{dima_normalized.parquet,"
+        "dima_z_minus_reserve.parquet,fancat_clean.parquet,dima_classes_summary.csv} "
+        "et reports/lexicon_v3/mp1_ingestion_audit.md"
+    )
 
 
 if __name__ == "__main__":
