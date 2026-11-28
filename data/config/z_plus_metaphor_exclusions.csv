@@ -1,7 +1,11 @@
-lemme_norm,part_disc,classe,raison
-cafard,NOM,Apathie,Locution métaphorique familière (avoir le cafard) non autonome
-transport,NOM,Troubler,Sens littéraire vieilli (REGISTRE=vx)
-humeur,NOM,Colère,"Sens vieilli (avoir de l'humeur contre, REGISTRE=vx)"
-humeur,NOM,Humeur mauvaise,Sens vieilli (REGISTRE=vx)
-soif,NOM,Désir,Métaphore physiologique figurée non autonome
-rage,NOM,Désir,Locution figurée (rage de faire qqc)
+lemme_norm,part_disc,classe,target_bucket,raison
+cafard,NOM,Apathie,Z_PLUS_IDIOM_MWE,Locution métaphorique familière (avoir le cafard) non autonome
+transport,NOM,Troubler,Z_PLUS_IDIOM_MWE,Sens littéraire vieilli (REGISTRE=vx)
+humeur,NOM,Colère,Z_PLUS_IDIOM_MWE,"Sens vieilli (avoir de l'humeur contre, REGISTRE=vx)"
+humeur,NOM,Humeur mauvaise,Z_PLUS_IDIOM_MWE,Sens vieilli (REGISTRE=vx)
+soif,NOM,Désir,Z_PLUS_IDIOM_MWE,Métaphore physiologique figurée non autonome
+rage,NOM,Désir,Z_PLUS_IDIOM_MWE,Locution figurée (rage de faire qqc)
+affect,NOM,Troubler,META_CLASSIFIER,Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)
+affectivité,NOM,Troubler,META_CLASSIFIER,Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)
+sentiment,NOM,Troubler,META_CLASSIFIER,Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)
+émotion,NOM,Troubler,META_CLASSIFIER,Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)

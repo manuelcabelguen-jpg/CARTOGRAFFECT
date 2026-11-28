@@ -1,7 +1,7 @@
 # Rapport d'Audit — Micro-Passes 1 / 1b / 1c : Ingestion, Gouvernance & Épuration $Z_+$ (CARTOGRAFFECT v3.0.0)
 
 - **Script :** [`python/lexicon_pipeline/01_ingest_normalize.py`](../../python/lexicon_pipeline/01_ingest_normalize.py) *(strictement idempotent)*
-- **Exclusions métaphores :** [`data/config/z_plus_metaphor_exclusions.csv`](../../data/config/z_plus_metaphor_exclusions.csv) (`6` règles, SHA-256 `3a60e73a04103c19...`)
+- **Exclusions métaphores :** [`data/config/z_plus_metaphor_exclusions.csv`](../../data/config/z_plus_metaphor_exclusions.csv) (`10` règles, SHA-256 `68302379aeb3f06b...`)
 - **Périmètre Lean 4 :** `Cartograffect/` strictement en lecture seule (0 fichier modifié)
 - **Gouvernance FAIR4RS :** [`DATA_PROVENANCE.md`](../../DATA_PROVENANCE.md) mis à jour de façon idempotente ; `data/raw/` et les dérivés FANCat restent exclus du suivi Git.
 
@@ -143,17 +143,17 @@ Les 7 colonnes excédentaires (`Unnamed: 24` à `Unnamed: 30`) présentes dans `
 
 L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 routes et 12 buckets (`Z_PLUS_ACTIVE > Z_PLUS_SATELLITE > Z_MINUS_RESERVE > NON_LEXICAL_DISCARD`) :
 
-- **Noyau épuré `Z_PLUS_ACTIVE` :** `553` unigrammes standard `ExpAffect` (`373 NOM` + `180 ADJ`), hors locutions multi-mots, hors registres `vx`/`fam`/`allemand`/`jur` et hors métaphores figées.
+- **Noyau épuré `Z_PLUS_ACTIVE` :** `549` unigrammes standard `ExpAffect` (`369 NOM` + `180 ADJ`), hors locutions multi-mots, hors registres `vx`/`fam`/`allemand`/`jur` et hors métaphores figées.
 - **Reclassement `HumAffect` :** `139` lignes brutes (`138` entrées uniques fusionnées, désignant des personnes/rôles à `VSUP-1 = "être un N"`) routées vers `Z_MINUS_RESERVE` (`Z_MINUS_HUMAN_ROLE`).
 
 ### Répartition par `hemisphere_route`
 
 | Route (`hemisphere_route`) | Effectif | Part (%) | Rôle architectural |
 | :--- | ---: | ---: | :--- |
-| `Z_PLUS_ACTIVE` | 553 | 16.55% | Noyau actif épuré $Z_+$ : unigrammes standard `ExpAffect` (`373 NOM`, `180 ADJ`) |
+| `Z_PLUS_ACTIVE` | 549 | 16.43% | Noyau actif épuré $Z_+$ : unigrammes standard `ExpAffect` (`369 NOM`, `180 ADJ`) |
 | `Z_PLUS_SATELLITE` | 945 | 28.28% | Satellites $Z_+$ (`VERB` `ExpAffect`, locutions MWE & métaphores, registres `fam` et `vx`/`allemand`/`jur`) |
 | `Z_MINUS_RESERVE` | 1367 | 40.90% | Réserve structurée $-Z$ (`CausAffect`, `ObjAffect`, `HumAffect` rôles humains, `ComportAffect`/`ParoleAffect`, `CaractAffect`) |
-| `NON_LEXICAL_DISCARD` | 477 | 14.27% | Écartés non lexicaux (`META_CLASSIFIER` + adverbes/prépositions/conjonctions/`ADJRELAT`) |
+| `NON_LEXICAL_DISCARD` | 481 | 14.39% | Écartés non lexicaux (`META_CLASSIFIER` + adverbes/prépositions/conjonctions/`ADJRELAT`) |
 | **Total** | **3342** | **100.00%** | Partition complète sans perte |
 
 ### Détail des 12 `pruning_bucket`
@@ -161,28 +161,32 @@ L'élagage réversible sans perte partitionne les `3 342` entrées DIMA en 4 rou
 | `hemisphere_route` | `pruning_bucket` | Effectif | Part (%) |
 | :--- | :--- | ---: | ---: |
 | `NON_LEXICAL_DISCARD` | `GRAMMATICAL_ADV_PREP` | 462 | 13.82% |
-| `NON_LEXICAL_DISCARD` | `META_CLASSIFIER` | 15 | 0.45% |
+| `NON_LEXICAL_DISCARD` | `META_CLASSIFIER` | 19 | 0.57% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_CAUSAFFECT` | 743 | 22.23% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_OBJAFFECT` | 302 | 9.04% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_HUMAN_ROLE` | 138 | 4.13% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_BEHAVIOR_SPEECH` | 119 | 3.56% |
 | `Z_MINUS_RESERVE` | `Z_MINUS_TRAIT_CARACT` | 65 | 1.94% |
-| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 553 | 16.55% |
+| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 549 | 16.43% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_VERB_EXP` | 670 | 20.05% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_IDIOM_MWE` | 209 | 6.25% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_COLLOQUIAL` | 47 | 1.41% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_ARCHAIC_FOREIGN` | 19 | 0.57% |
 
-### Métaphores figées exclues de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `6` règles → `Z_PLUS_IDIOM_MWE`)
+### Métaphores figées et métatermes exclus de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `10` règles)
 
-| `lemme_norm` | `part_disc` | `classe` | Raison |
-| :--- | :---: | :--- | :--- |
-| `cafard` | `NOM` | `Apathie` | Locution métaphorique familière (avoir le cafard) non autonome |
-| `transport` | `NOM` | `Troubler` | Sens littéraire vieilli (REGISTRE=vx) |
-| `humeur` | `NOM` | `Colère` | Sens vieilli (avoir de l'humeur contre, REGISTRE=vx) |
-| `humeur` | `NOM` | `Humeur mauvaise` | Sens vieilli (REGISTRE=vx) |
-| `soif` | `NOM` | `Désir` | Métaphore physiologique figurée non autonome |
-| `rage` | `NOM` | `Désir` | Locution figurée (rage de faire qqc) |
+| `lemme_norm` | `part_disc` | `classe` | `target_bucket` | Raison |
+| :--- | :---: | :--- | :--- | :--- |
+| `cafard` | `NOM` | `Apathie` | `Z_PLUS_IDIOM_MWE` | Locution métaphorique familière (avoir le cafard) non autonome |
+| `transport` | `NOM` | `Troubler` | `Z_PLUS_IDIOM_MWE` | Sens littéraire vieilli (REGISTRE=vx) |
+| `humeur` | `NOM` | `Colère` | `Z_PLUS_IDIOM_MWE` | Sens vieilli (avoir de l'humeur contre, REGISTRE=vx) |
+| `humeur` | `NOM` | `Humeur mauvaise` | `Z_PLUS_IDIOM_MWE` | Sens vieilli (REGISTRE=vx) |
+| `soif` | `NOM` | `Désir` | `Z_PLUS_IDIOM_MWE` | Métaphore physiologique figurée non autonome |
+| `rage` | `NOM` | `Désir` | `Z_PLUS_IDIOM_MWE` | Locution figurée (rage de faire qqc) |
+| `affect` | `NOM` | `Troubler` | `META_CLASSIFIER` | Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3) |
+| `affectivité` | `NOM` | `Troubler` | `META_CLASSIFIER` | Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3) |
+| `sentiment` | `NOM` | `Troubler` | `META_CLASSIFIER` | Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3) |
+| `émotion` | `NOM` | `Troubler` | `META_CLASSIFIER` | Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3) |
 
 ### Effet de la priorité de routage sur les clés multi-emplois (`8` cas)
 
@@ -248,7 +252,7 @@ Ces entrées sont marquées pour arbitrage humain explicite en MP3 (maintien en 
 
 | Fichier | Taille (octets) | SHA-256 | Statut Git |
 | :--- | ---: | :--- | :--- |
-| `data/processed/dima_normalized.parquet` | 210,788 | `1f0b2026cd72949f1537dad76e84185c29e0a38b8b4dac261f82f36bbac7d328` | Local uniquement (ignoré par `.gitignore`) |
+| `data/processed/dima_normalized.parquet` | 210,788 | `0ac6a8b34e9f9b0e874cda8fe805760d45076c0b273c1a819e189977f39dfda3` | Local uniquement (ignoré par `.gitignore`) |
 | `data/processed/dima_z_minus_reserve.parquet` | 109,236 | `59d3e8d7e1b96a9e172c78d081d1ec5fbe9ad33dcf9e0e96426b5e08077e1c96` | Local uniquement (ignoré par `.gitignore`) |
 | `data/processed/fancat_clean.parquet` | 100,173 | `39685b2f61d1b573533ca893f44f1f2f14e9d28b8d8ea87005eb24461c0bdeab` | Local uniquement (ignoré par `.gitignore`) |
-| `data/processed/dima_classes_summary.csv` | 11,139 | `8076b557501975aad2d642272e53bbc26396214f59e25c9904da95c6286c7237` | Suivi dans Git |
+| `data/processed/dima_classes_summary.csv` | 11,139 | `8f20bc1b4616c73f00c510d5955ab0c4c905064e2df0179d6392ded0784a90be` | Suivi dans Git |

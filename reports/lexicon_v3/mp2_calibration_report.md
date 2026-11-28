@@ -2,14 +2,14 @@
 
 - **Script :** [`python/lexicon_pipeline/02_bridge_psychometrics.py`](../../python/lexicon_pipeline/02_bridge_psychometrics.py) *(strictement idempotent, zéro appel réseau)*
 - **Périmètre Lean 4 :** `Cartograffect/` strictement en lecture seule (0 fichier modifié)
-- **Partition MP1c :** `553` `Z_PLUS_ACTIVE` (`373 NOM` + `180 ADJ`, unigrammes standard `ExpAffect`) + `945` `Z_PLUS_SATELLITE` = **`1,498` entrées traitées** ; `1,367` `Z_MINUS_RESERVE` (dont `138` `Z_MINUS_HUMAN_ROLE`) et `477` `NON_LEXICAL_DISCARD` laissées intactes
+- **Partition MP1c :** `549` `Z_PLUS_ACTIVE` (`369 NOM` + `180 ADJ`, unigrammes standard `ExpAffect`) + `945` `Z_PLUS_SATELLITE` = **`1,494` entrées traitées** ; `1,367` `Z_MINUS_RESERVE` (dont `138` `Z_MINUS_HUMAN_ROLE`) et `481` `NON_LEXICAL_DISCARD` laissées intactes
 - **Table d'overrides :** [`data/config/fr_en_bridge_overrides.csv`](../../data/config/fr_en_bridge_overrides.csv) (`84` règles, SHA-256 `3b329617dea56a19...` ; priorité contextuelle `(lemme_norm, classe)` avant `fancat_direct`)
 
 ### Empreintes des entrées consommées (lecture seule)
 
 | Fichier | SHA-256 |
 | :--- | :--- |
-| `data/processed/dima_normalized.parquet` | `1f0b2026cd72949f1537dad76e84185c29e0a38b8b4dac261f82f36bbac7d328` |
+| `data/processed/dima_normalized.parquet` | `0ac6a8b34e9f9b0e874cda8fe805760d45076c0b273c1a819e189977f39dfda3` |
 | `data/processed/fancat_clean.parquet` | `39685b2f61d1b573533ca893f44f1f2f14e9d28b8d8ea87005eb24461c0bdeab` |
 | `data/raw/NRC-VAD-Lexicon-v2.1.txt` | `42c718817fc91d5c133581b24b0bb31d2b14a0b16edb19bc6ce6ab70343e5a45` |
 
@@ -48,30 +48,30 @@ $$D = \hat{\alpha} + \hat{\beta} V + \varepsilon, \qquad D_{\perp} = \frac{D - (
 
 ---
 
-## 3. Couverture par `hemisphere_route` et par `metric_provenance` (1,498 entrées $Z_+$)
+## 3. Couverture par `hemisphere_route` et par `metric_provenance` (1,494 entrées $Z_+$)
 
-Distinction explicite entre le noyau actif épuré **`Z_PLUS_ACTIVE`** (`553` unigrammes standard `ExpAffect` : `373 NOM`, `180 ADJ`) et les satellites **`Z_PLUS_SATELLITE`** (`945` entrées : verbes, locutions MWE/métaphores, registres `fam` et `vx`/`allemand`/`jur`) :
+Distinction explicite entre le noyau actif épuré **`Z_PLUS_ACTIVE`** (`549` unigrammes standard `ExpAffect` : `369 NOM`, `180 ADJ`) et les satellites **`Z_PLUS_SATELLITE`** (`945` entrées : verbes, locutions MWE/métaphores, registres `fam` et `vx`/`allemand`/`jur`) :
 
 | `metric_provenance` | `Z_PLUS_ACTIVE` ($n$) | `Z_PLUS_ACTIVE` (%) | `Z_PLUS_SATELLITE` ($n$) | `Z_PLUS_SATELLITE` (%) | Total $Z_+$ ($n$) | Total $Z_+$ (%) |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `fancat_direct` | 54 | 9.76% | 7 | 0.74% | 61 | 4.07% |
-| `nrc_override` | 61 | 11.03% | 9 | 0.95% | 70 | 4.67% |
-| `nrc_bridge_auto` | 418 | 75.59% | 483 | 51.11% | 901 | 60.15% |
-| `subclass_centroid` | 19 | 3.44% | 196 | 20.74% | 215 | 14.35% |
-| `class_centroid` | 1 | 0.18% | 250 | 26.46% | 251 | 16.76% |
-| **Sous-total ancres directes** (`fancat_direct + nrc_override + nrc_bridge_auto`) | **533** | **96.38%** | **499** | **52.80%** | **1032** | **68.89%** |
-| **Sous-total imputation hiérarchique** (`subclass_centroid + class_centroid`) | **20** | **3.62%** | **446** | **47.20%** | **466** | **31.11%** |
-| **Total partition $Z_+$** | **553** | **100.00%** | **945** | **100.00%** | **1498** | **100.00%** |
+| `fancat_direct` | 54 | 9.84% | 7 | 0.74% | 61 | 4.08% |
+| `nrc_override` | 61 | 11.11% | 9 | 0.95% | 70 | 4.69% |
+| `nrc_bridge_auto` | 414 | 75.41% | 483 | 51.11% | 897 | 60.04% |
+| `subclass_centroid` | 19 | 3.46% | 196 | 20.74% | 215 | 14.39% |
+| `class_centroid` | 1 | 0.18% | 250 | 26.46% | 251 | 16.80% |
+| **Sous-total ancres directes** (`fancat_direct + nrc_override + nrc_bridge_auto`) | **529** | **96.36%** | **499** | **52.80%** | **1028** | **68.81%** |
+| **Sous-total imputation hiérarchique** (`subclass_centroid + class_centroid`) | **20** | **3.64%** | **446** | **47.20%** | **466** | **31.19%** |
+| **Total partition $Z_+$** | **549** | **100.00%** | **945** | **100.00%** | **1494** | **100.00%** |
 
 - **Classes sans aucune ancre directe :** `0` sur `92` classes $Z_+$ (`76` `Z_PLUS_ACTIVE` + `16` classes exclusivement `Z_PLUS_SATELLITE` toutes ancrées directement).
-- **Détail `nrc_bridge_auto` (`901` entrées) :** `770` dictionnaire statique FR→EN, `106` cognates directs sans accents (`NOM`/`ADJ`), `25` cognates suffixaux contrôlés.
-- **Périmètre non modifié (`dima_normalized.parquet`) :** `Z_MINUS_RESERVE` = `1367` entrées (dont `138` `Z_MINUS_HUMAN_ROLE`) ; `NON_LEXICAL_DISCARD` = `477` entrées.
+- **Détail `nrc_bridge_auto` (`897` entrées) :** `770` dictionnaire statique FR→EN, `103` cognates directs sans accents (`NOM`/`ADJ`), `24` cognates suffixaux contrôlés.
+- **Périmètre non modifié (`dima_normalized.parquet`) :** `Z_MINUS_RESERVE` = `1367` entrées (dont `138` `Z_MINUS_HUMAN_ROLE`) ; `NON_LEXICAL_DISCARD` = `481` entrées.
 
 ### Détail par panier `pruning_bucket`
 
 | `hemisphere_route` | `pruning_bucket` | Total ($n$) | `fancat_direct` | `nrc_override` | `nrc_bridge_auto` | `subclass_centroid` | `class_centroid` | Couv. directe (%) |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 553 | 54 | 61 | 418 | 19 | 1 | 96.4% |
+| `Z_PLUS_ACTIVE` | `Z_PLUS_EXPAFFECT` | 549 | 54 | 61 | 414 | 19 | 1 | 96.4% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_ARCHAIC_FOREIGN` | 19 | 1 | 3 | 14 | 0 | 1 | 94.7% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_COLLOQUIAL` | 47 | 0 | 1 | 42 | 3 | 1 | 91.5% |
 | `Z_PLUS_SATELLITE` | `Z_PLUS_IDIOM_MWE` | 209 | 6 | 2 | 200 | 1 | 0 | 99.5% |
@@ -147,12 +147,11 @@ Pour les 3 lemmes polysémiques/bi-POS présents dans le panel (`rage` en `Colè
 | `crainte` | `NOM` | `Crainte` | `Z_PLUS_ACTIVE` / `Z_PLUS_EXPAFFECT` | `fear` | `fancat_direct` | Conservé en `Z_PLUS_ACTIVE` avec norme native `fancat_direct` (`fear`) |
 | `lassitude` | `NOM` | `Importuner` | `Z_PLUS_ACTIVE` / `Z_PLUS_EXPAFFECT` | `weariness` | `fancat_direct` | `V_harm`/`A_harm` FANCat + complétion `D_raw`/`D_orth` via override global `weariness` |
 
-### 6.2 Audit complet des appariements par règle cognate (`131` entrées)
+### 6.2 Audit complet des appariements par règle cognate (`127` entrées)
 
 | `lemme_norm` | `part_disc` | Classe DIMA | `en_matched_term` | Règle appliquée |
 | :--- | :---: | :--- | :--- | :--- |
 | `adoration` | `NOM` | `Amour` | `adoration` | `cognate_exact` |
-| `affect` | `NOM` | `Troubler` | `affect` | `cognate_exact` |
 | `agitation` | `NOM` | `Troubler` | `agitation` | `cognate_exact` |
 | `amateur` | `ADJ` | `Goût` | `amateur` | `cognate_exact` |
 | `anglophile` | `ADJ` | `Amitié` | `anglophile` | `cognate_exact` |
@@ -246,7 +245,6 @@ Pour les 3 lemmes polysémiques/bi-POS présents dans le panel (`rage` en `Colè
 | `satisfaction` | `NOM` | `Combler Bonheur` | `satisfaction` | `cognate_exact` |
 | `saturation` | `NOM` | `Absence de désir` | `saturation` | `cognate_exact` |
 | `sentiment` | `NOM` | `Amour` | `sentiment` | `cognate_exact` |
-| `sentiment` | `NOM` | `Troubler` | `sentiment` | `cognate_exact` |
 | `stress` | `NOM` | `Importuner` | `stress` | `cognate_exact` |
 | `stupéfaction` | `NOM` | `Surprendre` | `stupefaction` | `cognate_exact` |
 | `subjugation` | `NOM` | `Plaire_B` | `subjugation` | `cognate_exact` |
@@ -256,7 +254,6 @@ Pour les 3 lemmes polysémiques/bi-POS présents dans le panel (`rage` en `Colè
 | `trouble` | `NOM` | `Troubler` | `trouble` | `cognate_exact` |
 | `vénération` | `NOM` | `Estime respect` | `veneration` | `cognate_exact` |
 | `xénophobe` | `ADJ` | `Inimitié` | `xenophobe` | `cognate_exact` |
-| `émotion` | `NOM` | `Troubler` | `emotion` | `cognate_exact` |
 | `allergie` | `NOM` | `Aversion` | `allergy` | `cognate_suffix:-ie->-y` |
 | `misanthropie` | `NOM` | `Inimitié` | `misanthropy` | `cognate_suffix:-ie->-y` |
 | `misogynie` | `NOM` | `Inimitié` | `misogyny` | `cognate_suffix:-ie->-y` |
@@ -264,7 +261,6 @@ Pour les 3 lemmes polysémiques/bi-POS présents dans le panel (`rage` en `Colè
 | `allergique` | `ADJ` | `Aversion` | `allergic` | `cognate_suffix:-ique->-ic` |
 | `anticléricalisme` | `NOM` | `Inimitié` | `anticlericalism` | `cognate_suffix:-isme->-ism` |
 | `antisémitisme` | `NOM` | `Inimitié` | `antisemitism` | `cognate_suffix:-isme->-ism` |
-| `affectivité` | `NOM` | `Troubler` | `affectivity` | `cognate_suffix:-ité->-ity` |
 | `affinité` | `NOM` | `Amitié` | `affinity` | `cognate_suffix:-ité->-ity` |
 | `curiosité` | `NOM` | `Curiosité` | `curiosity` | `cognate_suffix:-ité->-ity` |
 | `fraternité` | `NOM` | `Amitié` | `fraternity` | `cognate_suffix:-ité->-ity` |
@@ -289,7 +285,7 @@ Pour les 3 lemmes polysémiques/bi-POS présents dans le panel (`rage` en `Colè
 
 | Artefact | Taille (octets) | SHA-256 | Statut Git |
 | :--- | ---: | :--- | :--- |
-| `data/processed/dima_z_plus_psychometrics.parquet` | 168,939 | `7f0f561e708b4e18df6dfb3cfc5bdc2bcb14d3c340b56dd80dc21c8a34ee9c57` | Local uniquement (ignoré par `.gitignore`) |
+| `data/processed/dima_z_plus_psychometrics.parquet` | 168,709 | `726b09a0b5b099084dc947c3da889bb499e2dad555c8a79317a029cbaf629453` | Local uniquement (ignoré par `.gitignore`) |
 | `data/config/fr_en_bridge_overrides.csv` | 5,450 | `3b329617dea56a19e633a6a7448ec9808b806650c0ce15cc3224e4a53d3fcf73` | Versionnable dans Git |
 | `python/lexicon_pipeline/02_bridge_psychometrics.py` | — | *(script source)* | Versionnable dans Git |
 | `reports/lexicon_v3/mp2_calibration_report.md` | — | *(présent rapport)* | Versionnable dans Git |

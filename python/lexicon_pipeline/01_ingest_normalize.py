@@ -46,16 +46,23 @@ METAPHOR_EXCLUSIONS_COLUMNS: tuple[str, ...] = (
     "lemme_norm",
     "part_disc",
     "classe",
+    "target_bucket",
     "raison",
 )
 
-DEFAULT_METAPHOR_EXCLUSIONS: tuple[tuple[str, str, str, str], ...] = (
-    ("cafard", "NOM", "Apathie", "Locution métaphorique familière (avoir le cafard) non autonome"),
-    ("transport", "NOM", "Troubler", "Sens littéraire vieilli (REGISTRE=vx)"),
-    ("humeur", "NOM", "Colère", "Sens vieilli (avoir de l'humeur contre, REGISTRE=vx)"),
-    ("humeur", "NOM", "Humeur mauvaise", "Sens vieilli (REGISTRE=vx)"),
-    ("soif", "NOM", "Désir", "Métaphore physiologique figurée non autonome"),
-    ("rage", "NOM", "Désir", "Locution figurée (rage de faire qqc)"),
+ALLOWED_EXCLUSION_BUCKETS: frozenset[str] = frozenset({"Z_PLUS_IDIOM_MWE", "META_CLASSIFIER"})
+
+DEFAULT_METAPHOR_EXCLUSIONS: tuple[tuple[str, str, str, str, str], ...] = (
+    ("cafard", "NOM", "Apathie", "Z_PLUS_IDIOM_MWE", "Locution métaphorique familière (avoir le cafard) non autonome"),
+    ("transport", "NOM", "Troubler", "Z_PLUS_IDIOM_MWE", "Sens littéraire vieilli (REGISTRE=vx)"),
+    ("humeur", "NOM", "Colère", "Z_PLUS_IDIOM_MWE", "Sens vieilli (avoir de l'humeur contre, REGISTRE=vx)"),
+    ("humeur", "NOM", "Humeur mauvaise", "Z_PLUS_IDIOM_MWE", "Sens vieilli (REGISTRE=vx)"),
+    ("soif", "NOM", "Désir", "Z_PLUS_IDIOM_MWE", "Métaphore physiologique figurée non autonome"),
+    ("rage", "NOM", "Désir", "Z_PLUS_IDIOM_MWE", "Locution figurée (rage de faire qqc)"),
+    ("affect", "NOM", "Troubler", "META_CLASSIFIER", "Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)"),
+    ("affectivité", "NOM", "Troubler", "META_CLASSIFIER", "Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)"),
+    ("sentiment", "NOM", "Troubler", "META_CLASSIFIER", "Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)"),
+    ("émotion", "NOM", "Troubler", "META_CLASSIFIER", "Métaterme générique classifieur (CLASSE=Troubler ; émoi conservé comme centralOperator Z=3)"),
 )
 
 ARCHAIC_OR_FOREIGN_REGISTERS: frozenset[str] = frozenset({"vx", "allemand", "jur"})
@@ -460,7 +467,7 @@ def load_dima() -> tuple[pd.DataFrame, list[UnnamedCellAudit], dict[str, int]]:
     return df_raw, cell_audits, unnamed_non_null_counts
 
 
-def ensure_and_load_metaphor_exclusions() -> tuple[pd.DataFrame, frozenset[tuple[str, str, str]], bool]:
+def ensure_and_load_metaphor_exclusions() -> tuple[pd.DataFrame, dict[tuple[str, str, str], str], bool]:
     """Crée data/config/z_plus_metaphor_exclusions.csv s'il n'existe pas encore, le valide et le charge."""
     created_now = False
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
@@ -487,15 +494,20 @@ def ensure_and_load_metaphor_exclusions() -> tuple[pd.DataFrame, frozenset[tuple
     df_excl["lemme_norm"] = df_excl["lemme_norm"].map(clean_text).str.lower()
     df_excl["part_disc"] = df_excl["part_disc"].map(clean_text)
     df_excl["classe"] = df_excl["classe"].map(clean_text)
+    df_excl["target_bucket"] = df_excl["target_bucket"].map(clean_text)
     df_excl["raison"] = df_excl["raison"].map(clean_text)
+
+    if not df_excl["target_bucket"].isin(ALLOWED_EXCLUSION_BUCKETS).all():
+        bad_buckets = sorted(set(df_excl["target_bucket"]) - ALLOWED_EXCLUSION_BUCKETS)
+        raise ValueError(f"target_bucket invalide(s) dans z_plus_metaphor_exclusions.csv : {bad_buckets}")
 
     if df_excl.duplicated(subset=["lemme_norm", "part_disc", "classe"]).any():
         raise ValueError("Clés dupliquées dans data/config/z_plus_metaphor_exclusions.csv.")
 
-    exclusions = frozenset(
-        (str(r.lemme_norm), str(r.part_disc), str(r.classe))
+    exclusions: dict[tuple[str, str, str], str] = {
+        (str(r.lemme_norm), str(r.part_disc), str(r.classe)): str(r.target_bucket)
         for r in df_excl.itertuples(index=False)
-    )
+    }
     return df_excl, exclusions, created_now
 
 
@@ -528,17 +540,20 @@ def classify_hemisphere_route(
     lemme_norm: str,
     classe: str,
     registre_raw: Any,
-    metaphor_exclusions: frozenset[tuple[str, str, str]],
+    metaphor_exclusions: dict[tuple[str, str, str], str],
 ) -> tuple[str, str]:
     """Assigne la route bi-hémisphérique MP1c (Z+ actif épuré, satellites Z+, réserve -Z, écart non lexical)."""
     if is_classifier:
+        return "NON_LEXICAL_DISCARD", "META_CLASSIFIER"
+    excl_bucket = metaphor_exclusions.get((lemme_norm, part_disc, classe))
+    if excl_bucket == "META_CLASSIFIER":
         return "NON_LEXICAL_DISCARD", "META_CLASSIFIER"
     if type_val == "HumAffect":
         return "Z_MINUS_RESERVE", "Z_MINUS_HUMAN_ROLE"
     if type_val == "ExpAffect":
         if part_disc in {"NOM", "ADJ"}:
             is_mwe = " " in lemme_norm
-            is_metaphor = (lemme_norm, part_disc, classe) in metaphor_exclusions
+            is_metaphor = excl_bucket == "Z_PLUS_IDIOM_MWE"
             if is_mwe or is_metaphor:
                 return "Z_PLUS_SATELLITE", "Z_PLUS_IDIOM_MWE"
             reg_tokens = extract_register_tokens(registre_raw)
@@ -563,7 +578,7 @@ def classify_hemisphere_route(
 
 def normalize_and_merge_dima(
     df_raw: pd.DataFrame,
-    metaphor_exclusions: frozenset[tuple[str, str, str]],
+    metaphor_exclusions: dict[tuple[str, str, str], str],
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Normalise DIMA 1+2, assigne `tier` et le routage MP1c Z+/Z-, et fusionne sur (lemme_norm, part_disc, classe, categ)."""
     df = df_raw.copy()
@@ -780,10 +795,31 @@ def normalize_and_merge_dima(
     route_counts = df_merged["hemisphere_route"].value_counts().to_dict()
     assert route_counts == {
         "Z_MINUS_RESERVE": 1367,
-        "Z_PLUS_ACTIVE": 553,
+        "Z_PLUS_ACTIVE": 549,
         "Z_PLUS_SATELLITE": 945,
-        "NON_LEXICAL_DISCARD": 477,
+        "NON_LEXICAL_DISCARD": 481,
     }, f"Comptages hemisphere_route inattendus : {route_counts}"
+
+    # Vérification explicite des 4 métatermes Troubler reclassés vers META_CLASSIFIER et maintien d'émoi
+    for meta_lem in ("affect", "affectivité", "sentiment", "émotion"):
+        mrow = df_merged[
+            (df_merged["lemme_norm"] == meta_lem)
+            & (df_merged["part_disc"] == "NOM")
+            & (df_merged["classe"] == "Troubler")
+        ]
+        assert len(mrow) == 1, f"Métaterme attendu introuvable : {meta_lem}"
+        assert (
+            mrow.iloc[0]["hemisphere_route"] == "NON_LEXICAL_DISCARD"
+            and mrow.iloc[0]["pruning_bucket"] == "META_CLASSIFIER"
+        ), f"Reclassement META_CLASSIFIER invalide pour {meta_lem}"
+    emoi_row = df_merged[
+        (df_merged["lemme_norm"] == "émoi")
+        & (df_merged["part_disc"] == "NOM")
+        & (df_merged["classe"] == "Troubler")
+    ]
+    assert len(emoi_row) == 1 and emoi_row.iloc[0]["hemisphere_route"] == "Z_PLUS_ACTIVE", (
+        "émoi (NOM, Troubler) doit être conservé dans Z_PLUS_ACTIVE."
+    )
 
     # Vérifications d'épuration stricte sur Z_PLUS_ACTIVE
     zpa_df = df_merged[df_merged["hemisphere_route"] == "Z_PLUS_ACTIVE"]
@@ -890,10 +926,10 @@ def build_dima_classes_summary(df_raw_norm: pd.DataFrame, df_merged: pd.DataFram
     assert len(summary) == 109, f"Nombre de classes dans le résumé inattendu : {len(summary)}"
     assert int(summary["n_entries"].sum()) == 3342
     assert int(summary["n_raw_rows"].sum()) == 3373
-    assert int(summary["n_z_plus_active"].sum()) == 553
+    assert int(summary["n_z_plus_active"].sum()) == 549
     assert int(summary["n_z_plus_satellite"].sum()) == 945
     assert int(summary["n_z_minus_reserve"].sum()) == 1367
-    assert int(summary["n_non_lexical_discard"].sum()) == 477
+    assert int(summary["n_non_lexical_discard"].sum()) == 481
     assert int(summary["n_z_minus_value_candidate"].sum()) == 24
     assert (
         summary["n_z_plus_active"]
@@ -1200,14 +1236,14 @@ def build_audit_report(
     lines.extend(
         [
             "",
-            f"### Métaphores figées exclues de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `{len(df_metaphor_excl)}` règles → `Z_PLUS_IDIOM_MWE`)",
+            f"### Métaphores figées et métatermes exclus de `Z_PLUS_ACTIVE` (`data/config/z_plus_metaphor_exclusions.csv`, `{len(df_metaphor_excl)}` règles)",
             "",
-            "| `lemme_norm` | `part_disc` | `classe` | Raison |",
-            "| :--- | :---: | :--- | :--- |",
+            "| `lemme_norm` | `part_disc` | `classe` | `target_bucket` | Raison |",
+            "| :--- | :---: | :--- | :--- | :--- |",
         ]
     )
     for _, r in df_metaphor_excl.iterrows():
-        lines.append(f"| `{r['lemme_norm']}` | `{r['part_disc']}` | `{r['classe']}` | {r['raison']} |")
+        lines.append(f"| `{r['lemme_norm']}` | `{r['part_disc']}` | `{r['classe']}` | `{r['target_bucket']}` | {r['raison']} |")
 
     lines.extend(
         [

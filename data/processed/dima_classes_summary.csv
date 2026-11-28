@@ -32,7 +32,7 @@ I,Souffrance,Jouissance-Souffrance,False,68,68,68,8,19,41,3,21,40,4,0,28,3,0,0,3
 I,Surprendre,Surprise,False,88,88,88,11,16,61,10,17,48,13,0,40,0,0,0,48,0,0,8,19,44,17
 I,Surprendre Bonne surprise,Surprise,False,21,21,21,2,0,19,0,2,19,0,0,2,0,0,0,19,0,0,3,8,9,1
 I,Surprendre Mauvaise surprise,Surprise,False,4,4,4,1,0,3,0,1,3,0,0,1,0,0,0,3,0,0,1,1,2,0
-I,Troubler,Apaiser-Troubler,False,145,145,145,36,15,94,19,27,85,14,0,60,0,5,0,80,0,0,34,31,66,14
+I,Troubler,Apaiser-Troubler,False,145,145,145,36,15,94,15,27,85,18,0,60,0,5,0,80,0,0,34,31,66,14
 I,Z Classifieurs,,True,12,12,12,0,0,12,0,0,0,12,0,8,0,2,2,0,0,0,12,0,0,0
 II,Absence de désir,Désir / impatience & Absence de désir,False,65,65,65,19,21,25,17,22,15,11,0,50,0,1,0,14,0,0,14,8,32,11
 II,Admiration,Admiration-Mépris,False,32,30,28,15,7,8,5,13,8,4,0,22,4,0,0,0,4,0,6,10,9,5

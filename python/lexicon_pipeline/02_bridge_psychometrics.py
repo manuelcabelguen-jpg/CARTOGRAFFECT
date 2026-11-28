@@ -7,7 +7,7 @@ Périmètre strict :
 - Lecture seule sur data/raw/NRC-VAD-Lexicon-v2.1.txt, data/processed/dima_normalized.parquet
   et data/processed/fancat_clean.parquet.
 - Aucune modification dans Cartograffect/ (noyau Lean 4 en lecture seule).
-- Laisse intactes les 1 229 entrées Z_MINUS_RESERVE et les 477 entrées NON_LEXICAL_DISCARD.
+- Laisse intactes les 1 367 entrées Z_MINUS_RESERVE et les 481 entrées NON_LEXICAL_DISCARD.
 - Strictement idempotent (sorties déterministes octet pour octet).
 - Zéro appel réseau / API externe.
 - Exports :
@@ -1091,9 +1091,9 @@ def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     route_counts = df_dima["hemisphere_route"].value_counts().to_dict()
     assert route_counts == {
         "Z_MINUS_RESERVE": 1367,
-        "Z_PLUS_ACTIVE": 553,
+        "Z_PLUS_ACTIVE": 549,
         "Z_PLUS_SATELLITE": 945,
-        "NON_LEXICAL_DISCARD": 477,
+        "NON_LEXICAL_DISCARD": 481,
     }, f"Routage MP1c inattendu : {route_counts}"
 
     df_fancat = pd.read_parquet(FANCAT_PATH)
@@ -1390,7 +1390,7 @@ def run_z_plus_cascade(
         .sort_values(["categ", "classe", "lemme_norm", "part_disc"], kind="mergesort")
         .reset_index(drop=True)
     )
-    assert len(df_z_plus) == 1498, f"Effectif Z+ inattendu : {len(df_z_plus)} (attendu 1498 = 553 + 945)"
+    assert len(df_z_plus) == 1494, f"Effectif Z+ inattendu : {len(df_z_plus)} (attendu 1494 = 549 + 945)"
 
     df_ovr, override_lookup, overrides_created = ensure_and_load_overrides(nrc_terms, df_z_plus)
 
@@ -1587,7 +1587,7 @@ def run_z_plus_cascade(
         df_z_plus[f"fancat_{emo}_mean"] = fan_emo_arrays[emo]
 
     # Contrôles d'intégrité stricts
-    assert len(df_z_plus) == 1498
+    assert len(df_z_plus) == 1494
     assert set(df_z_plus["hemisphere_route"].unique()) == {"Z_PLUS_ACTIVE", "Z_PLUS_SATELLITE"}
     assert (df_z_plus["metric_provenance"] != "").all()
     if not unanchored_classes:
